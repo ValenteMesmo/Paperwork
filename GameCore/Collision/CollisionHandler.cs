@@ -2,12 +2,12 @@
 
 namespace GameCore
 {
-    public abstract class BaseCollisionHandler
+    public abstract class CollisionHandler
     {
         protected GameCollider ParentCollider { get; }
         protected Entity ParentEntity { get { return ParentCollider.ParentEntity; } }
 
-        public BaseCollisionHandler(GameCollider ParentCollider)
+        public CollisionHandler(GameCollider ParentCollider)
         {
             this.ParentCollider = ParentCollider;
         }

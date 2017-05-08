@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
-    <Compile Include="Collision\BaseCollisionHandler.cs" />
+    <Compile Include="Collision\CollisionHandler.cs" />
     <Compile Include="Collision\CollisionDetector.cs" />
     <Compile Include="Collision\GameCollider.cs" />
     <Compile Include="Coordinate2D.cs" />

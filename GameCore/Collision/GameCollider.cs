@@ -8,7 +8,7 @@ namespace GameCore.Collision
         public float Width { get; protected set; }
         public float Height { get; protected set; }
         public Coordinate2D LocalPosition { get; set; }
-        public IList<BaseCollisionHandler> Handlers { get; }
+        public IList<CollisionHandler> CollisionHandlers { get; }
         public Coordinate2D Position
         {
             get
@@ -32,12 +32,12 @@ namespace GameCore.Collision
             this.Width = Width;
             this.Height = Height;
             this.ParentEntity = ParentEntity;
-            this.Handlers = new List<BaseCollisionHandler>();
+            this.CollisionHandlers = new List<CollisionHandler>();
         }
 
         public void CollisionFromBelow(GameCollider other)
         {
-            foreach (var item in Handlers)
+            foreach (var item in CollisionHandlers)
             {
                 item.CollisionFromBelow(other);
             }
@@ -45,7 +45,7 @@ namespace GameCore.Collision
 
         public void CollisionFromAbove(GameCollider other)
         {
-            foreach (var item in Handlers)
+            foreach (var item in CollisionHandlers)
             {
                 item.CollisionFromAbove(other);
             }
@@ -53,7 +53,7 @@ namespace GameCore.Collision
 
         public void CollisionFromTheLeft(GameCollider other)
         {
-            foreach (var item in Handlers)
+            foreach (var item in CollisionHandlers)
             {
                 item.CollisionFromTheLeft(other);
             }
@@ -61,7 +61,7 @@ namespace GameCore.Collision
 
         public void CollisionFromTheRight(GameCollider other)
         {
-            foreach (var item in Handlers)
+            foreach (var item in CollisionHandlers)
             {
                 item.CollisionFromTheRight(other);
             }

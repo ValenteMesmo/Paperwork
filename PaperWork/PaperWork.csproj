@@ -43,7 +43,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
-    <Compile Include="MoveRightByInput.cs" />
+    <Compile Include="PlayerHandlers\Collisions\StopsWhenHitsTheFloor.cs" />
+    <Compile Include="PlayerHandlers\Updates\ForbidJumpIfVerticalSpeedNotZero.cs" />
+    <Compile Include="PlayerHandlers\Updates\JumpOnInput.cs" />
+    <Compile Include="PlayerHandlers\Updates\SpeedUpHorizontallyOnInput.cs" />
+    <Compile Include="PlayerHandlers\Updates\GravityFall.cs" />
+    <Compile Include="PlayerHandlers\Updates\UsesSpeedToMove.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -116,6 +121,7 @@
       <Name>GameCore</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -26,6 +26,8 @@ namespace GameCore
             gameRunner = new GameRunner(PlayerInputs, new CollisionDetector());
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
         }
 
         protected void AddEntity(Entity Entity)
@@ -60,6 +62,8 @@ namespace GameCore
 
             PlayerInputs.RightPressed = state.IsKeyDown(Keys.D);
             PlayerInputs.LeftPressed = state.IsKeyDown(Keys.A);
+            PlayerInputs.JumpPressed = state.IsKeyDown(Keys.W);
+            PlayerInputs.CrouchPressed = state.IsKeyDown(Keys.S);
 
             base.Update(gameTime);
         }
