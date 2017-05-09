@@ -32,7 +32,7 @@ namespace GameCore
 
         protected void AddEntity(Entity Entity)
         {
-            gameRunner.GameParts.Add(Entity);
+            gameRunner.Entities.Add(Entity);
         }
 
         protected override void LoadContent()
@@ -74,7 +74,7 @@ namespace GameCore
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            foreach (var item in gameRunner.GameParts.ToList())
+            foreach (var item in gameRunner.Entities.ToList())
             {
                 foreach (var texture in item.Textures)
                 {
@@ -82,8 +82,8 @@ namespace GameCore
                         spriteBatch.Draw(
                             Textures[texture.Name],
                             new Rectangle(
-                                (int)item.Position.X,
-                                (int)item.Position.Y,
+                                (int)item.RenderPosition.X,
+                                (int)item.RenderPosition.Y,
                                 texture.Width,
                                 texture.Height),
                             Color.White);

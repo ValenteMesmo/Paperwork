@@ -1,33 +1,26 @@
-﻿using GameCore.Collision;
-using GameCore.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 
 namespace GameCore
 {
     internal class GameLoop
     {
-        public Dictionary<string, Entity> GameObjects { get; private set; }
         private double accumulator = 0.0;
-        private InputRepository InputRepository;
-        private ILog Log = new FenixLogger();
-        private CollisionDetector CollisionService;
+        private Action BeforeUpdate;
         private Action OnUpdate;
+        private Action<float> AfterUpdate;
 
         public GameLoop(
-            InputRepository InputRepository,
-            CollisionDetector CollisionService,
-            Action OnUpdate)
+            Action BeforeUpdate,
+            Action OnUpdate,
+            Action<float> AfterUpdate)
         {
-            this.InputRepository = InputRepository;
-            this.GameObjects = new Dictionary<string, Entity>();
-            this.CollisionService = CollisionService;
+            this.BeforeUpdate = BeforeUpdate;
             this.OnUpdate = OnUpdate;
+            this.AfterUpdate = AfterUpdate;
         }
 
         public void DoIt(DateTime previous, DateTime current)
-        {            
+        {
             var timeSinceLastUpdate =
                 (float)(current - previous).TotalSeconds;
 
@@ -35,8 +28,7 @@ namespace GameCore
                 timeSinceLastUpdate = 0.25f;
 
             accumulator += timeSinceLastUpdate;
-
-            var previousGameObjects = CloneDictionary();
+            BeforeUpdate();
 
             while (accumulator >= 0.01)
             {
@@ -45,36 +37,7 @@ namespace GameCore
                 accumulator -= 0.01;
             }
 
-            var currentGameObject = CloneDictionary();
-
-            foreach (var key in currentGameObject.Keys)
-            {
-                if (previousGameObjects.ContainsKey(key))
-                {
-                    var newPosition = Lerp(
-                        GameObjects[key].Position,
-                        previousGameObjects[key].Position,
-                        timeSinceLastUpdate);
-
-                    currentGameObject[key].Position = newPosition;
-                }
-            }
-
-            GameObjects = currentGameObject;
-        }
-
-        //TODO: move
-        private Dictionary<string, Entity> CloneDictionary()
-        {
-            return GameObjects.ToDictionary(entry =>
-                entry.Key,
-                entry => entry.Value);
-        }
-
-        //TODO: move
-        static Coordinate2D Lerp(Coordinate2D a, Coordinate2D b, float time)
-        {
-            return a * time + b * (1f - time);
+            AfterUpdate(timeSinceLastUpdate);
         }
     }
 }

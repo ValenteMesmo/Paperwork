@@ -8,6 +8,7 @@ namespace GameCore
     {
         public string Id { get; protected set; }
         public Coordinate2D Position { get; set; }
+        public Coordinate2D RenderPosition { get; set; }
         public Coordinate2D Speed { get; set; }
         public IList<EntityTexture> Textures { get; }
         public IList<GameCollider> Colliders { get; }
