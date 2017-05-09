@@ -23,12 +23,12 @@ namespace GameCore.Collision
             GameCollider a,
             GameCollider b)
         {
-            if (a == null)
+            if (a == null || a.Disabled)
             {
                 return;
             }
 
-            if (b == null)
+            if (b == null || b.Disabled)
             {
                 return;
             }

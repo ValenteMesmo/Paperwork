@@ -64,6 +64,7 @@ namespace GameCore
             PlayerInputs.LeftPressed = state.IsKeyDown(Keys.A);
             PlayerInputs.JumpPressed = state.IsKeyDown(Keys.W);
             PlayerInputs.CrouchPressed = state.IsKeyDown(Keys.S);
+            PlayerInputs.GrabbPressed = state.IsKeyDown(Keys.K);
 
             base.Update(gameTime);
         }
@@ -77,14 +78,15 @@ namespace GameCore
             {
                 foreach (var texture in item.Textures)
                 {
-                    spriteBatch.Draw(
-                        Textures[texture.Name],
-                        new Rectangle(
-                            (int)item.Position.X,
-                            (int)item.Position.Y,
-                            texture.Width,
-                            texture.Height),
-                        Color.White);
+                    if (texture.Disabled == false)
+                        spriteBatch.Draw(
+                            Textures[texture.Name],
+                            new Rectangle(
+                                (int)item.Position.X,
+                                (int)item.Position.Y,
+                                texture.Width,
+                                texture.Height),
+                            Color.White);
                 }
             }
 

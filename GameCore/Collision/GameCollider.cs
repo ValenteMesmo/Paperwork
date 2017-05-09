@@ -9,6 +9,7 @@ namespace GameCore.Collision
         public float Height { get; protected set; }
         public Coordinate2D LocalPosition { get; set; }
         public IList<CollisionHandler> CollisionHandlers { get; }
+        public bool Disabled { get; set; }
         public Coordinate2D Position
         {
             get

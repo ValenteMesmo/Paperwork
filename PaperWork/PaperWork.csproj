@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="GameEntities\Collisions\DeletePaperWhenGrabbed.cs" />
     <Compile Include="GameEntities\Collisions\MoveOnCollision.cs" />
     <Compile Include="GameEntities\Papers.cs" />
     <Compile Include="GameEntities\Player.cs" />

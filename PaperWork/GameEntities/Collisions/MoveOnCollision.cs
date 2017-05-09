@@ -11,20 +11,26 @@ namespace PaperWork.GameEntities.Collisions
 
         public override void CollisionFromTheLeft(GameCollider other)
         {
-            var newPosition = new Coordinate2D();
-            newPosition.X = other.Position.X + other.Width;
-            newPosition.Y = ParentEntity.Position.Y;
+            if (other.ParentEntity is Papers || other.ParentEntity is SolidBlock)
+            {
+                var newPosition = new Coordinate2D();
+                newPosition.X = other.Position.X + other.Width;
+                newPosition.Y = ParentEntity.Position.Y;
 
-            ParentEntity.Position = newPosition;
+                ParentEntity.Position = newPosition;
+            }
         }
 
         public override void CollisionFromTheRight(GameCollider other)
         {
-            var newPosition = new Coordinate2D();
-            newPosition.X = other.Position.X - other.Width;
-            newPosition.Y = ParentEntity.Position.Y;
+            if (other.ParentEntity is Papers || other.ParentEntity is SolidBlock)
+            {
+                var newPosition = new Coordinate2D();
+                newPosition.X = other.Position.X - other.Width;
+                newPosition.Y = ParentEntity.Position.Y;
 
-            ParentEntity.Position = newPosition;
+                ParentEntity.Position = newPosition;
+            }
         }
     }
 }

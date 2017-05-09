@@ -7,10 +7,18 @@ namespace PaperWork
     {
         public Game1() : base("char", "papers", "block")
         {
-            AddEntity(new Player(PlayerInputs) { Position = new Coordinate2D(100, 100) });
 
             var rowNumber = 13;
             var colNumber = 6;
+
+            AddEntity(new Player(PlayerInputs)
+            {
+                Position = new Coordinate2D(100, 100)
+            });
+            AddEntity(new Papers()
+            {
+                Position = new Coordinate2D(rowNumber*50-50,colNumber *50-100)
+            });
 
             for (int i = 1; i < rowNumber; i++)
             {

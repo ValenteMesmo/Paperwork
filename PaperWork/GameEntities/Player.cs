@@ -11,7 +11,6 @@ namespace PaperWork
         public Player(InputRepository PlayerInputs)
         {
             var canJump = true;
-            var mainCollider = new GameCollider(this, 50, 100);
 
             Textures.Add(new EntityTexture("char", 50, 100));
 
@@ -21,10 +20,17 @@ namespace PaperWork
             UpdateHandlers.Add(new UsesSpeedToMove(this));
             UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(this, () => canJump = false));
 
+
+            var mainCollider = new GameCollider(this, 50, 100);
             mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, () => canJump = true));
             mainCollider.CollisionHandlers.Add(new MoveOnCollision(mainCollider));
-
             Colliders.Add(mainCollider);
+
+            var colliderThatGrabsThePaper = new GameCollider(this, 25, 25) {
+                LocalPosition = new Coordinate2D(25,50)
+            };
+            colliderThatGrabsThePaper.CollisionHandlers.Add(new DeletePaperWhenGrabbed(colliderThatGrabsThePaper, PlayerInputs));
+            Colliders.Add(colliderThatGrabsThePaper);
         }
     }
 }

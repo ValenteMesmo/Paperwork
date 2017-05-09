@@ -14,5 +14,6 @@ namespace GameCore
         public int Width { get; }
         public int Height { get; }
         public string Name { get; }
+        public bool Disabled { get; set; }
     }
 }
