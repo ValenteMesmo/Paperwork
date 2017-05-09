@@ -1,21 +1,22 @@
 ﻿using GameCore;
 using GameCore.Collision;
+using PaperWork.GameEntities;
 using System;
 
 namespace PaperWork.PlayerHandlers.Collisions
 {
-    public class StopsWhenHitsTheFloor : CollisionHandler
+    public class StopsWhenHitsPapers : CollisionHandler
     {
         private Action AllowJumping;
 
-        public StopsWhenHitsTheFloor(GameCollider Parent, Action AllowJumping) : base(Parent)
+        public StopsWhenHitsPapers(GameCollider Parent, Action AllowJumping) : base(Parent)
         {
             this.AllowJumping = AllowJumping;
         }
 
         public override void CollisionFromBelow(GameCollider papers)
         {
-            if (papers.ParentEntity is Papers)
+            if (papers.ParentEntity is Papers || papers.ParentEntity is SolidBlock)
             {
                 ParentEntity.Speed = new Coordinate2D(
                     ParentEntity.Speed.X,

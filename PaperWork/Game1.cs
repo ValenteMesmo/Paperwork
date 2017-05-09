@@ -1,50 +1,49 @@
 ﻿using GameCore;
-using GameCore.Collision;
-using PaperWork.PlayerHandlers.Collisions;
-using PaperWork.PlayerHandlers.Updates;
+using PaperWork.GameEntities;
 
 namespace PaperWork
 {
     public class Game1 : BaseGame
     {
-        public Game1() : base("char", "papers")
+        public Game1() : base("char", "papers", "block")
         {
-            AddEntity(new Player(PlayerInputs));
+            AddEntity(new Player(PlayerInputs) { Position = new Coordinate2D(100, 100) });
 
-            for (int i = 0; i < 10; i++)
+            var rowNumber = 13;
+            var colNumber = 6;
+
+            for (int i = 1; i < rowNumber; i++)
             {
-                AddEntity(new Papers()
-                { Position = new Coordinate2D(i * 50, 150) }
-            );
+                AddEntity(new SolidBlock()
+                {
+                    Position = new Coordinate2D(i * 50, 0)
+                });
             }
 
-        }
-    }
+            for (int i = 1; i < colNumber; i++)
+            {
+                AddEntity(new SolidBlock()
+                {
+                    Position = new Coordinate2D(0, i * 50)
+                });
+            }
 
-    public class Player : Entity
-    {
-        public Player(InputRepository PlayerInputs)
-        {
-            var canJump = true;
-            var mainCollider = new GameCollider(this, 50, 100);
-            Textures.Add(new EntityTexture("char", 50, 100));
-            UpdateHandlers.Add(new SpeedUpHorizontallyOnInput(this, PlayerInputs));
-            UpdateHandlers.Add(new JumpOnInput(this, PlayerInputs, () => canJump));
-            UpdateHandlers.Add(new GravityFall(this));
-            UpdateHandlers.Add(new UsesSpeedToMove(this));
-            UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(this, () => canJump = false));
-            mainCollider.CollisionHandlers.Add(new StopsWhenHitsTheFloor(mainCollider, () => canJump = true));
 
-            Colliders.Add(mainCollider);
-        }
-    }
+            for (int i = 1; i < rowNumber; i++)
+            {
+                AddEntity(new SolidBlock()
+                {
+                    Position = new Coordinate2D(i * 50, 50 * colNumber)
+                });
+            }
 
-    public class Papers : Entity
-    {
-        public Papers()
-        {
-            Textures.Add(new EntityTexture("papers", 50, 100));
-            Colliders.Add(new GameCollider(this, 50, 50) { Position = new Coordinate2D(0, 50) });
+            for (int i = 1; i < colNumber; i++)
+            {
+                AddEntity(new SolidBlock()
+                {
+                    Position = new Coordinate2D(50 * rowNumber, i * 50)
+                });
+            }
         }
     }
 }

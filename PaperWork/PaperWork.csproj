@@ -43,12 +43,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
-    <Compile Include="PlayerHandlers\Collisions\StopsWhenHitsTheFloor.cs" />
-    <Compile Include="PlayerHandlers\Updates\ForbidJumpIfVerticalSpeedNotZero.cs" />
-    <Compile Include="PlayerHandlers\Updates\JumpOnInput.cs" />
-    <Compile Include="PlayerHandlers\Updates\SpeedUpHorizontallyOnInput.cs" />
-    <Compile Include="PlayerHandlers\Updates\GravityFall.cs" />
-    <Compile Include="PlayerHandlers\Updates\UsesSpeedToMove.cs" />
+    <Compile Include="GameEntities\Collisions\MoveOnCollision.cs" />
+    <Compile Include="GameEntities\Papers.cs" />
+    <Compile Include="GameEntities\Player.cs" />
+    <Compile Include="GameEntities\Collisions\StopsWhenHitsPapers.cs" />
+    <Compile Include="GameEntities\SolidBlock.cs" />
+    <Compile Include="GameEntities\Updates\ForbidJumpIfVerticalSpeedNotZero.cs" />
+    <Compile Include="GameEntities\Updates\JumpOnInput.cs" />
+    <Compile Include="GameEntities\Updates\SpeedUpHorizontallyOnInput.cs" />
+    <Compile Include="GameEntities\Updates\GravityFall.cs" />
+    <Compile Include="GameEntities\Updates\UsesSpeedToMove.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
