@@ -5,16 +5,22 @@ namespace PaperWork.PlayerHandlers.Updates
 {
     public class ForbidJumpIfVerticalSpeedNotZero : UpdateHandler
     {
-        private Action ForbidJump;
-        public ForbidJumpIfVerticalSpeedNotZero(Entity ParentEntity, Action ForbidJump) : base(ParentEntity)
+        private Action<bool> SetJumpEnabled;
+        private Func<float> GetVerticalSpeed;
+
+        public ForbidJumpIfVerticalSpeedNotZero(
+            Entity ParentEntity, 
+            Action<bool> SetJumpEnabled,
+            Func<float> GetVerticalSpeed) : base(ParentEntity)
         {
-            this.ForbidJump = ForbidJump;
+            this.SetJumpEnabled = SetJumpEnabled;
+            this.GetVerticalSpeed = GetVerticalSpeed;
         }
 
         public override void Update()
         {
-            if (ParentEntity.Speed.Y != 0)
-                ForbidJump();
+            if (GetVerticalSpeed() != 0)
+                SetJumpEnabled(false);
         }
     }
 }

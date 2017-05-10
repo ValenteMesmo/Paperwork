@@ -9,15 +9,22 @@ namespace PaperWork.PlayerHandlers.Updates
 {
     class UsesSpeedToMove : UpdateHandler
     {
-        public UsesSpeedToMove(Entity ParentEntity) : base(ParentEntity)
+        Func<float> GetHorizontalSpeed;
+        Func<float> GetVerticalSpeed;
+        public UsesSpeedToMove(
+            Entity ParentEntity
+            ,Func<float> GetHorizontalSpeed
+            ,Func<float> GetVerticalSpeed) : base(ParentEntity)
         {
+            this.GetHorizontalSpeed=GetHorizontalSpeed;
+            this.GetVerticalSpeed  = GetVerticalSpeed;
         }
 
         public override void Update()
         {
             ParentEntity.Position = new Coordinate2D(
-                ParentEntity.Position.X + ParentEntity.Speed.X,
-                ParentEntity.Position.Y + ParentEntity.Speed.Y
+                ParentEntity.Position.X + GetHorizontalSpeed(),
+                ParentEntity.Position.Y + GetVerticalSpeed()
             );
         }
     }

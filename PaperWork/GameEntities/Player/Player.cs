@@ -4,85 +4,30 @@ using GameCore.Extensions;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.PlayerHandlers.Collisions;
 using PaperWork.PlayerHandlers.Updates;
-using System;
 using System.Linq;
 
 namespace PaperWork
 {
-    public class GridPositions
-    {
-        Entity[,] matrix;
-        public readonly int cellSize;
-        int rows;
-        int columns;
-        public GridPositions(int rows, int columns, int cellSize)
-        {
-            this.rows = rows;
-            this.columns = columns;
-            this.cellSize = cellSize;
-            matrix = new Entity[rows, columns];
-        }
-
-        public bool CanSet(Coordinate2D position)
-        {
-            var gridPosition = new Coordinate2D(
-                RoundUp(position.X, cellSize)/cellSize,
-                RoundUp(position.Y, cellSize) / cellSize);
-
-            if (gridPosition.X >= rows || gridPosition.Y >= columns)
-                return false;
-
-            return matrix[(int)gridPosition.X,(int) gridPosition.Y] == null;
-        }
-
-        public void ClearGridCell(Coordinate2D position)
-        {
-            var gridPosition = new Coordinate2D(
-               RoundUp(position.X, cellSize) / cellSize,
-               RoundUp(position.Y, cellSize) / cellSize);
-
-            matrix[(int)gridPosition.X, (int)gridPosition.Y] = null;
-        }
-
-        public Coordinate2D Set(Entity entity, Coordinate2D position)
-        {
-            var newPosition = new Coordinate2D(
-                RoundUp(position.X, cellSize),
-                RoundUp(position.Y, cellSize));
-
-            var gridPosition = new Coordinate2D(
-                newPosition.X / cellSize,
-                newPosition.Y/ cellSize);
-
-            matrix[(int)gridPosition.X, (int)gridPosition.Y] = entity;
-
-            return newPosition;
-        }
-
-        int RoundUp(float numToRound, int multiple)
-        {
-            return (int)Math.Round(numToRound / multiple) * multiple;
-        }
-    }
-
     public class PlayerEntity : Entity
     {
         PapersEntity holdingPapers;
         GridPositions Grid;
+        private Property<float> HorizontalSpeed = new Property<float>();
+        private Property<float> VerticalSpeed = new Property<float>();
+        private Property<bool> AbleToJump = new Property<bool>();
 
         public PlayerEntity(InputRepository PlayerInputs, GridPositions Grid)
         {
             this.Grid = Grid;
-            var canJump = true;
 
             Textures.Add(new EntityTexture("char", 50, 100));
 
-            UpdateHandlers.Add(new SpeedUpHorizontallyOnInput(this, PlayerInputs));
-            UpdateHandlers.Add(new JumpOnInput(this, PlayerInputs, () => canJump));
-            UpdateHandlers.Add(new GravityFall(this));
-            UpdateHandlers.Add(new UsesSpeedToMove(this));
-            UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(this, () => canJump = false));
-            
+            UpdateHandlers.Add(new SpeedUpHorizontallyOnInput(this, PlayerInputs, HorizontalSpeed.Set));
+            UpdateHandlers.Add(new JumpOnInputDecreasesVerticalSpeed(this, PlayerInputs, AbleToJump.Get, VerticalSpeed.Set));
+            UpdateHandlers.Add(new GravityIncreasesVerticalSpeed(this, VerticalSpeed.Get, VerticalSpeed.Set));
+            UpdateHandlers.Add(new UsesSpeedToMove(this, HorizontalSpeed.Get, VerticalSpeed.Get));
+            UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(this, AbleToJump.Set, VerticalSpeed.Get));
+
             UpdateHandlers.Add(new DropThePapers(
                 this
                 , IsHoldingPapers
@@ -90,7 +35,7 @@ namespace PaperWork
                 , PlayerInputs));
 
             var mainCollider = new GameCollider(this, 50, 100);
-            mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, () => canJump = true));
+            mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, AbleToJump.Set, VerticalSpeed.Set));
             mainCollider.CollisionHandlers.Add(new MoveOnCollision(mainCollider));
             Colliders.Add(mainCollider);
 
@@ -115,12 +60,11 @@ namespace PaperWork
 
         public void Hold(GameCollider PaperCollider)
         {
-            Grid.ClearGridCell(PaperCollider.ParentEntity.Position);
-
+            Grid.RemoveFromTheGrid(PaperCollider.ParentEntity);
             PaperCollider.ParentEntity
                 .UpdateHandlers.OfType<FollowOtherEntity>()
-                .First().Target = this;            
-            
+                .First().Target = this;
+
             PaperCollider.Disabled = true;
             holdingPapers = (PapersEntity)PaperCollider.ParentEntity;
         }
@@ -132,7 +76,7 @@ namespace PaperWork
                 holdingPapers.Position.Y);
 
             if (Grid.CanSet(paperNewPosition))
-            {                
+            {
                 holdingPapers.Position = Grid.Set(holdingPapers, paperNewPosition);
 
                 holdingPapers.UpdateHandlers

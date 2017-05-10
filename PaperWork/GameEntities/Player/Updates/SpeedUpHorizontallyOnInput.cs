@@ -1,35 +1,37 @@
 ﻿using GameCore;
+using System;
 
 namespace PaperWork
 {
     public class SpeedUpHorizontallyOnInput : UpdateHandler
     {
         private InputRepository Inputs;
+        Action<float> SetHorizontalSpeed;
 
-        public SpeedUpHorizontallyOnInput(Entity ParentEntity, InputRepository Inputs) : base(ParentEntity)
+        public SpeedUpHorizontallyOnInput(
+            Entity ParentEntity,
+            InputRepository Inputs,
+            Action<float> SetHorizontalSpeed) : base(ParentEntity)
         {
+            this.SetHorizontalSpeed = SetHorizontalSpeed;
             this.Inputs = Inputs;
         }
 
         public override void Update()
         {
-            if(Inputs.Right.GetStatus() == ButtomStatus.Click
+            if (Inputs.Right.GetStatus() == ButtomStatus.Click
                 || Inputs.Right.GetStatus() == ButtomStatus.Hold)
             {
-                ParentEntity.Speed = new Coordinate2D(
-                    1,
-                    ParentEntity.Speed.Y);
+                SetHorizontalSpeed(1);
             }
-            else if (Inputs.Left.GetStatus() == ButtomStatus.Click 
+            else if (Inputs.Left.GetStatus() == ButtomStatus.Click
                 || Inputs.Left.GetStatus() == ButtomStatus.Hold)
             {
-                ParentEntity.Speed = new Coordinate2D(
-                    - 1,
-                    ParentEntity.Speed.Y);
+                SetHorizontalSpeed(-1);
             }
             else
             {
-                ParentEntity.Speed = new Coordinate2D(0, ParentEntity.Speed.Y);
+                SetHorizontalSpeed(0);
             }
         }
     }

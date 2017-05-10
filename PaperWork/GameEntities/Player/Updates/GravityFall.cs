@@ -1,28 +1,35 @@
 ﻿using GameCore;
+using System;
 
 namespace PaperWork.PlayerHandlers.Updates
 {
-    public class GravityFall : UpdateHandler
+    public class GravityIncreasesVerticalSpeed : UpdateHandler
     {
         public const float VELOCITY = .05f;
         public const float MAX_SPEED = 5.0f;
+        Func<float> GetVerticalSpeed;
+        Action<float> SetVerticalSpeed;
 
-        public GravityFall(Entity player) : base(player)
+        public GravityIncreasesVerticalSpeed(
+            Entity player
+            , Func<float> GetVerticalSpeed
+            , Action<float> SetVerticalSpeed) : base(player)
         {
-
+            this.GetVerticalSpeed = GetVerticalSpeed;
+            this.SetVerticalSpeed = SetVerticalSpeed;
         }
 
         public override void Update()
         {
-            var verticalSpeed = ParentEntity.Speed.Y + VELOCITY;
+            var verticalSpeed = GetVerticalSpeed() + VELOCITY;
             if (verticalSpeed > MAX_SPEED)
                 verticalSpeed = MAX_SPEED;
 
-            ParentEntity.Speed = new Coordinate2D(ParentEntity.Speed.X, verticalSpeed);
+            SetVerticalSpeed(verticalSpeed);
 
-            ParentEntity.Position = new Coordinate2D(
-                ParentEntity.Position.X,
-                ParentEntity.Position.Y + ParentEntity.Speed.Y);
+            //ParentEntity.Position = new Coordinate2D(
+            //    ParentEntity.Position.X,
+            //    ParentEntity.Position.Y + ParentEntity.Speed.Y);
         }
     }
 }

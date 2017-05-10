@@ -24,6 +24,7 @@ namespace GameCore
         private ButtomStatus status;
         private DateTime pressDelay;
         private DateTime releaseDelay;
+        private int delay = 10;
 
         public void Update(bool value)
         {
@@ -36,7 +37,7 @@ namespace GameCore
             {
                 if (status == ButtomStatus.None || status == ButtomStatus.Release)
                 {
-                    pressDelay = DateTime.Now.AddMilliseconds(10);
+                    pressDelay = DateTime.Now.AddMilliseconds(delay);
                     return ButtomStatus.Click;
                 }
 
@@ -55,7 +56,7 @@ namespace GameCore
             {
                 if(status == ButtomStatus.Release)
                 {
-                    releaseDelay = DateTime.Now.AddMilliseconds(10);
+                    releaseDelay = DateTime.Now.AddMilliseconds(delay);
                     return ButtomStatus.Hold;
                 }
 
