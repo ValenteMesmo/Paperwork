@@ -6,7 +6,7 @@ namespace PaperWork
 {
     public class GridPositions
     {
-        Dictionary<string, Coordinate2D> entitiesPositions;
+        Dictionary<string, Entity> entities;
         string[,] matrix;
         public readonly int cellSize;
         int rows;
@@ -17,7 +17,7 @@ namespace PaperWork
             this.columns = columns;
             this.cellSize = cellSize;
             matrix = new string[rows, columns];
-            entitiesPositions = new Dictionary<string, Coordinate2D>();
+            entities = new Dictionary<string, Entity>();
         }
 
         public bool CanSet(Coordinate2D position)
@@ -34,9 +34,9 @@ namespace PaperWork
 
         public void RemoveFromTheGrid(Entity entity)
         {
-            if (entitiesPositions.ContainsKey(entity.Id))
+            if (entities.ContainsKey(entity.Id))
             {
-                var previousPositioin = entitiesPositions[entity.Id];
+                var previousPositioin = entities[entity.Id].Position;
                 matrix[(int)previousPositioin.X, (int)previousPositioin.Y] = null;
             }
         }
@@ -57,10 +57,25 @@ namespace PaperWork
             //    matrix[(int)previousPositioin.X, (int)previousPositioin.Y] = null;
             //}
 
-            entitiesPositions[entity.Id] = gridPosition;
+            entities[entity.Id] = entity;
             matrix[(int)gridPosition.X, (int)gridPosition.Y] = entity.Id;
 
             return newPosition;
+        }
+
+        public Entity GetNearObject(Coordinate2D position)
+        {
+            var newPosition = new Coordinate2D(
+               RoundUp(position.X+50, cellSize),
+               RoundUp(position.Y, cellSize));
+
+            var gridPosition = new Coordinate2D(
+                newPosition.X / cellSize,
+                newPosition.Y / cellSize);
+
+            var id = matrix[(int)gridPosition.X, (int)gridPosition.Y] ?? "";
+            return 
+                entities.ContainsKey(id) ? entities[id] : null;
         }
 
         int RoundUp(float numToRound, int multiple)

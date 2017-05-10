@@ -29,7 +29,7 @@ namespace PaperWork
                 )
                 && CanJump())
             {
-                SetVerticalSpeed(-2);
+                SetVerticalSpeed(-4);
             }
         }
     }

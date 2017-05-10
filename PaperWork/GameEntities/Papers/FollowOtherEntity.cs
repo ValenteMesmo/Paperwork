@@ -5,23 +5,28 @@ namespace PaperWork.GameEntities.Collisions
 {
     public class FollowOtherEntity : UpdateHandler
     {
-        public Entity Target;
         Coordinate2D bonus;
+        private readonly Func<Entity> GetTarget;
+
         public FollowOtherEntity(
             Entity ParentEntity,
-            Coordinate2D bonus) : base(ParentEntity)
+            Coordinate2D bonus,
+            Func<Entity> GetTarget) : base(ParentEntity)
         {
             this.bonus = bonus;
+            this.GetTarget = GetTarget;
         }
 
         public override void Update()
         {
-            if (Target == null)
+            var target = GetTarget();
+
+            if (target == null)
                 return;
 
             ParentEntity.Position = new Coordinate2D(
-                Target.Position.X + bonus.X,
-                Target.Position.Y + bonus.Y);
+                target.Position.X + bonus.X,
+                target.Position.Y + bonus.Y);
         }
     }
 }

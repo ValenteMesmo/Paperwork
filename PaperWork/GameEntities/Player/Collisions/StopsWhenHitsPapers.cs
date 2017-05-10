@@ -33,5 +33,18 @@ namespace PaperWork.PlayerHandlers.Collisions
                 SetJumpEnable(true);
             }
         }
+
+        public override void CollisionFromAbove(GameCollider papers)
+        {
+            if (papers.ParentEntity is PapersEntity || papers.ParentEntity is SolidBlock)
+            {
+                SetVerticalSpeed(0);
+
+                ParentEntity.Position =
+                    new Coordinate2D(
+                        ParentEntity.Position.X,
+                        papers.Position.Y + papers.Height);
+            }
+        }
     }
 }

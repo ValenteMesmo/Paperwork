@@ -1,29 +1,25 @@
 ﻿using GameCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PaperWork.GameEntities.Papers
 {
     public class FallDownWhenPossibel : UpdateHandler
     {
         GridPositions Grid;
-        Func<bool> PlayerHolding;
+        Func<bool> FollowingPlayer;
 
         public FallDownWhenPossibel(
             Entity ParentEntity, 
             GridPositions Grid,
-            Func<bool> PlayerHolding) : base(ParentEntity)
+            Func<bool> FollowingPlayer) : base(ParentEntity)
         {
-            this.PlayerHolding = PlayerHolding;
+            this.FollowingPlayer = FollowingPlayer;
             this.Grid = Grid;
         }
 
         public override void Update()
         {
-            if (PlayerHolding())
+            if (FollowingPlayer() == false)
                 return;
 
             var newPosition = new Coordinate2D(
@@ -31,6 +27,7 @@ namespace PaperWork.GameEntities.Papers
                     ParentEntity.Position.Y + Grid.cellSize
             );
 
+            //TODO: move this position set to grid method
             if (Grid.CanSet(newPosition))
             {
                 ParentEntity.Position = newPosition;

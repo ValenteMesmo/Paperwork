@@ -5,17 +5,20 @@ using GameCore.Extensions;
 
 namespace PaperWork.GameEntities.Collisions
 {
-    public class GrabsPapers : CollisionHandler
+    public class DELEEEEEEEEEEEEEEEEEEEEEEEEEEEETE : CollisionHandler
     {
         InputRepository Inpusts;
         Action<GameCollider> GrabPapers;
+        private Func<bool> HoldingPapers;
 
-        public GrabsPapers(
+        public DELEEEEEEEEEEEEEEEEEEEEEEEEEEEETE(
             GameCollider ParentCollider,
             InputRepository Inpusts,
-            Action<GameCollider> GrabPapers) : base(ParentCollider)
+            Action<GameCollider> GrabPapers,
+            Func<bool> HoldingPapers) : base(ParentCollider)
         {
             this.Inpusts = Inpusts;
+            this.HoldingPapers = HoldingPapers;
             this.GrabPapers = GrabPapers;
         }
 
@@ -26,7 +29,8 @@ namespace PaperWork.GameEntities.Collisions
 
         private void HidePapers(GameCollider other)
         {
-            if (other.ParentEntity is PapersEntity
+            if (HoldingPapers() == false
+                && other.ParentEntity is PapersEntity
                 && Inpusts.Grab.GetStatus() == ButtomStatus.Click)
             {
                 GrabPapers(other);

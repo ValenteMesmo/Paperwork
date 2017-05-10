@@ -26,6 +26,13 @@ namespace PaperWork
                     rowNumber * 50 - 50, 
                     colNumber * 50 - 100)
             });
+            
+            AddEntity(new PapersEntity(grid)
+            {
+                Position = new Coordinate2D(
+                   rowNumber * 50 - 100,
+                   colNumber * 50 - 100)
+            });
 
             CreateBlocks(rowNumber, colNumber);
         }
