@@ -29,7 +29,7 @@ namespace PaperWork
                 RoundUp(position.X, cellSize)/cellSize,
                 RoundUp(position.Y, cellSize) / cellSize);
 
-            if (gridPosition.X > rows || gridPosition.Y > columns)
+            if (gridPosition.X >= rows || gridPosition.Y >= columns)
                 return false;
 
             return matrix[(int)gridPosition.X,(int) gridPosition.Y] == null;
@@ -51,8 +51,8 @@ namespace PaperWork
                 RoundUp(position.Y, cellSize));
 
             var gridPosition = new Coordinate2D(
-                RoundUp(newPosition.X, cellSize) / cellSize,
-                RoundUp(newPosition.Y, cellSize) / cellSize);
+                newPosition.X / cellSize,
+                newPosition.Y/ cellSize);
 
             matrix[(int)gridPosition.X, (int)gridPosition.Y] = entity;
 
@@ -82,6 +82,7 @@ namespace PaperWork
             UpdateHandlers.Add(new GravityFall(this));
             UpdateHandlers.Add(new UsesSpeedToMove(this));
             UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(this, () => canJump = false));
+            
             UpdateHandlers.Add(new DropThePapers(
                 this
                 , IsHoldingPapers
@@ -112,15 +113,19 @@ namespace PaperWork
             return holdingPapers != null;
         }
 
-        //public void Hold(GameCollider PaperCollider)
-        //{
-        //    Grid.ClearGridCell(PaperCollider.ParentEntity.Position);
+        public void Hold(GameCollider PaperCollider)
+        {
+            Grid.ClearGridCell(PaperCollider.ParentEntity.Position);
 
-        //    PaperCollider.ParentEntity.));
+            PaperCollider.ParentEntity.UpdateHandlers.Add(
+             new FollowOtherEntity(
+                 PaperCollider.ParentEntity,
+                 this,
+                 new Coordinate2D(0, -PaperCollider.Height)));
 
-        //    PaperCollider.Disabled = true;
-        //    holdingPapers = (Papers)PaperCollider.ParentEntity;
-        //}
+            PaperCollider.Disabled = true;
+            holdingPapers = (Papers)PaperCollider.ParentEntity;
+        }
 
         public void Drop()
         {
@@ -128,8 +133,8 @@ namespace PaperWork
                 holdingPapers.Position.X + 50,
                 holdingPapers.Position.Y);
 
-            if (Grid.CanSet(holdingPapers.Position))
-            {
+            if (Grid.CanSet(paperNewPosition))
+            {                
                 holdingPapers.Position = Grid.Set(holdingPapers, paperNewPosition);
 
                 foreach (var item in holdingPapers.UpdateHandlers.OfType<FollowOtherEntity>().ToList())

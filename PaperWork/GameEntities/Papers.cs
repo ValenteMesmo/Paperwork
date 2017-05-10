@@ -27,12 +27,6 @@ namespace PaperWork
                 //TODO: !!!!!!!!!!!!!!!!!!!!!!
                 () => { }));
             Colliders.Add(mainCollider);
-
-            UpdateHandlers.Add(
-              new FollowOtherEntity(
-                  GetPlayerBeenFollowed,
-                  this,
-                  new Coordinate2D(0, -mainCollider.Height)));
         }
     }
 }
