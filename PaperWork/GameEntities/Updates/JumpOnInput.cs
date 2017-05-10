@@ -9,7 +9,7 @@ namespace PaperWork
         private Func<bool> CanJump;
 
         public JumpOnInput(
-            Entity ParentEntity, 
+            Entity ParentEntity,
             InputRepository Inputs,
             Func<bool> CanJump) : base(ParentEntity)
         {
@@ -19,10 +19,14 @@ namespace PaperWork
 
         public override void Update()
         {
-            if(Inputs.JumpPressed && CanJump())
+            if (
+                (
+                    Inputs.Jump.GetStatus() == ButtomStatus.Click
+                    || Inputs.Jump.GetStatus() == ButtomStatus.Hold
+                ) && CanJump())
             {
                 ParentEntity.Speed = new Coordinate2D(ParentEntity.Speed.X, -2);
-            }            
+            }
         }
     }
 }

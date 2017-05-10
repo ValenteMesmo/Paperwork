@@ -22,6 +22,22 @@ namespace GameCore.Extensions
             }
         }
 
+        public static void Enable(this IList<EntityTexture> items)
+        {
+            foreach (EntityTexture item in items)
+            {
+                item.Disabled = false;
+            }
+        }
+
+        public static void Enable(this IList<GameCollider> items)
+        {
+            foreach (GameCollider item in items)
+            {
+                item.Disabled = false;
+            }
+        }
+
         public static void ForEachCombination<T>(
             this IList<T> items,
             Action<T, T> callback)

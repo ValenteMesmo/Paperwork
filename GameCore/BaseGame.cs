@@ -6,6 +6,7 @@ using GameCore.Collision;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace GameCore
 {
@@ -60,13 +61,47 @@ namespace GameCore
             if (state.IsKeyDown(Keys.Escape))
                 Exit();
 
-            PlayerInputs.RightPressed = state.IsKeyDown(Keys.D);
-            PlayerInputs.LeftPressed = state.IsKeyDown(Keys.A);
-            PlayerInputs.JumpPressed = state.IsKeyDown(Keys.W);
-            PlayerInputs.CrouchPressed = state.IsKeyDown(Keys.S);
-            PlayerInputs.GrabbPressed = state.IsKeyDown(Keys.K);
+            PlayerInputs.Right.Update(state.IsKeyDown(Keys.D));
+            PlayerInputs.Left.Update(state.IsKeyDown(Keys.A));
+            PlayerInputs.Jump.Update(state.IsKeyDown(Keys.W));
+            PlayerInputs.Crouch.Update(state.IsKeyDown(Keys.S));
+            PlayerInputs.Grab.Update(state.IsKeyDown(Keys.K));
 
             base.Update(gameTime);
+        }
+
+        public ButtomStatus getNextStatus(ButtomStatus ButtomStatus, bool isDownNow)
+        {
+            if (isDownNow)
+            {
+                if (ButtomStatus == ButtomStatus.None)
+                    return ButtomStatus.Click;
+
+                if (ButtomStatus == ButtomStatus.Click)
+                    return ButtomStatus.Hold;
+
+                if (ButtomStatus == ButtomStatus.Hold)
+                    return ButtomStatus.Hold;
+
+                if (ButtomStatus == ButtomStatus.Release)
+                    return ButtomStatus.Click;
+            }
+            else
+            {
+                if (ButtomStatus == ButtomStatus.None)
+                    return ButtomStatus.None;
+
+                if (ButtomStatus == ButtomStatus.Click)
+                    return ButtomStatus.Release;
+
+                if (ButtomStatus == ButtomStatus.Hold)
+                    return ButtomStatus.Release;
+
+                if (ButtomStatus == ButtomStatus.Release)
+                    return ButtomStatus.None;
+            }
+
+            return ButtomStatus.None;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -82,8 +117,8 @@ namespace GameCore
                         spriteBatch.Draw(
                             Textures[texture.Name],
                             new Rectangle(
-                                (int)item.RenderPosition.X,
-                                (int)item.RenderPosition.Y,
+                                (int)(item.RenderPosition.X + texture.Bonus.X),
+                                (int)(item.RenderPosition.Y + texture.Bonus.Y),
                                 texture.Width,
                                 texture.Height),
                             Color.White);

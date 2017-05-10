@@ -11,6 +11,7 @@ namespace GameCore
             this.Height = Height;
         }
 
+        public Coordinate2D Bonus { get; set; }
         public int Width { get; }
         public int Height { get; }
         public string Name { get; }

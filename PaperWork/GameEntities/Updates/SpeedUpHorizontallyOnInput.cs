@@ -13,13 +13,15 @@ namespace PaperWork
 
         public override void Update()
         {
-            if(Inputs.RightPressed)
+            if(Inputs.Right.GetStatus() == ButtomStatus.Click
+                || Inputs.Right.GetStatus() == ButtomStatus.Hold)
             {
                 ParentEntity.Speed = new Coordinate2D(
                     1,
                     ParentEntity.Speed.Y);
             }
-            else if (Inputs.LeftPressed)
+            else if (Inputs.Left.GetStatus() == ButtomStatus.Click 
+                || Inputs.Left.GetStatus() == ButtomStatus.Hold)
             {
                 ParentEntity.Speed = new Coordinate2D(
                     - 1,

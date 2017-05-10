@@ -1,16 +1,22 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 using GameCore.Collision;
 using GameCore.Extensions;
 
 namespace PaperWork.GameEntities.Collisions
 {
-    public class DeletePaperWhenGrabbed : CollisionHandler
+    public class GrabsPapers : CollisionHandler
     {
         InputRepository Inpusts;
+        Action<GameCollider> GrabPapers;
 
-        public DeletePaperWhenGrabbed(GameCollider ParentCollider, InputRepository Inpusts) : base(ParentCollider)
+        public GrabsPapers(
+            GameCollider ParentCollider,
+            InputRepository Inpusts,
+            Action<GameCollider> GrabPapers) : base(ParentCollider)
         {
             this.Inpusts = Inpusts;
+            this.GrabPapers = GrabPapers;
         }
 
         public override void CollisionFromTheLeft(GameCollider other)
@@ -20,10 +26,10 @@ namespace PaperWork.GameEntities.Collisions
 
         private void HidePapers(GameCollider other)
         {
-            if (other.ParentEntity is Papers && Inpusts.GrabbPressed)
+            if (other.ParentEntity is Papers
+                && Inpusts.Grab.GetStatus() == ButtomStatus.Click)
             {
-                other.ParentEntity .Textures.Disable();
-                other.ParentEntity.Colliders.Disable();
+                GrabPapers(other);
             }
         }
 
