@@ -12,7 +12,7 @@ namespace PaperWork
     public class GridPositions
     {
         Entity[,] matrix;
-        int cellSize;
+        public readonly int cellSize;
         int rows;
         int columns;
         public GridPositions(int rows, int columns, int cellSize)
@@ -65,12 +65,12 @@ namespace PaperWork
         }
     }
 
-    public class Player : Entity
+    public class PlayerEntity : Entity
     {
-        Papers holdingPapers;
+        PapersEntity holdingPapers;
         GridPositions Grid;
 
-        public Player(InputRepository PlayerInputs, GridPositions Grid)
+        public PlayerEntity(InputRepository PlayerInputs, GridPositions Grid)
         {
             this.Grid = Grid;
             var canJump = true;
@@ -117,14 +117,12 @@ namespace PaperWork
         {
             Grid.ClearGridCell(PaperCollider.ParentEntity.Position);
 
-            PaperCollider.ParentEntity.UpdateHandlers.Add(
-             new FollowOtherEntity(
-                 PaperCollider.ParentEntity,
-                 this,
-                 new Coordinate2D(0, -PaperCollider.Height)));
-
+            PaperCollider.ParentEntity
+                .UpdateHandlers.OfType<FollowOtherEntity>()
+                .First().Target = this;            
+            
             PaperCollider.Disabled = true;
-            holdingPapers = (Papers)PaperCollider.ParentEntity;
+            holdingPapers = (PapersEntity)PaperCollider.ParentEntity;
         }
 
         public void Drop()
@@ -137,9 +135,11 @@ namespace PaperWork
             {                
                 holdingPapers.Position = Grid.Set(holdingPapers, paperNewPosition);
 
-                foreach (var item in holdingPapers.UpdateHandlers.OfType<FollowOtherEntity>().ToList())
-                    holdingPapers.UpdateHandlers.Remove(item);
-                
+                holdingPapers.UpdateHandlers
+                    .OfType<FollowOtherEntity>()
+                    .First()
+                    .Target = null;
+
                 holdingPapers.Colliders.Enable();
                 holdingPapers = null;
             }

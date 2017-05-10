@@ -16,7 +16,7 @@ namespace PaperWork.PlayerHandlers.Collisions
 
         public override void CollisionFromBelow(GameCollider papers)
         {
-            if (papers.ParentEntity is Papers || papers.ParentEntity is SolidBlock)
+            if (papers.ParentEntity is PapersEntity || papers.ParentEntity is SolidBlock)
             {
                 ParentEntity.Speed = new Coordinate2D(
                     ParentEntity.Speed.X,

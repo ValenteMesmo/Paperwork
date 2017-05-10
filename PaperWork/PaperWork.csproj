@@ -43,19 +43,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
-    <Compile Include="GameEntities\Collisions\GrabsPapers.cs" />
-    <Compile Include="GameEntities\Collisions\DropThePapers.cs" />
-    <Compile Include="GameEntities\Collisions\FollowOtherEntity.cs" />
-    <Compile Include="GameEntities\Collisions\MoveOnCollision.cs" />
-    <Compile Include="GameEntities\Papers.cs" />
-    <Compile Include="GameEntities\Player.cs" />
-    <Compile Include="GameEntities\Collisions\StopsWhenHitsPapers.cs" />
+    <Compile Include="GameEntities\Papers\FallDownWhenPossibel.cs" />
+    <Compile Include="GameEntities\Player\Collisions\GrabsPapers.cs" />
+    <Compile Include="GameEntities\Player\Collisions\DropThePapers.cs" />
+    <Compile Include="GameEntities\Papers\FollowOtherEntity.cs" />
+    <Compile Include="GameEntities\Player\Collisions\MoveOnCollision.cs" />
+    <Compile Include="GameEntities\Papers\Papers.cs" />
+    <Compile Include="GameEntities\Player\Player.cs" />
+    <Compile Include="GameEntities\Player\Collisions\StopsWhenHitsPapers.cs" />
     <Compile Include="GameEntities\SolidBlock.cs" />
-    <Compile Include="GameEntities\Updates\ForbidJumpIfVerticalSpeedNotZero.cs" />
-    <Compile Include="GameEntities\Updates\JumpOnInput.cs" />
-    <Compile Include="GameEntities\Updates\SpeedUpHorizontallyOnInput.cs" />
-    <Compile Include="GameEntities\Updates\GravityFall.cs" />
-    <Compile Include="GameEntities\Updates\UsesSpeedToMove.cs" />
+    <Compile Include="GameEntities\Player\Updates\ForbidJumpIfVerticalSpeedNotZero.cs" />
+    <Compile Include="GameEntities\Player\Updates\JumpOnInput.cs" />
+    <Compile Include="GameEntities\Player\Updates\SpeedUpHorizontallyOnInput.cs" />
+    <Compile Include="GameEntities\Player\Updates\GravityFall.cs" />
+    <Compile Include="GameEntities\Player\Updates\UsesSpeedToMove.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

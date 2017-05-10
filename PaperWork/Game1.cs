@@ -15,12 +15,12 @@ namespace PaperWork
 
             var grid = new GridPositions(13, 6, 50);
 
-            AddEntity(new Player(PlayerInputs, grid)
+            AddEntity(new PlayerEntity(PlayerInputs, grid)
             {
                 Position = new Coordinate2D(100, 100)
             });
 
-            AddEntity(new Papers()
+            AddEntity(new PapersEntity(grid)
             {
                 Position = new Coordinate2D(
                     rowNumber * 50 - 50, 

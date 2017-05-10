@@ -11,7 +11,7 @@ namespace PaperWork.GameEntities.Collisions
 
         public override void CollisionFromTheLeft(GameCollider other)
         {
-            if (other.ParentEntity is Papers || other.ParentEntity is SolidBlock)
+            if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
                 newPosition.X = other.Position.X + other.Width;
@@ -23,7 +23,7 @@ namespace PaperWork.GameEntities.Collisions
 
         public override void CollisionFromTheRight(GameCollider other)
         {
-            if (other.ParentEntity is Papers || other.ParentEntity is SolidBlock)
+            if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
                 newPosition.X = other.Position.X - other.Width;

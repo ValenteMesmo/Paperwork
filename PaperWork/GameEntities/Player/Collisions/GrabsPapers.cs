@@ -26,7 +26,7 @@ namespace PaperWork.GameEntities.Collisions
 
         private void HidePapers(GameCollider other)
         {
-            if (other.ParentEntity is Papers
+            if (other.ParentEntity is PapersEntity
                 && Inpusts.Grab.GetStatus() == ButtomStatus.Click)
             {
                 GrabPapers(other);
