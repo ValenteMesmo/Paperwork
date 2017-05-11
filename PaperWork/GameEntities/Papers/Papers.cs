@@ -7,8 +7,8 @@ namespace PaperWork
 {
     public class PapersEntity : Entity
     {
-        public Property<Entity> Target = new Property<Entity>();
-        private GameCollider mainCollider;
+        public readonly Property<Entity> Target = new Property<Entity>();
+        private readonly GameCollider mainCollider;
         GridPositions Grid;
 
         public PapersEntity(GridPositions Grid)
@@ -20,20 +20,20 @@ namespace PaperWork
             });
 
             mainCollider = new GameCollider(this, Grid.cellSize, Grid.cellSize);
-            
+
             UpdateHandlers.Add(new FollowOtherEntity(new Coordinate2D(0, -mainCollider.Height), Target.Get));
-            UpdateHandlers.Add(new FallDownWhenPossibel(Grid, Target.IsNotNull));
+            UpdateHandlers.Add(new FallDownWhenPossibel(Target.IsNotNull, () => Grid.cellSize, Grid.PositionAvailable));
 
             Colliders.Add(mainCollider);
         }
 
-        public void GrabbedBy(Entity player)
+        public void Grab(Entity grabbedBy)
         {
             mainCollider.Disabled = true;
-            Target.Set(player);
+            Target.Set(grabbedBy);
         }
 
-        public void DroppedBy(Entity player)
+        public void Drop()
         {
             mainCollider.Disabled = false;
             Target.Set(null);

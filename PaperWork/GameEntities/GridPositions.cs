@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace PaperWork
 {
+    // e se o grid for um entidade? no update ele vai controlar a posicao dos papeis..
     public class GridPositions
     {
         Dictionary<string, Entity> entities;
@@ -20,7 +21,7 @@ namespace PaperWork
             entities = new Dictionary<string, Entity>();
         }
 
-        public bool CanSet(Coordinate2D position)
+        public bool PositionAvailable(Coordinate2D position)
         {
             var gridPosition = new Coordinate2D(
                 RoundUp(position.X, cellSize) / cellSize,

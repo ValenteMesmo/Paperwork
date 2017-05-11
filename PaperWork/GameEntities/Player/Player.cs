@@ -10,12 +10,12 @@ namespace PaperWork
 {
     public class PlayerEntity : Entity
     {
-        private Property<PapersEntity> currentPapers = new Property<PapersEntity>();
         GridPositions Grid;
-        private Property<float> HorizontalSpeed = new Property<float>();
-        private Property<float> VerticalSpeed = new Property<float>();
-        private Property<bool> SteppingOnTheFloor = new Property<bool>();
-        private Cooldown DragAndDropCooldown = new Cooldown(500);
+        private readonly Property<PapersEntity> currentPapers = new Property<PapersEntity>();
+        private readonly Property<float> HorizontalSpeed = new Property<float>();
+        private readonly Property<float> VerticalSpeed = new Property<float>();
+        private readonly Property<bool> SteppingOnTheFloor = new Property<bool>();
+        private readonly Cooldown DragAndDropCooldown = new Cooldown(500);
 
         public PlayerEntity(InputRepository PlayerInputs, GridPositions Grid)
         {
@@ -29,7 +29,7 @@ namespace PaperWork
             UpdateHandlers.Add(new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get));
             UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get));
             UpdateHandlers.Add(new GrabsObjectThatPlayerIsFacing(PlayerInputs.Grab.Get, currentPapers.IsNull, currentPapers.Set, DragAndDropCooldown.CooldownEnded, Grid.GetNearObject, DragAndDropCooldown.TriggerCooldown));
-            UpdateHandlers.Add(new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.Get, currentPapers.RemoveValue));
+            UpdateHandlers.Add(new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop()));
 
             var mainCollider = new GameCollider(this, 50, 100);
             mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, SteppingOnTheFloor.Set, VerticalSpeed.Set));

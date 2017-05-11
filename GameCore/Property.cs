@@ -9,7 +9,7 @@
             return Value;
         }
 
-        public void RemoveValue()
+        public void SetDefaut()
         {
             Value = default(T);
         }

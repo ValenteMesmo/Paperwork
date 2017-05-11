@@ -40,7 +40,7 @@ namespace PaperWork.GameEntities.Player.Updates
 
                 PutGrabActionOnCooldown();
 
-                paper.As<PapersEntity>().GrabbedBy(ParentEntity);
+                paper.As<PapersEntity>().Grab(ParentEntity);
                 GivePaperToPlayer(paper.As<PapersEntity>());
             }
         }
