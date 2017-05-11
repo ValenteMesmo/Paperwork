@@ -48,8 +48,8 @@ namespace PaperWork
                 RoundUp(position.Y, cellSize));
 
             var gridPosition = new Coordinate2D(
-                newPosition.X / cellSize,
-                newPosition.Y / cellSize);
+            newPosition.X / cellSize,
+            newPosition.Y / cellSize);
 
             //if (entitiesPositions.ContainsKey(entity.Id))
             //{
@@ -66,15 +66,18 @@ namespace PaperWork
         public Entity GetNearObject(Coordinate2D position)
         {
             var newPosition = new Coordinate2D(
-               RoundUp(position.X+50, cellSize),
-               RoundUp(position.Y, cellSize));
+               RoundUp(position.X + 50, cellSize),
+               RoundUp(position.Y, cellSize));          
 
             var gridPosition = new Coordinate2D(
                 newPosition.X / cellSize,
                 newPosition.Y / cellSize);
 
+            if (gridPosition.X >= rows || gridPosition.Y >= columns)
+                return null;
+
             var id = matrix[(int)gridPosition.X, (int)gridPosition.Y] ?? "";
-            return 
+            return
                 entities.ContainsKey(id) ? entities[id] : null;
         }
 

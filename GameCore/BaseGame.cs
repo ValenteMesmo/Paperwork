@@ -61,47 +61,13 @@ namespace GameCore
             if (state.IsKeyDown(Keys.Escape))
                 Exit();
 
-            PlayerInputs.Right.Update(state.IsKeyDown(Keys.D));
-            PlayerInputs.Left.Update(state.IsKeyDown(Keys.A));
-            PlayerInputs.Jump.Update(state.IsKeyDown(Keys.W));
-            PlayerInputs.Crouch.Update(state.IsKeyDown(Keys.S));
-            PlayerInputs.Grab.Update(state.IsKeyDown(Keys.K));
+            PlayerInputs.Right.Set(state.IsKeyDown(Keys.D));
+            PlayerInputs.Left.Set(state.IsKeyDown(Keys.A));
+            PlayerInputs.Jump.Set(state.IsKeyDown(Keys.W));
+            PlayerInputs.Crouch.Set(state.IsKeyDown(Keys.S));
+            PlayerInputs.Grab.Set(state.IsKeyDown(Keys.K));
 
             base.Update(gameTime);
-        }
-
-        public ButtomStatus getNextStatus(ButtomStatus ButtomStatus, bool isDownNow)
-        {
-            if (isDownNow)
-            {
-                if (ButtomStatus == ButtomStatus.None)
-                    return ButtomStatus.Click;
-
-                if (ButtomStatus == ButtomStatus.Click)
-                    return ButtomStatus.Hold;
-
-                if (ButtomStatus == ButtomStatus.Hold)
-                    return ButtomStatus.Hold;
-
-                if (ButtomStatus == ButtomStatus.Release)
-                    return ButtomStatus.Click;
-            }
-            else
-            {
-                if (ButtomStatus == ButtomStatus.None)
-                    return ButtomStatus.None;
-
-                if (ButtomStatus == ButtomStatus.Click)
-                    return ButtomStatus.Release;
-
-                if (ButtomStatus == ButtomStatus.Hold)
-                    return ButtomStatus.Release;
-
-                if (ButtomStatus == ButtomStatus.Release)
-                    return ButtomStatus.None;
-            }
-
-            return ButtomStatus.None;
         }
 
         protected override void Draw(GameTime gameTime)

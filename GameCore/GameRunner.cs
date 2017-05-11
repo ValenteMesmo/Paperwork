@@ -65,11 +65,11 @@ namespace GameCore
 
         private void OnUpdate()
         {
-            foreach (var part in Entities)
+            foreach (var entity in Entities)
             {
-                foreach (var update in part.UpdateHandlers)
+                foreach (var update in entity.UpdateHandlers)
                 {
-                    update.Update();
+                    update.Update(entity);
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿namespace PaperWork
+﻿namespace GameCore
 {
     public class Property<T>
     {
@@ -9,12 +9,17 @@
             return Value;
         }
 
-        public bool HasValue()
+        public void RemoveValue()
+        {
+            Value = default(T);
+        }
+
+        public bool IsNotNull()
         {
             return Value != null;
         }
 
-        public bool IsEmpty()
+        public bool IsNull()
         {
             return Value == null;
         }

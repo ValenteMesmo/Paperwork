@@ -3,31 +3,25 @@ using System;
 
 namespace PaperWork
 {
-    public class JumpOnInputDecreasesVerticalSpeed : UpdateHandler
+    public class JumpOnInputDecreasesVerticalSpeed : IHandleEntityUpdates
     {
-        private InputRepository Inputs;
-        private Func<bool> CanJump;
-        Action<float> SetVerticalSpeed;
+        private readonly Func<bool> StepingOnTheFloor;
+        private readonly Action<float> SetVerticalSpeed;
+        private readonly Func<bool> JumpButtonPressed;
 
-        public JumpOnInputDecreasesVerticalSpeed(
-            Entity ParentEntity,
-            InputRepository Inputs,
-            Func<bool> CanJump,
-            Action<float> SetVerticalSpeed) : base(ParentEntity)
+        public JumpOnInputDecreasesVerticalSpeed(            
+            Func<bool> StepingOnTheFloor,
+            Action<float> SetVerticalSpeed,
+            Func<bool> JumpButtonPressed)
         {
-            this.CanJump = CanJump;
-            this.Inputs = Inputs;
+            this.StepingOnTheFloor = StepingOnTheFloor;
             this.SetVerticalSpeed = SetVerticalSpeed;
+            this.JumpButtonPressed = JumpButtonPressed;
         }
 
-        public override void Update()
+        public void Update(Entity ParentEntity)
         {
-            if (
-                (
-                    Inputs.Jump.GetStatus() == ButtomStatus.Click
-                    || Inputs.Jump.GetStatus() == ButtomStatus.Hold
-                )
-                && CanJump())
+            if (JumpButtonPressed() && StepingOnTheFloor())
             {
                 SetVerticalSpeed(-4);
             }

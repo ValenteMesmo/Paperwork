@@ -3,23 +3,22 @@ using System;
 
 namespace PaperWork.GameEntities.Papers
 {
-    public class FallDownWhenPossibel : UpdateHandler
+    public class FallDownWhenPossibel : IHandleEntityUpdates
     {
         GridPositions Grid;
         Func<bool> FollowingPlayer;
 
-        public FallDownWhenPossibel(
-            Entity ParentEntity, 
+        public FallDownWhenPossibel(            
             GridPositions Grid,
-            Func<bool> FollowingPlayer) : base(ParentEntity)
+            Func<bool> FollowingPlayer)
         {
             this.FollowingPlayer = FollowingPlayer;
             this.Grid = Grid;
         }
 
-        public override void Update()
+        public void Update(Entity ParentEntity)
         {
-            if (FollowingPlayer() == false)
+            if (FollowingPlayer())
                 return;
 
             var newPosition = new Coordinate2D(

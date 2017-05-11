@@ -11,14 +11,19 @@ namespace GameCore
         public Coordinate2D RenderPosition { get; set; }
         public IList<EntityTexture> Textures { get; }
         public IList<GameCollider> Colliders { get; }
-        public IList<UpdateHandler> UpdateHandlers { get; }
+        public IList<IHandleEntityUpdates> UpdateHandlers { get; }
 
         public Entity()
         {
             Id = Guid.NewGuid().ToString();
             Textures = new List<EntityTexture>();
             Colliders = new List<GameCollider>();
-            UpdateHandlers = new List<UpdateHandler>();
+            UpdateHandlers = new List<IHandleEntityUpdates>();
+        }
+
+        public T As<T>() where T: Entity
+        {
+            return (T)this;
         }
     }
 }

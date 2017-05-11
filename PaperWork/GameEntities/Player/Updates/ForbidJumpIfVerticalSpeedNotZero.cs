@@ -3,21 +3,20 @@ using System;
 
 namespace PaperWork.PlayerHandlers.Updates
 {
-    public class ForbidJumpIfVerticalSpeedNotZero : UpdateHandler
+    public class ForbidJumpIfVerticalSpeedNotZero : IHandleEntityUpdates
     {
         private Action<bool> SetJumpEnabled;
         private Func<float> GetVerticalSpeed;
 
-        public ForbidJumpIfVerticalSpeedNotZero(
-            Entity ParentEntity, 
+        public ForbidJumpIfVerticalSpeedNotZero(            
             Action<bool> SetJumpEnabled,
-            Func<float> GetVerticalSpeed) : base(ParentEntity)
+            Func<float> GetVerticalSpeed) 
         {
             this.SetJumpEnabled = SetJumpEnabled;
             this.GetVerticalSpeed = GetVerticalSpeed;
         }
 
-        public override void Update()
+        public void Update(Entity entity)
         {
             if (GetVerticalSpeed() != 0)
                 SetJumpEnabled(false);

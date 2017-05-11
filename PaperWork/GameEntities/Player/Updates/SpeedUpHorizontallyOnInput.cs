@@ -3,29 +3,29 @@ using System;
 
 namespace PaperWork
 {
-    public class SpeedUpHorizontallyOnInput : UpdateHandler
+    public class SpeedUpHorizontallyOnInput : IHandleEntityUpdates
     {
-        private InputRepository Inputs;
-        Action<float> SetHorizontalSpeed;
+        private readonly Action<float> SetHorizontalSpeed;
+        private readonly Func<bool> LeftButtonPressed;
+        private readonly Func<bool> RightButtonPressed;
 
         public SpeedUpHorizontallyOnInput(
-            Entity ParentEntity,
-            InputRepository Inputs,
-            Action<float> SetHorizontalSpeed) : base(ParentEntity)
+            Action<float> SetHorizontalSpeed,
+            Func<bool> LeftButtonPressed,
+            Func<bool> RightButtonPressed)
         {
             this.SetHorizontalSpeed = SetHorizontalSpeed;
-            this.Inputs = Inputs;
+            this.LeftButtonPressed = LeftButtonPressed;
+            this.RightButtonPressed = RightButtonPressed;
         }
 
-        public override void Update()
+        public void Update(Entity ParentEntity)
         {
-            if (Inputs.Right.GetStatus() == ButtomStatus.Click
-                || Inputs.Right.GetStatus() == ButtomStatus.Hold)
+            if (RightButtonPressed())
             {
                 SetHorizontalSpeed(1);
             }
-            else if (Inputs.Left.GetStatus() == ButtomStatus.Click
-                || Inputs.Left.GetStatus() == ButtomStatus.Hold)
+            else if (LeftButtonPressed())
             {
                 SetHorizontalSpeed(-1);
             }

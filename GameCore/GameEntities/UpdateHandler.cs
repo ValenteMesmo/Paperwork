@@ -1,14 +1,7 @@
 ﻿namespace GameCore
 {
-    public abstract class UpdateHandler
+    public interface IHandleEntityUpdates
     {
-        protected Entity ParentEntity { get; }
-
-        public UpdateHandler(Entity ParentEntity)
-        {
-            this.ParentEntity = ParentEntity;
-        }
-
-       public abstract void Update();
+       void Update(Entity entity);
     }
 }

@@ -20,20 +20,23 @@ namespace PaperWork
                 Position = new Coordinate2D(100, 100)
             });
 
-            AddEntity(new PapersEntity(grid)
+            var paper1 = new PapersEntity(grid)
             {
                 Position = new Coordinate2D(
-                    rowNumber * 50 - 50, 
+                    rowNumber * 50 - 50,
                     colNumber * 50 - 100)
-            });
-            
-            AddEntity(new PapersEntity(grid)
+            };
+
+            var paper2 = new PapersEntity(grid)
             {
                 Position = new Coordinate2D(
                    rowNumber * 50 - 100,
                    colNumber * 50 - 100)
-            });
-
+            };
+            AddEntity(paper1);
+            AddEntity(paper2);
+            grid.Set(paper1, paper1.Position);
+            grid.Set(paper2, paper2.Position);
             CreateBlocks(rowNumber, colNumber);
         }
 

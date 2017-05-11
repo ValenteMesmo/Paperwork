@@ -3,9 +3,9 @@ using GameCore.Collision;
 
 namespace PaperWork.GameEntities.Collisions
 {
-    public class MoveOnCollision : CollisionHandler
+    public class MoveBackWhenHittingWall : CollisionHandler
     {
-        public MoveOnCollision(GameCollider Box) : base(Box)
+        public MoveBackWhenHittingWall(GameCollider Box) : base(Box)
         {
         }
 
