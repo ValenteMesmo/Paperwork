@@ -6,14 +6,14 @@ namespace PaperWork
 {    
     public class Game1 : BaseGame
     {
-
-
         public Game1() : base("char", "papers", "block")
         {            
             var rowNumber = 13;
             var colNumber = 6;
 
             var grid = new GridPositions(13, 6, 50);
+
+            AddEntity(grid);
 
             AddEntity(new PlayerEntity(PlayerInputs, grid)
             {

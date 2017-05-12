@@ -1,7 +1,6 @@
 ﻿using GameCore;
 using GameCore.Collision;
 using PaperWork.GameEntities.Collisions;
-using PaperWork.GameEntities.Papers;
 
 namespace PaperWork
 {
@@ -22,7 +21,7 @@ namespace PaperWork
             mainCollider = new GameCollider(this, Grid.cellSize, Grid.cellSize);
 
             UpdateHandlers.Add(new FollowOtherEntity(new Coordinate2D(0, -mainCollider.Height), Target.Get));
-            UpdateHandlers.Add(new FallDownWhenPossibel(Target.IsNotNull, () => Grid.cellSize, Grid.PositionAvailable));
+            //UpdateHandlers.Add(new FallDownWhenPossibel(Target.IsNotNull, () => Grid.cellSize, Grid.PositionAvailable));
 
             Colliders.Add(mainCollider);
         }
@@ -31,12 +30,14 @@ namespace PaperWork
         {
             mainCollider.Disabled = true;
             Target.Set(grabbedBy);
+            Grid.RemoveFromTheGrid(this);
         }
 
         public void Drop()
         {
             mainCollider.Disabled = false;
             Target.Set(null);
+            Grid.Set(this, new Coordinate2D(Position.X+50, Position.Y + 50));
         }
     }
 }
