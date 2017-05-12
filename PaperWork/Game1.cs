@@ -35,8 +35,8 @@ namespace PaperWork
             };
             AddEntity(paper1);
             AddEntity(paper2);
-            grid.Set(paper1, paper1.Position);
-            grid.Set(paper2, paper2.Position);
+            grid.Push(paper1);
+            grid.Push(paper2);
             CreateBlocks(rowNumber, colNumber);
         }
 

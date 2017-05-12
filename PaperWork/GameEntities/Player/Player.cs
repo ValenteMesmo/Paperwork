@@ -28,8 +28,8 @@ namespace PaperWork
             UpdateHandlers.Add(new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set));
             UpdateHandlers.Add(new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get));
             UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get));
-            UpdateHandlers.Add(new GrabsObjectThatPlayerIsFacing(PlayerInputs.Grab.Get, currentPapers.IsNull, currentPapers.Set, DragAndDropCooldown.CooldownEnded, Grid.GetNearObject, DragAndDropCooldown.TriggerCooldown));
-            UpdateHandlers.Add(new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(),Grid.PositionAvailable));
+            UpdateHandlers.Add(new GrabsObjectThatPlayerIsFacing(PlayerInputs.Grab.Get, currentPapers.IsNull, currentPapers.Set, DragAndDropCooldown.CooldownEnded, Grid.Pop, DragAndDropCooldown.TriggerCooldown));
+            UpdateHandlers.Add(new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(), Grid.PositionAvailable));
 
             var mainCollider = new GameCollider(this, 50, 100);
             mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, SteppingOnTheFloor.Set, VerticalSpeed.Set));

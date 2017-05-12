@@ -30,14 +30,15 @@ namespace PaperWork
         {
             mainCollider.Disabled = true;
             Target.Set(grabbedBy);
-            Grid.RemoveFromTheGrid(this);
+            Grid.Pop(this.Position);
         }
 
         public void Drop()
         {
             mainCollider.Disabled = false;
             Target.Set(null);
-            Grid.Set(this, new Coordinate2D(Position.X+50, Position.Y + 50));
+            Position = new Coordinate2D(Position.X + 50, Position.Y + 50);
+            Grid.Push(this);
         }
     }
 }

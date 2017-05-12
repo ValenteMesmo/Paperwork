@@ -51,13 +51,6 @@ namespace PaperWork
             UpdateHandlers.Add(new MakePapersFall(() => entities.Values.Distinct(), c => PositionAvailable(new Coordinate2D(c.X, c.Y + 50)), MoveToCellBelow));
         }
 
-        private void MoveToCellBelow(Entity obj)
-        {
-            RemoveFromTheGrid(obj);
-            obj.Position = new Coordinate2D(obj.Position.X, obj.Position.Y + 50);
-            Set(obj, obj.Position);
-        }
-
         public bool PositionAvailable(Coordinate2D position)
         {
             var gridPosition = new Coordinate2D(
@@ -70,72 +63,58 @@ namespace PaperWork
             return matrix[(int)gridPosition.X, (int)gridPosition.Y] == null;
         }
 
-        public void RemoveFromTheGrid(Entity entity)
+        public Entity Pop(Coordinate2D fromPosition)
         {
-            if (entities.ContainsKey(entity.Id))
-            {
-                //var previousPositioin = GetFixedPosition(entities[entity.Id].Position);
-
-                for (int i = 0; i < rows; i++)
-                {
-                    for (int j = 0; j < columns; j++)
-                    {
-                        if (matrix[i, j] == entity.Id)
-                            matrix[i, j] = null;
-                    }
-                }
-            }
-        }
-
-        public Coordinate2D Set(Entity entity, Coordinate2D position)
-        {
-            var newPosition = new Coordinate2D(
-                RoundUp(position.X, cellSize),
-                RoundUp(position.Y, cellSize));
-
-            var gridPosition = new Coordinate2D(
-            newPosition.X / cellSize,
-            newPosition.Y / cellSize);
-
-            //if (entitiesPositions.ContainsKey(entity.Id))
-            //{
-            //    var previousPositioin = entitiesPositions[entity.Id];
-            //    matrix[(int)previousPositioin.X, (int)previousPositioin.Y] = null;
-            //}
-
-            entity.Position = newPosition;
-            entities[entity.Id] = entity;
-            matrix[(int)gridPosition.X, (int)gridPosition.Y] = entity.Id;
-
-            return newPosition;
-        }
-
-        private Coordinate2D GetFixedPosition(Coordinate2D position)
-        {
-            return new Coordinate2D(
-               RoundUp(position.X, cellSize) / cellSize,
-               RoundUp(position.Y, cellSize) / cellSize);
-        }
-
-        public Entity GetNearObject(Coordinate2D position)
-        {
-            var newPosition = new Coordinate2D(
-               RoundUp(position.X + 50, cellSize),
-               RoundUp(position.Y + 50, cellSize));
-
-            var gridPosition = new Coordinate2D(
-                newPosition.X / cellSize,
-                newPosition.Y / cellSize);
+            var gridPosition = GetGridPosition(RoundPosition(fromPosition));
 
             if (gridPosition.X >= rows || gridPosition.Y >= columns)
                 return null;
 
             var id = matrix[(int)gridPosition.X, (int)gridPosition.Y] ?? "";
-            return
-                entities.ContainsKey(id) ? entities[id] : null;
+
+            if (entities.ContainsKey(id))
+            {
+                var entity = entities[id];
+                matrix[(int)gridPosition.X, (int)gridPosition.Y] = null;
+                entities.Remove(id);
+                return entity;
+            }
+
+            return null;
         }
 
-        int RoundUp(float numToRound, int multiple)
+        public void Push(Entity entity)
+        {
+            var roundPosition = RoundPosition(entity.Position);
+            entity.Position = roundPosition;
+            var gridPosition = GetGridPosition(roundPosition);
+
+            entities[entity.Id] = entity;
+            matrix[(int)gridPosition.X, (int)gridPosition.Y] = entity.Id;
+        }
+
+        private void MoveToCellBelow(Entity entity)
+        {
+            Pop(entity.Position);
+            entity.Position = new Coordinate2D(entity.Position.X, entity.Position.Y + 50);
+            Push(entity);
+        }
+
+        private Coordinate2D RoundPosition(Coordinate2D position)
+        {
+            return new Coordinate2D(
+               RoundUp(position.X, cellSize),
+               RoundUp(position.Y, cellSize));
+        }
+
+        public Coordinate2D GetGridPosition(Coordinate2D roundPosition)
+        {
+            return new Coordinate2D(
+               roundPosition.X / cellSize,
+               roundPosition.Y / cellSize);
+        }
+
+        private int RoundUp(float numToRound, int multiple)
         {
             return (int)Math.Round(numToRound / multiple) * multiple;
         }

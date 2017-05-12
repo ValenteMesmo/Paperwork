@@ -34,7 +34,11 @@ namespace PaperWork.GameEntities.Player.Updates
                 && GrabButtonPressed()
                 && GrabCooldownEnded())
             {
-                var paper = EntityThatThePlayerIsTryingToGrab(ParentEntity.Position);
+                var paper = EntityThatThePlayerIsTryingToGrab(
+                    new Coordinate2D(
+                        ParentEntity.Position.X + 50,
+                        ParentEntity.Position.Y + 50));
+
                 if (paper == null && !(paper is PapersEntity))
                     return;
 
