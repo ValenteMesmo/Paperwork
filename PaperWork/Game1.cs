@@ -46,6 +46,8 @@ namespace PaperWork
             {
                 AddEntity(new SolidBlock()
                 {
+                    //TODO: tornar isso um rectangle? o problema hoje é ...
+                    // colidir com duas paredes empilhadas....
                     Position = new Coordinate2D(i * 50, 0)
                 });
             }

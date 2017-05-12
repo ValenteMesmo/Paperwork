@@ -7,12 +7,12 @@ namespace PaperWork.PlayerHandlers.Updates
     {
         Func<float> GetHorizontalSpeed;
         Func<float> GetVerticalSpeed;
-        public UsesSpeedToMove(            
+        public UsesSpeedToMove(
             Func<float> GetHorizontalSpeed
-            ,Func<float> GetVerticalSpeed) 
+            , Func<float> GetVerticalSpeed)
         {
-            this.GetHorizontalSpeed=GetHorizontalSpeed;
-            this.GetVerticalSpeed  = GetVerticalSpeed;
+            this.GetHorizontalSpeed = GetHorizontalSpeed;
+            this.GetVerticalSpeed = GetVerticalSpeed;
         }
 
         public void Update(Entity ParentEntity)

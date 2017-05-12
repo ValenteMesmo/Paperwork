@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace GameCore.Collision
 {
+    ////https://gamedevelopment.tutsplus.com/tutorials/basic-2d-platformer-physics-part-1--cms-25799
     public class GameCollider
     {
         public Entity ParentEntity { get; }
         public float Width { get; protected set; }
         public float Height { get; protected set; }
-        public Coordinate2D LocalPosition { get; set; }
-        public IList<CollisionHandler> CollisionHandlers { get; }
         public bool Disabled { get; set; }
+        public IList<CollisionHandler> CollisionHandlers { get; }
+        public Coordinate2D Speed { get; set; }
+        public Coordinate2D LocalPosition { get; set; }
         public Coordinate2D Position
         {
             get

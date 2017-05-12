@@ -48,9 +48,9 @@
     <Compile Include="GameEntities\Player\Collisions\DropThePapers.cs" />
     <Compile Include="GameEntities\Papers\FollowOtherEntity.cs" />
     <Compile Include="GameEntities\Player\Collisions\MoveOnCollision.cs" />
-    <Compile Include="GameEntities\Papers\Papers.cs" />
+    <Compile Include="GameEntities\Papers.cs" />
     <Compile Include="GameEntities\GridPositions.cs" />
-    <Compile Include="GameEntities\Player\Player.cs" />
+    <Compile Include="GameEntities\Player.cs" />
     <Compile Include="GameEntities\Player\Collisions\StopsWhenHitsPapers.cs" />
     <Compile Include="GameEntities\Player\Updates\GrabsObjectThatPlayerIsFacing.cs" />
     <Compile Include="GameEntities\SolidBlock.cs" />

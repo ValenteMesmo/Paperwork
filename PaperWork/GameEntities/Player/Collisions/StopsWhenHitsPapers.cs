@@ -9,20 +9,24 @@ namespace PaperWork.PlayerHandlers.Collisions
     {
         private Action<bool> SetJumpEnable;
         private Action<float> SetVerticalSpeed;
+        private readonly Func<float> GetSpeedTEEEEEEMP;
 
         public StopsWhenHitsPapers(
             GameCollider Parent, 
             Action<bool> SetJumpEnable,
-            Action<float> SetVerticalSpeed) : base(Parent)
+            Action<float> SetVerticalSpeed,
+            Func<float> GetSpeedTEEEEEEMP) : base(Parent)
         {
             this.SetJumpEnable = SetJumpEnable;
             this.SetVerticalSpeed = SetVerticalSpeed;
+            this.GetSpeedTEEEEEEMP = GetSpeedTEEEEEEMP;
         }
 
         public override void CollisionFromBelow(GameCollider papers)
-        {
+        {            
             if (papers.ParentEntity is PapersEntity || papers.ParentEntity is SolidBlock)
             {
+                System.Diagnostics.Debug.WriteLine(GetSpeedTEEEEEEMP());
                 SetVerticalSpeed(0);
 
                 ParentEntity.Position =

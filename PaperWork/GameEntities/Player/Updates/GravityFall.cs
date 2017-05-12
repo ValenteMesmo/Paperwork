@@ -25,10 +25,6 @@ namespace PaperWork.PlayerHandlers.Updates
                 verticalSpeed = MAX_SPEED;
 
             SetVerticalSpeed(verticalSpeed);
-
-            //ParentEntity.Position = new Coordinate2D(
-            //    ParentEntity.Position.X,
-            //    ParentEntity.Position.Y + ParentEntity.Speed.Y);
         }
     }
 }
