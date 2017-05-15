@@ -21,14 +21,13 @@ namespace PaperWork
         {
             this.Grid = Grid;
 
-            var mainCollider = new GameCollider(this, 50, 100);            
-
+            var mainCollider = new GameCollider(this, 20, 100);
             Func<float> GetHorizontalSpeed = () => mainCollider.Speed.X;
             Func<float> GetVerticalSpeed = () => mainCollider.Speed.Y;
             Action<float> SetHorizontalSpeed = f => mainCollider.Speed = new Coordinate2D(f, mainCollider.Speed.Y);
             Action<float> SetVerticalSpeed = f => mainCollider.Speed = new Coordinate2D(mainCollider.Speed.X, f);
 
-            Textures.Add(new EntityTexture("char", 50, 100));
+            Textures.Add(new EntityTexture("char", 50, 100) { Offset = new Coordinate2D(-15, 0) });
 
             UpdateHandlers.Add(new SpeedUpHorizontallyOnInput(SetHorizontalSpeed, PlayerInputs.Left.Get, PlayerInputs.Right.Get));
             UpdateHandlers.Add(new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, SetVerticalSpeed, PlayerInputs.Jump.Get));

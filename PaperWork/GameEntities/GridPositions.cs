@@ -5,31 +5,22 @@ using System.Linq;
 
 namespace PaperWork
 {
-    class MakePapersFall : IHandleEntityUpdates
+    class MyClass
     {
-        private readonly Func<IEnumerable<Entity>> GetPapers;
-        private readonly Func<Coordinate2D, bool> PositionBelowAvailable;
-        private readonly Action<Entity> MoveToCellBelow;
+        private readonly GridPositions grid;
 
-        public MakePapersFall(
-            Func<IEnumerable<Entity>> GetPapers
-            , Func<Coordinate2D, bool> PositionBelowAvailable
-            , Action<Entity> MoveToCellBelow)
+        public MyClass(GridPositions grid)
         {
-            this.GetPapers = GetPapers;
-            this.PositionBelowAvailable = PositionBelowAvailable;
-            this.MoveToCellBelow = MoveToCellBelow;
+            this.grid = grid;
         }
 
-        public void Update(Entity entity)
+        public void MoveToCellBelow(Entity entity)
         {
-            foreach (var item in GetPapers().ToList())
-            {
-                if (PositionBelowAvailable(item.Position))
-                {
-                    MoveToCellBelow(item);
-                }
-            }
+            grid.Pop(entity.Position);
+            entity.Position = new Coordinate2D(
+                entity.Position.X, 
+                entity.Position.Y + grid.cellSize);
+            grid.Push(entity);
         }
     }
 
@@ -48,7 +39,14 @@ namespace PaperWork
             this.cellSize = cellSize;
             matrix = new string[rows, columns];
             entities = new Dictionary<string, Entity>();
-            UpdateHandlers.Add(new MakePapersFall(() => entities.Values.Distinct(), c => PositionAvailable(new Coordinate2D(c.X, c.Y + 50)), MoveToCellBelow));
+
+            var asd = new MyClass(this);
+
+            UpdateHandlers.Add(
+                new MakePapersFall(
+                    () => entities.Values.Distinct(), 
+                    c => PositionAvailable(new Coordinate2D(c.X, c.Y + cellSize)),
+                    asd.MoveToCellBelow));
         }
 
         public bool PositionAvailable(Coordinate2D position)
@@ -93,13 +91,6 @@ namespace PaperWork
             matrix[(int)gridPosition.X, (int)gridPosition.Y] = entity.Id;
         }
 
-        private void MoveToCellBelow(Entity entity)
-        {
-            Pop(entity.Position);
-            entity.Position = new Coordinate2D(entity.Position.X, entity.Position.Y + 50);
-            Push(entity);
-        }
-
         private Coordinate2D RoundPosition(Coordinate2D position)
         {
             return new Coordinate2D(
@@ -107,7 +98,7 @@ namespace PaperWork
                RoundUp(position.Y, cellSize));
         }
 
-        public Coordinate2D GetGridPosition(Coordinate2D roundPosition)
+        private Coordinate2D GetGridPosition(Coordinate2D roundPosition)
         {
             return new Coordinate2D(
                roundPosition.X / cellSize,

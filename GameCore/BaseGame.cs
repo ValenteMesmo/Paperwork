@@ -83,8 +83,8 @@ namespace GameCore
                         spriteBatch.Draw(
                             Textures[texture.Name],
                             new Rectangle(
-                                (int)(item.RenderPosition.X + texture.Bonus.X),
-                                (int)(item.RenderPosition.Y + texture.Bonus.Y),
+                                (int)(item.RenderPosition.X + texture.Offset.X),
+                                (int)(item.RenderPosition.Y + texture.Offset.Y),
                                 texture.Width,
                                 texture.Height),
                             Color.White);

@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
-    <Compile Include="GameEntities\Papers\FallDownWhenPossibel.cs" />
+    <Compile Include="GameEntities\GridPositions\MakePapersFall.cs" />
     <Compile Include="GameEntities\Player\Collisions\Cooldown.cs" />
     <Compile Include="GameEntities\Player\Collisions\DropThePapers.cs" />
     <Compile Include="GameEntities\Papers\FollowOtherEntity.cs" />

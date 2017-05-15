@@ -15,7 +15,7 @@ namespace PaperWork
             this.Grid = Grid;
             Textures.Add(new EntityTexture("papers", Grid.cellSize, Grid.cellSize * 2)
             {
-                Bonus = new Coordinate2D(0, -Grid.cellSize)
+                Offset = new Coordinate2D(0, -Grid.cellSize)
             });
 
             mainCollider = new GameCollider(this, Grid.cellSize, Grid.cellSize);
