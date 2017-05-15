@@ -9,30 +9,26 @@ namespace PaperWork.PlayerHandlers.Collisions
     {
         private Action<bool> SetJumpEnable;
         private Action<float> SetVerticalSpeed;
-        private readonly Func<float> GetSpeedTEEEEEEMP;
 
         public StopsWhenHitsPapers(
-            GameCollider Parent, 
+            GameCollider Parent,
             Action<bool> SetJumpEnable,
-            Action<float> SetVerticalSpeed,
-            Func<float> GetSpeedTEEEEEEMP) : base(Parent)
+            Action<float> SetVerticalSpeed) : base(Parent)
         {
             this.SetJumpEnable = SetJumpEnable;
             this.SetVerticalSpeed = SetVerticalSpeed;
-            this.GetSpeedTEEEEEEMP = GetSpeedTEEEEEEMP;
         }
 
         public override void CollisionFromBelow(GameCollider papers)
-        {            
+        {
             if (papers.ParentEntity is PapersEntity || papers.ParentEntity is SolidBlock)
             {
-                System.Diagnostics.Debug.WriteLine(GetSpeedTEEEEEEMP());
                 SetVerticalSpeed(0);
 
                 ParentEntity.Position =
                     new Coordinate2D(
                         ParentEntity.Position.X,
-                        papers.Position.Y - ParentCollider.Height);
+                        papers.Position.Y - ParentCollider.Height -1);
 
                 SetJumpEnable(true);
             }
@@ -47,7 +43,7 @@ namespace PaperWork.PlayerHandlers.Collisions
                 ParentEntity.Position =
                     new Coordinate2D(
                         ParentEntity.Position.X,
-                        papers.Position.Y + papers.Height);
+                        papers.Position.Y + papers.Height + 1);
             }
         }
     }

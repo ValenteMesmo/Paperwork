@@ -38,7 +38,7 @@ namespace PaperWork
             UpdateHandlers.Add(new GrabsObjectThatPlayerIsFacing(PlayerInputs.Grab.Get, currentPapers.IsNull, currentPapers.Set, DragAndDropCooldown.CooldownEnded, Grid.Pop, DragAndDropCooldown.TriggerCooldown));
             UpdateHandlers.Add(new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(), Grid.PositionAvailable));
 
-            mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, SteppingOnTheFloor.Set, SetVerticalSpeed, GetVerticalSpeed));
+            mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, SteppingOnTheFloor.Set, SetVerticalSpeed));
             mainCollider.CollisionHandlers.Add(new MoveBackWhenHittingWall(mainCollider));
             Colliders.Add(mainCollider);
         }

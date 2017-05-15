@@ -14,7 +14,7 @@ namespace PaperWork.GameEntities.Collisions
             if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
-                newPosition.X = other.Position.X + other.Width;
+                newPosition.X = other.Position.X + other.Width + 1;
                 newPosition.Y = ParentEntity.Position.Y;
 
                 ParentEntity.Position = newPosition;
@@ -26,7 +26,7 @@ namespace PaperWork.GameEntities.Collisions
             if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
-                newPosition.X = other.Position.X - other.Width;
+                newPosition.X = other.Position.X - other.Width -1;
                 newPosition.Y = ParentEntity.Position.Y;
 
                 ParentEntity.Position = newPosition;
