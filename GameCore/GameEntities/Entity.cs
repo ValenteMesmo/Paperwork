@@ -12,13 +12,15 @@ namespace GameCore
         public IList<EntityTexture> Textures { get; }
         public IList<BaseCollider> Colliders { get; }
         private readonly IList<IHandleEntityUpdates> UpdateHandlers;
+        public readonly Action SelfDestruct;
 
-        public Entity()
+        public Entity(Action<Entity> SelfDestruct)
         {
             Id = $"{GetType().Name} {Guid.NewGuid().ToString()}";
             Textures = new List<EntityTexture>();
             Colliders = new List<BaseCollider>();
             UpdateHandlers = new List<IHandleEntityUpdates>();
+            this.SelfDestruct = ()=> SelfDestruct(this);
         }
 
         public void AddUpdateHandlers(params IHandleEntityUpdates[] handlers)

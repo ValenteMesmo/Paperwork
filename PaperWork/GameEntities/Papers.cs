@@ -2,14 +2,13 @@
 using GameCore.Collision;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
+using PaperWork.GameEntities.Papers.Updates;
 using PaperWork.PlayerHandlers.Updates;
-using System.Collections;
-using System.Diagnostics;
-using System.Linq;
+using System;
 
 namespace PaperWork
 {
-    public partial class PapersEntity : Entity
+    public class PapersEntity : Entity
     {
         public readonly Property<Entity> Target = new Property<Entity>();
         public readonly Property<float> VerticalSpeed = new Property<float>();
@@ -18,7 +17,7 @@ namespace PaperWork
         public readonly Property<PapersEntity> LeftNeighbor = new Property<PapersEntity>();
         private readonly Collider mainCollider;
 
-        public PapersEntity(int cellSize)
+        public PapersEntity(int cellSize, Action<Entity> DestroyEntity) : base(DestroyEntity)
         {
             Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
             {
@@ -35,36 +34,17 @@ namespace PaperWork
                 , new FrictionSpeedLoss(HorizontalSpeed.Set, HorizontalSpeed.Get)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
+                , new ComputeHorizontalCombosCombo(new HorizontalNeighborChecker().GetNeighborsCombo)
             );
-            var HorizontalNeighborChecker = new HorizontalNeighborChecker();
 
             var rightTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
             rightTrigger.Position = new Coordinate2D(cellSize + 5, +5);
-
-            rightTrigger.AddHandlers(new MyClass(RightNeighbor.Set, RightNeighbor.SetDefaut, () =>
-            {
-                var combo = HorizontalNeighborChecker.GetNeighborsCombo(this);
-                if (combo.Any())
-                {
-                    Debug.WriteLine($"{combo.Count()} FROM THE RIGHT!");
-                }
-            }));
-
+            rightTrigger.AddHandlers(new SetTriggeredNeighbor(RightNeighbor.Set, RightNeighbor.SetDefaut));
             Colliders.Add(rightTrigger);
-
 
             var leftTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
             leftTrigger.Position = new Coordinate2D(-cellSize + 5, 5);
-
-            leftTrigger.AddHandlers(new MyClass(LeftNeighbor.Set, LeftNeighbor.SetDefaut, () =>
-            {
-                var combo = HorizontalNeighborChecker.GetNeighborsCombo(this);
-                if (combo.Any())
-                {
-                    Debug.WriteLine($"{combo.Count()} FROM THE LEFT!");
-                }
-            }));
-
+            leftTrigger.AddHandlers(new SetTriggeredNeighbor(LeftNeighbor.Set, LeftNeighbor.SetDefaut));
             Colliders.Add(leftTrigger);
         }
 

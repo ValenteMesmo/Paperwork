@@ -45,6 +45,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameEntities\HorizontalNeighborChecker.cs" />
     <Compile Include="GameEntities\MyClass.cs" />
+    <Compile Include="GameEntities\Papers\Updates\ComputeHorizontalCombosCombo.cs" />
     <Compile Include="GameEntities\Papers\Updates\FrictionSpeedLoss.cs" />
     <Compile Include="GameEntities\Papers\Collisions\StopsOnFixedPositionWhenColliding.cs" />
     <Compile Include="GameEntities\Cooldown.cs" />

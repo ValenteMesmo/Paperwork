@@ -1,12 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameCore.Collision;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using GameCore;
-using GameCore.Collision;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace GameCore
 {
@@ -34,6 +31,11 @@ namespace GameCore
         protected void AddEntity(Entity Entity)
         {
             gameRunner.Entities.Add(Entity);
+        }
+
+        protected void RemoveEntity(Entity Entity)
+        {
+            gameRunner.Entities.Remove(Entity);
         }
 
         private Texture2D pixel;
@@ -93,19 +95,18 @@ namespace GameCore
                                 texture.Height),
                             Color.White);
                 }
-
-
             }
 
             foreach (var collider in gameRunner.Entities.ToList().SelectMany(f => f.Colliders))
             {
                 DrawBorder(
                         new Rectangle(
-                            (int)(collider.Position.X),
-                            (int)(collider.Position.Y),
+                            (int)collider.Position.X,
+                            (int)collider.Position.Y,
                             (int)collider.Width,
                             (int)collider.Height),
-                        3, Color.Red);
+                        3, 
+                        Color.Red);
             }
 
             spriteBatch.End();

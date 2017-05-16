@@ -8,11 +8,11 @@ namespace GameCore
 {
     public class GameRunner : IDisposable
     {
+        public readonly IList<Entity> Entities = new List<Entity>();
         private bool running = false;
         private bool disposed = false;
         private Dictionary<string, Coordinate2D> PreviousPositions = new Dictionary<string, Coordinate2D>();
         protected InputRepository InputRepository;
-        public IList<Entity> Entities = new List<Entity>();
         private CollisionDetector CollisionDetector;
 
         public GameRunner(InputRepository InputRepository, CollisionDetector CollisionDetector)
@@ -65,7 +65,7 @@ namespace GameCore
 
         private void OnUpdate()
         {
-            foreach (var entity in Entities)
+            foreach (var entity in Entities.ToList())
             {
                 entity.Update();
             }

@@ -4,6 +4,7 @@ using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Player.Collisions;
 using PaperWork.PlayerHandlers.Collisions;
 using PaperWork.PlayerHandlers.Updates;
+using System;
 
 namespace PaperWork
 {
@@ -15,7 +16,7 @@ namespace PaperWork
         private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Cooldown DragAndDropCooldown = new Cooldown(200);
 
-        public PlayerEntity(InputRepository PlayerInputs)
+        public PlayerEntity(InputRepository PlayerInputs, Action<Entity> DestroyEntity):base(DestroyEntity)
         {
             var width = 20;
             var height = 100;
