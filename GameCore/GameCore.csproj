@@ -39,9 +39,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
-    <Compile Include="Collision\CollisionHandler.cs" />
+    <Compile Include="Collision\BaseCollider.cs" />
+    <Compile Include="Collision\Trigger.cs" />
+    <Compile Include="Collision\IHandleCollision.cs" />
     <Compile Include="Collision\CollisionDetector.cs" />
-    <Compile Include="Collision\GameCollider.cs" />
+    <Compile Include="Collision\Collider.cs" />
+    <Compile Include="Collision\IHandleTriggers.cs" />
     <Compile Include="Coordinate2D.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />

@@ -4,7 +4,7 @@ using System;
 
 namespace PaperWork.GameEntities.Player.Collisions
 {
-    class GrabPapersOnCollision : CollisionHandler
+    class GrabPapersOnCollision : IHandleCollision
     {
         private readonly Func<bool> GrabButtonPressed;
         private readonly Func<bool> PlayerHandsAreFree;
@@ -26,7 +26,19 @@ namespace PaperWork.GameEntities.Player.Collisions
             this.GivePaperToPlayer = GivePaperToPlayer;
         }
 
-        public override void CollisionFromTheRight(GameCollider collider, GameCollider other)
+        public void CollisionFromAbove(BaseCollider collider, BaseCollider other)
+        {
+        }
+
+        public void CollisionFromBelow(BaseCollider collider, BaseCollider other)
+        {
+        }
+
+        public void CollisionFromTheLeft(BaseCollider collider, BaseCollider other)
+        {
+        }
+
+        public void CollisionFromTheRight(BaseCollider collider, BaseCollider other)
         {
             if (other.ParentEntity is PapersEntity
                 && GrabButtonPressed()

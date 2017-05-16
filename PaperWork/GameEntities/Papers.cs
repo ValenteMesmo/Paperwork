@@ -11,7 +11,7 @@ namespace PaperWork
         public readonly Property<Entity> Target = new Property<Entity>();
         public readonly Property<float> VerticalSpeed = new Property<float>();
         public readonly Property<float> HorizontalSpeed = new Property<float>();
-        private readonly GameCollider mainCollider;
+        private readonly Collider mainCollider;
 
         public PapersEntity(int cellSize)
         {
@@ -20,29 +20,42 @@ namespace PaperWork
                 Offset = new Coordinate2D(0, -cellSize)
             });
 
-            mainCollider = new GameCollider(this, cellSize, cellSize);
+            mainCollider = new Collider(this, cellSize, cellSize);
             mainCollider.AddHandlers(
-                new StopsOnFixedPositionWhenColliding(VerticalSpeed.Set));
+                new StopsOnFixedPositionWhenColliding(VerticalSpeed.Set, HorizontalSpeed.Set));
 
-            AddHandlers(
+            AddUpdateHandlers(
                 new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                , new FollowOtherEntity(new Coordinate2D(0, -mainCollider.Height), Target.Get)
-                , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get));
+                , new FrictionSpeedLoss(HorizontalSpeed.Set,HorizontalSpeed.Get)
+                , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
+                , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
+            );
 
             Colliders.Add(mainCollider);
         }
 
+        //this should not be here
         public void Grab(Entity grabbedBy)
         {
             mainCollider.Disabled = true;
             Target.Set(grabbedBy);
         }
 
-        public void Drop()
+        //this should not be here
+        public void Drop(float speedX, float speedY)
         {
             mainCollider.Disabled = false;
             Target.Set(null);
-            Position = new Coordinate2D(Position.X + 50, Position.Y + 50);
+            VerticalSpeed.Set(speedY);
+            HorizontalSpeed.Set(speedX);
+            var x = Position.X + 50;
+            if (x > 50 * 12)
+                x = 50 * 12;
+            var y = Position.Y + 25;
+            if (y < 50)
+                y = 50;
+            
+            Position = new Coordinate2D(x, y);
         }
     }
 }

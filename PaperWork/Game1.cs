@@ -29,8 +29,17 @@ namespace PaperWork
                    rowNumber * 50 - 100,
                    colNumber * 50 - 100)
             };
+
+            AddEntity( new PapersEntity(50)
+            {
+                Position = new Coordinate2D(
+                  rowNumber * 50 - 200,
+                  colNumber * 50 - 100)
+            });
+
             AddEntity(paper1);
             AddEntity(paper2);
+
             CreateBlocks(rowNumber, colNumber);
         }
 
@@ -40,8 +49,6 @@ namespace PaperWork
             {
                 AddEntity(new SolidBlock()
                 {
-                    //TODO: tornar isso um rectangle? o problema hoje é ...
-                    // colidir com duas paredes empilhadas....
                     Position = new Coordinate2D(i * 50, 0)
                 });
             }

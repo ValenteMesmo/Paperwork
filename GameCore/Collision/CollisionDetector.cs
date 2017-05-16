@@ -20,8 +20,8 @@ namespace GameCore.Collision
         }
 
         private static void CollideTwoColliders(
-            GameCollider a,
-            GameCollider b)
+            BaseCollider a,
+            BaseCollider b)
         {
             if (a == null || a.Disabled)
             {

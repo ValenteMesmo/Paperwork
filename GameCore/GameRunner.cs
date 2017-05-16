@@ -77,6 +77,8 @@ namespace GameCore
         {
             foreach (var entity in Entities)
             {
+                entity.AfterUpdate();
+
                 if (PreviousPositions.ContainsKey(entity.Id))
                 {
                     var newPosition = Lerp(

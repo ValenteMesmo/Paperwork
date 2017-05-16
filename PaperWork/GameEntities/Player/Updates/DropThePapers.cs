@@ -30,11 +30,12 @@ namespace PaperWork.GameEntities.Collisions
 
         public void Update(Entity entity)
         {
-            if (DropButtonPressed())
-                if(HoldingPapers())
-                if(DropCooldownEnded())
+            if (DropButtonPressed()
+                && HoldingPapers()
+                && DropCooldownEnded())
             {
                 SetDropOnCooldown();
+                //TODO: set players horizontal and vertical speed on the paper?
                 TellThePaperThatHeWasDropped();
                 ReleasePapers();
             }

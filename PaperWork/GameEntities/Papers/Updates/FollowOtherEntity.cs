@@ -10,7 +10,7 @@ namespace PaperWork.GameEntities.Collisions
 
         public FollowOtherEntity(
             Coordinate2D bonus,
-            Func<Entity> GetTarget) 
+            Func<Entity> GetTarget)
         {
             this.bonus = bonus;
             this.GetTarget = GetTarget;
@@ -22,7 +22,7 @@ namespace PaperWork.GameEntities.Collisions
 
             if (target == null)
                 return;
-            
+
             entity.Position = new Coordinate2D(
                 target.Position.X + bonus.X,
                 target.Position.Y + bonus.Y);
