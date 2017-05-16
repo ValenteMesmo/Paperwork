@@ -16,7 +16,7 @@ namespace PaperWork
         private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Cooldown DragAndDropCooldown = new Cooldown(200);
 
-        public PlayerEntity(InputRepository PlayerInputs, Action<Entity> DestroyEntity):base(DestroyEntity)
+        public PlayerEntity(InputRepository PlayerInputs, Action<Entity> DestroyEntity) : base(DestroyEntity)
         {
             var width = 20;
             var height = 100;
@@ -36,16 +36,16 @@ namespace PaperWork
 
             AddUpdateHandlers(
                 new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, PlayerInputs.Left.Get, PlayerInputs.Right.Get)
-                ,new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, PlayerInputs.Jump.Get)
-                ,new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                ,new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-                ,new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                ,new DropThePapers(currentPapers.HasValue, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(HorizontalSpeed.Get(),VerticalSpeed.Get()))
+                , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, PlayerInputs.Jump.Get)
+                , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
+                , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
+                , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
+                , new DropThePapers(currentPapers.HasValue, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop())
             );
 
             mainCollider.AddHandlers(
                 new StopsWhenHitsPapers(SteppingOnTheFloor.Set, VerticalSpeed.Set)
-                ,new MoveBackWhenHittingWall()
+                , new MoveBackWhenHittingWall()
             );
 
             Colliders.Add(mainCollider);

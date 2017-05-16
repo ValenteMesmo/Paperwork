@@ -17,33 +17,33 @@ namespace PaperWork
         public readonly Property<PapersEntity> LeftNeighbor = new Property<PapersEntity>();
         private readonly Collider mainCollider;
 
-        public PapersEntity(int cellSize, Action<Entity> DestroyEntity) : base(DestroyEntity)
+        public PapersEntity(int cellSize, Action<Entity> SelfDestruct) : base(SelfDestruct)
         {
             Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
             {
                 Offset = new Coordinate2D(0, -cellSize)
             });
 
-            mainCollider = new Collider(this, cellSize, cellSize);
+            mainCollider = new Collider(this, cellSize-2, cellSize);
+            mainCollider.Position = new Coordinate2D(1,0);
             mainCollider.AddHandlers(
                 new StopsOnFixedPositionWhenColliding(VerticalSpeed.Set, HorizontalSpeed.Set));
             Colliders.Add(mainCollider);
 
-            AddUpdateHandlers(
-                new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                , new FrictionSpeedLoss(HorizontalSpeed.Set, HorizontalSpeed.Get)
+            AddUpdateHandlers(                
+                 new ComputeHorizontalCombosCombo(new HorizontalNeighborChecker().GetNeighborsCombo)
+                , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
-                , new ComputeHorizontalCombosCombo(new HorizontalNeighborChecker().GetNeighborsCombo)
             );
 
-            var rightTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
-            rightTrigger.Position = new Coordinate2D(cellSize + 5, +5);
+            var rightTrigger = new Trigger(this, cellSize - 20, cellSize - 40);
+            rightTrigger.Position = new Coordinate2D(cellSize - 15, +25);
             rightTrigger.AddHandlers(new SetTriggeredNeighbor(RightNeighbor.Set, RightNeighbor.SetDefaut));
             Colliders.Add(rightTrigger);
 
-            var leftTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
-            leftTrigger.Position = new Coordinate2D(-cellSize + 5, 5);
+            var leftTrigger = new Trigger(this, cellSize -20 , cellSize - 40);
+            leftTrigger.Position = new Coordinate2D(- 15, 25);
             leftTrigger.AddHandlers(new SetTriggeredNeighbor(LeftNeighbor.Set, LeftNeighbor.SetDefaut));
             Colliders.Add(leftTrigger);
         }
@@ -56,13 +56,13 @@ namespace PaperWork
         }
 
         //this should not be here
-        public void Drop(float speedX, float speedY)
+        public void Drop()
         {
             mainCollider.Disabled = false;
             Target.Set(null);
-            VerticalSpeed.Set(speedY);
-            HorizontalSpeed.Set(speedX);
-            var x = Position.X + 50;
+            VerticalSpeed.Set(0);
+            HorizontalSpeed.Set(0);
+            var x = RoundUp(Position.X + 50,50);
             if (x > 50 * 12)
                 x = 50 * 12;
             var y = Position.Y + 25;
@@ -70,6 +70,13 @@ namespace PaperWork
                 y = 50;
 
             Position = new Coordinate2D(x, y);
+        }
+
+
+        //this should not be here
+        private int RoundUp(float numToRound, int multiple)
+        {
+            return (int)Math.Round(numToRound / multiple) * multiple;
         }
     }
 }

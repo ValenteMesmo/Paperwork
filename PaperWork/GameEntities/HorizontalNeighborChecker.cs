@@ -22,7 +22,7 @@ namespace PaperWork
 
         private void AddRightNeighbors(PapersEntity paper, Action<PapersEntity> Add)
         {
-            if (paper.RightNeighbor.HasValue())
+            if (paper.RightNeighbor.HasValue() && paper.RightNeighbor.Get().VerticalSpeed.Get() == 0)
             {
                 Add(paper.RightNeighbor.Get());
                 AddRightNeighbors(paper.RightNeighbor.Get(), Add);
@@ -31,7 +31,7 @@ namespace PaperWork
 
         private void AddLeftNeighbors(PapersEntity paper, Action<PapersEntity> Add)
         {
-            if (paper.LeftNeighbor.HasValue())
+            if (paper.LeftNeighbor.HasValue() && paper.LeftNeighbor.Get().VerticalSpeed.Get() == 0)
             {
                 Add(paper.LeftNeighbor.Get());
                 AddLeftNeighbors(paper.LeftNeighbor.Get(), Add);

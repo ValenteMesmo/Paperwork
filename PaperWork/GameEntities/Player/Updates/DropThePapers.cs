@@ -34,8 +34,7 @@ namespace PaperWork.GameEntities.Collisions
                 && HoldingPapers()
                 && DropCooldownEnded())
             {
-                SetDropOnCooldown();
-                //TODO: set players horizontal and vertical speed on the paper?
+                SetDropOnCooldown();                
                 TellThePaperThatHeWasDropped();
                 ReleasePapers();
             }

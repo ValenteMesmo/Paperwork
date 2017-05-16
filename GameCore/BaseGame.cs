@@ -105,7 +105,7 @@ namespace GameCore
                             (int)collider.Position.Y,
                             (int)collider.Width,
                             (int)collider.Height),
-                        3, 
+                        3,
                         Color.Red);
             }
 
@@ -116,22 +116,10 @@ namespace GameCore
 
         private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
-            // Draw top line
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
-
-            // Draw left line
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
-
-            // Draw right line
-            spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
-                                            rectangleToDraw.Y,
-                                            thicknessOfBorder,
-                                            rectangleToDraw.Height), borderColor);
-            // Draw bottom line
-            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X,
-                                            rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
-                                            rectangleToDraw.Width,
-                                            thicknessOfBorder), borderColor);
+            spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder), rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder, rectangleToDraw.Width, thicknessOfBorder), borderColor);
         }
     }
 }
