@@ -1,27 +1,33 @@
 ﻿using GameCore;
 using GameCore.Collision;
 using PaperWork.GameEntities.Collisions;
+using PaperWork.GameEntities.Papers;
+using PaperWork.PlayerHandlers.Updates;
 
 namespace PaperWork
 {
     public class PapersEntity : Entity
     {
         public readonly Property<Entity> Target = new Property<Entity>();
+        public readonly Property<float> VerticalSpeed = new Property<float>();
+        public readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly GameCollider mainCollider;
-        GridPositions Grid;
 
-        public PapersEntity(GridPositions Grid)
+        public PapersEntity(int cellSize)
         {
-            this.Grid = Grid;
-            Textures.Add(new EntityTexture("papers", Grid.cellSize, Grid.cellSize * 2)
+            Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
             {
-                Offset = new Coordinate2D(0, -Grid.cellSize)
+                Offset = new Coordinate2D(0, -cellSize)
             });
 
-            mainCollider = new GameCollider(this, Grid.cellSize, Grid.cellSize);
+            mainCollider = new GameCollider(this, cellSize, cellSize);
+            mainCollider.AddHandlers(
+                new StopsOnFixedPositionWhenColliding(VerticalSpeed.Set));
 
-            UpdateHandlers.Add(new FollowOtherEntity(new Coordinate2D(0, -mainCollider.Height), Target.Get));
-            //UpdateHandlers.Add(new FallDownWhenPossibel(Target.IsNotNull, () => Grid.cellSize, Grid.PositionAvailable));
+            AddHandlers(
+                new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
+                , new FollowOtherEntity(new Coordinate2D(0, -mainCollider.Height), Target.Get)
+                , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get));
 
             Colliders.Add(mainCollider);
         }
@@ -30,7 +36,6 @@ namespace PaperWork
         {
             mainCollider.Disabled = true;
             Target.Set(grabbedBy);
-            Grid.Pop(this.Position);
         }
 
         public void Drop()
@@ -38,7 +43,6 @@ namespace PaperWork
             mainCollider.Disabled = false;
             Target.Set(null);
             Position = new Coordinate2D(Position.X + 50, Position.Y + 50);
-            Grid.Push(this);
         }
     }
 }

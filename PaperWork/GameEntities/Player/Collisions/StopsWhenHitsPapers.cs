@@ -11,38 +11,37 @@ namespace PaperWork.PlayerHandlers.Collisions
         private Action<float> SetVerticalSpeed;
 
         public StopsWhenHitsPapers(
-            GameCollider Parent,
             Action<bool> SetJumpEnable,
-            Action<float> SetVerticalSpeed) : base(Parent)
+            Action<float> SetVerticalSpeed) 
         {
             this.SetJumpEnable = SetJumpEnable;
             this.SetVerticalSpeed = SetVerticalSpeed;
         }
 
-        public override void CollisionFromBelow(GameCollider papers)
+        public override void CollisionFromBelow(GameCollider collider, GameCollider papers)
         {
             if (papers.ParentEntity is PapersEntity || papers.ParentEntity is SolidBlock)
             {
                 SetVerticalSpeed(0);
 
-                ParentEntity.Position =
+                collider.ParentEntity.Position =
                     new Coordinate2D(
-                        ParentEntity.Position.X,
-                        papers.Position.Y - ParentCollider.Height -1);
+                        collider.ParentEntity.Position.X,
+                        papers.Position.Y - collider.Height -1);
 
                 SetJumpEnable(true);
             }
         }
 
-        public override void CollisionFromAbove(GameCollider papers)
+        public override void CollisionFromAbove(GameCollider collider, GameCollider papers)
         {
             if (papers.ParentEntity is PapersEntity || papers.ParentEntity is SolidBlock)
             {
                 SetVerticalSpeed(0);
 
-                ParentEntity.Position =
+                collider.ParentEntity.Position =
                     new Coordinate2D(
-                        ParentEntity.Position.X,
+                        collider.ParentEntity.Position.X,
                         papers.Position.Y + papers.Height + 1);
             }
         }

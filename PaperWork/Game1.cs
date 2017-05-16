@@ -11,23 +11,19 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var grid = new GridPositions(13, 6, 50);
-
-            AddEntity(grid);
-
-            AddEntity(new PlayerEntity(PlayerInputs, grid)
+            AddEntity(new PlayerEntity(PlayerInputs)
             {
                 Position = new Coordinate2D(100, 100)
             });
 
-            var paper1 = new PapersEntity(grid)
+            var paper1 = new PapersEntity(50)
             {
                 Position = new Coordinate2D(
                     rowNumber * 50 - 50,
                     colNumber * 50 - 100)
             };
 
-            var paper2 = new PapersEntity(grid)
+            var paper2 = new PapersEntity(50)
             {
                 Position = new Coordinate2D(
                    rowNumber * 50 - 100,
@@ -35,8 +31,6 @@ namespace PaperWork
             };
             AddEntity(paper1);
             AddEntity(paper2);
-            grid.Push(paper1);
-            grid.Push(paper2);
             CreateBlocks(rowNumber, colNumber);
         }
 

@@ -67,10 +67,7 @@ namespace GameCore
         {
             foreach (var entity in Entities)
             {
-                foreach (var update in entity.UpdateHandlers)
-                {
-                    update.Update(entity);
-                }
+                entity.Update();
             }
 
             CollisionDetector.DetectCollisions(Entities);

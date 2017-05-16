@@ -11,7 +11,6 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Action SetDropOnCooldown;
         private readonly Func<bool> DropCooldownEnded;
         private readonly Action TellThePaperThatHeWasDropped;
-        private readonly Func<Coordinate2D, bool> PlaceToDropIsEmpty;
 
         public DropThePapers(
             Func<bool> HoldingPapers,
@@ -19,8 +18,7 @@ namespace PaperWork.GameEntities.Collisions
             Func<bool> DropCooldownEnded,
             Action SetDropOnCooldown,
             Action ReleasePapers,
-            Action TellThePaperThatHeWasDropped,
-            Func<Coordinate2D, bool> PlaceToDropIsEmpty)
+            Action TellThePaperThatHeWasDropped)
         {
             this.HoldingPapers = HoldingPapers;
             this.DropButtonPressed = DropButtonPressed;
@@ -28,15 +26,13 @@ namespace PaperWork.GameEntities.Collisions
             this.SetDropOnCooldown = SetDropOnCooldown;
             this.ReleasePapers = ReleasePapers;
             this.TellThePaperThatHeWasDropped = TellThePaperThatHeWasDropped;
-            this.PlaceToDropIsEmpty = PlaceToDropIsEmpty;
         }
 
         public void Update(Entity entity)
         {
-            if (DropButtonPressed()
-                && HoldingPapers()
-                && DropCooldownEnded()
-                && PlaceToDropIsEmpty(new Coordinate2D(entity.Position.X + 50, entity.Position.Y + 50)))
+            if (DropButtonPressed())
+                if(HoldingPapers())
+                if(DropCooldownEnded())
             {
                 SetDropOnCooldown();
                 TellThePaperThatHeWasDropped();

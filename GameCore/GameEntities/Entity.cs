@@ -11,7 +11,7 @@ namespace GameCore
         public Coordinate2D RenderPosition { get; set; }
         public IList<EntityTexture> Textures { get; }
         public IList<GameCollider> Colliders { get; }
-        public IList<IHandleEntityUpdates> UpdateHandlers { get; }
+        private readonly IList<IHandleEntityUpdates> UpdateHandlers;
 
         public Entity()
         {
@@ -21,7 +21,23 @@ namespace GameCore
             UpdateHandlers = new List<IHandleEntityUpdates>();
         }
 
-        public T As<T>() where T: Entity
+        public void AddHandlers(params IHandleEntityUpdates[] handlers)
+        {
+            foreach (var item in handlers)
+            {
+                UpdateHandlers.Add(item);
+            }
+        }
+
+        public void Update()
+        {
+            foreach (var item in UpdateHandlers)
+            {
+                item.Update(this);
+            }
+        }
+
+        public T As<T>() where T : Entity
         {
             return (T)this;
         }

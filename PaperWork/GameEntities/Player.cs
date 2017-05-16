@@ -1,45 +1,55 @@
-﻿using System;
-using GameCore;
+﻿using GameCore;
 using GameCore.Collision;
 using PaperWork.GameEntities.Collisions;
-using PaperWork.GameEntities.Player.Updates;
+using PaperWork.GameEntities.Player.Collisions;
 using PaperWork.PlayerHandlers.Collisions;
 using PaperWork.PlayerHandlers.Updates;
+using System;
 
 namespace PaperWork
 {
     public class PlayerEntity : Entity
     {
-        GridPositions Grid;
         private readonly Property<PapersEntity> currentPapers = new Property<PapersEntity>();
-        //private readonly Property<float> HorizontalSpeed = new Property<float>();
-        //private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Property<bool> SteppingOnTheFloor = new Property<bool>();
+        private readonly Property<float> HorizontalSpeed = new Property<float>();
+        private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Cooldown DragAndDropCooldown = new Cooldown(500);
 
-        public PlayerEntity(InputRepository PlayerInputs, GridPositions Grid)
+        public PlayerEntity(InputRepository PlayerInputs)
         {
-            this.Grid = Grid;
+            var width = 20;
+            var height = 100;
 
-            var mainCollider = new GameCollider(this, 20, 100);
-            Func<float> GetHorizontalSpeed = () => mainCollider.Speed.X;
-            Func<float> GetVerticalSpeed = () => mainCollider.Speed.Y;
-            Action<float> SetHorizontalSpeed = f => mainCollider.Speed = new Coordinate2D(f, mainCollider.Speed.Y);
-            Action<float> SetVerticalSpeed = f => mainCollider.Speed = new Coordinate2D(mainCollider.Speed.X, f);
+            var mainCollider = new GameCollider(this, width, height);
 
-            Textures.Add(new EntityTexture("char", 50, 100) { Offset = new Coordinate2D(-15, 0) });
+            var rightGrab = new GameCollider(this, 30, 20);
+            rightGrab.Position = new Coordinate2D(20, 50);
+            rightGrab.AddHandlers(
+                new GrabPapersOnCollision(PlayerInputs.Grab.Get, currentPapers.IsNull, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.Set)
+            );
 
-            UpdateHandlers.Add(new SpeedUpHorizontallyOnInput(SetHorizontalSpeed, PlayerInputs.Left.Get, PlayerInputs.Right.Get));
-            UpdateHandlers.Add(new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, SetVerticalSpeed, PlayerInputs.Jump.Get));
-            UpdateHandlers.Add(new GravityIncreasesVerticalSpeed(GetVerticalSpeed, SetVerticalSpeed));
-            UpdateHandlers.Add(new UsesSpeedToMove(GetHorizontalSpeed, GetVerticalSpeed));
-            UpdateHandlers.Add(new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, GetVerticalSpeed));
-            UpdateHandlers.Add(new GrabsObjectThatPlayerIsFacing(PlayerInputs.Grab.Get, currentPapers.IsNull, currentPapers.Set, DragAndDropCooldown.CooldownEnded, Grid.Pop, DragAndDropCooldown.TriggerCooldown));
-            UpdateHandlers.Add(new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(), Grid.PositionAvailable));
+            Textures.Add(new EntityTexture("char", 50, 100)
+            {
+                Offset = new Coordinate2D(-15, 0)
+            });
 
-            mainCollider.CollisionHandlers.Add(new StopsWhenHitsPapers(mainCollider, SteppingOnTheFloor.Set, SetVerticalSpeed));
-            mainCollider.CollisionHandlers.Add(new MoveBackWhenHittingWall(mainCollider));
+            AddHandlers(
+                new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, PlayerInputs.Left.Get, PlayerInputs.Right.Get)
+                ,new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, PlayerInputs.Jump.Get)
+                ,new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
+                ,new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
+                ,new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
+                ,new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop())
+            );
+
+            mainCollider.AddHandlers(
+                new StopsWhenHitsPapers(SteppingOnTheFloor.Set, VerticalSpeed.Set)
+                ,new MoveBackWhenHittingWall()
+            );
+
             Colliders.Add(mainCollider);
+            Colliders.Add(rightGrab);
         }
     }
 }

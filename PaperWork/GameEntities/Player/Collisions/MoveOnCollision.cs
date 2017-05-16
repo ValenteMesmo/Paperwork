@@ -5,31 +5,27 @@ namespace PaperWork.GameEntities.Collisions
 {
     public class MoveBackWhenHittingWall : CollisionHandler
     {
-        public MoveBackWhenHittingWall(GameCollider Box) : base(Box)
-        {
-        }
-
-        public override void CollisionFromTheLeft(GameCollider other)
+        public override void CollisionFromTheLeft(GameCollider collider, GameCollider other)
         {
             if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
                 newPosition.X = other.Position.X + other.Width + 1;
-                newPosition.Y = ParentEntity.Position.Y;
+                newPosition.Y = collider.ParentEntity.Position.Y;
 
-                ParentEntity.Position = newPosition;
+                collider.ParentEntity.Position = newPosition;
             }
         }
 
-        public override void CollisionFromTheRight(GameCollider other)
+        public override void CollisionFromTheRight(GameCollider collider, GameCollider other)
         {
             if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
-                newPosition.X = other.Position.X - ParentEntity.Colliders[0].Width -1;
-                newPosition.Y = ParentEntity.Position.Y;
+                newPosition.X = other.Position.X - collider.ParentEntity.Colliders[0].Width -1;
+                newPosition.Y = collider.ParentEntity.Position.Y;
 
-                ParentEntity.Position = newPosition;
+                collider.ParentEntity.Position = newPosition;
             }
         }
     }
