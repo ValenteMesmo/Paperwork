@@ -14,7 +14,7 @@
             Value = default(T);
         }
 
-        public bool IsNotNull()
+        public bool HasValue()
         {
             return Value != null;
         }

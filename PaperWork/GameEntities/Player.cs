@@ -39,7 +39,7 @@ namespace PaperWork
                 ,new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 ,new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 ,new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                ,new DropThePapers(currentPapers.IsNotNull, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(HorizontalSpeed.Get(),VerticalSpeed.Get()))
+                ,new DropThePapers(currentPapers.HasValue, PlayerInputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, () => currentPapers.Get().Drop(HorizontalSpeed.Get(),VerticalSpeed.Get()))
             );
 
             mainCollider.AddHandlers(

@@ -1,18 +1,21 @@
-﻿using System;
-using GameCore;
+﻿using GameCore;
 using GameCore.Collision;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
 using PaperWork.PlayerHandlers.Updates;
+using System.Collections;
 using System.Diagnostics;
+using System.Linq;
 
 namespace PaperWork
 {
-    public class PapersEntity : Entity
+    public partial class PapersEntity : Entity
     {
         public readonly Property<Entity> Target = new Property<Entity>();
         public readonly Property<float> VerticalSpeed = new Property<float>();
         public readonly Property<float> HorizontalSpeed = new Property<float>();
+        public readonly Property<PapersEntity> RightNeighbor = new Property<PapersEntity>();
+        public readonly Property<PapersEntity> LeftNeighbor = new Property<PapersEntity>();
         private readonly Collider mainCollider;
 
         public PapersEntity(int cellSize)
@@ -33,25 +36,36 @@ namespace PaperWork
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
             );
+            var HorizontalNeighborChecker = new HorizontalNeighborChecker();
 
             var rightTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
-            rightTrigger.Position = new Coordinate2D(cellSize, -10);
-            rightTrigger.AddHandlers(new MyClass());
+            rightTrigger.Position = new Coordinate2D(cellSize + 5, +5);
+
+            rightTrigger.AddHandlers(new MyClass(RightNeighbor.Set, RightNeighbor.SetDefaut, () =>
+            {
+                var combo = HorizontalNeighborChecker.GetNeighborsCombo(this);
+                if (combo.Any())
+                {
+                    Debug.WriteLine($"{combo.Count()} FROM THE RIGHT!");
+                }
+            }));
 
             Colliders.Add(rightTrigger);
-        }
 
-        class MyClass : IHandleTriggers
-        {
-            public void TriggerEnter(BaseCollider triggerCollider, BaseCollider other)
-            {
-                Debug.WriteLine("Enter " + DateTime.Now.ToString("HH:mm:ss.fff"));
-            }
 
-            public void TriggerExit(BaseCollider triggerCollider, BaseCollider other)
+            var leftTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
+            leftTrigger.Position = new Coordinate2D(-cellSize + 5, 5);
+
+            leftTrigger.AddHandlers(new MyClass(LeftNeighbor.Set, LeftNeighbor.SetDefaut, () =>
             {
-                Debug.WriteLine("Exit " + DateTime.Now.ToString("HH:mm:ss.fff"));
-            }
+                var combo = HorizontalNeighborChecker.GetNeighborsCombo(this);
+                if (combo.Any())
+                {
+                    Debug.WriteLine($"{combo.Count()} FROM THE LEFT!");
+                }
+            }));
+
+            Colliders.Add(leftTrigger);
         }
 
         //this should not be here

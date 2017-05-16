@@ -50,34 +50,38 @@ namespace GameCore.Collision
 
         internal override void CollisionFromBelow(BaseCollider other)
         {
-            if (CurrentUpdateCollisions.Contains(other) == false)
-            {
-                CurrentUpdateCollisions.Add(other);
-            }
+            if (other is Collider)
+                if (CurrentUpdateCollisions.Contains(other) == false)
+                {
+                    CurrentUpdateCollisions.Add(other);
+                }
         }
 
         internal override void CollisionFromAbove(BaseCollider other)
         {
-            if (CurrentUpdateCollisions.Contains(other) == false)
-            {
-                CurrentUpdateCollisions.Add(other);
-            }
+            if (other is Collider)
+                if (CurrentUpdateCollisions.Contains(other) == false)
+                {
+                    CurrentUpdateCollisions.Add(other);
+                }
         }
 
         internal override void CollisionFromTheLeft(BaseCollider other)
         {
-            if (CurrentUpdateCollisions.Contains(other) == false)
-            {
-                CurrentUpdateCollisions.Add(other);
-            }
+            if (other is Collider)
+                if (CurrentUpdateCollisions.Contains(other) == false)
+                {
+                    CurrentUpdateCollisions.Add(other);
+                }
         }
 
         internal override void CollisionFromTheRight(BaseCollider other)
         {
-            if (CurrentUpdateCollisions.Contains(other) == false)
-            {
-                CurrentUpdateCollisions.Add(other);
-            }
+            if (other is Collider)
+                if (CurrentUpdateCollisions.Contains(other) == false)
+                {
+                    CurrentUpdateCollisions.Add(other);
+                }
         }
 
         public void AddHandlers(params IHandleTriggers[] handlers)
