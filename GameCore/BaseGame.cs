@@ -36,6 +36,7 @@ namespace GameCore
             gameRunner.Entities.Add(Entity);
         }
 
+        private Texture2D pixel;
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -45,6 +46,9 @@ namespace GameCore
             {
                 Textures.Add(name, Content.Load<Texture2D>(name));
             }
+
+            pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            pixel.SetData(new[] { Color.White });
 
             gameRunner.Start();
         }
@@ -89,11 +93,44 @@ namespace GameCore
                                 texture.Height),
                             Color.White);
                 }
+
+
+            }
+
+            foreach (var collider in gameRunner.Entities.ToList().SelectMany(f => f.Colliders))
+            {
+                DrawBorder(
+                        new Rectangle(
+                            (int)(collider.Position.X),
+                            (int)(collider.Position.Y),
+                            (int)collider.Width,
+                            (int)collider.Height),
+                        3, Color.Red);
             }
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
+        {
+            // Draw top line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
+
+            // Draw left line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
+
+            // Draw right line
+            spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
+                                            rectangleToDraw.Y,
+                                            thicknessOfBorder,
+                                            rectangleToDraw.Height), borderColor);
+            // Draw bottom line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X,
+                                            rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
+                                            rectangleToDraw.Width,
+                                            thicknessOfBorder), borderColor);
         }
     }
 }
