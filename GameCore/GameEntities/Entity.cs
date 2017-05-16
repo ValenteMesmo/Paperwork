@@ -6,7 +6,7 @@ namespace GameCore
 {
     public class Entity
     {
-        public string Id { get; protected set; }
+        public string Id { get; }
         public Coordinate2D Position { get; set; }
         public Coordinate2D RenderPosition { get; set; }
         public IList<EntityTexture> Textures { get; }
@@ -15,7 +15,7 @@ namespace GameCore
 
         public Entity()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = $"{GetType().Name} {Guid.NewGuid().ToString()}";
             Textures = new List<EntityTexture>();
             Colliders = new List<BaseCollider>();
             UpdateHandlers = new List<IHandleEntityUpdates>();
@@ -47,12 +47,17 @@ namespace GameCore
             return (T)this;
         }
 
-        internal void AfterUpdate()
+        internal void AfterCollisions()
         {
             foreach (var item in Colliders)
             {
-                item.AfterUpdate();
+                item.AfterCollisions();
             }
+        }
+
+        public override string ToString()
+        {
+            return Id;
         }
     }
 }

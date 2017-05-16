@@ -1,8 +1,10 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 using GameCore.Collision;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
 using PaperWork.PlayerHandlers.Updates;
+using System.Diagnostics;
 
 namespace PaperWork
 {
@@ -23,15 +25,33 @@ namespace PaperWork
             mainCollider = new Collider(this, cellSize, cellSize);
             mainCollider.AddHandlers(
                 new StopsOnFixedPositionWhenColliding(VerticalSpeed.Set, HorizontalSpeed.Set));
+            Colliders.Add(mainCollider);
 
             AddUpdateHandlers(
                 new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                , new FrictionSpeedLoss(HorizontalSpeed.Set,HorizontalSpeed.Get)
+                , new FrictionSpeedLoss(HorizontalSpeed.Set, HorizontalSpeed.Get)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
             );
 
-            Colliders.Add(mainCollider);
+            var rightTrigger = new Trigger(this, cellSize - 10, cellSize - 10);
+            rightTrigger.Position = new Coordinate2D(cellSize, -10);
+            rightTrigger.AddHandlers(new MyClass());
+
+            Colliders.Add(rightTrigger);
+        }
+
+        class MyClass : IHandleTriggers
+        {
+            public void TriggerEnter(BaseCollider triggerCollider, BaseCollider other)
+            {
+                Debug.WriteLine("Enter " + DateTime.Now.ToString("HH:mm:ss.fff"));
+            }
+
+            public void TriggerExit(BaseCollider triggerCollider, BaseCollider other)
+            {
+                Debug.WriteLine("Exit " + DateTime.Now.ToString("HH:mm:ss.fff"));
+            }
         }
 
         //this should not be here
@@ -54,7 +74,7 @@ namespace PaperWork
             var y = Position.Y + 25;
             if (y < 50)
                 y = 50;
-            
+
             Position = new Coordinate2D(x, y);
         }
     }

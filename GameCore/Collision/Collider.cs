@@ -13,34 +13,38 @@ namespace GameCore.Collision
 
         internal override void CollisionFromBelow(BaseCollider other)
         {
-            foreach (var item in CollisionHandlers)
-            {
-                item.CollisionFromBelow(this, other);
-            }
+            if (other is Collider)
+                foreach (var item in CollisionHandlers)
+                {
+                    item.CollisionFromBelow(this, other);
+                }
         }
 
         internal override void CollisionFromAbove(BaseCollider other)
         {
-            foreach (var item in CollisionHandlers)
-            {
-                item.CollisionFromAbove(this, other);
-            }
+            if (other is Collider)
+                foreach (var item in CollisionHandlers)
+                {
+                    item.CollisionFromAbove(this, other);
+                }
         }
 
         internal override void CollisionFromTheLeft(BaseCollider other)
         {
-            foreach (var item in CollisionHandlers)
-            {
-                item.CollisionFromTheLeft(this, other);
-            }
+            if (other is Collider)
+                foreach (var item in CollisionHandlers)
+                {
+                    item.CollisionFromTheLeft(this, other);
+                }
         }
 
         internal override void CollisionFromTheRight(BaseCollider other)
         {
-            foreach (var item in CollisionHandlers)
-            {
-                item.CollisionFromTheRight(this, other);
-            }
+            if (other is Collider)
+                foreach (var item in CollisionHandlers)
+                {
+                    item.CollisionFromTheRight(this, other);
+                }
         }
 
         public void AddHandlers(params IHandleCollision[] handlers)

@@ -44,7 +44,7 @@ namespace GameCore.Collision
 
         internal virtual void Update() { }
 
-        internal virtual void AfterUpdate() { }
+        internal virtual void AfterCollisions() { }
 
         internal abstract void CollisionFromBelow(BaseCollider other);
 
@@ -53,5 +53,10 @@ namespace GameCore.Collision
         internal abstract void CollisionFromTheLeft(BaseCollider other);
 
         internal abstract void CollisionFromTheRight(BaseCollider other);
+
+        public override string ToString()
+        {
+            return $"{ParentEntity}'s Collider";
+        }
     }
 }

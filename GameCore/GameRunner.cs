@@ -71,14 +71,15 @@ namespace GameCore
             }
 
             CollisionDetector.DetectCollisions(Entities);
+
+            foreach (var entity in Entities)
+                entity.AfterCollisions();
         }
 
         public void AfterUpdate(float timeSinceLastUpdate)
         {
             foreach (var entity in Entities)
             {
-                entity.AfterUpdate();
-
                 if (PreviousPositions.ContainsKey(entity.Id))
                 {
                     var newPosition = Lerp(

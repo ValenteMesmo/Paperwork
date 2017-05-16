@@ -23,7 +23,7 @@ namespace GameCore.Collision
             CurrentUpdateCollisions.Clear();
         }
 
-        internal override void AfterUpdate()
+        internal override void AfterCollisions()
         {
             foreach (var collider in CurrentUpdateCollisions)
             {
@@ -34,12 +34,13 @@ namespace GameCore.Collision
                 {
                     handler.TriggerEnter(this, collider);
                 }
-
-                PreviousUpdateCollisions.Remove(collider);
             }
 
             foreach (var collider in PreviousUpdateCollisions)
             {
+                if (CurrentUpdateCollisions.Contains(collider))
+                    continue;
+
                 foreach (var handler in TriggerHandlers)
                 {
                     handler.TriggerExit(this, collider);
