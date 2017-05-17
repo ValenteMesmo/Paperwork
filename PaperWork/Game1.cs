@@ -48,6 +48,8 @@ namespace PaperWork
             AddEntity(paper2);
 
             CreateBlocks(rowNumber, colNumber);
+
+            AddEntity(new PapersFactory(RemoveEntity, AddEntity) { Position = new Coordinate2D(100,100)});
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)

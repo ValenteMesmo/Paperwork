@@ -63,6 +63,7 @@
     <Compile Include="GameEntities\Player\Updates\SpeedUpHorizontallyOnInput.cs" />
     <Compile Include="GameEntities\Player\Updates\GravityFall.cs" />
     <Compile Include="GameEntities\Player\Updates\UsesSpeedToMove.cs" />
+    <Compile Include="PapersFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
