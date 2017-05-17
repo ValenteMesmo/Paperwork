@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 using PaperWork.GameEntities.Collisions;
 using System;
 
@@ -20,6 +21,8 @@ namespace PaperWork
         private readonly Action<Entity> RemoveFromWorld;
         Cooldown cooldown = new Cooldown(2000);
         private readonly Action<Entity> AddToWorld;
+        Color[] Colors = new Color[] { Color.Red, Color.Green, Color.Blue };
+        Random Random = new Random();
 
         public GeneratePapers(
             Action<Entity> RemoveFromWorld
@@ -33,7 +36,10 @@ namespace PaperWork
         {
             if (cooldown.CooldownEnded())
             {
-                AddToWorld(new PapersEntity(50, RemoveFromWorld) { Position = entity.Position });
+                var paper = new PapersEntity(50, RemoveFromWorld) { Position = entity.Position };
+                paper.Color = Colors[Random.Next(0, Colors.Length )];
+
+                AddToWorld(paper);
                 cooldown.TriggerCooldown();
             }
         }

@@ -22,7 +22,9 @@ namespace PaperWork
 
         private void AddRightNeighbors(PapersEntity paper, Action<PapersEntity> Add)
         {
-            if (paper.RightNeighbor.HasValue() && paper.RightNeighbor.Get().VerticalSpeed.Get() == 0)
+            if (paper.RightNeighbor.HasValue()
+                && paper.RightNeighbor.Get().VerticalSpeed.Get() == 0
+                && paper.RightNeighbor.Get().Color == paper.Color)
             {
                 Add(paper.RightNeighbor.Get());
                 AddRightNeighbors(paper.RightNeighbor.Get(), Add);
@@ -31,7 +33,9 @@ namespace PaperWork
 
         private void AddLeftNeighbors(PapersEntity paper, Action<PapersEntity> Add)
         {
-            if (paper.LeftNeighbor.HasValue() && paper.LeftNeighbor.Get().VerticalSpeed.Get() == 0)
+            if (paper.LeftNeighbor.HasValue()
+                && paper.LeftNeighbor.Get().VerticalSpeed.Get() == 0
+                && paper.LeftNeighbor.Get().Color == paper.Color)
             {
                 Add(paper.LeftNeighbor.Get());
                 AddLeftNeighbors(paper.LeftNeighbor.Get(), Add);
@@ -56,7 +60,9 @@ namespace PaperWork
 
         private void AddTopNeighbors(PapersEntity paper, Action<PapersEntity> Add)
         {
-            if (paper.TopNeighbor.HasValue() && paper.TopNeighbor.Get().VerticalSpeed.Get() == 0)
+            if (paper.TopNeighbor.HasValue()
+                && paper.TopNeighbor.Get().VerticalSpeed.Get() == 0
+                && paper.TopNeighbor.Get().Color == paper.Color)
             {
                 Add(paper.TopNeighbor.Get());
                 AddTopNeighbors(paper.TopNeighbor.Get(), Add);
@@ -65,7 +71,9 @@ namespace PaperWork
 
         private void AddBotNeighbors(PapersEntity paper, Action<PapersEntity> Add)
         {
-            if (paper.BotNeighbor.HasValue() && paper.BotNeighbor.Get().VerticalSpeed.Get() == 0)
+            if (paper.BotNeighbor.HasValue()
+                && paper.BotNeighbor.Get().VerticalSpeed.Get() == 0
+                && paper.BotNeighbor.Get().Color == paper.Color)
             {
                 Add(paper.BotNeighbor.Get());
                 AddBotNeighbors(paper.BotNeighbor.Get(), Add);

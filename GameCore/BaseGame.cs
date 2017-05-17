@@ -93,7 +93,7 @@ namespace GameCore
                                 (int)(item.RenderPosition.Y + texture.Offset.Y),
                                 texture.Width,
                                 texture.Height),
-                            Color.White);
+                            texture.Color);
                 }
             }
 

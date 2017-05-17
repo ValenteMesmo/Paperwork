@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using GameCore.Collision;
+using Microsoft.Xna.Framework;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
 using PaperWork.GameEntities.Papers.Updates;
@@ -17,6 +18,19 @@ namespace PaperWork
         public readonly Property<PapersEntity> LeftNeighbor = new Property<PapersEntity>();
         public readonly Property<PapersEntity> TopNeighbor = new Property<PapersEntity>();
         public readonly Property<PapersEntity> BotNeighbor = new Property<PapersEntity>();
+        private Color _color;
+        public Color Color
+        {
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                Textures[0].Color = value;
+            }
+        }
 
         private readonly Collider mainCollider;
 
