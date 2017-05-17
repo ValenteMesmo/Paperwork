@@ -38,10 +38,10 @@ namespace GameCore.Collision
             var topPoint_a = a.Position.Y + a.Height;
             var topPoint_b = b.Position.Y + b.Height;
 
-            if (rightPoint_a <= b.Position.X
-            || rightPoint_b <= a.Position.X
-            || topPoint_a <= b.Position.Y
-            || topPoint_b <= a.Position.Y)
+            if (rightPoint_a < b.Position.X
+            || rightPoint_b < a.Position.X
+            || topPoint_a < b.Position.Y
+            || topPoint_b < a.Position.Y)
                 return;
             else
             {

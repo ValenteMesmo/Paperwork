@@ -81,7 +81,8 @@ namespace GameCore
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            foreach (var item in gameRunner.Entities.ToList())
+            var currentEntities = gameRunner.Entities.ToList();
+            foreach (var item in currentEntities)
             {
                 foreach (var texture in item.Textures)
                 {
@@ -97,7 +98,7 @@ namespace GameCore
                 }
             }
 
-            foreach (var collider in gameRunner.Entities.ToList().SelectMany(f => f.Colliders))
+            foreach (var collider in currentEntities.SelectMany(f => f.Colliders))
             {
                 DrawBorder(
                         new Rectangle(

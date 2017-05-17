@@ -4,12 +4,12 @@ using System;
 
 namespace PaperWork.GameEntities.Papers
 {
-    public class StopsOnFixedPositionWhenColliding : IHandleCollision
+    public class ZeroVerticalSpeedWhenCollidingVertically : IHandleCollision
     {
         private readonly Action<float> SetVerticalSpeed;
         private readonly Action<float> SetHorizontalSpeed;
 
-        public StopsOnFixedPositionWhenColliding(
+        public ZeroVerticalSpeedWhenCollidingVertically(
             Action<float> SetVerticalSpeed
             , Action<float> SetHorizontalSpeed)
         {
@@ -23,16 +23,14 @@ namespace PaperWork.GameEntities.Papers
                 || other.ParentEntity is PapersEntity)
             {
                 SetVerticalSpeed(0);
-                SetHorizontalSpeed(0);
 
-                var x = RoundUp(collider.ParentEntity.Position.X, 50);
-                if (x > 50 * 12)
-                    x = 50 * 12;
                 var y = RoundUp(other.Position.Y - other.Height - 1, 50);
                 if (y < 50)
                     y = 50;
 
-                collider.ParentEntity.Position = new Coordinate2D(x, y);
+                collider.ParentEntity.Position = new Coordinate2D(
+                    collider.ParentEntity.Position.X,
+                    y);
             }
         }
 
@@ -41,16 +39,14 @@ namespace PaperWork.GameEntities.Papers
             if (other.ParentEntity is SolidBlock)
             {
                 SetVerticalSpeed(0);
-                SetHorizontalSpeed(0);
 
-                var x = other.ParentEntity.Position.X;
-                if (x > 50 * 12)
-                    x = 50 * 12;
                 var y = RoundUp(other.Position.Y + collider.Height + 1, 50);
                 if (y < 50)
                     y = 50;
 
-                collider.ParentEntity.Position = new Coordinate2D(x, y);
+                collider.ParentEntity.Position = new Coordinate2D(
+                    collider.ParentEntity.Position.X,
+                    y);
             }
         }
 

@@ -12,6 +12,7 @@ namespace PaperWork
     {
         private readonly Property<PapersEntity> currentPapers = new Property<PapersEntity>();
         private readonly Property<bool> SteppingOnTheFloor = new Property<bool>();
+        private readonly Property<bool> FacingRightDirection = new Property<bool>();
         private readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Cooldown DragAndDropCooldown = new Cooldown(200);

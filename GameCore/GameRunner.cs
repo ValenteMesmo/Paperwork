@@ -65,6 +65,8 @@ namespace GameCore
 
         private void OnUpdate()
         {
+            //http://stackoverflow.com/questions/9995266/how-to-create-a-thread-safe-generic-list
+            //http://stackoverflow.com/questions/6807310/how-to-write-a-class-that-like-array-can-be-indexed-with-arrkey
             foreach (var entity in Entities.ToList())
             {
                 entity.Update();
@@ -80,16 +82,16 @@ namespace GameCore
         {
             foreach (var entity in Entities)
             {
-                if (PreviousPositions.ContainsKey(entity.Id))
-                {
-                    var newPosition = Lerp(
-                        entity.Position,
-                        PreviousPositions[entity.Id],
-                        timeSinceLastUpdate);
+                //if (PreviousPositions.ContainsKey(entity.Id))
+                //{
+                //    var newPosition = Lerp(
+                //        entity.Position,
+                //        PreviousPositions[entity.Id],
+                //        timeSinceLastUpdate);
 
-                    entity.RenderPosition = newPosition;
-                }
-                else
+                //    entity.RenderPosition = newPosition;
+                //}
+                //else
                     entity.RenderPosition = entity.Position;
             }
         }

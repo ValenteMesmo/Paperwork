@@ -44,7 +44,7 @@ namespace PaperWork
             mainCollider = new Collider(this, cellSize - 2, cellSize);
             mainCollider.Position = new Coordinate2D(1, 0);
             mainCollider.AddHandlers(
-                new StopsOnFixedPositionWhenColliding(VerticalSpeed.Set, HorizontalSpeed.Set));
+                new ZeroVerticalSpeedWhenCollidingVertically(VerticalSpeed.Set, HorizontalSpeed.Set));
             Colliders.Add(mainCollider);
 
             AddUpdateHandlers(
@@ -55,23 +55,23 @@ namespace PaperWork
                 , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
             );
 
-            var rightTrigger = new Trigger(this, cellSize - 20, cellSize - 40);
-            rightTrigger.Position = new Coordinate2D(cellSize - 15, +25);
+            var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
+            rightTrigger.Position = new Coordinate2D(cellSize + 10, +25);
             rightTrigger.AddHandlers(new SetTriggeredNeighbor(RightNeighbor.Set, RightNeighbor.SetDefaut));
             Colliders.Add(rightTrigger);
 
-            var leftTrigger = new Trigger(this, cellSize - 20, cellSize - 40);
-            leftTrigger.Position = new Coordinate2D(-15, 25);
+            var leftTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
+            leftTrigger.Position = new Coordinate2D(-25, 25);
             leftTrigger.AddHandlers(new SetTriggeredNeighbor(LeftNeighbor.Set, LeftNeighbor.SetDefaut));
             Colliders.Add(leftTrigger);
 
-            var topTrigger = new Trigger(this, cellSize - 40, cellSize - 20);
-            topTrigger.Position = new Coordinate2D(20, -10);
+            var topTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
+            topTrigger.Position = new Coordinate2D(20, -25);
             topTrigger.AddHandlers(new SetTriggeredNeighbor(TopNeighbor.Set, TopNeighbor.SetDefaut));
             Colliders.Add(topTrigger);
 
-            var botTrigger = new Trigger(this, cellSize - 40, cellSize - 20);
-            botTrigger.Position = new Coordinate2D(20, +40);
+            var botTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
+            botTrigger.Position = new Coordinate2D(20, +75);
             botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut));
             Colliders.Add(botTrigger);
         }
