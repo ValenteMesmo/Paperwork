@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace PaperWork.GameEntities.Papers.Updates
 {
-    public class ComputeHorizontalCombosCombo : IHandleEntityUpdates
+    public class ComputeCombos : IHandleEntityUpdates
     {
         private readonly Func<PapersEntity, IEnumerable<PapersEntity>> GetHorizontalCombo;
 
-        public ComputeHorizontalCombosCombo(Func<PapersEntity, IEnumerable<PapersEntity>> GetHorizontalCombo)
+        public ComputeCombos(Func<PapersEntity, IEnumerable<PapersEntity>> GetHorizontalCombo)
         {
             this.GetHorizontalCombo = GetHorizontalCombo;
         }

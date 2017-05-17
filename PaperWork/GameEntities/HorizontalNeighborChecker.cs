@@ -38,4 +38,38 @@ namespace PaperWork
             }
         }
     }
+
+    public class VerticalNeighborChecker
+    {
+        public IEnumerable<PapersEntity> GetNeighborsCombo(PapersEntity paper)
+        {
+            var result = new List<PapersEntity> { paper };
+
+            AddTopNeighbors(paper, result.Add);
+            AddBotNeighbors(paper, result.Add);
+
+            if (result.Count > 2)
+                return result;
+            else
+                return Enumerable.Empty<PapersEntity>();
+        }
+
+        private void AddTopNeighbors(PapersEntity paper, Action<PapersEntity> Add)
+        {
+            if (paper.TopNeighbor.HasValue() && paper.TopNeighbor.Get().VerticalSpeed.Get() == 0)
+            {
+                Add(paper.TopNeighbor.Get());
+                AddTopNeighbors(paper.TopNeighbor.Get(), Add);
+            }
+        }
+
+        private void AddBotNeighbors(PapersEntity paper, Action<PapersEntity> Add)
+        {
+            if (paper.BotNeighbor.HasValue() && paper.BotNeighbor.Get().VerticalSpeed.Get() == 0)
+            {
+                Add(paper.BotNeighbor.Get());
+                AddBotNeighbors(paper.BotNeighbor.Get(), Add);
+            }
+        }
+    }
 }
