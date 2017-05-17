@@ -11,9 +11,9 @@ namespace GameCore
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private GameRunner gameRunner;
         private Dictionary<string, Texture2D> Textures;
         private string[] TextureNames;
+        private readonly List<Entity> Entities;
 
         protected InputRepository PlayerInputs;
 
@@ -21,21 +21,24 @@ namespace GameCore
         {
             this.TextureNames = TextureNames;
             PlayerInputs = new InputRepository();
-            gameRunner = new GameRunner(PlayerInputs, new CollisionDetector());
+            Entities = new List<Entity>();
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.SynchronizeWithVerticalRetrace = false;
-            IsFixedTimeStep = false;
+            //graphics.SynchronizeWithVerticalRetrace = false;
+            //IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
+            graphics.SynchronizeWithVerticalRetrace = true;
         }
 
         protected void AddEntity(Entity Entity)
         {
-            gameRunner.Entities.Add(Entity);
+            Entities.Add(Entity);
         }
 
         protected void RemoveEntity(Entity Entity)
         {
-            gameRunner.Entities.Remove(Entity);
+            Entities.Remove(Entity);
         }
 
         private Texture2D pixel;
@@ -52,13 +55,11 @@ namespace GameCore
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
 
-            gameRunner.Start();
         }
 
         protected override void UnloadContent()
         {
             Content.Unload();
-            gameRunner.Dispose();
         }
 
         protected override void Update(GameTime gameTime)
@@ -73,16 +74,26 @@ namespace GameCore
             PlayerInputs.Crouch.Set(state.IsKeyDown(Keys.S));
             PlayerInputs.Grab.Set(state.IsKeyDown(Keys.K));
 
+            var currentEntities = Entities.ToList();
+            foreach (var item in currentEntities)
+            {
+                item.Update();
+            }
+
+            CollisionDetector.DetectCollisions(currentEntities);
+            foreach (var item in currentEntities)
+
+                item.AfterCollisions();
+
             base.Update(gameTime);
         }
-
+        CollisionDetector CollisionDetector = new CollisionDetector();
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            var currentEntities = gameRunner.Entities.ToList();
-            foreach (var item in currentEntities)
+            foreach (var item in Entities)
             {
                 foreach (var texture in item.Textures)
                 {
@@ -90,25 +101,26 @@ namespace GameCore
                         spriteBatch.Draw(
                             Textures[texture.Name],
                             new Rectangle(
-                                (int)(item.RenderPosition.X + texture.Offset.X),
-                                (int)(item.RenderPosition.Y + texture.Offset.Y),
+                                (int)(item.Position.X + texture.Offset.X),
+                                (int)(item.Position.Y + texture.Offset.Y),
                                 texture.Width,
                                 texture.Height),
                             texture.Color);
                 }
+                foreach (var collider in item.Colliders)
+                {
+                    DrawBorder(
+                            new Rectangle(
+                                (int)collider.Position.X,
+                                (int)collider.Position.Y,
+                                (int)collider.Width,
+                                (int)collider.Height),
+                            3,
+                            Color.Red);
+
+                }
             }
 
-            foreach (var collider in currentEntities.SelectMany(f => f.Colliders))
-            {
-                DrawBorder(
-                        new Rectangle(
-                            (int)collider.Position.X,
-                            (int)collider.Position.Y,
-                            (int)collider.Width,
-                            (int)collider.Height),
-                        3,
-                        Color.Red);
-            }
 
             spriteBatch.End();
 

@@ -23,6 +23,7 @@ namespace GameCore.Collision
             BaseCollider a,
             BaseCollider b)
         {
+
             if (a == null || a.Disabled)
             {
                 return;
@@ -32,6 +33,9 @@ namespace GameCore.Collision
             {
                 return;
             }
+
+            if (a is Trigger && b is Trigger)
+                return;
 
             var rightPoint_a = a.Position.X + a.Width;
             var rightPoint_b = b.Position.X + b.Width;

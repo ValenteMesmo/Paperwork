@@ -57,22 +57,22 @@ namespace PaperWork
 
             var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             rightTrigger.Position = new Coordinate2D(cellSize + 10, +25);
-            rightTrigger.AddHandlers(new SetTriggeredNeighbor(RightNeighbor.Set, RightNeighbor.SetDefaut));
+            rightTrigger.AddHandlers(new SetTriggeredNeighbor(RightNeighbor.Set, RightNeighbor.SetDefaut, RightNeighbor.IsNull));
             Colliders.Add(rightTrigger);
 
             var leftTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             leftTrigger.Position = new Coordinate2D(-25, 25);
-            leftTrigger.AddHandlers(new SetTriggeredNeighbor(LeftNeighbor.Set, LeftNeighbor.SetDefaut));
+            leftTrigger.AddHandlers(new SetTriggeredNeighbor(LeftNeighbor.Set, LeftNeighbor.SetDefaut, LeftNeighbor.IsNull));
             Colliders.Add(leftTrigger);
 
             var topTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             topTrigger.Position = new Coordinate2D(20, -25);
-            topTrigger.AddHandlers(new SetTriggeredNeighbor(TopNeighbor.Set, TopNeighbor.SetDefaut));
+            topTrigger.AddHandlers(new SetTriggeredNeighbor(TopNeighbor.Set, TopNeighbor.SetDefaut, TopNeighbor.IsNull));
             Colliders.Add(topTrigger);
 
             var botTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             botTrigger.Position = new Coordinate2D(20, +75);
-            botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut));
+            botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
             Colliders.Add(botTrigger);
         }
 
