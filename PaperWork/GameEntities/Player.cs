@@ -5,6 +5,7 @@ using PaperWork.GameEntities.Player.Collisions;
 using PaperWork.PlayerHandlers.Collisions;
 using PaperWork.PlayerHandlers.Updates;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork
 {
@@ -16,7 +17,6 @@ namespace PaperWork
         private readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Cooldown DragAndDropCooldown = new Cooldown(200);
-
         public PlayerEntity(InputRepository PlayerInputs, Action<Entity> DestroyEntity) : base(DestroyEntity)
         {
             var width = 20;
@@ -37,6 +37,7 @@ namespace PaperWork
 
             AddUpdateHandlers(
                 new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, PlayerInputs.Left.Get, PlayerInputs.Right.Get)
+                ,new SetDirectionOnInput(PlayerInputs.Right.Get, PlayerInputs.Left.Get,FacingRightDirection.Set)
                 , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, PlayerInputs.Jump.Get)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
@@ -51,6 +52,33 @@ namespace PaperWork
 
             Colliders.Add(mainCollider);
             Colliders.Add(rightGrab);
+        }
+    }
+
+    
+
+    class SetDirectionOnInput : IHandleEntityUpdates
+    {
+        private readonly Func<bool> RightPressed;
+        private readonly Func<bool> LeftPressed;
+        private readonly Action<bool> SetFacingRight;
+
+        public SetDirectionOnInput(
+            Func<bool> RightPressed
+            , Func<bool> LeftPressed
+            , Action<bool> SetFacingRight)
+        {
+            this.RightPressed = RightPressed;
+            this.LeftPressed = LeftPressed;
+            this.SetFacingRight = SetFacingRight;
+        }
+
+        public void Update(Entity entity)
+        {
+            if (RightPressed())
+                SetFacingRight(true);
+            if (LeftPressed())
+                SetFacingRight(false);
         }
     }
 }

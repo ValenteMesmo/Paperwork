@@ -30,7 +30,7 @@ namespace PaperWork.GameEntities.Collisions
             if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)
             {
                 var newPosition = new Coordinate2D();
-                newPosition.X = other.Position.X - collider.ParentEntity.Colliders[0].Width - 1;
+                newPosition.X = other.Position.X - collider.ParentEntity.GetColliders()[0].Width - 1;
                 newPosition.Y = collider.ParentEntity.Position.Y;
 
                 collider.ParentEntity.Position = newPosition;

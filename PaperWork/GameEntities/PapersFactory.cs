@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using PaperWork.GameEntities.Collisions;
 using System;
+using GameCore.Collision;
+using System.Collections.Generic;
 
 namespace PaperWork
 {

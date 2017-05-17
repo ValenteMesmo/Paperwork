@@ -14,8 +14,8 @@ namespace GameCore.Collision
             Entity a, 
             Entity b)
         {
-            a.Colliders.ForEachCombination(
-                b.Colliders,
+            a.GetColliders().ForEachCombination(
+                b.GetColliders(),
                 CollideTwoColliders);
         }
 

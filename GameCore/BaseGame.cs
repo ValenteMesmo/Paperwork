@@ -82,8 +82,9 @@ namespace GameCore
 
             CollisionDetector.DetectCollisions(currentEntities);
             foreach (var item in currentEntities)
-
+            {
                 item.AfterCollisions();
+            }
 
             base.Update(gameTime);
         }
@@ -95,19 +96,19 @@ namespace GameCore
 
             foreach (var item in Entities)
             {
-                foreach (var texture in item.Textures)
+                foreach (var texture in item.GetTextures())
                 {
                     if (texture.Disabled == false)
                         spriteBatch.Draw(
                             Textures[texture.Name],
                             new Rectangle(
-                                (int)(item.Position.X + texture.Offset.X),
+                                (int)(item.Position.X  + texture.Offset.X),
                                 (int)(item.Position.Y + texture.Offset.Y),
                                 texture.Width,
                                 texture.Height),
                             texture.Color);
                 }
-                foreach (var collider in item.Colliders)
+                foreach (var collider in item.GetColliders())
                 {
                     DrawBorder(
                             new Rectangle(
@@ -115,12 +116,11 @@ namespace GameCore
                                 (int)collider.Position.Y,
                                 (int)collider.Width,
                                 (int)collider.Height),
-                            3,
+                            2,
                             Color.Red);
 
                 }
             }
-
 
             spriteBatch.End();
 

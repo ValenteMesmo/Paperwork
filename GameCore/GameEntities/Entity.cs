@@ -1,26 +1,29 @@
 ﻿using GameCore.Collision;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCore
 {
-    public class Entity
+    public abstract class Entity
     {
         public string Id { get; }
         public Coordinate2D Position { get; set; }
-        public Coordinate2D RenderPosition { get; set; }
-        public IList<EntityTexture> Textures { get; }
-        public IList<BaseCollider> Colliders { get; }
+        //todo
+        public virtual IEnumerable<EntityTexture> GetTextures() { return Textures; }
+        public virtual IList<BaseCollider> GetColliders() { return Colliders; }
         private readonly IList<IHandleEntityUpdates> UpdateHandlers;
         public readonly Action SelfDestruct;
+
+        protected List<BaseCollider> Colliders = new List<BaseCollider>();
+        protected List<EntityTexture> Textures= new List<EntityTexture>();
+        
 
         public Entity(Action<Entity> Destroy)
         {
             Id = $"{GetType().Name} {Guid.NewGuid().ToString()}";
-            Textures = new List<EntityTexture>();
-            Colliders = new List<BaseCollider>();
             UpdateHandlers = new List<IHandleEntityUpdates>();
-            this.SelfDestruct = ()=> Destroy(this);
+            SelfDestruct = ()=> Destroy(this);
         }
 
         public void AddUpdateHandlers(params IHandleEntityUpdates[] handlers)
@@ -33,7 +36,7 @@ namespace GameCore
 
         internal void Update()
         {
-            foreach (var item in Colliders)
+            foreach (var item in GetColliders())
             {
                 item.Update();
             }
@@ -51,7 +54,7 @@ namespace GameCore
 
         internal void AfterCollisions()
         {
-            foreach (var item in Colliders)
+            foreach (var item in GetColliders())
             {
                 item.AfterCollisions();
             }

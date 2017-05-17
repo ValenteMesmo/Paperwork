@@ -6,6 +6,7 @@ using PaperWork.GameEntities.Papers;
 using PaperWork.GameEntities.Papers.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork
 {
@@ -28,7 +29,10 @@ namespace PaperWork
             set
             {
                 _color = value;
-                Textures[0].Color = value;
+                foreach (var item in GetTextures())
+                {
+                    item.Color = value;
+                }
             }
         }
 
