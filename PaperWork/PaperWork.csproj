@@ -129,6 +129,7 @@
   <ItemGroup>
     <Content Include="Content\block.bmp" />
     <Content Include="Content\char.bmp" />
+    <Content Include="Content\char_left.bmp" />
     <Content Include="Content\papers.bmp" />
   </ItemGroup>
   <ItemGroup>

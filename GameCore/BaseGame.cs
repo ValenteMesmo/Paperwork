@@ -28,7 +28,7 @@ namespace GameCore
             //graphics.SynchronizeWithVerticalRetrace = false;
             //IsFixedTimeStep = false;
             IsFixedTimeStep = true;
-            graphics.SynchronizeWithVerticalRetrace = true;
+            graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         protected void AddEntity(Entity Entity)

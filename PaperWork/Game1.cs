@@ -6,7 +6,7 @@ namespace PaperWork
 {
     public class Game1 : BaseGame
     {
-        public Game1() : base("char", "papers", "block")
+        public Game1() : base("char", "char_left", "papers", "block")
         {
             var rowNumber = 13;
             var colNumber = 6;

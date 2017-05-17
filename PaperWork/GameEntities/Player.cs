@@ -17,6 +17,8 @@ namespace PaperWork
         private readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly Property<float> VerticalSpeed = new Property<float>();
         private readonly Cooldown DragAndDropCooldown = new Cooldown(200);
+        private readonly List<EntityTexture> TextureLeft = new List<EntityTexture>();
+
         public PlayerEntity(InputRepository PlayerInputs, Action<Entity> DestroyEntity) : base(DestroyEntity)
         {
             var width = 20;
@@ -34,10 +36,14 @@ namespace PaperWork
             {
                 Offset = new Coordinate2D(-15, 0)
             });
+            TextureLeft.Add(new EntityTexture("char_left", 50, 100)
+            {
+                Offset = new Coordinate2D(-15, 0)
+            });
 
             AddUpdateHandlers(
                 new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, PlayerInputs.Left.Get, PlayerInputs.Right.Get)
-                ,new SetDirectionOnInput(PlayerInputs.Right.Get, PlayerInputs.Left.Get,FacingRightDirection.Set)
+                , new SetDirectionOnInput(PlayerInputs.Right.Get, PlayerInputs.Left.Get, FacingRightDirection.Set)
                 , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, PlayerInputs.Jump.Get)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
@@ -53,9 +59,15 @@ namespace PaperWork
             Colliders.Add(mainCollider);
             Colliders.Add(rightGrab);
         }
-    }
 
-    
+        public override IEnumerable<EntityTexture> GetTextures()
+        {
+            if (FacingRightDirection.Get())
+                return Textures;
+            else
+                return TextureLeft;
+        }
+    }
 
     class SetDirectionOnInput : IHandleEntityUpdates
     {
