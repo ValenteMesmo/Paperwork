@@ -41,32 +41,27 @@ namespace PaperWork
                 Offset = new Coordinate2D(-15, 0)
             });
 
-            var feeller = new Trigger(this, 10, 10);
-            feeller.LocalPosition = new Coordinate2D(30, 20);
-            feeller.AddHandlers(
-                new SetNearEntityOnTriggerEnter(NearEntity.Set, NearEntity.Get)
-            );
-            Colliders.Add(feeller);
-
-            var alternativeFeeller = new Trigger(this, 10, 10);
-            alternativeFeeller.LocalPosition = new Coordinate2D(30, 75);
-            alternativeFeeller.AddHandlers(
-                new SetNearEntityOnTriggerEnter(AlternativeNearEntity.Set, AlternativeNearEntity.Get)
-            );
-            Colliders.Add(alternativeFeeller);
-            
             AddUpdateHandlers(
                 new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left.Get, Inputs.Right.Get)
                 , new SetDirectionOnInput(Inputs.Right.Get, Inputs.Left.Get, FacingRightDirection.Set)
-                , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Jump.Get)
-                , new DragNearPaperOnInput(NearEntity.Get, Inputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.IsNull, DraggedEntity.Set, AlternativeNearEntity.Get,VerticalSpeed.Get)
+                , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Up.Get)
+                , new DragNearPaperOnInput(
+                    GetNearPaper: NearEntity.Get,
+                    GrabButtonPressed: Inputs.Action1.Get,
+                    GrabCooldownEnded: DragAndDropCooldown.CooldownEnded,
+                    SetGrabOnCooldown: DragAndDropCooldown.TriggerCooldown,
+                    PlayerHandsAreFree: DraggedEntity.IsNull,
+                    GivePaperToPlayer: DraggedEntity.Set,
+                    GetAlternativeNearPaper: AlternativeNearEntity.Get,
+                    GetVerticalSpeed: VerticalSpeed.Get)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                , new DropThePapers(DraggedEntity.Get, Inputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, NearEntity.IsNull, AlternativeNearEntity.IsNull,()=> VerticalSpeed.Get() != 0)
-                , new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => feeller.LocalPosition = f, ()=>feeller.LocalPosition)
-                , new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => alternativeFeeller.LocalPosition = f, () => alternativeFeeller.LocalPosition)
+                , new DropThePapers(DraggedEntity.Get, Inputs.Action1.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, NearEntity.IsNull, AlternativeNearEntity.IsNull, () => VerticalSpeed.Get() != 0)
             );
+
+            CreateFeeler(Inputs, 30, 20, NearEntity);
+            CreateFeeler(Inputs, 30, 75, AlternativeNearEntity);
 
             mainCollider.AddHandlers(
                 new StopsWhenHitsPapers(SteppingOnTheFloor.Set, VerticalSpeed.Set)
@@ -74,6 +69,17 @@ namespace PaperWork
             );
 
             Colliders.Add(mainCollider);
+        }
+
+        private void CreateFeeler(InputRepository Inputs, int x, int y, Property<Entity> entityBeenFelt)
+        {
+            var trigger = new Trigger(this, 10, 10);
+            trigger.LocalPosition = new Coordinate2D(x, y);
+            trigger.AddHandlers(
+                new SetNearEntityOnTriggerEnter(entityBeenFelt.Set, entityBeenFelt.Get)
+            );
+            Colliders.Add(trigger);
+            AddUpdateHandlers(new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => trigger.LocalPosition = f, () => trigger.LocalPosition));
         }
 
         public override IEnumerable<EntityTexture> GetTextures()

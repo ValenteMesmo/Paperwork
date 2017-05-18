@@ -19,8 +19,12 @@ namespace PaperWork.GameEntities.Player.Collisions
 
         public void TriggerEnter(BaseCollider triggerCollider, BaseCollider other)
         {
-            if (other.ParentEntity is PapersEntity
-                || other.ParentEntity is SolidBlock)
+            if (GetNearPaper() == null
+                &&
+                (
+                    other.ParentEntity is PapersEntity
+                    || other.ParentEntity is SolidBlock)
+                )
                 SetNearPaper(other.ParentEntity);
         }
 
