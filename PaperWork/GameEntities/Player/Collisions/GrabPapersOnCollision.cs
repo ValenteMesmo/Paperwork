@@ -36,6 +36,16 @@ namespace PaperWork.GameEntities.Player.Collisions
 
         public void CollisionFromTheLeft(BaseCollider collider, BaseCollider other)
         {
+            if (other.ParentEntity is PapersEntity
+             && GrabButtonPressed()
+             && PlayerHandsAreFree()
+             && GrabCooldownEnded())
+            {
+                var papers = other.ParentEntity as PapersEntity;
+                GivePaperToPlayer(papers);
+                SetGrabOnCooldown();
+                papers.Grab(collider.ParentEntity);
+            }
         }
 
         public void CollisionFromTheRight(BaseCollider collider, BaseCollider other)

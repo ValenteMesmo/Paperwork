@@ -125,6 +125,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
+    <None Include="Content\DefaultFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\block.bmp" />

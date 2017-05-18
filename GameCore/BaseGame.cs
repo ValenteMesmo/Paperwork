@@ -7,8 +7,43 @@ using System.Linq;
 
 namespace GameCore
 {
+    public class FrameCounter
+    {
+        public long TotalFrames { get; private set; }
+        public float TotalSeconds { get; private set; }
+        public float AverageFramesPerSecond { get; private set; }
+        public float CurrentFramesPerSecond { get; private set; }
+
+        public const int MAXIMUM_SAMPLES = 100;
+
+        private Queue<float> _sampleBuffer = new Queue<float>();
+
+        public bool Update(float deltaTime)
+        {
+            CurrentFramesPerSecond = 1.0f / deltaTime;
+
+            _sampleBuffer.Enqueue(CurrentFramesPerSecond);
+
+            if (_sampleBuffer.Count > MAXIMUM_SAMPLES)
+            {
+                _sampleBuffer.Dequeue();
+                AverageFramesPerSecond = _sampleBuffer.Average(i => i);
+            }
+            else
+            {
+                AverageFramesPerSecond = CurrentFramesPerSecond;
+            }
+
+            TotalFrames++;
+            TotalSeconds += deltaTime;
+            return true;
+        }
+    }
+
     public abstract class BaseGame : Game
     {
+        private FrameCounter _frameCounter = new FrameCounter();
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> Textures;
@@ -46,7 +81,7 @@ namespace GameCore
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Textures = new Dictionary<string, Texture2D>();
-
+            font = Content.Load<SpriteFont>("DefaultFont");
             foreach (var name in TextureNames)
             {
                 Textures.Add(name, Content.Load<Texture2D>(name));
@@ -89,10 +124,12 @@ namespace GameCore
             base.Update(gameTime);
         }
         CollisionDetector CollisionDetector = new CollisionDetector();
+        private SpriteFont font;
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin();         
 
             foreach (var item in Entities)
             {
@@ -121,6 +158,14 @@ namespace GameCore
 
                 }
             }
+
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            _frameCounter.Update(deltaTime);
+
+            var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+
+            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Black);
 
             spriteBatch.End();
 
