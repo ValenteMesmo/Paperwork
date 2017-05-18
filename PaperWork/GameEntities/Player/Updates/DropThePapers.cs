@@ -14,6 +14,7 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Func<bool> NoNearEntity;
         private readonly Func<bool> NoAlternativeNearEntity;
         private readonly Func<bool> PlayerJumping;
+        private readonly Func<bool> DownButtonPressed;
 
         public DropThePapers(
             Func<Entity> HoldingPapers
@@ -25,6 +26,7 @@ namespace PaperWork.GameEntities.Collisions
             , Func<bool> NoNearEntity
             , Func<bool> NoAlternativeNearEntity
             , Func<bool> PlayerJumping
+            , Func<bool> DownButtonPressed
             )
         {
             this.HoldingPapers = HoldingPapers;
@@ -36,24 +38,34 @@ namespace PaperWork.GameEntities.Collisions
             this.NoNearEntity = NoNearEntity;
             this.NoAlternativeNearEntity = NoAlternativeNearEntity;
             this.PlayerJumping = PlayerJumping;
+            this.DownButtonPressed = DownButtonPressed;
         }
 
         public void Update(Entity entity)
         {
             if (DropButtonPressed()
-                && DropCooldownEnded()
-                && NoNearEntity()
-                && (NoAlternativeNearEntity() || PlayerJumping()))
+                && DropCooldownEnded())
             {
-                var papers = HoldingPapers();                
+                var papers = HoldingPapers();
                 if (papers == null
                     || papers is PapersEntity == false)
                     return;
 
-                SetDropOnCooldown();
+                if (DownButtonPressed())
+                    HandlePaperJump(papers as PapersEntity, entity);
+                else
+                    HandlePaperDrop(papers as PapersEntity);
+            }
+        }
+
+        private void HandlePaperDrop(PapersEntity papers)
+        {
+            if (NoNearEntity()
+               && (NoAlternativeNearEntity() || PlayerJumping()))
+            {
+
                 foreach (var collider in papers.GetColliders())
                     collider.Disabled = false;
-
                 papers.As<PapersEntity>().Target.SetDefaut();
 
                 var bonus = 0;
@@ -71,8 +83,31 @@ namespace PaperWork.GameEntities.Collisions
 
                 papers.Position = new Coordinate2D(x, y);
 
+                SetDropOnCooldown();
+
                 RemovePaperReferenceFromPlayer();
             }
+        }
+
+        private void HandlePaperJump(PapersEntity papers , Entity player)
+        {
+            foreach (var collider in papers.GetColliders())
+                collider.Disabled = false;
+            papers.As<PapersEntity>().Target.SetDefaut();
+
+            var x = MathHelper.RoundUp(papers.Position.X , 50);
+            if (x > 50 * 12)
+                x = 50 * 12;
+            var y = player.Position.Y;
+            if (y < 50)
+                y = 50;
+
+            papers.Position = new Coordinate2D(x, y);
+            player.Position = new Coordinate2D(x, y -102);
+
+            SetDropOnCooldown();
+
+            RemovePaperReferenceFromPlayer();
         }
     }
 

@@ -57,7 +57,7 @@ namespace PaperWork
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                , new DropThePapers(DraggedEntity.Get, Inputs.Action1.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, NearEntity.IsNull, AlternativeNearEntity.IsNull, () => VerticalSpeed.Get() != 0)
+                , new DropThePapers(DraggedEntity.Get, Inputs.Action1.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, NearEntity.IsNull, AlternativeNearEntity.IsNull, () => VerticalSpeed.Get() != 0,Inputs.Down.Get)
             );
 
             CreateFeeler(Inputs, 30, 20, NearEntity);
