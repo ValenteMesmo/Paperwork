@@ -6,7 +6,6 @@ using PaperWork.GameEntities.Papers;
 using PaperWork.GameEntities.Papers.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
-using System.Collections.Generic;
 
 namespace PaperWork
 {
@@ -56,7 +55,7 @@ namespace PaperWork
                 , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-                , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get)
+                , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get,VerticalSpeed.Set,HorizontalSpeed.Set)
             );
 
             var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
@@ -80,35 +79,6 @@ namespace PaperWork
             Colliders.Add(botTrigger);
         }
 
-        //this should not be here
-        public void Grab(Entity grabbedBy)
-        {
-            mainCollider.Disabled = true;
-            Target.Set(grabbedBy);
-        }
-
-        //this should not be here
-        public void Drop()
-        {
-            mainCollider.Disabled = false;
-            Target.Set(null);
-            VerticalSpeed.Set(0);
-            HorizontalSpeed.Set(0);
-            var x = RoundUp(Position.X + 50, 50);
-            if (x > 50 * 12)
-                x = 50 * 12;
-            var y = Position.Y + 25;
-            if (y < 50)
-                y = 50;
-
-            Position = new Coordinate2D(x, y);
-        }
-
-
-        //this should not be here
-        private int RoundUp(float numToRound, int multiple)
-        {
-            return (int)Math.Round(numToRound / multiple) * multiple;
-        }
+       
     }
 }

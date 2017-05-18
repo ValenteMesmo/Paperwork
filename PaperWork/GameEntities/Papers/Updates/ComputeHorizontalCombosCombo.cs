@@ -27,7 +27,6 @@ namespace PaperWork.GameEntities.Papers.Updates
                 {
                     item.SelfDestruct();
                 }
-                //Debug.WriteLine(combo.Count());
             }
         }
     }
