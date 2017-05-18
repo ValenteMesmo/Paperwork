@@ -23,11 +23,11 @@ namespace PaperWork
         {
             if (RightButtonPressed())
             {
-                SetHorizontalSpeed(1);
+                SetHorizontalSpeed(2);
             }
             else if (LeftButtonPressed())
             {
-                SetHorizontalSpeed(-1);
+                SetHorizontalSpeed(-2);
             }
             else
             {

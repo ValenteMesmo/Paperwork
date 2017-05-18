@@ -23,7 +23,7 @@ namespace PaperWork
         {
             if (JumpButtonPressed() && StepingOnTheFloor())
             {
-                SetVerticalSpeed(-4);
+                SetVerticalSpeed(-10);
             }
         }
     }

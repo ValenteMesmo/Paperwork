@@ -5,7 +5,7 @@ namespace PaperWork.PlayerHandlers.Updates
 {
     public class GravityIncreasesVerticalSpeed : IHandleEntityUpdates
     {
-        public const float VELOCITY = .05f;
+        public const float VELOCITY = .5f;
         public const float MAX_SPEED = 5.0f;
         Func<float> GetVerticalSpeed;
         Action<float> SetVerticalSpeed;
