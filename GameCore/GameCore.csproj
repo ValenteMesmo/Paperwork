@@ -48,6 +48,7 @@
     <Compile Include="Coordinate2D.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="FrameCounter.cs" />
     <Compile Include="GameEntities\Entity.cs" />
     <Compile Include="GameEntities\EntityTexture.cs" />
     <Compile Include="GameEntities\UpdateHandler.cs" />

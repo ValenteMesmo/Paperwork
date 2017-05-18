@@ -5,22 +5,26 @@ namespace PaperWork.GameEntities.Collisions
 {
     public class DropThePapers : IHandleEntityUpdates
     {
-        private readonly Func<PapersEntity> HoldingPapers;
+        private readonly Func<Entity> HoldingPapers;
         private readonly Func<bool> DropButtonPressed;
         private readonly Action SetDropOnCooldown;
         private readonly Func<bool> DropCooldownEnded;
         private readonly Action RemovePaperReferenceFromPlayer;
         private readonly Func<bool> FacingRightDirection;
-        private readonly Func<bool> NoNearPaper;
+        private readonly Func<bool> NoNearEntity;
+        private readonly Func<bool> NoAlternativeNearEntity;
+        private readonly Func<bool> PlayerJumping;
 
         public DropThePapers(
-            Func<PapersEntity> HoldingPapers
-            ,Func<bool> DropButtonPressed
-            ,Func<bool> DropCooldownEnded
-            ,Action SetDropOnCooldown
-            ,Action RemovePaperReferenceFromPlayer
-            ,Func<bool> FacingRightDirection
-            ,Func<bool> NoNearPaper
+            Func<Entity> HoldingPapers
+            , Func<bool> DropButtonPressed
+            , Func<bool> DropCooldownEnded
+            , Action SetDropOnCooldown
+            , Action RemovePaperReferenceFromPlayer
+            , Func<bool> FacingRightDirection
+            , Func<bool> NoNearEntity
+            , Func<bool> NoAlternativeNearEntity
+            , Func<bool> PlayerJumping
             )
         {
             this.HoldingPapers = HoldingPapers;
@@ -29,30 +33,34 @@ namespace PaperWork.GameEntities.Collisions
             this.SetDropOnCooldown = SetDropOnCooldown;
             this.RemovePaperReferenceFromPlayer = RemovePaperReferenceFromPlayer;
             this.FacingRightDirection = FacingRightDirection;
-            this.NoNearPaper = NoNearPaper;
+            this.NoNearEntity = NoNearEntity;
+            this.NoAlternativeNearEntity = NoAlternativeNearEntity;
+            this.PlayerJumping = PlayerJumping;
         }
 
         public void Update(Entity entity)
         {
             if (DropButtonPressed()
                 && DropCooldownEnded()
-                && NoNearPaper())
+                && NoNearEntity()
+                && (NoAlternativeNearEntity() || PlayerJumping()))
             {
-                var papers = HoldingPapers();
-                if (papers == null)
+                var papers = HoldingPapers();                
+                if (papers == null
+                    || papers is PapersEntity == false)
                     return;
 
                 SetDropOnCooldown();
                 foreach (var collider in papers.GetColliders())
                     collider.Disabled = false;
 
-                papers.Target.SetDefaut();
+                papers.As<PapersEntity>().Target.SetDefaut();
 
                 var bonus = 0;
                 if (FacingRightDirection())
                     bonus = 50;
                 else
-                    bonus = -50;
+                    bonus = -40;
 
                 var x = MathHelper.RoundUp(papers.Position.X + bonus, 50);
                 if (x > 50 * 12)

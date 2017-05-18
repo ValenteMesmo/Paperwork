@@ -1,16 +1,17 @@
-﻿using GameCore.Collision;
+﻿using GameCore;
+using GameCore.Collision;
 using System;
 
 namespace PaperWork.GameEntities.Player.Collisions
 {
-    public class SetNearPaperOnTriggerEnter : IHandleTriggers
+    public class SetNearEntityOnTriggerEnter : IHandleTriggers
     {
-        private readonly Action<PapersEntity> SetNearPaper;
-        private readonly Func<PapersEntity> GetNearPaper;
+        private readonly Action<Entity> SetNearPaper;
+        private readonly Func<Entity> GetNearPaper;
 
-        public SetNearPaperOnTriggerEnter(
-            Action<PapersEntity> SetNearPaper
-            , Func<PapersEntity> GetNearPaper)
+        public SetNearEntityOnTriggerEnter(
+            Action<Entity> SetNearPaper
+            , Func<Entity> GetNearPaper)
         {
             this.SetNearPaper = SetNearPaper;
             this.GetNearPaper = GetNearPaper;
@@ -18,8 +19,9 @@ namespace PaperWork.GameEntities.Player.Collisions
 
         public void TriggerEnter(BaseCollider triggerCollider, BaseCollider other)
         {
-            if (other.ParentEntity is PapersEntity)
-                SetNearPaper(other.ParentEntity as PapersEntity);
+            if (other.ParentEntity is PapersEntity
+                || other.ParentEntity is SolidBlock)
+                SetNearPaper(other.ParentEntity);
         }
 
         public void TriggerExit(BaseCollider triggerCollider, BaseCollider other)

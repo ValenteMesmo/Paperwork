@@ -7,39 +7,6 @@ using System.Linq;
 
 namespace GameCore
 {
-    public class FrameCounter
-    {
-        public long TotalFrames { get; private set; }
-        public float TotalSeconds { get; private set; }
-        public float AverageFramesPerSecond { get; private set; }
-        public float CurrentFramesPerSecond { get; private set; }
-
-        public const int MAXIMUM_SAMPLES = 100;
-
-        private Queue<float> _sampleBuffer = new Queue<float>();
-
-        public bool Update(float deltaTime)
-        {
-            CurrentFramesPerSecond = 1.0f / deltaTime;
-
-            _sampleBuffer.Enqueue(CurrentFramesPerSecond);
-
-            if (_sampleBuffer.Count > MAXIMUM_SAMPLES)
-            {
-                _sampleBuffer.Dequeue();
-                AverageFramesPerSecond = _sampleBuffer.Average(i => i);
-            }
-            else
-            {
-                AverageFramesPerSecond = CurrentFramesPerSecond;
-            }
-
-            TotalFrames++;
-            TotalSeconds += deltaTime;
-            return true;
-        }
-    }
-
     public abstract class BaseGame : Game
     {
         private FrameCounter _frameCounter = new FrameCounter();
@@ -49,6 +16,9 @@ namespace GameCore
         private Dictionary<string, Texture2D> Textures;
         private string[] TextureNames;
         private readonly List<Entity> Entities;
+        private Texture2D pixel;
+        private CollisionDetector CollisionDetector = new CollisionDetector();
+        private SpriteFont font;
 
         protected InputRepository PlayerInputs;
 
@@ -60,10 +30,8 @@ namespace GameCore
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            //graphics.SynchronizeWithVerticalRetrace = false;
-            //IsFixedTimeStep = false;
             IsFixedTimeStep = true;
-            graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.SynchronizeWithVerticalRetrace = true;
         }
 
         protected void AddEntity(Entity Entity)
@@ -76,7 +44,6 @@ namespace GameCore
             Entities.Remove(Entity);
         }
 
-        private Texture2D pixel;
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -123,8 +90,6 @@ namespace GameCore
 
             base.Update(gameTime);
         }
-        CollisionDetector CollisionDetector = new CollisionDetector();
-        private SpriteFont font;
 
         protected override void Draw(GameTime gameTime)
         {

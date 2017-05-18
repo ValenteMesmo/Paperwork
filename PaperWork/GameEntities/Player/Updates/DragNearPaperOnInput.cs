@@ -3,25 +3,25 @@ using System;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
-    public class GrabNearPaperOnInput : IHandleEntityUpdates
+    public class DragNearPaperOnInput : IHandleEntityUpdates
     {
-        private readonly Func<PapersEntity> GetNearPaper;
+        private readonly Func<Entity> GetNearPaper;
         private readonly Func<bool> GrabButtonPressed;
         private readonly Func<bool> GrabCooldownEnded;
         private readonly Func<bool> PlayerHandsAreFree;
         private readonly Action SetGrabOnCooldown;
-        private readonly Action<PapersEntity> GivePaperToPlayer;
-        private readonly Func<PapersEntity> GetAlternativeNearPaper;
+        private readonly Action<Entity> GivePaperToPlayer;
+        private readonly Func<Entity> GetAlternativeNearPaper;
         private readonly Func<float> GetVerticalSpeed;
 
-        public GrabNearPaperOnInput(
-            Func<PapersEntity> GetNearPaper
+        public DragNearPaperOnInput(
+            Func<Entity> GetNearPaper
             , Func<bool> GrabButtonPressed
             , Func<bool> GrabCooldownEnded
             , Action SetGrabOnCooldown
             , Func<bool> PlayerHandsAreFree
-            , Action<PapersEntity> GivePaperToPlayer
-            , Func<PapersEntity> GetAlternativeNearPaper
+            , Action<Entity> GivePaperToPlayer
+            , Func<Entity> GetAlternativeNearPaper
             , Func<float> GetVerticalSpeed)
         {
             this.GetNearPaper = GetNearPaper;
@@ -51,9 +51,12 @@ namespace PaperWork.GameEntities.Player.Updates
                         return;
                 }
 
+                if (papers is PapersEntity == false)
+                    return;                
+
                 GivePaperToPlayer(papers);
                 SetGrabOnCooldown();
-                papers.Target.Set(entity);
+                papers.As<PapersEntity>().Target.Set(entity);
 
                 foreach (var collider in papers.GetColliders())
                 {
