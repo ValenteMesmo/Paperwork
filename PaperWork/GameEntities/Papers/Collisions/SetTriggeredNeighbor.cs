@@ -13,7 +13,7 @@ namespace PaperWork
         public SetTriggeredNeighbor(
              Action<PapersEntity> SaveNeighbor
             , Action DeleteNeighbor
-             ,Func<bool> HasNoNeighbor)
+            , Func<bool> HasNoNeighbor)
         {
             this.SaveNeighbor = SaveNeighbor;
             this.DeleteNeighbor = DeleteNeighbor;
@@ -24,8 +24,8 @@ namespace PaperWork
         {
             if (other.ParentEntity is PapersEntity)
             {
-                if(HasNoNeighbor())
-                SaveNeighbor(other.ParentEntity as PapersEntity);
+                if (HasNoNeighbor())
+                    SaveNeighbor(other.ParentEntity as PapersEntity);
             }
         }
 

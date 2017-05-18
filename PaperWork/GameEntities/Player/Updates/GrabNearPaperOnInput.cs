@@ -11,6 +11,8 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Func<bool> PlayerHandsAreFree;
         private readonly Action SetGrabOnCooldown;
         private readonly Action<PapersEntity> GivePaperToPlayer;
+        private readonly Func<PapersEntity> GetAlternativeNearPaper;
+        private readonly Func<float> GetVerticalSpeed;
 
         public GrabNearPaperOnInput(
             Func<PapersEntity> GetNearPaper
@@ -18,7 +20,9 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<bool> GrabCooldownEnded
             , Action SetGrabOnCooldown
             , Func<bool> PlayerHandsAreFree
-            , Action<PapersEntity> GivePaperToPlayer)
+            , Action<PapersEntity> GivePaperToPlayer
+            , Func<PapersEntity> GetAlternativeNearPaper
+            , Func<float> GetVerticalSpeed)
         {
             this.GetNearPaper = GetNearPaper;
             this.GrabButtonPressed = GrabButtonPressed;
@@ -26,6 +30,8 @@ namespace PaperWork.GameEntities.Player.Updates
             this.PlayerHandsAreFree = PlayerHandsAreFree;
             this.SetGrabOnCooldown = SetGrabOnCooldown;
             this.GivePaperToPlayer = GivePaperToPlayer;
+            this.GetAlternativeNearPaper = GetAlternativeNearPaper;
+            this.GetVerticalSpeed = GetVerticalSpeed;
         }
 
         public void Update(Entity entity)
@@ -36,7 +42,14 @@ namespace PaperWork.GameEntities.Player.Updates
             {
                 var papers = GetNearPaper();
                 if (papers == null)
-                    return;
+                {
+                    if (GetVerticalSpeed() != 0)
+                        return;
+
+                        papers = GetAlternativeNearPaper();
+                    if (papers == null)
+                        return;
+                }
 
                 GivePaperToPlayer(papers);
                 SetGrabOnCooldown();

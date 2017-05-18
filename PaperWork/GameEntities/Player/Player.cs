@@ -14,6 +14,7 @@ namespace PaperWork
     {
         private readonly Property<PapersEntity> currentPapers = new Property<PapersEntity>();
         private readonly Property<PapersEntity> NearPapers = new Property<PapersEntity>();
+        private readonly Property<PapersEntity> AlternativeNearPapers = new Property<PapersEntity>();
         private readonly Property<bool> SteppingOnTheFloor = new Property<bool>();
         private readonly Property<bool> FacingRightDirection = new Property<bool>();
         private readonly Property<float> HorizontalSpeed = new Property<float>();
@@ -40,23 +41,31 @@ namespace PaperWork
                 Offset = new Coordinate2D(-15, 0)
             });
 
-            var papersFeeller = new Trigger(this, 10, 10);
-            papersFeeller.LocalPosition = new Coordinate2D(30, 20);
-            papersFeeller.AddHandlers(
+            var feeller = new Trigger(this, 10, 10);
+            feeller.LocalPosition = new Coordinate2D(30, 20);
+            feeller.AddHandlers(
                 new SetNearPaperOnTriggerEnter(NearPapers.Set, NearPapers.Get)
             );
+            Colliders.Add(feeller);
 
-            Colliders.Add(papersFeeller);
+            var alternativeFeeller = new Trigger(this, 10, 10);
+            alternativeFeeller.LocalPosition = new Coordinate2D(30, 75);
+            alternativeFeeller.AddHandlers(
+                new SetNearPaperOnTriggerEnter(AlternativeNearPapers.Set, AlternativeNearPapers.Get)
+            );
+            Colliders.Add(alternativeFeeller);
+            
             AddUpdateHandlers(
                 new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left.Get, Inputs.Right.Get)
                 , new SetDirectionOnInput(Inputs.Right.Get, Inputs.Left.Get, FacingRightDirection.Set)
                 , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Jump.Get)
+                , new GrabNearPaperOnInput(NearPapers.Get, Inputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.IsNull, currentPapers.Set, AlternativeNearPapers.Get,VerticalSpeed.Get)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-                , new GrabNearPaperOnInput(NearPapers.Get, Inputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.IsNull, currentPapers.Set)
                 , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
                 , new DropThePapers(currentPapers.Get, Inputs.Grab.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, currentPapers.SetDefaut, FacingRightDirection.Get, NearPapers.IsNull)
-                , new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => papersFeeller.LocalPosition = f)
+                , new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => feeller.LocalPosition = f, ()=>feeller.LocalPosition)
+                , new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => alternativeFeeller.LocalPosition = f, () => alternativeFeeller.LocalPosition)
             );
 
             mainCollider.AddHandlers(
