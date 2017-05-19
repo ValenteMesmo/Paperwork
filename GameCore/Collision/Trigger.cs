@@ -1,5 +1,6 @@
 ﻿using GameCore.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCore.Collision
 {
@@ -14,6 +15,11 @@ namespace GameCore.Collision
             TriggerHandlers = new List<IHandleTriggers>();
             PreviousUpdateCollisions = new List<BaseCollider>();
             CurrentUpdateCollisions = new List<BaseCollider>();
+        }
+
+        public IEnumerable<Entity> GetEntities()
+        {
+            return PreviousUpdateCollisions.Select(f=>f.ParentEntity).Distinct();
         }
 
         internal override void Update()

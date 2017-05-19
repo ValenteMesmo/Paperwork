@@ -12,6 +12,7 @@ namespace PaperWork
 {
     public class PlayerEntity : Entity
     {
+        //bug: sometimes dragged entity is not null.... even when no paper above
         private readonly Property<Entity> DraggedEntity = new Property<Entity>();
         private readonly Property<Entity> EntityNearFace = new Property<Entity>();
         private readonly Property<Entity> EntityNearBelly = new Property<Entity>();
