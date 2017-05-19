@@ -26,11 +26,11 @@ namespace PaperWork
         {
             if (RightPressed())
             {
-                SetColliderPosition(new Coordinate2D(50, GetColliderPosition().Y));
+                SetColliderPosition(new Coordinate2D( 50, GetColliderPosition().Y));
             }
             else if (LeftPressed())
             {
-                SetColliderPosition(new Coordinate2D(-40, GetColliderPosition().Y));
+                SetColliderPosition(new Coordinate2D(- 40, GetColliderPosition().Y));
             }
         }
     }
