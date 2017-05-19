@@ -1,17 +1,20 @@
 ﻿using GameCore;
 using GameCore.Collision;
 using Microsoft.Xna.Framework;
+using PaperWork.GameEntities;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
 using PaperWork.GameEntities.Papers.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork
 {
     public class PapersEntity : Entity
     {
         public readonly Property<Entity> Target = new Property<Entity>();
+        public readonly Property<bool> Grounded = new Property<bool>();
         public readonly Property<float> VerticalSpeed = new Property<float>();
         public readonly Property<float> HorizontalSpeed = new Property<float>();
         public readonly Property<PapersEntity> RightNeighbor = new Property<PapersEntity>();
@@ -48,16 +51,8 @@ namespace PaperWork
             mainCollider = new Collider(this, cellSize - 2, cellSize);
             mainCollider.Position = new Coordinate2D(1, 0);
             mainCollider.AddHandlers(
-                new ZeroVerticalSpeedWhenCollidingVertically(VerticalSpeed.Set, HorizontalSpeed.Set));
+                new PaperZeroVerticalSpeedWhenCollidingVertically(VerticalSpeed.Set, HorizontalSpeed.Set));
             Colliders.Add(mainCollider);
-
-            AddUpdateHandlers(
-                 new ComputeCombos(new HorizontalNeighborChecker().GetNeighborsCombo)
-                , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
-                , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-                , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
-            );
 
             var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             rightTrigger.Position = new Coordinate2D(cellSize + 10, +25);
@@ -76,8 +71,47 @@ namespace PaperWork
 
             var botTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             botTrigger.Position = new Coordinate2D(20, +75);
-            botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
+            botTrigger.AddHandlers(
+                new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
             Colliders.Add(botTrigger);
-        }        
+
+            AddUpdateHandlers(
+              new ComputeCombos(new HorizontalNeighborChecker().GetNeighborsCombo)
+             , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
+             , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
+             , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
+             , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
+             , new SetGroundedIfSolidEntityBelow(botTrigger.GetEntities, Grounded.Set)
+            );
+        }
+    }
+
+    public class SetGroundedIfSolidEntityBelow : IHandleEntityUpdates
+    {
+        private readonly Func<IEnumerable<Entity>> GetEntitiesBelow;
+        private readonly Action<bool> SetGrounded;
+
+        public SetGroundedIfSolidEntityBelow(
+            Func<IEnumerable<Entity>> GetEntitiesBelow
+            , Action<bool> SetGrounded)
+        {
+            this.GetEntitiesBelow = GetEntitiesBelow;
+            this.SetGrounded = SetGrounded;
+        }
+
+        public void Update(Entity entity)
+        {
+            foreach (var item in GetEntitiesBelow())
+            {
+                if (item is PapersEntity
+                    || item is SolidBlock)
+                {
+                    SetGrounded(true);
+                    return;
+                }
+            }
+
+            SetGrounded(false);
+        }
     }
 }

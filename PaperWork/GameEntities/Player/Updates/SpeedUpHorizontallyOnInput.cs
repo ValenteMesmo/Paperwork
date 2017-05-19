@@ -8,6 +8,7 @@ namespace PaperWork
         private readonly Action<float> SetHorizontalSpeed;
         private readonly Func<bool> LeftButtonPressed;
         private readonly Func<bool> RightButtonPressed;
+        private float speedx = 0;
 
         public SpeedUpHorizontallyOnInput(
             Action<float> SetHorizontalSpeed,
@@ -23,16 +24,23 @@ namespace PaperWork
         {
             if (RightButtonPressed())
             {
-                SetHorizontalSpeed(2);
+                speedx += 0.5f;
             }
             else if (LeftButtonPressed())
             {
-                SetHorizontalSpeed(-2);
+                speedx -= 0.5f;
             }
             else
             {
-                SetHorizontalSpeed(0);
+                if (speedx > 0)
+                    speedx -= 0.5f;
+                else if (speedx < 0)
+                    speedx += 0.5f;
             }
+
+            speedx = speedx.LimitToRange(-2, 2);
+
+            SetHorizontalSpeed(speedx);
         }
     }
 }

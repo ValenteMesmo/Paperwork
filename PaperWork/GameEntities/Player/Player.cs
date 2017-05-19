@@ -69,8 +69,8 @@ namespace PaperWork
             CreateFeeler(Inputs, 5, 125, EntityBelowFeet, false);
 
             mainCollider.AddHandlers(
-                new StopsWhenHitsPapers(SteppingOnTheFloor.Set, VerticalSpeed.Set)
-                , new MoveBackWhenHittingWall()
+                new VerticalCollisions(SteppingOnTheFloor.Set, VerticalSpeed.Set, HorizontalSpeed.Set)
+                //, new MoveBackWhenHittingWall()
             );
 
             Colliders.Add(mainCollider);

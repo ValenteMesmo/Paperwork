@@ -26,7 +26,7 @@ namespace PaperWork
         private readonly Action<Entity> RemoveFromWorld;
         Cooldown cooldown = new Cooldown(2000);
         private readonly Action<Entity> AddToWorld;
-        Color[] Colors = new Color[] { new Color(255, 100, 100), new Color(100, 255, 100), new Color(100, 100, 255) };
+        Color[] Colors = new Color[] { Color.White, new Color(255, 100, 100), new Color(100, 255, 100), new Color(100, 100, 255) };
         Random Random = new Random();
         private readonly Func<IEnumerable<Entity>> GetEntitiesOnTheTrigger;
 
