@@ -52,7 +52,7 @@ namespace PaperWork
             AddEntity(
                 new PapersFactory(RemoveEntity, AddEntity)
                 {
-                    Position = new Coordinate2D(150, 100)
+                    Position = new Coordinate2D(50*12, 50*1)
                 });
         }
 

@@ -70,11 +70,7 @@ namespace GameCore
             if (state.IsKeyDown(Keys.Escape))
                 Exit();
 
-            PlayerInputs.Left.Set(state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left));
-            PlayerInputs.Right.Set(state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right));
-            PlayerInputs.Up.Set(state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up));
-            PlayerInputs.Down.Set(state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down));
-            PlayerInputs.Action1.Set(state.IsKeyDown(Keys.J) || state.IsKeyDown(Keys.LeftControl));
+            PlayerInputs.Update(state);
 
             var currentEntities = Entities.ToList();
             foreach (var item in currentEntities)
@@ -94,7 +90,7 @@ namespace GameCore
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();         
+            spriteBatch.Begin();
 
             foreach (var item in Entities)
             {
@@ -104,7 +100,7 @@ namespace GameCore
                         spriteBatch.Draw(
                             Textures[texture.Name],
                             new Rectangle(
-                                (int)(item.Position.X  + texture.Offset.X),
+                                (int)(item.Position.X + texture.Offset.X),
                                 (int)(item.Position.Y + texture.Offset.Y),
                                 texture.Width,
                                 texture.Height),

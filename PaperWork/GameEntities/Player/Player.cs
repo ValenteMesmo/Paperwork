@@ -43,24 +43,24 @@ namespace PaperWork
             });
 
             AddUpdateHandlers(
-                new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left.Get, Inputs.Right.Get)
-                , new SetDirectionOnInput(Inputs.Right.Get, Inputs.Left.Get, FacingRightDirection.Set)
-                , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Up.Get)
+                new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left_Pressed, Inputs.Right_Pressed)
+                , new SetDirectionOnInput(Inputs.Right_Pressed, Inputs.Left_Pressed, FacingRightDirection.Set)
+                , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Up_Pressed)
                 , new DragNearPaperOnInput(
                     GetNearPaper: EntityNearFace.Get
                     , GeEntityBelowFeet: EntityBelowFeet.Get
-                    , GrabButtonPressed: Inputs.Action1.Get
+                    , GrabButtonPressed: Inputs.Action1_JustPressed
                     , GrabCooldownEnded: DragAndDropCooldown.CooldownEnded
                     , SetGrabOnCooldown: DragAndDropCooldown.TriggerCooldown
                     , PlayerHandsAreFree: DraggedEntity.IsNull
                     , GivePaperToPlayer: DraggedEntity.Set
                     , GetAlternativeNearPaper: EntityNearBelly.Get
                     , GetVerticalSpeed: VerticalSpeed.Get
-                    , DownButtonPressed: Inputs.Down.Get)
+                    , DownButtonPressed: Inputs.Down_Pressed)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                , new DropThePapers(DraggedEntity.Get, Inputs.Action1.Get, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, EntityNearFace.IsNull, EntityNearBelly.IsNull, () => VerticalSpeed.Get() != 0, Inputs.Down.Get)
+                , new DropThePapers(DraggedEntity.Get, Inputs.Action1_JustPressed, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, EntityNearFace.IsNull, EntityNearBelly.IsNull, () => VerticalSpeed.Get() != 0, Inputs.Down_Pressed)
             );
 
             CreateFeeler(Inputs, 30, 20, EntityNearFace);
@@ -84,7 +84,7 @@ namespace PaperWork
             );
             Colliders.Add(trigger);
             if (respectDirection)
-                AddUpdateHandlers(new SetGrabColliderPosition(Inputs.Right.Get, Inputs.Left.Get, f => trigger.LocalPosition = f, () => trigger.LocalPosition));
+                AddUpdateHandlers(new SetGrabColliderPosition(Inputs.Right_Pressed, Inputs.Left_Pressed, f => trigger.LocalPosition = f, () => trigger.LocalPosition));
         }
 
         public override IEnumerable<EntityTexture> GetTextures()
