@@ -39,6 +39,7 @@ namespace PaperWork
 
         public PapersEntity(int cellSize, Action<Entity> SelfDestruct) : base(SelfDestruct)
         {
+
             Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
             {
                 Offset = new Coordinate2D(0, -cellSize)
@@ -55,7 +56,7 @@ namespace PaperWork
                 , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-                , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get,VerticalSpeed.Set,HorizontalSpeed.Set)
+                , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
             );
 
             var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
@@ -77,8 +78,6 @@ namespace PaperWork
             botTrigger.Position = new Coordinate2D(20, +75);
             botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
             Colliders.Add(botTrigger);
-        }
-
-       
+        }        
     }
 }

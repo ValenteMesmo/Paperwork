@@ -91,5 +91,10 @@ namespace GameCore.Collision
                 TriggerHandlers.Add(item);
             }
         }
+
+        public override string ToString()
+        {
+            return $"{ParentEntity}'s Trigger";
+        }
     }
 }

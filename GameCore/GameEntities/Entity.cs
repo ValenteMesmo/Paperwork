@@ -16,14 +16,20 @@ namespace GameCore
         public readonly Action SelfDestruct;
 
         protected List<BaseCollider> Colliders = new List<BaseCollider>();
-        protected List<EntityTexture> Textures= new List<EntityTexture>();
-        
+        protected List<EntityTexture> Textures = new List<EntityTexture>();
+
+        private readonly static Dictionary<Type, int> instancesCount = new Dictionary<Type, int>();
 
         public Entity(Action<Entity> Destroy)
         {
-            Id = $"{GetType().Name} {Guid.NewGuid().ToString()}";
+            var type = GetType();
+            if (instancesCount.ContainsKey(type) == false)
+                instancesCount.Add(type, 0);
+            instancesCount[GetType()]++;
+
+            Id = $"{GetType().Name} {instancesCount[GetType()]}";
             UpdateHandlers = new List<IHandleEntityUpdates>();
-            SelfDestruct = ()=> Destroy(this);
+            SelfDestruct = () => Destroy(this);
         }
 
         public void AddUpdateHandlers(params IHandleEntityUpdates[] handlers)

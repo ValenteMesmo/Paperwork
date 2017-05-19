@@ -54,5 +54,10 @@ namespace GameCore.Collision
                 CollisionHandlers.Add(item);
             }
         }
+
+        public override string ToString()
+        {
+            return $"{ParentEntity}'s Collider";
+        }
     }
 }
