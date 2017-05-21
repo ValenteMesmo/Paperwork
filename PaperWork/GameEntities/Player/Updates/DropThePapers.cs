@@ -3,7 +3,7 @@ using GameCore;
 
 namespace PaperWork.GameEntities.Collisions
 {
-    public class DropThePapersToTheRight : IHandleUpdates
+    public class DropThePapers : IHandleUpdates
     {
         private readonly Func<PapersEntity> HoldingPapers;
         private readonly Func<bool> DropButtonPressed;
@@ -11,25 +11,21 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Func<bool> DropCooldownEnded;
         private readonly Action RemovePaperReferenceFromPlayer;
         private readonly Func<bool> NoRightEntity;
-        private readonly Func<bool> NoBotRightEntity;
-        private readonly Func<bool> PlayerJumping;
         private readonly Func<bool> DownButtonPressed;
         private readonly Func<bool> FacingOtherWay;
         private readonly int bonus;
 
-        public DropThePapersToTheRight(
+        public DropThePapers(
             Func<PapersEntity> HoldingPapers
             , Func<bool> DropButtonPressed
             , Func<bool> DropCooldownEnded
             , Action SetDropOnCooldown
             , Action RemovePaperReferenceFromPlayer
             , Func<bool> NoRightEntity
-            , Func<bool> NoBotRightEntity
-            , Func<bool> PlayerJumping
             , Func<bool> DownButtonPressed
             , Func<bool> FacingOtherWay
             , int bonus
-            )
+        )
         {
             this.HoldingPapers = HoldingPapers;
             this.DropButtonPressed = DropButtonPressed;
@@ -37,8 +33,6 @@ namespace PaperWork.GameEntities.Collisions
             this.SetDropOnCooldown = SetDropOnCooldown;
             this.RemovePaperReferenceFromPlayer = RemovePaperReferenceFromPlayer;
             this.NoRightEntity = NoRightEntity;
-            this.NoBotRightEntity = NoBotRightEntity;
-            this.PlayerJumping = PlayerJumping;
             this.DownButtonPressed = DownButtonPressed;
             this.FacingOtherWay = FacingOtherWay;
             this.bonus = bonus;
@@ -65,8 +59,7 @@ namespace PaperWork.GameEntities.Collisions
 
         private void HandlePaperDrop(PapersEntity papers)
         {
-            if (NoRightEntity()
-               && (NoBotRightEntity() || PlayerJumping()))
+            if (NoRightEntity())
             {
                 foreach (var collider in papers.GetColliders())
                     collider.Disabled = false;

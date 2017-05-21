@@ -5,8 +5,9 @@ namespace PaperWork.PlayerHandlers.Updates
 {
     class UsesSpeedToMove : IHandleUpdates
     {
-        Func<float> GetHorizontalSpeed;
-        Func<float> GetVerticalSpeed;
+        private readonly Func<float> GetHorizontalSpeed;
+        private readonly Func<float> GetVerticalSpeed;
+
         public UsesSpeedToMove(
             Func<float> GetHorizontalSpeed
             , Func<float> GetVerticalSpeed)

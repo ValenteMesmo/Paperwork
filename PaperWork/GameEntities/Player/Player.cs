@@ -9,27 +9,8 @@ using System.Collections.Generic;
 
 namespace PaperWork
 {
-    public class UpdateHandlerAggragator : IHandleUpdates
-    {
-        IHandleUpdates[] updates;
-
-        public UpdateHandlerAggragator(params IHandleUpdates[] updates)
-        {
-            this.updates = updates;
-        }
-
-        public void Update(Entity entity)
-        {
-            foreach (var item in updates)
-            {
-                item.Update(entity);
-            }
-        }
-    }
-
     public class PlayerEntity : Entity
     {
-        //bug: sometimes dragged entity is not null.... even when no paper above
         private readonly Property<PapersEntity> DraggedEntity = new Property<PapersEntity>();
 
         private readonly Property<Entity> RightEntity = new Property<Entity>();
@@ -69,10 +50,21 @@ namespace PaperWork
             });
 
             var grounded = new UpdateHandlerAggragator(
-                new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-                , new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left_Pressed, Inputs.Right_Pressed)
-                , new SetDirectionOnInput(Inputs.Right_Pressed, Inputs.Left_Pressed, FacingRightDirection.Set)
-                , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Up_Pressed)
+                new UsesSpeedToMove(
+                    HorizontalSpeed.Get, 
+                    VerticalSpeed.Get)
+                , new SpeedUpHorizontallyOnInput(
+                    HorizontalSpeed.Set, 
+                    Inputs.Left_Pressed, 
+                    Inputs.Right_Pressed)
+                , new SetDirectionOnInput(
+                    Inputs.Right_Pressed, 
+                    Inputs.Left_Pressed, 
+                    FacingRightDirection.Set)
+                , new JumpOnInputDecreasesVerticalSpeed(
+                    SteppingOnTheFloor.Get, 
+                    VerticalSpeed.Set, 
+                    Inputs.Up_Pressed)
                 , new DragNearPaperOnInput(
                     GrabButtonPressed: Inputs.Action1_JustPressed
                     , PlayerHandsAreFree: DraggedEntity.IsNull
@@ -88,29 +80,29 @@ namespace PaperWork
                     , SetGrabOnCooldown: DragAndDropCooldown.TriggerCooldown
                     , GetBotRightEntity: BotRightEntity.Get
                     , PlayerFalling: BotEnity.IsNull)
-                , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                , new DropThePapersToTheRight(
+                , new GravityIncreasesVerticalSpeed(
+                    VerticalSpeed.Get, 
+                    VerticalSpeed.Set)
+                , new ForbidJumpIfVerticalSpeedNotZero(
+                    SteppingOnTheFloor.Set, 
+                    BotEnity.False)
+                , new DropThePapers(
                     DraggedEntity.Get,
                     Inputs.Action1_JustPressed,
                     DragAndDropCooldown.Ended,
                     DragAndDropCooldown.TriggerCooldown,
                     DraggedEntity.SetDefaut,
                     RightEntity.IsNull,
-                    BotRightEntity.IsNull,
-                    () => VerticalSpeed.Get() != 0,
                     Inputs.Down_Pressed,
                     FacingRightDirection.False,
                     50)
-                , new DropThePapersToTheRight(
+                , new DropThePapers(
                     DraggedEntity.Get,
                     Inputs.Action1_JustPressed,
                     DragAndDropCooldown.Ended,
                     DragAndDropCooldown.TriggerCooldown,
                     DraggedEntity.SetDefaut,
                     LeftEnity.IsNull,
-                    BotLeftEnity.IsNull,
-                    () => VerticalSpeed.Get() != 0,
                     Inputs.Down_Pressed,
                     FacingRightDirection.True,
                     -40)
@@ -125,7 +117,10 @@ namespace PaperWork
             CreateFeeler(Inputs, -width - 20, 20, LeftEnity, false);
 
             mainCollider.AddHandlers(
-                new HandleCollisionWithSolidObjects(SteppingOnTheFloor.Set, VerticalSpeed.Set, HorizontalSpeed.Set)
+                new HandleCollisionWithSolidObjects(
+                    SteppingOnTheFloor.Set, 
+                    VerticalSpeed.Set, 
+                    HorizontalSpeed.Set)
             );
 
             Colliders.Add(mainCollider);
@@ -141,7 +136,9 @@ namespace PaperWork
             var trigger = new Trigger(this, 10, 10);
             trigger.LocalPosition = new Coordinate2D(x, y);
             trigger.AddHandlers(
-                new SetNearEntityOnTriggerEnter(entityBeenFelt.Set, entityBeenFelt.Get)
+                new SetNearEntityOnTriggerEnter(
+                    entityBeenFelt.Set, 
+                    entityBeenFelt.Get)
             );
             Colliders.Add(trigger);
         }
@@ -155,4 +152,3 @@ namespace PaperWork
         }
     }
 }
-

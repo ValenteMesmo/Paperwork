@@ -5,20 +5,21 @@ namespace PaperWork.PlayerHandlers.Updates
 {
     public class ForbidJumpIfVerticalSpeedNotZero : IHandleUpdates
     {
-        private Action<bool> SetJumpEnabled;
-        private Func<float> GetVerticalSpeed;
+        private readonly Action<bool> SetJumpEnabled;
+        private readonly Func<bool> PlayerGrounded;
 
         public ForbidJumpIfVerticalSpeedNotZero(            
-            Action<bool> SetJumpEnabled,
-            Func<float> GetVerticalSpeed) 
+            Action<bool> SetJumpEnabled
+            ,Func<bool> PlayerGrounded
+            ) 
         {
+            this.PlayerGrounded = PlayerGrounded;
             this.SetJumpEnabled = SetJumpEnabled;
-            this.GetVerticalSpeed = GetVerticalSpeed;
         }
 
         public void Update(Entity entity)
         {
-            if (GetVerticalSpeed() != 0)
+            if (PlayerGrounded())
                 SetJumpEnabled(false);
         }
     }
