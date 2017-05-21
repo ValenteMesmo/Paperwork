@@ -1,13 +1,11 @@
 ﻿using GameCore;
 using GameCore.Collision;
 using Microsoft.Xna.Framework;
-using PaperWork.GameEntities;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
 using PaperWork.GameEntities.Papers.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
-using System.Collections.Generic;
 
 namespace PaperWork
 {
@@ -39,8 +37,9 @@ namespace PaperWork
         }
 
         private readonly Collider mainCollider;
+        private readonly IHandleUpdates PaperUpdate;
 
-        public PapersEntity(int cellSize, Action<Entity> SelfDestruct) : base(SelfDestruct)
+        public PapersEntity(int cellSize) : base()
         {
 
             Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
@@ -71,11 +70,10 @@ namespace PaperWork
 
             var botTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             botTrigger.Position = new Coordinate2D(20, +75);
-            botTrigger.AddHandlers(
-                new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
+            botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
             Colliders.Add(botTrigger);
 
-            AddUpdateHandlers(
+            PaperUpdate = new UpdateHandlerAggragator(
               new ComputeCombos(new HorizontalNeighborChecker().GetNeighborsCombo)
              , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
              , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
@@ -84,34 +82,10 @@ namespace PaperWork
              , new SetGroundedIfSolidEntityBelow(botTrigger.GetEntities, Grounded.Set)
             );
         }
-    }
 
-    public class SetGroundedIfSolidEntityBelow : IHandleEntityUpdates
-    {
-        private readonly Func<IEnumerable<Entity>> GetEntitiesBelow;
-        private readonly Action<bool> SetGrounded;
-
-        public SetGroundedIfSolidEntityBelow(
-            Func<IEnumerable<Entity>> GetEntitiesBelow
-            , Action<bool> SetGrounded)
+        protected override void OnUpdate()
         {
-            this.GetEntitiesBelow = GetEntitiesBelow;
-            this.SetGrounded = SetGrounded;
-        }
-
-        public void Update(Entity entity)
-        {
-            foreach (var item in GetEntitiesBelow())
-            {
-                if (item is PapersEntity
-                    || item is SolidBlock)
-                {
-                    SetGrounded(true);
-                    return;
-                }
-            }
-
-            SetGrounded(false);
+            PaperUpdate.Update(this);
         }
     }
 }

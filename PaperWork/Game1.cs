@@ -11,46 +11,15 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            AddEntity(new PlayerEntity(PlayerInputs, RemoveEntity)
+            AddEntity(new PlayerEntity(PlayerInputs)
             {
                 Position = new Coordinate2D(100, 100)
             });
 
-            var paper1 = new PapersEntity(50, RemoveEntity)
-            {
-                Position = new Coordinate2D(
-                    rowNumber * 50 - 50,
-                    colNumber * 50 - 100)
-            };
-
-            var paper2 = new PapersEntity(50, RemoveEntity)
-            {
-                Position = new Coordinate2D(
-                   rowNumber * 50 - 100,
-                   colNumber * 50 - 100)
-            };
-
-            AddEntity(new PapersEntity(50, RemoveEntity)
-            {
-                Position = new Coordinate2D(
-                  rowNumber * 50 - 200,
-                  colNumber * 50 - 100)
-            });
-
-            AddEntity(new PapersEntity(50, RemoveEntity)
-            {
-                Position = new Coordinate2D(
-                    rowNumber * 50 - 200,
-                    colNumber * 50 - 200)
-            });
-
-            AddEntity(paper1);
-            AddEntity(paper2);
-
             CreateBlocks(rowNumber, colNumber);
 
             AddEntity(
-                new PapersFactory(RemoveEntity, AddEntity)
+                new PapersFactory(AddEntity)
                 {
                     Position = new Coordinate2D(
                         0,//50*12, 
@@ -62,7 +31,7 @@ namespace PaperWork
         {
             for (int i = 1; i < rowNumber; i++)
             {
-                AddEntity(new SolidBlock(RemoveEntity)
+                AddEntity(new SolidBlock()
                 {
                     Position = new Coordinate2D(i * 50, 0)
                 });
@@ -70,7 +39,7 @@ namespace PaperWork
 
             for (int i = 1; i < colNumber; i++)
             {
-                AddEntity(new SolidBlock(RemoveEntity)
+                AddEntity(new SolidBlock()
                 {
                     Position = new Coordinate2D(0, i * 50)
                 });
@@ -79,7 +48,7 @@ namespace PaperWork
 
             for (int i = 1; i < rowNumber; i++)
             {
-                AddEntity(new SolidBlock(RemoveEntity)
+                AddEntity(new SolidBlock()
                 {
                     Position = new Coordinate2D(i * 50, 50 * colNumber)
                 });
@@ -87,7 +56,7 @@ namespace PaperWork
 
             for (int i = 1; i < colNumber; i++)
             {
-                AddEntity(new SolidBlock(RemoveEntity)
+                AddEntity(new SolidBlock()
                 {
                     Position = new Coordinate2D(50 * rowNumber, i * 50)
                 });

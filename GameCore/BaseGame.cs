@@ -9,8 +9,6 @@ namespace GameCore
 {
     public abstract class BaseGame : Game
     {
-        private FrameCounter _frameCounter = new FrameCounter();
-
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> Textures;
@@ -18,7 +16,6 @@ namespace GameCore
         private readonly List<Entity> Entities;
         private Texture2D pixel;
         private CollisionDetector CollisionDetector = new CollisionDetector();
-        private SpriteFont font;
 
         protected InputRepository PlayerInputs;
 
@@ -36,19 +33,18 @@ namespace GameCore
 
         protected void AddEntity(Entity Entity)
         {
+            Entity.Destroy = () =>
+            {
+                Entities.Remove(Entity);
+            };
             Entities.Add(Entity);
-        }
-
-        protected void RemoveEntity(Entity Entity)
-        {
-            Entities.Remove(Entity);
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Textures = new Dictionary<string, Texture2D>();
-            font = Content.Load<SpriteFont>("DefaultFont");
+
             foreach (var name in TextureNames)
             {
                 Textures.Add(name, Content.Load<Texture2D>(name));
@@ -119,14 +115,6 @@ namespace GameCore
 
                 }
             }
-
-            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            _frameCounter.Update(deltaTime);
-
-            var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
-
-            spriteBatch.DrawString(font, fps, new Vector2(1, 1), Color.Black);
 
             spriteBatch.End();
 

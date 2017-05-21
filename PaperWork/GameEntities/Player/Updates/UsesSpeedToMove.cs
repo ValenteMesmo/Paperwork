@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork.PlayerHandlers.Updates
 {
-    class UsesSpeedToMove : IHandleEntityUpdates
+    class UsesSpeedToMove : IHandleUpdates
     {
         Func<float> GetHorizontalSpeed;
         Func<float> GetVerticalSpeed;

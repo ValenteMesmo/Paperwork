@@ -10,45 +10,35 @@ namespace PaperWork
 {
     public class PapersFactory : Entity
     {
-        public PapersFactory(Action<Entity> RemoveFromWorld, Action<Entity> AddToWorld) : base(RemoveFromWorld)
-        {
-            var feeler = new Trigger(this, (50 * 12) - 4, 10);
-            feeler.Position = new Coordinate2D(52, 0);
-            Colliders.Add(feeler);
-            AddUpdateHandlers(
-                new GeneratePapers(RemoveFromWorld, AddToWorld, feeler.GetEntities)
-            );
-        }
-    }
-
-    class GeneratePapers : IHandleEntityUpdates
-    {
-        private readonly Action<Entity> RemoveFromWorld;
         Cooldown cooldown = new Cooldown(2000);
         private readonly Action<Entity> AddToWorld;
-        Color[] Colors = new Color[] { Color.White, new Color(255, 100, 100), new Color(100, 255, 100), new Color(100, 100, 255) };
-        Random Random = new Random();
-        private readonly Func<IEnumerable<Entity>> GetEntitiesOnTheTrigger;
-
-        public GeneratePapers(
-            Action<Entity> RemoveFromWorld
-            , Action<Entity> AddToWorld
-            , Func<IEnumerable<Entity>>GetEntitiesOnTheTrigger)
+        Color[] Colors = new Color[]
         {
-            this.RemoveFromWorld = RemoveFromWorld;
+            Color.Yellow,
+            new Color(255, 100, 100),
+            new Color(100, 255, 100),
+            new Color(150, 150, 255)
+        };
+        Random Random = new Random();
+        private readonly Trigger feeler;
+
+        public PapersFactory(Action<Entity> AddToWorld)
+        {
             this.AddToWorld = AddToWorld;
-            this.GetEntitiesOnTheTrigger = GetEntitiesOnTheTrigger;
+            feeler = new Trigger(this, (50 * 12) - 4, 10);
+            feeler.Position = new Coordinate2D(52, 0);
+            Colliders.Add(feeler);
         }
 
-        public void Update(Entity entity)
+        protected override void OnUpdate()
         {
-            if (cooldown.CooldownEnded())
+            if (cooldown.Ended())
             {
                 var coordenates = new List<Coordinate2D>();
-                var others = GetEntitiesOnTheTrigger();
+                var others = feeler.GetEntities();
 
-                var x = 50*12;
-                foreach (var item in others.OrderByDescending(f=> f.Position.X))
+                var x = 50 * 12;
+                foreach (var item in others.OrderByDescending(f => f.Position.X))
                 {
                     if (item is PapersEntity == false)
                         continue;
@@ -59,7 +49,7 @@ namespace PaperWork
                     }
                 }
 
-                var paper = new PapersEntity(50, RemoveFromWorld)
+                var paper = new PapersEntity(50)
                 {
                     Position = new Coordinate2D(x, 5)
                 };

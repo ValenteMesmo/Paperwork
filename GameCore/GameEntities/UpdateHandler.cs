@@ -1,6 +1,6 @@
 ﻿namespace GameCore
 {
-    public interface IHandleEntityUpdates
+    public interface IHandleUpdates
     {
        void Update(Entity entity);
     }

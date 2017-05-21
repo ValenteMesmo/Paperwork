@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GameCore.Collision
+﻿namespace GameCore.Collision
 {
     public abstract class BaseCollider
     {
@@ -26,20 +24,12 @@ namespace GameCore.Collision
                 LocalPosition = position;
             }
         }
-        private readonly IList<IHandleCollision> CollisionHandlers;
-        private readonly IList<IHandleTriggers> TriggerHandlers;
-        private readonly IList<BaseCollider> PreviousUpdateCollisions;
-        private readonly IList<BaseCollider> CurrentUpdateCollisions;
 
         public BaseCollider(Entity ParentEntity, float Width, float Height)
         {
             this.Width = Width;
             this.Height = Height;
             this.ParentEntity = ParentEntity;
-            CollisionHandlers = new List<IHandleCollision>();
-            TriggerHandlers = new List<IHandleTriggers>();
-            PreviousUpdateCollisions = new List<BaseCollider>();
-            CurrentUpdateCollisions = new List<BaseCollider>();
         }
 
         internal virtual void Update() { }

@@ -22,7 +22,7 @@ namespace PaperWork.GameEntities.Collisions
             return DateTime.Now < lastSet;
         }
 
-        public bool CooldownEnded()
+        public bool Ended()
         {
             return OnCooldown() == false;
         }

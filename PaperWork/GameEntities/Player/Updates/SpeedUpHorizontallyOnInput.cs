@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork
 {
-    public class SpeedUpHorizontallyOnInput : IHandleEntityUpdates
+    public class SpeedUpHorizontallyOnInput : IHandleUpdates
     {
         private readonly Action<float> SetHorizontalSpeed;
         private readonly Func<bool> LeftButtonPressed;
@@ -38,7 +38,10 @@ namespace PaperWork
                     speedx += 0.5f;
             }
 
-            speedx = speedx.LimitToRange(-2, 2);
+            if (speedx < -2)
+                speedx = -2;
+            if (speedx > 2)
+                speedx = 2;
 
             SetHorizontalSpeed(speedx);
         }

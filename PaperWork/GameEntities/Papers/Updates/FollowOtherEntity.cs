@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork.GameEntities.Collisions
 {
-    public class FollowOtherEntity : IHandleEntityUpdates
+    public class FollowOtherEntity : IHandleUpdates
     {
         private readonly Coordinate2D bonus;
         private readonly Func<Entity> GetTarget;

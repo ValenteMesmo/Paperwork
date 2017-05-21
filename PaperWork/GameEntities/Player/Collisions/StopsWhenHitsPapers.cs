@@ -5,13 +5,13 @@ using System;
 
 namespace PaperWork.PlayerHandlers.Collisions
 {
-    public class VerticalCollisions : IHandleCollision
+    public class HandleCollisionWithSolidObjects : IHandleCollision
     {
         private Action<bool> SetJumpEnable;
         private Action<float> SetVerticalSpeed;
         private readonly Action<float> SetHorizontalSpeed;
 
-        public VerticalCollisions(
+        public HandleCollisionWithSolidObjects(
             Action<bool> SetJumpEnable,
             Action<float> SetVerticalSpeed,
             Action<float> SetHorizontalSpeed)
@@ -48,12 +48,13 @@ namespace PaperWork.PlayerHandlers.Collisions
                         collider.ParentEntity.Position.X,
                         other.Position.Y + other.Height + 1);
             }
-            else if (other.ParentEntity is PapersEntity)
+            else if (other.ParentEntity is PapersEntity
+                && other.ParentEntity.As<PapersEntity>().Grounded.Get() == false)
             {
-                SetHorizontalSpeed(-100);
+                SetHorizontalSpeed(-10);
             }
         }
-
+        
         public void CollisionFromTheLeft(BaseCollider collider, BaseCollider other)
         {
             if (other.ParentEntity is PapersEntity || other.ParentEntity is SolidBlock)

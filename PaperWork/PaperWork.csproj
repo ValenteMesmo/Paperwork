@@ -45,6 +45,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameEntities\Papers\HorizontalNeighborChecker.cs" />
     <Compile Include="GameEntities\Papers\Collisions\SetTriggeredNeighbor.cs" />
+    <Compile Include="GameEntities\Papers\SetGroundedIfSolidEntityBelow.cs" />
     <Compile Include="GameEntities\Papers\Updates\ComputeHorizontalCombosCombo.cs" />
     <Compile Include="GameEntities\Papers\Updates\FrictionSpeedLoss.cs" />
     <Compile Include="GameEntities\Papers\Collisions\ZeroVerticalSpeedWhenCollidingVertically.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="GameEntities\Player\Updates\DropThePapers.cs" />
     <Compile Include="GameEntities\Papers\Updates\FollowOtherEntity.cs" />
     <Compile Include="GameEntities\Player\Collisions\SetNearPaperOnTriggerEnter.cs" />
-    <Compile Include="GameEntities\Player\Collisions\MoveOnCollision.cs" />
     <Compile Include="GameEntities\Papers\Papers.cs" />
     <Compile Include="GameEntities\Player\Player.cs" />
     <Compile Include="GameEntities\Player\Collisions\StopsWhenHitsPapers.cs" />
@@ -127,7 +127,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <None Include="Content\DefaultFont.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\block.bmp" />

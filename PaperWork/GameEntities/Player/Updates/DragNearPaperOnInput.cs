@@ -3,41 +3,50 @@ using System;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
-    public class DragNearPaperOnInput : IHandleEntityUpdates
+    public class DragNearPaperOnInput : IHandleUpdates
     {
-        private readonly Func<Entity> GetNearPaper;
         private readonly Func<bool> GrabButtonPressed;
-        private readonly Func<bool> GrabCooldownEnded;
         private readonly Func<bool> PlayerHandsAreFree;
-        private readonly Action SetGrabOnCooldown;
-        private readonly Action<Entity> GivePaperToPlayer;
-        private readonly Func<Entity> GetAlternativeNearPaper;
-        private readonly Func<float> GetVerticalSpeed;
+        private readonly Func<bool> GrabCooldownEnded;
         private readonly Func<bool> DownButtonPressed;
-        private readonly Func<Entity> GeEntityBelowFeet;
+        private readonly Func<bool> PlayerFacingRight;
+        private readonly Func<Entity> GetRightEntity;
+        private readonly Func<float> GetVerticalSpeed;
+        private readonly Func<Entity> GetBotRightEntity;
+        private readonly Func<Entity> GetLeftEntity;
+        private readonly Func<Entity> GetBotLeftEntity;
+        private readonly Action<PapersEntity> GivePaperToPlayer;
+        private readonly Action SetGrabOnCooldown;
+        private readonly Func<Entity> GetBotEntity;
 
         public DragNearPaperOnInput(
-            Func<Entity> GetNearPaper
-            , Func<Entity> GeEntityBelowFeet
-            , Func<bool> GrabButtonPressed
-            , Func<bool> GrabCooldownEnded
-            , Action SetGrabOnCooldown
+            Func<bool> GrabButtonPressed
             , Func<bool> PlayerHandsAreFree
-            , Action<Entity> GivePaperToPlayer
-            , Func<Entity> GetAlternativeNearPaper
+            , Func<bool> GrabCooldownEnded
+            , Func<bool> DownButtonPressed
+            , Func<bool> PlayerFacingRight
+            , Func<Entity> GetRightEntity
             , Func<float> GetVerticalSpeed
-            , Func<bool> DownButtonPressed)
+            , Func<Entity> GetBotRightEntity
+            , Func<Entity> GetLeftEntity
+            , Func<Entity> GetBotLeftEntity
+            , Action<PapersEntity> GivePaperToPlayer
+            , Action SetGrabOnCooldown
+            , Func<Entity> GetBotEntity)
         {
-            this.GetNearPaper = GetNearPaper;
             this.GrabButtonPressed = GrabButtonPressed;
-            this.GrabCooldownEnded = GrabCooldownEnded;
             this.PlayerHandsAreFree = PlayerHandsAreFree;
-            this.SetGrabOnCooldown = SetGrabOnCooldown;
-            this.GivePaperToPlayer = GivePaperToPlayer;
-            this.GetAlternativeNearPaper = GetAlternativeNearPaper;
-            this.GetVerticalSpeed = GetVerticalSpeed;
+            this.GrabCooldownEnded = GrabCooldownEnded;
             this.DownButtonPressed = DownButtonPressed;
-            this.GeEntityBelowFeet = GeEntityBelowFeet;
+            this.PlayerFacingRight = PlayerFacingRight;
+            this.GetRightEntity = GetRightEntity;
+            this.GetVerticalSpeed = GetVerticalSpeed;
+            this.GetBotRightEntity = GetBotRightEntity;
+            this.GetLeftEntity = GetLeftEntity;
+            this.GetBotLeftEntity = GetBotLeftEntity;
+            this.GivePaperToPlayer = GivePaperToPlayer;
+            this.SetGrabOnCooldown = SetGrabOnCooldown;
+            this.GetBotEntity = GetBotEntity;
         }
 
         public void Update(Entity entity)
@@ -57,22 +66,47 @@ namespace PaperWork.GameEntities.Player.Updates
             }
         }
 
+        private PapersEntity GetPaperToGrab()
+        {
+            Entity result = null;
+            if (PlayerFacingRight())
+            {
+                result = GetRightEntity();
+
+                if (result == null || result is PapersEntity == false)
+                {
+                    if (GetVerticalSpeed() != 0)
+                        return null;
+
+                    result = GetBotRightEntity();
+                }
+            }
+            else
+            {
+                result = GetLeftEntity();
+                if (result == null || result is PapersEntity == false)
+                {
+                    if (GetVerticalSpeed() != 0)
+                        return null;
+
+                    result = GetBotLeftEntity();
+                }
+            }
+
+            if (result is PapersEntity)
+                return result as PapersEntity;
+
+            return null;
+        }
+
         private void HandleDragNear(Entity entity)
         {
-            var papers = GetNearPaper();
+            var papers = GetPaperToGrab();
 
             if (papers == null)
             {
-                if (GetVerticalSpeed() != 0)
-                    return;
-
-                papers = GetAlternativeNearPaper();
-                if (papers == null)
-                    return;
-            }
-
-            if (papers is PapersEntity == false)
                 return;
+            }
 
             GivePaperToPlayer(papers);
             SetGrabOnCooldown();
@@ -86,7 +120,7 @@ namespace PaperWork.GameEntities.Player.Updates
 
         private void HandleDragFromBelow(Entity entity)
         {
-            var papers = GeEntityBelowFeet();
+            var papers = GetBotEntity();
 
             if (papers == null)
                 return;
@@ -94,7 +128,7 @@ namespace PaperWork.GameEntities.Player.Updates
             if (papers is PapersEntity == false)
                 return;
 
-            GivePaperToPlayer(papers);
+            GivePaperToPlayer(papers as PapersEntity);
             SetGrabOnCooldown();
             papers.As<PapersEntity>().Target.Set(entity);
 

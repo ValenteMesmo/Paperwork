@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork.PlayerHandlers.Updates
 {
-    public class ForbidJumpIfVerticalSpeedNotZero : IHandleEntityUpdates
+    public class ForbidJumpIfVerticalSpeedNotZero : IHandleUpdates
     {
         private Action<bool> SetJumpEnabled;
         private Func<float> GetVerticalSpeed;

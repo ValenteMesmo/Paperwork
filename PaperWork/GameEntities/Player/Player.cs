@@ -5,26 +5,51 @@ using PaperWork.GameEntities.Player.Collisions;
 using PaperWork.GameEntities.Player.Updates;
 using PaperWork.PlayerHandlers.Collisions;
 using PaperWork.PlayerHandlers.Updates;
-using System;
 using System.Collections.Generic;
 
 namespace PaperWork
 {
+    public class UpdateHandlerAggragator : IHandleUpdates
+    {
+        IHandleUpdates[] updates;
+
+        public UpdateHandlerAggragator(params IHandleUpdates[] updates)
+        {
+            this.updates = updates;
+        }
+
+        public void Update(Entity entity)
+        {
+            foreach (var item in updates)
+            {
+                item.Update(entity);
+            }
+        }
+    }
+
     public class PlayerEntity : Entity
     {
         //bug: sometimes dragged entity is not null.... even when no paper above
         private readonly Property<Entity> DraggedEntity = new Property<Entity>();
-        private readonly Property<Entity> EntityNearFace = new Property<Entity>();
-        private readonly Property<Entity> EntityNearBelly = new Property<Entity>();
-        private readonly Property<Entity> EntityBelowFeet = new Property<Entity>();
+
+        private readonly Property<Entity> RightEntity = new Property<Entity>();
+        private readonly Property<Entity> BotRightEntity = new Property<Entity>();
+        private readonly Property<Entity> BotEnity = new Property<Entity>();
+        private readonly Property<Entity> LeftEnity = new Property<Entity>();
+        private readonly Property<Entity> BotLeftEnity = new Property<Entity>();
+
         private readonly Property<bool> SteppingOnTheFloor = new Property<bool>();
         private readonly Property<bool> FacingRightDirection = new Property<bool>();
+
         private readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly Property<float> VerticalSpeed = new Property<float>();
+
         private readonly Cooldown DragAndDropCooldown = new Cooldown(200);
         private readonly List<EntityTexture> TextureLeft = new List<EntityTexture>();
 
-        public PlayerEntity(InputRepository Inputs, Action<Entity> DestroyEntity) : base(DestroyEntity)
+        private IHandleUpdates CurrentState;
+
+        public PlayerEntity(InputRepository Inputs) : base()
         {
             FacingRightDirection.Set(true);
 
@@ -43,37 +68,48 @@ namespace PaperWork
                 Offset = new Coordinate2D(-15, 0)
             });
 
-            AddUpdateHandlers(
-                new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left_Pressed, Inputs.Right_Pressed)
+            var grounded = new UpdateHandlerAggragator(
+                new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
+                , new SpeedUpHorizontallyOnInput(HorizontalSpeed.Set, Inputs.Left_Pressed, Inputs.Right_Pressed)
                 , new SetDirectionOnInput(Inputs.Right_Pressed, Inputs.Left_Pressed, FacingRightDirection.Set)
                 , new JumpOnInputDecreasesVerticalSpeed(SteppingOnTheFloor.Get, VerticalSpeed.Set, Inputs.Up_Pressed)
                 , new DragNearPaperOnInput(
-                    GetNearPaper: EntityNearFace.Get
-                    , GeEntityBelowFeet: EntityBelowFeet.Get
-                    , GrabButtonPressed: Inputs.Action1_JustPressed
-                    , GrabCooldownEnded: DragAndDropCooldown.CooldownEnded
-                    , SetGrabOnCooldown: DragAndDropCooldown.TriggerCooldown
+                    GrabButtonPressed: Inputs.Action1_JustPressed
                     , PlayerHandsAreFree: DraggedEntity.IsNull
-                    , GivePaperToPlayer: DraggedEntity.Set
-                    , GetAlternativeNearPaper: EntityNearBelly.Get
+                    , GrabCooldownEnded: DragAndDropCooldown.Ended
+                    , DownButtonPressed: Inputs.Down_Pressed
+                    , PlayerFacingRight: FacingRightDirection.Get
+                    , GetRightEntity: RightEntity.Get
                     , GetVerticalSpeed: VerticalSpeed.Get
-                    , DownButtonPressed: Inputs.Down_Pressed)
+                    , GetBotEntity: BotEnity.Get
+                    , GetLeftEntity: LeftEnity.Get
+                    , GetBotLeftEntity: BotLeftEnity.Get
+                    , GivePaperToPlayer: DraggedEntity.Set
+                    , SetGrabOnCooldown: DragAndDropCooldown.TriggerCooldown
+                    , GetBotRightEntity: BotRightEntity.Get)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
-                , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
                 , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                , new DropThePapers(DraggedEntity.Get, Inputs.Action1_JustPressed, DragAndDropCooldown.CooldownEnded, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, EntityNearFace.IsNull, EntityNearBelly.IsNull, () => VerticalSpeed.Get() != 0, Inputs.Down_Pressed)
+                , new DropThePapers(DraggedEntity.Get, Inputs.Action1_JustPressed, DragAndDropCooldown.Ended, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, RightEntity.IsNull, BotRightEntity.IsNull, () => VerticalSpeed.Get() != 0, Inputs.Down_Pressed)
             );
 
-            CreateFeeler(Inputs, 30, 20, EntityNearFace);
-            CreateFeeler(Inputs, 30, 75, EntityNearBelly);
-            CreateFeeler(Inputs, 5, 125, EntityBelowFeet, false);
+            CurrentState = grounded;
+
+            CreateFeeler(Inputs, width + 30, 20, RightEntity);
+            CreateFeeler(Inputs, width + 30, 75, BotRightEntity);
+            CreateFeeler(Inputs, 5, 125, BotEnity, false);
+            CreateFeeler(Inputs, -width - 20, 75, BotLeftEnity, false);
+            CreateFeeler(Inputs, -width - 20, 20, LeftEnity, false);
 
             mainCollider.AddHandlers(
-                new VerticalCollisions(SteppingOnTheFloor.Set, VerticalSpeed.Set, HorizontalSpeed.Set)
-                //, new MoveBackWhenHittingWall()
+                new HandleCollisionWithSolidObjects(SteppingOnTheFloor.Set, VerticalSpeed.Set, HorizontalSpeed.Set)
             );
 
             Colliders.Add(mainCollider);
+        }
+
+        protected override void OnUpdate()
+        {
+            CurrentState.Update(this);
         }
 
         private void CreateFeeler(InputRepository Inputs, int x, int y, Property<Entity> entityBeenFelt, bool respectDirection = true)
@@ -84,8 +120,6 @@ namespace PaperWork
                 new SetNearEntityOnTriggerEnter(entityBeenFelt.Set, entityBeenFelt.Get)
             );
             Colliders.Add(trigger);
-            if (respectDirection)
-                AddUpdateHandlers(new SetGrabColliderPosition(Inputs.Right_Pressed, Inputs.Left_Pressed, f => trigger.LocalPosition = f, () => trigger.LocalPosition));
         }
 
         public override IEnumerable<EntityTexture> GetTextures()

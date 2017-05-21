@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork
 {
-    public class JumpOnInputDecreasesVerticalSpeed : IHandleEntityUpdates
+    public class JumpOnInputDecreasesVerticalSpeed : IHandleUpdates
     {
         private readonly Func<bool> StepingOnTheFloor;
         private readonly Action<float> SetVerticalSpeed;

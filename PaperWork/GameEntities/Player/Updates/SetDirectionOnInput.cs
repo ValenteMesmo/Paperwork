@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork
 {
-    class SetDirectionOnInput : IHandleEntityUpdates
+    class SetDirectionOnInput : IHandleUpdates
     {
         private readonly Func<bool> RightPressed;
         private readonly Func<bool> LeftPressed;

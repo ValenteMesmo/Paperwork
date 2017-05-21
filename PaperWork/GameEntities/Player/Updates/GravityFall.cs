@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork.PlayerHandlers.Updates
 {
-    public class GravityIncreasesVerticalSpeed : IHandleEntityUpdates
+    public class GravityIncreasesVerticalSpeed : IHandleUpdates
     {
         public const float VELOCITY = .5f;
         public const float MAX_SPEED = 5.0f;

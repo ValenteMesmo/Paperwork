@@ -3,7 +3,7 @@ using GameCore;
 
 namespace PaperWork.GameEntities.Collisions
 {
-    public class DropThePapers : IHandleEntityUpdates
+    public class DropThePapers : IHandleUpdates
     {
         private readonly Func<Entity> HoldingPapers;
         private readonly Func<bool> DropButtonPressed;

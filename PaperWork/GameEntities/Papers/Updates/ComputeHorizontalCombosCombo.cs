@@ -1,12 +1,11 @@
 ﻿using GameCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace PaperWork.GameEntities.Papers.Updates
 {
-    public class ComputeCombos : IHandleEntityUpdates
+    public class ComputeCombos : IHandleUpdates
     {
         private readonly Func<PapersEntity, IEnumerable<PapersEntity>> GetHorizontalCombo;
 
@@ -25,7 +24,7 @@ namespace PaperWork.GameEntities.Papers.Updates
             {
                 foreach (var item in combo)
                 {
-                    item.SelfDestruct();
+                    item.Destroy();
                 }
             }
         }
