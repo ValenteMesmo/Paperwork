@@ -11,13 +11,13 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Func<bool> DownButtonPressed;
         private readonly Func<bool> PlayerFacingRight;
         private readonly Func<Entity> GetRightEntity;
-        private readonly Func<float> GetVerticalSpeed;
         private readonly Func<Entity> GetBotRightEntity;
         private readonly Func<Entity> GetLeftEntity;
         private readonly Func<Entity> GetBotLeftEntity;
         private readonly Action<PapersEntity> GivePaperToPlayer;
         private readonly Action SetGrabOnCooldown;
         private readonly Func<Entity> GetBotEntity;
+        private readonly Func<bool> PlayerFalling;
 
         public DragNearPaperOnInput(
             Func<bool> GrabButtonPressed
@@ -32,7 +32,8 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<Entity> GetBotLeftEntity
             , Action<PapersEntity> GivePaperToPlayer
             , Action SetGrabOnCooldown
-            , Func<Entity> GetBotEntity)
+            , Func<Entity> GetBotEntity
+            , Func<bool> PlayerFalling)
         {
             this.GrabButtonPressed = GrabButtonPressed;
             this.PlayerHandsAreFree = PlayerHandsAreFree;
@@ -40,13 +41,13 @@ namespace PaperWork.GameEntities.Player.Updates
             this.DownButtonPressed = DownButtonPressed;
             this.PlayerFacingRight = PlayerFacingRight;
             this.GetRightEntity = GetRightEntity;
-            this.GetVerticalSpeed = GetVerticalSpeed;
             this.GetBotRightEntity = GetBotRightEntity;
             this.GetLeftEntity = GetLeftEntity;
             this.GetBotLeftEntity = GetBotLeftEntity;
             this.GivePaperToPlayer = GivePaperToPlayer;
             this.SetGrabOnCooldown = SetGrabOnCooldown;
             this.GetBotEntity = GetBotEntity;
+            this.PlayerFalling = PlayerFalling;
         }
 
         public void Update(Entity entity)
@@ -75,7 +76,7 @@ namespace PaperWork.GameEntities.Player.Updates
 
                 if (result == null || result is PapersEntity == false)
                 {
-                    if (GetVerticalSpeed() != 0)
+                    if (PlayerFalling())
                         return null;
 
                     result = GetBotRightEntity();
@@ -86,7 +87,7 @@ namespace PaperWork.GameEntities.Player.Updates
                 result = GetLeftEntity();
                 if (result == null || result is PapersEntity == false)
                 {
-                    if (GetVerticalSpeed() != 0)
+                    if (PlayerFalling())
                         return null;
 
                     result = GetBotLeftEntity();

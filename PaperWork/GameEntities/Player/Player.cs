@@ -30,7 +30,7 @@ namespace PaperWork
     public class PlayerEntity : Entity
     {
         //bug: sometimes dragged entity is not null.... even when no paper above
-        private readonly Property<Entity> DraggedEntity = new Property<Entity>();
+        private readonly Property<PapersEntity> DraggedEntity = new Property<PapersEntity>();
 
         private readonly Property<Entity> RightEntity = new Property<Entity>();
         private readonly Property<Entity> BotRightEntity = new Property<Entity>();
@@ -86,10 +86,34 @@ namespace PaperWork
                     , GetBotLeftEntity: BotLeftEnity.Get
                     , GivePaperToPlayer: DraggedEntity.Set
                     , SetGrabOnCooldown: DragAndDropCooldown.TriggerCooldown
-                    , GetBotRightEntity: BotRightEntity.Get)
+                    , GetBotRightEntity: BotRightEntity.Get
+                    , PlayerFalling: BotEnity.IsNull)
                 , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
                 , new ForbidJumpIfVerticalSpeedNotZero(SteppingOnTheFloor.Set, VerticalSpeed.Get)
-                , new DropThePapers(DraggedEntity.Get, Inputs.Action1_JustPressed, DragAndDropCooldown.Ended, DragAndDropCooldown.TriggerCooldown, DraggedEntity.SetDefaut, FacingRightDirection.Get, RightEntity.IsNull, BotRightEntity.IsNull, () => VerticalSpeed.Get() != 0, Inputs.Down_Pressed)
+                , new DropThePapersToTheRight(
+                    DraggedEntity.Get,
+                    Inputs.Action1_JustPressed,
+                    DragAndDropCooldown.Ended,
+                    DragAndDropCooldown.TriggerCooldown,
+                    DraggedEntity.SetDefaut,
+                    RightEntity.IsNull,
+                    BotRightEntity.IsNull,
+                    () => VerticalSpeed.Get() != 0,
+                    Inputs.Down_Pressed,
+                    FacingRightDirection.False,
+                    50)
+                , new DropThePapersToTheRight(
+                    DraggedEntity.Get,
+                    Inputs.Action1_JustPressed,
+                    DragAndDropCooldown.Ended,
+                    DragAndDropCooldown.TriggerCooldown,
+                    DraggedEntity.SetDefaut,
+                    LeftEnity.IsNull,
+                    BotLeftEnity.IsNull,
+                    () => VerticalSpeed.Get() != 0,
+                    Inputs.Down_Pressed,
+                    FacingRightDirection.True,
+                    -40)
             );
 
             CurrentState = grounded;
