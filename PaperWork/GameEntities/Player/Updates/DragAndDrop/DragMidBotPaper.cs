@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
@@ -10,8 +11,8 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Func<bool> GrabCooldownEnded;
         private readonly Func<bool> PlayerGrounded;
         private readonly Func<bool> FacingRight;
-        private readonly Func<Entity> GetBotRight;
-        private readonly Func<Entity> GetBotLeft;
+        private readonly Func<IEnumerable<Entity>> GetBotRight;
+        private readonly Func<IEnumerable<Entity>> GetBotLeft;
 
         public DragMidBotPaper(
             Action<PapersEntity> GivePaperToPlayer
@@ -21,8 +22,8 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<bool> GrabCooldownEnded
             , Func<bool> PlayerGrounded
             , Func<bool> FacingRight
-            , Func<Entity> GetBotRight
-            , Func<Entity> GetBotLeft) : base(GivePaperToPlayer, SetGrabOnCooldown)
+            , Func<IEnumerable<Entity>> GetBotRight
+            , Func<IEnumerable<Entity>> GetBotLeft) : base(GivePaperToPlayer, SetGrabOnCooldown)
         {
             this.GrabButtonPressed = GrabButtonPressed;
             this.PlayerHandsAreFree = PlayerHandsAreFree;
@@ -33,7 +34,7 @@ namespace PaperWork.GameEntities.Player.Updates
             this.GetBotLeft = GetBotLeft;
         }
 
-        protected override Entity GetEntityToGrab()
+        protected override IEnumerable<Entity> GetEntityToGrab()
         {
             if (GrabButtonPressed()
                 && PlayerHandsAreFree()

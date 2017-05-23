@@ -26,7 +26,7 @@ namespace PaperWork
                 && CooldownEnd < DateTime.Now
                 )
             {
-                SetVerticalSpeed(-12);
+                SetVerticalSpeed(-10);
                 CooldownEnd = DateTime.Now.AddMilliseconds(100);
             }
         }

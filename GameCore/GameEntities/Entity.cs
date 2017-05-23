@@ -7,14 +7,19 @@ namespace GameCore
     public abstract class Entity
     {
         public string Id { get; }
+        public int Width { get; }
+        public int Height { get; }
         public Coordinate2D Position { get; set; }
         public Action Destroy;
         protected List<BaseCollider> Colliders = new List<BaseCollider>();
         protected List<EntityTexture> Textures = new List<EntityTexture>();
         private readonly static Dictionary<Type, int> instancesCount = new Dictionary<Type, int>();
 
-        public Entity()
+        public Entity(int Width = 0, int Height = 0)
         {
+            this.Width = Width;
+            this.Height = Height;
+
             Destroy = () => { };
 
             var type = GetType();

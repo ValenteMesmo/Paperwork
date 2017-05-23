@@ -13,7 +13,7 @@ namespace PaperWork
     public class PapersEntity : Entity
     {
         public readonly Property<Entity> Target = new Property<Entity>();
-        public readonly Property<bool> Grounded = new Property<bool>();
+        public readonly Property<Entity> Grounded = new Property<Entity>();
         public readonly Property<float> VerticalSpeed = new Property<float>();
         public readonly Property<float> HorizontalSpeed = new Property<float>();
         public readonly Property<PapersEntity> RightNeighbor = new Property<PapersEntity>();
@@ -37,10 +37,9 @@ namespace PaperWork
             }
         }
 
-        private readonly Collider mainCollider;
         private readonly IHandleUpdates PaperUpdate;
 
-        public PapersEntity(int cellSize) : base()
+        public PapersEntity(int cellSize) : base(cellSize, cellSize)
         {
 
             Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
@@ -48,10 +47,8 @@ namespace PaperWork
                 Offset = new Coordinate2D(0, -cellSize)
             });
 
-            mainCollider = new Collider(this, cellSize - 2, cellSize);
+            var mainCollider = new Collider(this, cellSize - 2, cellSize);
             mainCollider.Position = new Coordinate2D(1, 0);
-            mainCollider.AddHandlers(
-                new PaperZeroVerticalSpeedWhenCollidingVertically(VerticalSpeed.Set, HorizontalSpeed.Set));
             Colliders.Add(mainCollider);
 
             var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
@@ -82,8 +79,8 @@ namespace PaperWork
                  VerticalSpeed.Set,
                  Grounded.Get)
              , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-             , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
-             , new CheckIfGrounded(botTrigger.GetEntities, Grounded.Set, cellSize)
+             , new FollowOtherEntity(new Coordinate2D(-20, -Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
+             , new CheckIfGrounded(botTrigger.GetEntities, Grounded.Set)
             );
         }
 

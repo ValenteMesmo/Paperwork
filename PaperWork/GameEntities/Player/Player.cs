@@ -1,9 +1,7 @@
 ﻿using GameCore;
 using GameCore.Collision;
-using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Player.Collisions;
 using PaperWork.GameEntities.Player.Updates;
-using PaperWork.PlayerHandlers.Collisions;
 using PaperWork.PlayerHandlers.Updates;
 using System.Collections.Generic;
 
@@ -11,14 +9,13 @@ namespace PaperWork
 {
     public class PlayerEntity : Entity
     {
-        private readonly Property<Entity> RightEntity = new Property<Entity>();
-        private readonly Property<Entity> BotRightEntity = new Property<Entity>();
-        private readonly Property<Entity> BotEnity = new Property<Entity>();
-        private readonly Property<Entity> LeftEnity = new Property<Entity>();
-        private readonly Property<Entity> BotLeftEnity = new Property<Entity>();
-
         private readonly Property<bool> FacingRightDirection = new Property<bool>();
-        private readonly Property<bool> Grounded = new Property<bool>();
+
+        private readonly Property<Entity> Grounded = new Property<Entity>();
+        private readonly Property<Entity> LeftWall = new Property<Entity>();
+        private readonly Property<Entity> RightWall = new Property<Entity>();
+        private readonly Property<Entity> BotLeftWall = new Property<Entity>();
+        private readonly Property<Entity> BotRightWall = new Property<Entity>();
 
         private readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly Property<float> VerticalSpeed = new Property<float>();
@@ -27,14 +24,9 @@ namespace PaperWork
 
         private IHandleUpdates CurrentState;
 
-        public PlayerEntity(InputRepository Inputs) : base()
+        public PlayerEntity(InputRepository Inputs) : base(20, 100)
         {
             FacingRightDirection.Set(true);
-
-            var width = 20;
-            var height = 100;
-
-            var mainCollider = new Collider(this, width, height);
 
             Textures.Add(new EntityTexture("char", 50, 100)
             {
@@ -46,26 +38,24 @@ namespace PaperWork
                 Offset = new Coordinate2D(-15, 0)
             });
 
-            CreateFeeler(Inputs, width + 30, 20, RightEntity);
-            CreateFeeler(Inputs, width + 30, 75, BotRightEntity);
-            var botTrigger = CreateFeeler(Inputs, 5, 125, BotEnity, false);
-            CreateFeeler(Inputs, -width - 20, 75, BotLeftEnity, false);
-            CreateFeeler(Inputs, -width - 20, 20, LeftEnity, false);
+            var rightTrigger = CreateFeeler(Inputs, Width + 30, 20);
+            var botRightTrigger = CreateFeeler(Inputs, Width + 30, 75);
+            var botTrigger = CreateFeeler(Inputs, 5, 125);
+            var botLeftTrigger = CreateFeeler(Inputs, -Width - 20, 75);
+            var leftTrigger = CreateFeeler(Inputs, -Width - 20, 20);
 
             var mainState = new UpdateHandlerAggregator(
-                new JumpOnInputDecreasesVerticalSpeed(
-                    Grounded.Get
-                    , VerticalSpeed.Set
-                    , () => Inputs.Up)
-               , new UsesSpeedToMove(
-                    HorizontalSpeed.Get,
-                    VerticalSpeed.Get)
-                , new SpeedUpHorizontallyOnInput(
+                 new SpeedUpHorizontallyOnInput(
                     HorizontalSpeed.Set,
                     HorizontalSpeed.Get,
                     () => Inputs.Left,
                     () => Inputs.Right,
-                    Grounded.Get)
+                    Grounded.HasValue
+                    , LeftWall.Get
+                    , RightWall.Get
+                    , BotLeftWall.Get
+                    , BotRightWall.Get
+                    )
                 , new SetDirectionOnInput(
                     () => Inputs.Right,
                     () => Inputs.Left,
@@ -74,35 +64,44 @@ namespace PaperWork
                     VerticalSpeed.Get
                     , VerticalSpeed.Set
                     , Grounded.Get)
+                , new JumpOnInputDecreasesVerticalSpeed(
+                    Grounded.HasValue
+                    , VerticalSpeed.Set
+                    , () => Inputs.Up)
                 , new DragAndDropHandler(
                     Inputs
                     , FacingRightDirection.Get
-                    , Grounded.Get
-                    , RightEntity.Get
-                    , BotRightEntity.Get
-                    , LeftEnity.Get
-                    , BotLeftEnity.Get
-                    , BotEnity.Get)
+                    , Grounded.HasValue
+                    , rightTrigger.GetEntities
+                    , botRightTrigger.GetEntities
+                    , leftTrigger.GetEntities
+                    , botLeftTrigger.GetEntities
+                    , botTrigger.GetEntities)
                 , new CheckIfGrounded(
-                        botTrigger.GetEntities,
-                        Grounded.Set,
-                        mainCollider.Height)
-                , new ZeroVerticalSpeedIfGrounded(
-                    Grounded.Get
-                    , VerticalSpeed.Set
+                    botTrigger.GetEntities
+                    , Grounded.Set)
+                , new CheckIfNearLeftWall(
+                    LeftWall.Set
+                    , leftTrigger.GetEntities
                 )
+                , new CheckIfNearRightWall(
+                    RightWall.Set
+                    , rightTrigger.GetEntities
+                )
+                , new CheckIfNearLeftWall(
+                    BotLeftWall.Set
+                    , botLeftTrigger.GetEntities
+                )
+                , new CheckIfNearRightWall(
+                    BotRightWall.Set
+                    , botRightTrigger.GetEntities
+                )
+                , new UsesSpeedToMove(
+                    HorizontalSpeed.Get,
+                    VerticalSpeed.Get)
             );
 
             CurrentState = mainState;
-
-
-            mainCollider.AddHandlers(
-                new HandleCollisionWithSolidObjects(
-                    //VerticalSpeed.Set,
-                    HorizontalSpeed.Set)
-            );
-
-            Colliders.Add(mainCollider);
         }
 
         protected override void OnUpdate()
@@ -110,15 +109,10 @@ namespace PaperWork
             CurrentState.Update(this);
         }
 
-        private Trigger CreateFeeler(InputRepository Inputs, int x, int y, Property<Entity> entityBeenFelt, bool respectDirection = true)
+        private Trigger CreateFeeler(InputRepository Inputs, int x, int y)
         {
             var trigger = new Trigger(this, 10, 10);
             trigger.LocalPosition = new Coordinate2D(x, y);
-            trigger.AddHandlers(
-                new SetNearEntityOnTriggerEnter(
-                    entityBeenFelt.Set,
-                    entityBeenFelt.Get)
-            );
             Colliders.Add(trigger);
             return trigger;
         }

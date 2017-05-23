@@ -1,6 +1,7 @@
 ﻿using GameCore;
 using PaperWork.GameEntities.Collisions;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
@@ -14,11 +15,11 @@ namespace PaperWork.GameEntities.Player.Updates
             InputRepository Inputs
             , Func<bool> FacingRightDirection
             , Func<bool> IsGrounded
-            , Func<Entity> RightEntity
-            , Func<Entity> BotRightEntity
-            , Func<Entity> LeftEnity
-            , Func<Entity> BotLeftEntity
-            , Func<Entity> BotEntity
+            , Func<IEnumerable<Entity>> RightEntity
+            , Func<IEnumerable<Entity>> BotRightEntity
+            , Func<IEnumerable<Entity>> LeftEnity
+            , Func<IEnumerable<Entity>> BotLeftEntity
+            , Func<IEnumerable<Entity>> BotEntity
             )
         {
             Func<bool> CooldownEnded = () => cooldown <= DateTime.Now;

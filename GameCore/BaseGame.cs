@@ -28,6 +28,7 @@ namespace GameCore
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
+            //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
         }
 
@@ -78,7 +79,7 @@ namespace GameCore
         protected override void UnloadContent()
         {
             gameloop.Dispose();
-            Content.Unload();            
+            Content.Unload();
         }
 
         protected override void Update(GameTime gameTime)
@@ -129,6 +130,16 @@ namespace GameCore
                             2,
                             Color.Red);
                 }
+
+                DrawBorder(
+                    new Rectangle(
+                        (int)item.Position.X
+                        , (int)item.Position.Y
+                        , item.Width
+                        , item.Height)
+                    , 2
+                    , Color.Blue
+                );
             }
 
             {

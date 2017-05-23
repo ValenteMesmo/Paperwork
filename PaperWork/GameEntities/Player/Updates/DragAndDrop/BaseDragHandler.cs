@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
@@ -16,7 +17,7 @@ namespace PaperWork.GameEntities.Player.Updates
             this.SetGrabOnCooldown = SetGrabOnCooldown;
         }
 
-        protected abstract Entity GetEntityToGrab();
+        protected abstract IEnumerable<Entity> GetEntityToGrab();
 
         public void Update(Entity entity)
         {
@@ -27,13 +28,21 @@ namespace PaperWork.GameEntities.Player.Updates
             if (papers is PapersEntity == false)
                 return;
 
-            GivePaperToPlayer(papers as PapersEntity);
-            SetGrabOnCooldown();
-            papers.As<PapersEntity>().Target.Set(entity);
-
-            foreach (var collider in papers.GetColliders())
+            foreach (var item in papers)
             {
-                collider.Disabled = true;
+                if (item is PapersEntity == false)
+                    continue;
+
+                GivePaperToPlayer(item as PapersEntity);
+                SetGrabOnCooldown();
+                item.As<PapersEntity>().Target.Set(entity);
+
+                foreach (var collider in item.GetColliders())
+                {
+                    collider.Disabled = true;
+                }
+
+                break;
             }
         }
     }
