@@ -2,11 +2,11 @@
 
 namespace PaperWork
 {
-    public class UpdateHandlerAggragator : IHandleUpdates
+    public class UpdateHandlerAggregator : IHandleUpdates
     {
         IHandleUpdates[] updates;
 
-        public UpdateHandlerAggragator(params IHandleUpdates[] updates)
+        public UpdateHandlerAggregator(params IHandleUpdates[] updates)
         {
             this.updates = updates;
         }

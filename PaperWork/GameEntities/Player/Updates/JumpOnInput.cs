@@ -5,25 +5,29 @@ namespace PaperWork
 {
     public class JumpOnInputDecreasesVerticalSpeed : IHandleUpdates
     {
-        private readonly Func<bool> StepingOnTheFloor;
+        private readonly Func<bool> Grounded;
         private readonly Action<float> SetVerticalSpeed;
         private readonly Func<bool> JumpButtonPressed;
+        private DateTime CooldownEnd;
 
-        public JumpOnInputDecreasesVerticalSpeed(            
-            Func<bool> StepingOnTheFloor,
+        public JumpOnInputDecreasesVerticalSpeed(
+            Func<bool> Grounded,
             Action<float> SetVerticalSpeed,
             Func<bool> JumpButtonPressed)
         {
-            this.StepingOnTheFloor = StepingOnTheFloor;
+            this.Grounded = Grounded;
             this.SetVerticalSpeed = SetVerticalSpeed;
             this.JumpButtonPressed = JumpButtonPressed;
         }
-
         public void Update(Entity ParentEntity)
         {
-            if (JumpButtonPressed() && StepingOnTheFloor())
+            if (JumpButtonPressed()
+                && Grounded()
+                && CooldownEnd < DateTime.Now
+                )
             {
-                SetVerticalSpeed(-10);
+                SetVerticalSpeed(-12);
+                CooldownEnd = DateTime.Now.AddMilliseconds(100);
             }
         }
     }

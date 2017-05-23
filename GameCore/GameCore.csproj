@@ -52,6 +52,8 @@
     <Compile Include="GameEntities\Entity.cs" />
     <Compile Include="GameEntities\EntityTexture.cs" />
     <Compile Include="GameEntities\UpdateHandler.cs" />
+    <Compile Include="GameLoop.cs" />
+    <Compile Include="GameRunner.cs" />
     <Compile Include="InputRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />

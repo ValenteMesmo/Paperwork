@@ -7,17 +7,11 @@ namespace PaperWork.PlayerHandlers.Collisions
 {
     public class HandleCollisionWithSolidObjects : IHandleCollision
     {
-        private Action<bool> SetJumpEnable;
-        private Action<float> SetVerticalSpeed;
         private readonly Action<float> SetHorizontalSpeed;
 
         public HandleCollisionWithSolidObjects(
-            Action<bool> SetJumpEnable,
-            Action<float> SetVerticalSpeed,
             Action<float> SetHorizontalSpeed)
         {
-            this.SetJumpEnable = SetJumpEnable;
-            this.SetVerticalSpeed = SetVerticalSpeed;
             this.SetHorizontalSpeed = SetHorizontalSpeed;
         }
 
@@ -26,14 +20,10 @@ namespace PaperWork.PlayerHandlers.Collisions
             if (other.ParentEntity is PapersEntity
                 || other.ParentEntity is SolidBlock)
             {
-                SetVerticalSpeed(0);
-
                 collider.ParentEntity.Position =
                     new Coordinate2D(
                         collider.ParentEntity.Position.X,
                         other.Position.Y - collider.Height - 1);
-
-                SetJumpEnable(true);
             }
         }
 
@@ -41,8 +31,6 @@ namespace PaperWork.PlayerHandlers.Collisions
         {
             if (other.ParentEntity is SolidBlock)
             {
-                SetVerticalSpeed(0);
-
                 collider.ParentEntity.Position =
                     new Coordinate2D(
                         collider.ParentEntity.Position.X,

@@ -1,8 +1,7 @@
 ﻿using GameCore;
-using Microsoft.Xna.Framework;
-using PaperWork.GameEntities.Collisions;
-using System;
 using GameCore.Collision;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,8 +9,9 @@ namespace PaperWork
 {
     public class PapersFactory : Entity
     {
-        Cooldown cooldown = new Cooldown(2000);
         private readonly Action<Entity> AddToWorld;
+        private int cooldownCount = 0;
+
         Color[] Colors = new Color[]
         {
             Color.Yellow,
@@ -26,14 +26,18 @@ namespace PaperWork
         {
             this.AddToWorld = AddToWorld;
             feeler = new Trigger(this, (50 * 12) - 4, 10);
-            feeler.Position = new Coordinate2D(52, 0);
+            feeler.Position = new Coordinate2D(52, 0);            
             Colliders.Add(feeler);
         }
 
         protected override void OnUpdate()
         {
-            if (cooldown.Ended())
+            if (cooldownCount > 0)
             {
+                cooldownCount--;
+                return;
+            }
+
                 var coordenates = new List<Coordinate2D>();
                 var others = feeler.GetEntities();
 
@@ -56,8 +60,7 @@ namespace PaperWork
                 paper.Color = Colors[Random.Next(0, Colors.Length)];
 
                 AddToWorld(paper);
-                cooldown.TriggerCooldown();
-            }
+                cooldownCount = 100;
         }
     }
 }

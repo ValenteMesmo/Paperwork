@@ -29,13 +29,6 @@
             Value = value;
         }
 
-        public bool True()
-        {
-            if (typeof(T) == typeof(bool))
-                return (bool)(object)Value;
-            return HasValue();
-        }
-
         public bool False()
         {
             if (typeof(T) == typeof(bool))

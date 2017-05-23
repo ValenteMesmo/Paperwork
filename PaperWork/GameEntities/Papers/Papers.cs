@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using PaperWork.GameEntities.Collisions;
 using PaperWork.GameEntities.Papers;
 using PaperWork.GameEntities.Papers.Updates;
+using PaperWork.GameEntities.Player.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
 
@@ -73,13 +74,16 @@ namespace PaperWork
             botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
             Colliders.Add(botTrigger);
 
-            PaperUpdate = new UpdateHandlerAggragator(
+            PaperUpdate = new UpdateHandlerAggregator(
               new ComputeCombos(new HorizontalNeighborChecker().GetNeighborsCombo)
              , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
-             , new GravityIncreasesVerticalSpeed(VerticalSpeed.Get, VerticalSpeed.Set)
+             , new GravityIncreasesVerticalSpeed(
+                 VerticalSpeed.Get, 
+                 VerticalSpeed.Set,
+                 Grounded.Get)
              , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
              , new FollowOtherEntity(new Coordinate2D(-20, -mainCollider.Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
-             , new SetGroundedIfSolidEntityBelow(botTrigger.GetEntities, Grounded.Set)
+             , new CheckIfGrounded(botTrigger.GetEntities, Grounded.Set, cellSize)
             );
         }
 

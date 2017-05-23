@@ -16,8 +16,8 @@ namespace GameCore
         private readonly List<Entity> Entities;
         private Texture2D pixel;
         private CollisionDetector CollisionDetector = new CollisionDetector();
-
         protected InputRepository PlayerInputs;
+        private FrameCounter _frameCounter = new FrameCounter();
 
         public BaseGame(params string[] TextureNames)
         {
@@ -27,8 +27,8 @@ namespace GameCore
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsFixedTimeStep = true;
-            graphics.SynchronizeWithVerticalRetrace = true;
+            IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         protected void AddEntity(Entity Entity)
@@ -53,11 +53,32 @@ namespace GameCore
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
 
+
+            spriteFont = Content.Load<SpriteFont>("File");
+
+
+            gameloop = new GameRunner(() =>
+           {
+               var currentEntities = Entities.ToList();
+               foreach (var item in currentEntities)
+               {
+                   item.Update();
+               }
+
+               CollisionDetector.DetectCollisions(currentEntities);
+               foreach (var item in currentEntities)
+               {
+                   item.AfterCollisions();
+               }
+
+           });
+            gameloop.Start();
         }
 
         protected override void UnloadContent()
         {
-            Content.Unload();
+            gameloop.Dispose();
+            Content.Unload();            
         }
 
         protected override void Update(GameTime gameTime)
@@ -68,28 +89,23 @@ namespace GameCore
 
             PlayerInputs.Update(state);
 
-            var currentEntities = Entities.ToList();
-            foreach (var item in currentEntities)
-            {
-                item.Update();
-            }
-
-            CollisionDetector.DetectCollisions(currentEntities);
-            foreach (var item in currentEntities)
-            {
-                item.AfterCollisions();
-            }
-
             base.Update(gameTime);
         }
+
+        SpriteFont spriteFont;
+        private GameRunner gameloop;
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            foreach (var item in Entities)
+            var entiies = Entities.ToArray();
+            foreach (var item in entiies)
             {
+                if (item == null)
+                    return;
+
                 foreach (var texture in item.GetTextures())
                 {
                     if (texture.Disabled == false)
@@ -112,8 +128,14 @@ namespace GameCore
                                 (int)collider.Height),
                             2,
                             Color.Red);
-
                 }
+            }
+
+            {
+                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _frameCounter.Update(deltaTime);
+                var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+                spriteBatch.DrawString(spriteFont, fps, new Vector2(1, 1), Color.Black);
             }
 
             spriteBatch.End();
