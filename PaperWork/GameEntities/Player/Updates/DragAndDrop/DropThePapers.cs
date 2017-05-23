@@ -10,7 +10,7 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Action SetDropOnCooldown;
         private readonly Func<bool> DropCooldownEnded;
         private readonly Action RemovePaperReferenceFromPlayer;
-        private readonly Func<bool> NoRightEntity;
+        private readonly Func<bool> MidPositionFree;
         private readonly Func<bool> DownButtonPressed;
         private readonly Func<bool> FacingOtherWay;
         private readonly int bonus;
@@ -21,7 +21,7 @@ namespace PaperWork.GameEntities.Collisions
             , Func<bool> DropCooldownEnded
             , Action SetDropOnCooldown
             , Action RemovePaperReferenceFromPlayer
-            , Func<bool> NoRightEntity
+            , Func<bool> MidPositionFree
             , Func<bool> DownButtonPressed
             , Func<bool> FacingOtherWay
             , int bonus
@@ -32,7 +32,7 @@ namespace PaperWork.GameEntities.Collisions
             this.DropCooldownEnded = DropCooldownEnded;
             this.SetDropOnCooldown = SetDropOnCooldown;
             this.RemovePaperReferenceFromPlayer = RemovePaperReferenceFromPlayer;
-            this.NoRightEntity = NoRightEntity;
+            this.MidPositionFree = MidPositionFree;
             this.DownButtonPressed = DownButtonPressed;
             this.FacingOtherWay = FacingOtherWay;
             this.bonus = bonus;
@@ -59,7 +59,7 @@ namespace PaperWork.GameEntities.Collisions
 
         private void HandlePaperDrop(PapersEntity papers)
         {
-            if (NoRightEntity())
+            if (MidPositionFree())
             {
                 foreach (var collider in papers.GetColliders())
                     collider.Disabled = false;

@@ -21,23 +21,20 @@ namespace PaperWork.GameEntities.Player.Updates
 
         public void Update(Entity entity)
         {
-            var papers = GetEntityToGrab();
-            if (papers == null)
+            var entities = GetEntityToGrab();
+            if (entities == null)
                 return;
 
-            if (papers is PapersEntity == false)
-                return;
-
-            foreach (var item in papers)
+            foreach (var papers in entities)
             {
-                if (item is PapersEntity == false)
+                if (papers is PapersEntity == false)
                     continue;
 
-                GivePaperToPlayer(item as PapersEntity);
+                GivePaperToPlayer(papers as PapersEntity);
                 SetGrabOnCooldown();
-                item.As<PapersEntity>().Target.Set(entity);
+                papers.As<PapersEntity>().Target.Set(entity);
 
-                foreach (var collider in item.GetColliders())
+                foreach (var collider in papers.GetColliders())
                 {
                     collider.Disabled = true;
                 }

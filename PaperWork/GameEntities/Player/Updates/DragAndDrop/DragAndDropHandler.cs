@@ -2,6 +2,7 @@
 using PaperWork.GameEntities.Collisions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
@@ -60,7 +61,7 @@ namespace PaperWork.GameEntities.Player.Updates
                     CooldownEnded,
                     SetOnCooldown,
                     DraggedEntity.SetDefaut,
-                     () => RightEntity == null,
+                    () => RightEntity().Any() == false,
                     () => Inputs.Down,
                     () => FacingRightDirection() == false,
                     50)
@@ -70,7 +71,7 @@ namespace PaperWork.GameEntities.Player.Updates
                     CooldownEnded,
                     SetOnCooldown,
                     DraggedEntity.SetDefaut,
-                    () => LeftEnity() == null,
+                    () => LeftEnity().Any() == false,
                     () => Inputs.Down,
                     FacingRightDirection,
                     -40));
