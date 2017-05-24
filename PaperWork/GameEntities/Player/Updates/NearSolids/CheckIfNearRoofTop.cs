@@ -38,7 +38,7 @@ namespace PaperWork.GameEntities.Player.Updates
                 var difference = other.Position.Y + other.Height - entity.Position.Y ;
 
                 if (
-                        (other is SolidBlock)
+                        (other is SolidBlock || other is PapersEntity)
                         && (difference < 5f && difference > -5f)
                     )
                     return other;

@@ -1,8 +1,10 @@
 ﻿using GameCore;
 using GameCore.Collision;
+using PaperWork.GameEntities;
 using PaperWork.GameEntities.Player.Collisions;
 using PaperWork.GameEntities.Player.Updates;
 using PaperWork.PlayerHandlers.Updates;
+using System;
 using System.Collections.Generic;
 
 namespace PaperWork
@@ -18,13 +20,14 @@ namespace PaperWork
         private readonly Property<Entity> BotRightWall = new Property<Entity>();
         private readonly Property<Entity> RoofTop = new Property<Entity>();
 
-
         private readonly Property<float> HorizontalSpeed = new Property<float>();
         private readonly Property<float> VerticalSpeed = new Property<float>();
 
         private readonly List<EntityTexture> TextureLeft = new List<EntityTexture>();
 
         private IHandleUpdates CurrentState;
+        private readonly IHandleUpdates mainState;
+        private readonly IHandleUpdates beingHitState;
 
         public PlayerEntity(InputRepository Inputs) : base(40, 100)
         {
@@ -40,14 +43,102 @@ namespace PaperWork
                 Offset = new Coordinate2D(-5, 0)
             });
 
-            var rightTrigger = CreateFeeler(Inputs, Width, 10);
-            var botRightTrigger = CreateFeeler(Inputs, Width, 65);
-            var botTrigger = CreateFeeler(Inputs, 5, 100);
-            var topTrigger = CreateFeeler(Inputs, 5, -30);
-            var botLeftTrigger = CreateFeeler(Inputs, -Width + 10, 65);
-            var leftTrigger = CreateFeeler(Inputs, -Width + 10, 10);
+            var rightTrigger = CreateTrigger(Inputs, Width, 10);
+            var botRightTrigger = CreateTrigger(Inputs, Width, 65);
+            var botTrigger = CreateTrigger(Inputs, 5, 100);
+            var topTrigger = CreateTrigger(Inputs, 5, -30);
+            var botLeftTrigger = CreateTrigger(Inputs, -Width + 10, 65);
+            var leftTrigger = CreateTrigger(Inputs, -Width + 10, 10);
+            var centerTrigger = CreateTrigger(Inputs, 5, 38);
 
-            var mainState = new UpdateHandlerAggregator(
+            beingHitState = CreateBeingHit(
+                rightTrigger
+                , botRightTrigger
+                , botTrigger
+                , topTrigger
+                , botLeftTrigger
+                , leftTrigger
+                , centerTrigger.GetEntities);
+
+            mainState = CreateMainState(
+                Inputs,
+                rightTrigger,
+                botRightTrigger,
+                botTrigger,
+                topTrigger,
+                botLeftTrigger,
+                leftTrigger,
+                centerTrigger.GetEntities);
+
+            CurrentState = mainState;
+        }
+
+        private UpdateHandlerAggregator CreateBeingHit(Trigger rightTrigger, Trigger botRightTrigger, Trigger botTrigger, Trigger topTrigger, Trigger botLeftTrigger, Trigger leftTrigger, Func<IEnumerable<Entity>> objectsInsideTHePlayer)
+        {
+            return new UpdateHandlerAggregator(
+                new MoveWhenPaperInsidePlayer(
+                    VerticalSpeed.Set
+                    ,HorizontalSpeed.Set
+                    , objectsInsideTHePlayer
+                    ,LeftWall.Get
+                    ,BotLeftWall.Get
+                )
+                , new StopsWhenHitsTheRoof<SolidBlock>(
+                    RoofTop.Get
+                    , VerticalSpeed.Set
+                )
+                , new StopsWhenWallHit<SolidBlock>(
+                    HorizontalSpeed.Get
+                    , RightWall.Get
+                    , LeftWall.Get
+                    , BotRightWall.Get
+                    , BotLeftWall.Get
+                    , HorizontalSpeed.Set
+                )
+                , new CheckIfGrounded(
+                    botTrigger.GetEntities
+                    , Grounded.Set)
+                , new CheckIfNearLeftWall(
+                    LeftWall.Set
+                    , leftTrigger.GetEntities
+                )
+                , new CheckIfNearRightWall(
+                    RightWall.Set
+                    , rightTrigger.GetEntities
+                )
+                , new CheckIfNearLeftWall(
+                    BotLeftWall.Set
+                    , botLeftTrigger.GetEntities
+                )
+                , new CheckIfNearRightWall(
+                    BotRightWall.Set
+                    , botRightTrigger.GetEntities
+                )
+                , new CheckIfNearRoofTop(
+                    topTrigger.GetEntities
+                    , RoofTop.Set
+                )
+                , new UsesSpeedToMove(
+                    HorizontalSpeed.Get,
+                    VerticalSpeed.Get)
+                , new ChangeStateAfterUpdateCount(
+                    () => CurrentState = mainState
+                    , 10
+                )
+            );
+        }
+
+        private UpdateHandlerAggregator CreateMainState(
+            InputRepository Inputs
+            , Trigger rightTrigger
+            , Trigger botRightTrigger
+            , Trigger botTrigger
+            , Trigger topTrigger
+            , Trigger botLeftTrigger
+            , Trigger leftTrigger
+            , Func<IEnumerable<Entity>> objectsInsideTHePlayer)
+        {
+            return new UpdateHandlerAggregator(
                  new SpeedUpHorizontallyOnInput(
                     HorizontalSpeed.Set,
                     HorizontalSpeed.Get,
@@ -67,13 +158,33 @@ namespace PaperWork
                     VerticalSpeed.Get
                     , VerticalSpeed.Set
                     , Grounded.Get)
+                , new ChangeStateWhenCornered(
+                    objectsInsideTHePlayer
+                    , () => CurrentState = beingHitState
+                )
                 , new JumpOnInputDecreasesVerticalSpeed(
                     Grounded.HasValue
                     , VerticalSpeed.Set
                     , () => Inputs.Up)
-                , new StopsWhenHitsTheRoof(
+                , new StopsWhenHitsTheRoof<SolidBlock>(
                     RoofTop.Get
                     , VerticalSpeed.Set
+                )
+                , new StopsWhenWallHit<SolidBlock>(
+                    HorizontalSpeed.Get
+                    , RightWall.Get
+                    , LeftWall.Get
+                    , BotRightWall.Get
+                    , BotLeftWall.Get
+                    , HorizontalSpeed.Set
+                )
+                 , new StopsWhenWallHit<PapersEntity>(
+                    HorizontalSpeed.Get
+                    , RightWall.Get
+                    , LeftWall.Get
+                    , BotRightWall.Get
+                    , BotLeftWall.Get
+                    , HorizontalSpeed.Set
                 )
                 , new DragAndDropHandler(
                     Inputs
@@ -112,8 +223,6 @@ namespace PaperWork
                     HorizontalSpeed.Get,
                     VerticalSpeed.Get)
             );
-
-            CurrentState = mainState;
         }
 
         protected override void OnUpdate()
@@ -121,7 +230,7 @@ namespace PaperWork
             CurrentState.Update(this);
         }
 
-        private Trigger CreateFeeler(InputRepository Inputs, int x, int y)
+        private Trigger CreateTrigger(InputRepository Inputs, int x, int y)
         {
             var trigger = new Trigger(this, 30, 30);
             trigger.LocalPosition = new Coordinate2D(x, y);

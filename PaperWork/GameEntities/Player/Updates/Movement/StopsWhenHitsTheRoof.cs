@@ -1,10 +1,9 @@
 ﻿using GameCore;
-using PaperWork.GameEntities;
 using System;
 
 namespace PaperWork
 {
-    public class StopsWhenHitsTheRoof : IHandleUpdates
+    public class StopsWhenHitsTheRoof<T> : IHandleUpdates where T : Entity
     {
         private readonly Func<Entity> NearRoof;
         private readonly Action<float> SetVerticalSpeed;
@@ -21,7 +20,7 @@ namespace PaperWork
         {
             var roof = NearRoof();
             if (roof == null
-                || roof is SolidBlock == false)
+                || roof is T == false)
                 return;
 
             if (roof.Position.Y + roof.Height - entity.Position.Y > 1)
