@@ -14,6 +14,7 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Func<bool> DownButtonPressed;
         private readonly Func<bool> FacingOtherWay;
         private readonly int bonus;
+        private readonly Action<float> SetHorizontalSpeed;
 
         public DropThePapers(
             Func<PapersEntity> HoldingPapers
@@ -24,6 +25,7 @@ namespace PaperWork.GameEntities.Collisions
             , Func<bool> MidPositionFree
             , Func<bool> DownButtonPressed
             , Func<bool> FacingOtherWay
+            , Action<float> SetHorizontalSpeed
             , int bonus
         )
         {
@@ -36,6 +38,7 @@ namespace PaperWork.GameEntities.Collisions
             this.DownButtonPressed = DownButtonPressed;
             this.FacingOtherWay = FacingOtherWay;
             this.bonus = bonus;
+            this.SetHorizontalSpeed = SetHorizontalSpeed;
         }
 
         public void Update(Entity entity)
@@ -97,7 +100,7 @@ namespace PaperWork.GameEntities.Collisions
             player.Position = new Coordinate2D(x, y - 102);
 
             SetDropOnCooldown();
-
+            SetHorizontalSpeed(0);
             RemovePaperReferenceFromPlayer();
         }
     }

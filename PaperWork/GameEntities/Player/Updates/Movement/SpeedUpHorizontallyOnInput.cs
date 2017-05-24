@@ -44,16 +44,21 @@ namespace PaperWork
             var speedx = GetHorizontalSpeed();
             var acceleration = 0.1f;
             var friction = acceleration * 0.5f;
-            var reactivityPercent = 2.5f;
+            var reactivityPercent = MAX*0.8f;
 
-            if (RightButtonPressed())
+            var rightWall = NearRightWall();
+            var rightBotWall = NearBotRightWall();
+            var leftWall = NearLeftWall();
+            var leftBotWall = NearBotLeftWall();
+
+            if (RightButtonPressed() && rightWall == null && rightBotWall == null)
             {
                 if (speedx < 0)
                     speedx += acceleration * reactivityPercent;
                 else
                     speedx += acceleration;
             }
-            else if (LeftButtonPressed())
+            else if (LeftButtonPressed() && leftWall == null && leftBotWall == null)
             {
                 if (speedx > 0)
                     speedx -= acceleration * reactivityPercent;
@@ -75,11 +80,7 @@ namespace PaperWork
                     speedx = 0;
             }
 
-            var rightWall = NearRightWall();
-            var rightBotWall = NearBotRightWall();
-            var leftWall = NearLeftWall();
-            var leftBotWall = NearBotLeftWall();
-
+          
             if (speedx > 0)
             {
                 if (rightWall != null)

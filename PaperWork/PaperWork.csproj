@@ -48,8 +48,10 @@
     <Compile Include="GameEntities\Papers\Updates\ComputeHorizontalCombosCombo.cs" />
     <Compile Include="GameEntities\Papers\Updates\FrictionSpeedLoss.cs" />
     <Compile Include="GameEntities\Papers\Collisions\ZeroVerticalSpeedWhenCollidingVertically.cs" />
+    <Compile Include="GameEntities\Player\Updates\Movement\StopsWhenHitsTheRoof.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRightWall.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearLeftWall.cs" />
+    <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRoofTop.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfPlayerIsGrounded.cs" />
     <Compile Include="GameEntities\Player\Updates\DragAndDrop\BaseDragHandler.cs" />
     <Compile Include="GameEntities\Player\Updates\DragAndDrop\DragAndDropHandler.cs" />

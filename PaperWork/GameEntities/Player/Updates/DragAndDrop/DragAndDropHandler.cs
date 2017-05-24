@@ -21,6 +21,7 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<IEnumerable<Entity>> LeftEnity
             , Func<IEnumerable<Entity>> BotLeftEntity
             , Func<IEnumerable<Entity>> BotEntity
+            , Action<float> SetHorizontalSpeed
             )
         {
             Func<bool> CooldownEnded = () => cooldown <= DateTime.Now;
@@ -63,8 +64,9 @@ namespace PaperWork.GameEntities.Player.Updates
                     DraggedEntity.SetDefaut,
                     () => RightEntity().Any() == false,
                     () => Inputs.Down,
-                    () => FacingRightDirection() == false,
-                    50)
+                    () => FacingRightDirection() == false
+                    ,SetHorizontalSpeed
+                    ,50)
                 , new DropThePapers(
                     DraggedEntity.Get,
                     () => Inputs.Action1,
@@ -73,8 +75,9 @@ namespace PaperWork.GameEntities.Player.Updates
                     DraggedEntity.SetDefaut,
                     () => LeftEnity().Any() == false,
                     () => Inputs.Down,
-                    FacingRightDirection,
-                    -40));
+                    FacingRightDirection
+                    , SetHorizontalSpeed
+                    ,- 40));
 
         }
 

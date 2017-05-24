@@ -60,7 +60,7 @@ namespace PaperWork
                 paper.Color = Colors[Random.Next(0, Colors.Length)];
 
                 AddToWorld(paper);
-                cooldownCount = 100;
+                cooldownCount = 200;
         }
     }
 }
