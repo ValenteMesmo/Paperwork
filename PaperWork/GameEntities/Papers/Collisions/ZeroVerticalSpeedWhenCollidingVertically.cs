@@ -46,5 +46,9 @@ namespace PaperWork.GameEntities.Papers
         public void CollisionFromTheRight(BaseCollider collider, BaseCollider other)
         {
         }
+
+        public void CollisionFromWithin(BaseCollider collider, BaseCollider other)
+        {
+        }
     }
 }

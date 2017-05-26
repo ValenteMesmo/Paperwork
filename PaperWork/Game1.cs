@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using PaperWork.GameEntities;
+using PaperWork.GameEntities.Grid;
 
 namespace PaperWork
 {
@@ -24,6 +25,8 @@ namespace PaperWork
                         0,//50*12, 
                         (50*1)+5)
                 });
+
+            AddEntity(new GridEntity(6,13,50));
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)

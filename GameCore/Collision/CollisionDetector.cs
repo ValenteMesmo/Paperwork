@@ -11,7 +11,7 @@ namespace GameCore.Collision
         }
 
         private void CollideTwoGameParts(
-            Entity a, 
+            Entity a,
             Entity b)
         {
             a.GetColliders().ForEachCombination(
@@ -46,7 +46,9 @@ namespace GameCore.Collision
             || rightPoint_b < a.Position.X
             || topPoint_a < b.Position.Y
             || topPoint_b < a.Position.Y)
+            {
                 return;
+            }
             else
             {
                 var top_b__bot_a__difference = topPoint_b - a.Position.Y;
@@ -66,7 +68,7 @@ namespace GameCore.Collision
                 if (top_b__bot_a__difference < top_a__bot_b__difference
                     && top_b__bot_a__difference < right_a__left_b__difference
                     && top_b__bot_a__difference < right_b__left_a__difference)
-                {   
+                {
                     b.CollisionFromBelow(a);
                     a.CollisionFromAbove(b);
                     return;
@@ -89,6 +91,9 @@ namespace GameCore.Collision
                     a.CollisionFromTheLeft(b);
                     return;
                 }
+
+                a.CollisionFromWithin(b);
+                b.CollisionFromWithin(a);
             }
         }
     }

@@ -43,5 +43,7 @@
         internal abstract void CollisionFromTheLeft(BaseCollider other);
 
         internal abstract void CollisionFromTheRight(BaseCollider other);
+
+        internal abstract void CollisionFromWithin(BaseCollider other);
     }
 }

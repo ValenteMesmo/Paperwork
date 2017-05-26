@@ -15,6 +15,7 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Func<bool> FacingOtherWay;
         private readonly int bonus;
         private readonly Action<float> SetHorizontalSpeed;
+        private readonly Func<bool> TopPositionFree;
 
         public DropThePapers(
             Func<PapersEntity> HoldingPapers
@@ -26,6 +27,7 @@ namespace PaperWork.GameEntities.Collisions
             , Func<bool> DownButtonPressed
             , Func<bool> FacingOtherWay
             , Action<float> SetHorizontalSpeed
+            , Func<bool> TopPositionFree
             , int bonus
         )
         {
@@ -39,6 +41,7 @@ namespace PaperWork.GameEntities.Collisions
             this.FacingOtherWay = FacingOtherWay;
             this.bonus = bonus;
             this.SetHorizontalSpeed = SetHorizontalSpeed;
+            this.TopPositionFree = TopPositionFree;
         }
 
         public void Update(Entity entity)
@@ -85,6 +88,9 @@ namespace PaperWork.GameEntities.Collisions
 
         private void HandlePaperJump(PapersEntity papers, Entity player)
         {
+            if (TopPositionFree() == false)
+                return;
+
             foreach (var collider in papers.GetColliders())
                 collider.Disabled = false;
             papers.As<PapersEntity>().Target.SetDefaut();

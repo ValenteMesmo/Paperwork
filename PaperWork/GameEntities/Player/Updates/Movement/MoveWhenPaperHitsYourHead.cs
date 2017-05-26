@@ -46,12 +46,12 @@ namespace PaperWork
                     (botWall != null && (botWall is SolidBlock))
                     )
                 {
-                    SetVerticalSpeed(-12);
+                    SetVerticalSpeed(-6);
                 }
                 else
                 {
                     SetVerticalSpeed(0);
-                    SetHorizontalSpeed(-12);
+                    SetHorizontalSpeed(-2);
                 }
             }
         }

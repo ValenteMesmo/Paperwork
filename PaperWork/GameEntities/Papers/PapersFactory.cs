@@ -26,7 +26,7 @@ namespace PaperWork
         {
             this.AddToWorld = AddToWorld;
             feeler = new Trigger(this, (50 * 12) - 4, 10);
-            feeler.Position = new Coordinate2D(52, 0);            
+            feeler.Position = new Coordinate2D(52, 0);
             Colliders.Add(feeler);
         }
 
@@ -38,29 +38,29 @@ namespace PaperWork
                 return;
             }
 
-                var coordenates = new List<Coordinate2D>();
-                var others = feeler.GetEntities();
+            var coordenates = new List<Coordinate2D>();
+            var others = feeler.GetEntities();
 
-                var x = 50 * 12;
-                foreach (var item in others.OrderByDescending(f => f.Position.X))
+            var x = 50 * 12;
+            foreach (var item in others.OrderByDescending(f => f.Position.X))
+            {
+                if (item is PapersEntity == false)
+                    continue;
+
+                if (item.Position.X == x)
                 {
-                    if (item is PapersEntity == false)
-                        continue;
-
-                    if (item.Position.X == x)
-                    {
-                        x -= 50;
-                    }
+                    x -= 50;
                 }
+            }
 
-                var paper = new PapersEntity(50)
-                {
-                    Position = new Coordinate2D(x, 5)
-                };
-                paper.Color = Colors[Random.Next(0, Colors.Length)];
+            var paper = new PapersEntity(50)
+            {
+                Position = new Coordinate2D(x, 5)
+            };
+            paper.Color = Colors[Random.Next(0, Colors.Length)];
 
-                AddToWorld(paper);
-                cooldownCount = 200;
+            AddToWorld(paper);
+            cooldownCount = 200;
         }
     }
 }

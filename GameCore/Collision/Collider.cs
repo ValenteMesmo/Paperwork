@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GameCore.Collision
 {
@@ -44,6 +45,15 @@ namespace GameCore.Collision
                 foreach (var item in CollisionHandlers)
                 {
                     item.CollisionFromTheRight(this, other);
+                }
+        }
+
+        internal override void CollisionFromWithin(BaseCollider other)
+        {
+            if (other is Collider)
+                foreach (var item in CollisionHandlers)
+                {
+                    item.CollisionFromWithin(this, other);
                 }
         }
 

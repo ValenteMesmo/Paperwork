@@ -28,8 +28,10 @@ namespace PaperWork
         private IHandleUpdates CurrentState;
         private readonly IHandleUpdates mainState;
         private readonly IHandleUpdates beingHitState;
+        const int WIDTH = 40;
+        const int HEIGHT = 100;
 
-        public PlayerEntity(InputRepository Inputs) : base(40, 100)
+        public PlayerEntity(InputRepository Inputs) : base(WIDTH, HEIGHT)
         {
             FacingRightDirection.Set(true);
 
@@ -195,7 +197,8 @@ namespace PaperWork
                     , leftTrigger.GetEntities
                     , botLeftTrigger.GetEntities
                     , botTrigger.GetEntities
-                    , HorizontalSpeed.Set)
+                    , HorizontalSpeed.Set
+                    , RoofTop.IsNull)
                 , new CheckIfGrounded(
                     botTrigger.GetEntities
                     , Grounded.Set)

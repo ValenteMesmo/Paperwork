@@ -22,6 +22,7 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<IEnumerable<Entity>> BotLeftEntity
             , Func<IEnumerable<Entity>> BotEntity
             , Action<float> SetHorizontalSpeed
+            , Func<bool> TopPositionFree
             )
         {
             Func<bool> CooldownEnded = () => cooldown <= DateTime.Now;
@@ -65,8 +66,9 @@ namespace PaperWork.GameEntities.Player.Updates
                     () => RightEntity().Any() == false,
                     () => Inputs.Down,
                     () => FacingRightDirection() == false
-                    ,SetHorizontalSpeed
-                    ,50)
+                    , SetHorizontalSpeed
+                    , TopPositionFree
+                    , 50)
                 , new DropThePapers(
                     DraggedEntity.Get,
                     () => Inputs.Action1,
@@ -77,7 +79,8 @@ namespace PaperWork.GameEntities.Player.Updates
                     () => Inputs.Down,
                     FacingRightDirection
                     , SetHorizontalSpeed
-                    ,- 40));
+                    , TopPositionFree
+                    , -40));
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using GameCore.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace GameCore.Collision
 {
@@ -19,7 +20,7 @@ namespace GameCore.Collision
 
         public IEnumerable<Entity> GetEntities()
         {
-            return PreviousUpdateCollisions.Select(f=>f.ParentEntity).Distinct();
+            return PreviousUpdateCollisions.Select(f => f.ParentEntity).Distinct();
         }
 
         internal override void Update()
@@ -82,6 +83,15 @@ namespace GameCore.Collision
         }
 
         internal override void CollisionFromTheRight(BaseCollider other)
+        {
+            if (other is Collider)
+                if (CurrentUpdateCollisions.Contains(other) == false)
+                {
+                    CurrentUpdateCollisions.Add(other);
+                }
+        }
+
+        internal override void CollisionFromWithin(BaseCollider other)
         {
             if (other is Collider)
                 if (CurrentUpdateCollisions.Contains(other) == false)

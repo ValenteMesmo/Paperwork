@@ -2,8 +2,6 @@
 using GameCore.Collision;
 using Microsoft.Xna.Framework;
 using PaperWork.GameEntities.Collisions;
-using PaperWork.GameEntities.Papers;
-using PaperWork.GameEntities.Papers.Updates;
 using PaperWork.GameEntities.Player.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
@@ -16,10 +14,6 @@ namespace PaperWork
         public readonly Property<Entity> Grounded = new Property<Entity>();
         public readonly Property<float> VerticalSpeed = new Property<float>();
         public readonly Property<float> HorizontalSpeed = new Property<float>();
-        public readonly Property<PapersEntity> RightNeighbor = new Property<PapersEntity>();
-        public readonly Property<PapersEntity> LeftNeighbor = new Property<PapersEntity>();
-        public readonly Property<PapersEntity> TopNeighbor = new Property<PapersEntity>();
-        public readonly Property<PapersEntity> BotNeighbor = new Property<PapersEntity>();
         private Color _color;
         public Color Color
         {
@@ -51,30 +45,12 @@ namespace PaperWork
             mainCollider.Position = new Coordinate2D(1, 0);
             Colliders.Add(mainCollider);
 
-            var rightTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
-            rightTrigger.Position = new Coordinate2D(cellSize + 10, +25);
-            rightTrigger.AddHandlers(new SetTriggeredNeighbor(RightNeighbor.Set, RightNeighbor.SetDefaut, RightNeighbor.IsNull));
-            Colliders.Add(rightTrigger);
-
-            var leftTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
-            leftTrigger.Position = new Coordinate2D(-25, 25);
-            leftTrigger.AddHandlers(new SetTriggeredNeighbor(LeftNeighbor.Set, LeftNeighbor.SetDefaut, LeftNeighbor.IsNull));
-            Colliders.Add(leftTrigger);
-
-            var topTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
-            topTrigger.Position = new Coordinate2D(20, -25);
-            topTrigger.AddHandlers(new SetTriggeredNeighbor(TopNeighbor.Set, TopNeighbor.SetDefaut, TopNeighbor.IsNull));
-            Colliders.Add(topTrigger);
-
             var botTrigger = new Trigger(this, cellSize - 40, cellSize - 40);
             botTrigger.Position = new Coordinate2D(20, +75);
-            botTrigger.AddHandlers(new SetTriggeredNeighbor(BotNeighbor.Set, BotNeighbor.SetDefaut, BotNeighbor.IsNull));
             Colliders.Add(botTrigger);
 
             PaperUpdate = new UpdateHandlerAggregator(
-              new ComputeCombos(new HorizontalNeighborChecker().GetNeighborsCombo)
-             , new ComputeCombos(new VerticalNeighborChecker().GetNeighborsCombo)
-             , new GravityIncreasesVerticalSpeed(
+              new GravityIncreasesVerticalSpeed(
                  VerticalSpeed.Get, 
                  VerticalSpeed.Set,
                  Grounded.Get)

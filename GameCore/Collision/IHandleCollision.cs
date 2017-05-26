@@ -8,5 +8,6 @@ namespace GameCore
         void CollisionFromAbove(BaseCollider collider, BaseCollider other);
         void CollisionFromTheLeft(BaseCollider collider, BaseCollider other);
         void CollisionFromTheRight(BaseCollider collider, BaseCollider other);
+        void CollisionFromWithin(BaseCollider collider, BaseCollider other);
     }
 }
