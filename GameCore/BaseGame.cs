@@ -57,22 +57,27 @@ namespace GameCore
 
             spriteFont = Content.Load<SpriteFont>("File");
 
+            StartGame();
+        }
 
+        private void StartGame()
+        {
+            OnStart();
             gameloop = new GameRunner(() =>
-           {
-               var currentEntities = Entities.ToList();
-               foreach (var item in currentEntities)
-               {
-                   item.Update();
-               }
+            {
+                var currentEntities = Entities.ToList();
+                foreach (var item in currentEntities)
+                {
+                    item.Update();
+                }
 
-               CollisionDetector.DetectCollisions(currentEntities);
-               foreach (var item in currentEntities)
-               {
-                   item.AfterCollisions();
-               }
+                CollisionDetector.DetectCollisions(currentEntities);
+                foreach (var item in currentEntities)
+                {
+                    item.AfterCollisions();
+                }
 
-           });
+            });
             gameloop.Start();
         }
 
@@ -105,7 +110,7 @@ namespace GameCore
             foreach (var item in entiies)
             {
                 if (item == null)
-                    return;
+                    continue;
 
                 foreach (var texture in item.GetTextures())
                 {
@@ -119,6 +124,7 @@ namespace GameCore
                                 texture.Height),
                             texture.Color);
                 }
+
                 foreach (var collider in item.GetColliders())
                 {
                     DrawBorder(
@@ -160,6 +166,15 @@ namespace GameCore
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
             spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder), rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder, rectangleToDraw.Width, thicknessOfBorder), borderColor);
+        }
+
+        protected abstract void OnStart();
+
+        protected void Restart()
+        {
+            gameloop.Dispose();
+            Entities.Clear();
+            StartGame();
         }
     }
 }

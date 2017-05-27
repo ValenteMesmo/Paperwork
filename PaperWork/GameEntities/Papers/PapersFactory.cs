@@ -21,10 +21,14 @@ namespace PaperWork
         };
         Random Random = new Random();
         private readonly Trigger feeler;
+        private readonly Action Restart;
 
-        public PapersFactory(Action<Entity> AddToWorld)
+        public PapersFactory(
+            Action<Entity> AddToWorld
+            ,Action Restart)
         {
             this.AddToWorld = AddToWorld;
+            this.Restart = Restart;
             feeler = new Trigger(this, (50 * 12) - 4, 10);
             feeler.Position = new Coordinate2D(52, 0);
             Colliders.Add(feeler);
@@ -51,6 +55,12 @@ namespace PaperWork
                 {
                     x -= 50;
                 }
+            }
+
+            if (x == 50)
+            {
+                Restart();
+                return;
             }
 
             var paper = new PapersEntity(50)

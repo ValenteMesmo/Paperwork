@@ -1,4 +1,5 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 using PaperWork.GameEntities;
 using PaperWork.GameEntities.Grid;
 
@@ -7,6 +8,10 @@ namespace PaperWork
     public class Game1 : BaseGame
     {
         public Game1() : base("char", "char_left", "papers", "block")
+        {
+        }
+
+        protected override void OnStart()
         {
             var rowNumber = 13;
             var colNumber = 6;
@@ -19,14 +24,14 @@ namespace PaperWork
             CreateBlocks(rowNumber, colNumber);
 
             AddEntity(
-                new PapersFactory(AddEntity)
+                new PapersFactory(AddEntity, Restart)
                 {
                     Position = new Coordinate2D(
                         0,//50*12, 
-                        (50*1)+5)
+                        (50 * 1) + 5)
                 });
 
-            AddEntity(new GridEntity(6,13,50));
+            AddEntity(new GridEntity(6, 13, 50));
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)
