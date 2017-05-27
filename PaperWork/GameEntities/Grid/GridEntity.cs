@@ -88,6 +88,7 @@ namespace PaperWork.GameEntities.Grid
                 var currentColor = Color.GhostWhite;
                 var combo = new List<PapersEntity>();
                 var previousY = 0f;
+                var previousX = 0f;
 
                 foreach (var other in entities)
                 {
@@ -95,7 +96,9 @@ namespace PaperWork.GameEntities.Grid
                         continue;
 
                     var paper = other.As<PapersEntity>();
-                    if (currentColor != paper.Color || paper.Position.Y - previousY < -50)
+                    if (currentColor != paper.Color
+                        || paper.Position.Y - previousY < -50
+                        || paper.Position.X != previousX)
                     {
                         currentColor = paper.Color;
                         if (combo.Count >= 3)
@@ -113,6 +116,7 @@ namespace PaperWork.GameEntities.Grid
                         combo.Add(paper);
                     }
                     previousY = paper.Position.Y;
+                    previousX = paper.Position.X;
                 }
 
                 if (combo.Count >= 3)
@@ -138,6 +142,7 @@ namespace PaperWork.GameEntities.Grid
                 var currentColor = Color.GhostWhite;
                 var combo = new List<PapersEntity>();
                 var previousX = 0f;
+                var previousY = 0f;
 
                 foreach (var other in entities)
                 {
@@ -145,7 +150,9 @@ namespace PaperWork.GameEntities.Grid
                         continue;
 
                     var paper = other.As<PapersEntity>();
-                    if (currentColor != paper.Color || paper.Position.X - previousX < -50)
+                    if (currentColor != paper.Color 
+                        || paper.Position.X - previousX < -50
+                        || paper.Position.Y != previousY)
                     {
                         currentColor = paper.Color;
                         if (combo.Count >= 3)
@@ -163,6 +170,7 @@ namespace PaperWork.GameEntities.Grid
                         combo.Add(paper);
                     }
                     previousX = paper.Position.X;
+                    previousY = paper.Position.Y;
                 }
 
                 if (combo.Count >= 3)
