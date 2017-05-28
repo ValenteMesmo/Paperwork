@@ -52,7 +52,6 @@ namespace PaperWork
                 });
             }
 
-
             for (int i = 1; i < rowNumber; i++)
             {
                 AddEntity(new SolidBlock()

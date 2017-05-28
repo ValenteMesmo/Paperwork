@@ -50,6 +50,7 @@
     <Compile Include="GameEntities\Player\Updates\Movement\ChangeStateWhenCornered.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\MoveWhenPaperHitsYourHead.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\StopsWhenHitsTheRoof.cs" />
+    <Compile Include="GameEntities\Player\Updates\Movement\StopsWhenWallHit.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRightWall.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearLeftWall.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRoofTop.cs" />
