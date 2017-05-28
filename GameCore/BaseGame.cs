@@ -55,7 +55,7 @@ namespace GameCore
             pixel.SetData(new[] { Color.White });
 
 
-            spriteFont = Content.Load<SpriteFont>("File");
+            //spriteFont = Content.Load<SpriteFont>("File");
 
             StartGame();
         }
@@ -98,7 +98,7 @@ namespace GameCore
             base.Update(gameTime);
         }
 
-        SpriteFont spriteFont;
+        //SpriteFont spriteFont;
         private GameRunner gameloop;
 
         protected override void Draw(GameTime gameTime)
@@ -152,7 +152,7 @@ namespace GameCore
                 var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 _frameCounter.Update(deltaTime);
                 var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
-                spriteBatch.DrawString(spriteFont, fps, new Vector2(1, 1), Color.Black);
+                //spriteBatch.DrawString(spriteFont, fps, new Vector2(1, 1), Color.Black);
             }
 
             spriteBatch.End();
