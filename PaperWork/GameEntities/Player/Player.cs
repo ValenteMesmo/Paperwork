@@ -1,6 +1,5 @@
 ﻿using GameCore;
 using GameCore.Collision;
-using PaperWork.GameEntities;
 using PaperWork.GameEntities.Player.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
@@ -46,17 +45,17 @@ namespace PaperWork
 
             VerticalCollider = new Collider(
                     this
-                    , WIDTH - 2
+                    , WIDTH - 20
                     , Height + 30
-                    , 1
+                    , 10
                     , -10
                 );
             HorizontalCollider = new Collider(
                     this
                     , WIDTH +20
-                    , Height - 2
+                    , Height - 20
                     , -10
-                    , 1
+                    , 10
                 );
 
             Colliders.Add(VerticalCollider);
@@ -78,21 +77,21 @@ namespace PaperWork
                 topTrigger,
                 botLeftTrigger,
                 leftTrigger,
-                centerTrigger.GetEntities
+                centerTrigger.GetEtities
             );
         }
 
         private UpdateHandlerAggregator CreateMainState(
             InputRepository Inputs
-            , Collider rightTrigger
-            , Collider botRightTrigger
-            , Collider botTrigger
-            , Collider topTrigger
-            , Collider botLeftTrigger
-            , Collider leftTrigger
+            , Trigger rightTrigger
+            , Trigger botRightTrigger
+            , Trigger botTrigger
+            , Trigger topTrigger
+            , Trigger botLeftTrigger
+            , Trigger leftTrigger
             , Func<IEnumerable<Entity>> objectsInsideTHePlayer)
         {
-            return new UpdateHandlerAggregator(
+            return new UpdateHandlerAggregator(                
                  new SpeedUpHorizontallyOnInput(
                     HorizontalSpeed.Set,
                     HorizontalSpeed.Get,
@@ -116,50 +115,49 @@ namespace PaperWork
                 //    RoofTop.Get
                 //    , VerticalSpeed.Set
                 //)
-                , new ZeroSpeedWhenHittingBot<SolidBlock>(VerticalCollider, VerticalSpeed.SetDefaut)
-                , new ZeroSpeedWhenHittingBot<PapersEntity>(VerticalCollider, VerticalSpeed.SetDefaut)
-                , new ZeroSpeedWhenHittingTop<SolidBlock>(VerticalCollider, VerticalSpeed.SetDefaut)
-                , new ZeroSpeedWhenHittingLeft<PapersEntity>(HorizontalCollider, HorizontalSpeed.SetDefaut)
-                , new ZeroSpeedWhenHittingLeft<SolidBlock>(HorizontalCollider, HorizontalSpeed.SetDefaut)
-                , new ZeroSpeedWhenHittingRight<PapersEntity>(HorizontalCollider, HorizontalSpeed.SetDefaut)
-                , new ZeroSpeedWhenHittingRight<SolidBlock>(HorizontalCollider, HorizontalSpeed.SetDefaut)
+               
                 , new DragAndDropHandler(
                     Inputs
                     , FacingRightDirection.Get
                     , Grounded.HasValue
-                    , rightTrigger.GetEntities
-                    , botRightTrigger.GetEntities
-                    , leftTrigger.GetEntities
-                    , botLeftTrigger.GetEntities
-                    , botTrigger.GetEntities
+                    , rightTrigger.GetEtities
+                    , botRightTrigger.GetEtities
+                    , leftTrigger.GetEtities
+                    , botLeftTrigger.GetEtities
+                    , botTrigger.GetEtities
                     , HorizontalSpeed.Set
                     , RoofTop.IsNull)
                 , new CheckIfGrounded(
-                    botTrigger.GetEntities
+                    botTrigger.GetEtities
                     , Grounded.Set)
                 , new CheckIfNearLeftWall(
                     LeftWall.Set
-                    , leftTrigger.GetEntities
+                    , leftTrigger.GetEtities
                 )
                 , new CheckIfNearRightWall(
                     RightWall.Set
-                    , rightTrigger.GetEntities
+                    , rightTrigger.GetEtities
                 )
                 , new CheckIfNearLeftWall(
                     BotLeftWall.Set
-                    , botLeftTrigger.GetEntities
+                    , botLeftTrigger.GetEtities
                 )
                 , new CheckIfNearRightWall(
                     BotRightWall.Set
-                    , botRightTrigger.GetEntities
+                    , botRightTrigger.GetEtities
                 )
                 , new CheckIfNearRoofTop(
-                    topTrigger.GetEntities
+                    topTrigger.GetEtities
                     , RoofTop.Set
-                )
+                )              
                 , new UsesSpeedToMove(
                     HorizontalSpeed.Get,
-                    VerticalSpeed.Get)
+                    VerticalSpeed.Get)                
+                //, new ZeroSpeedWhenHittingTop<SolidBlock>(VerticalCollider, VerticalSpeed.SetDefaut)
+                //, new ZeroSpeedWhenHittingLeft<PapersEntity>(HorizontalCollider, HorizontalSpeed.SetDefaut)
+                //, new ZeroSpeedWhenHittingLeft<SolidBlock>(HorizontalCollider, HorizontalSpeed.SetDefaut)
+                //, new ZeroSpeedWhenHittingRight<PapersEntity>(HorizontalCollider, HorizontalSpeed.SetDefaut)
+                //, new ZeroSpeedWhenHittingRight<SolidBlock>(HorizontalCollider, HorizontalSpeed.SetDefaut)
             );
         }
 
@@ -168,9 +166,9 @@ namespace PaperWork
             CurrentState.Update(this);
         }
 
-        private Collider CreateTrigger(InputRepository Inputs, int x, int y)
+        private Trigger CreateTrigger(InputRepository Inputs, int x, int y)
         {
-            var trigger = new Collider(this, 30, 30, x, y, true);
+            var trigger = new Trigger(this, 30, 30, x, y);
             Colliders.Add(trigger);
             return trigger;
         }

@@ -13,39 +13,38 @@ namespace PaperWork.GameEntities.Grid
 
         public GridEntity(int rowsCount, int ColumnsCount, int cellSize)
         {
-            var Rows = new List<Collider>();
-            var Columns = new List<Collider>();
+            var Rows = new List<Trigger>();
+            var Columns = new List<Trigger>();
 
-            //for (int i = 1; i < rowsCount; i++)
-            //{
-            //    var trigger = new BaseCollider(
-            //        this,
-            //        cellSize * (ColumnsCount - 1) - 30,
-            //        cellSize - 30
-            //        , cellSize + 15
-            //        , (i * cellSize) + 15
-            //        , true);
+            for (int i = 1; i < rowsCount; i++)
+            {
+                var collider = new Trigger(
+                    this,
+                    cellSize * (ColumnsCount - 1) - 30,
+                    cellSize - 30
+                    , cellSize + 15
+                    , (i * cellSize) + 15
+                );
 
-            //    Rows.Add(trigger);
-            //    Colliders.Add(trigger);
-            //}
+                Rows.Add(collider);
+                Colliders.Add(collider);
+            }
 
-            //for (int i = 1; i < ColumnsCount; i++)
-            //{
-            //    var trigger = new BaseCollider(
-            //        this,
-            //        cellSize - 30,
-            //        cellSize * (rowsCount - 1) - 30
-            //        , (i * cellSize) + 15
-            //        , cellSize + 15
-            //        , true);
+            for (int i = 1; i < ColumnsCount; i++)
+            {
+                var collider = new Trigger(
+                    this,
+                    cellSize - 30,
+                    cellSize * (rowsCount - 1) - 30
+                    , (i * cellSize) + 15
+                    , cellSize + 15
+                );
 
-            //    Columns.Add(trigger);
-            //    Colliders.Add(trigger);
-            //}
+                Columns.Add(collider);
+                Colliders.Add(collider);
+            }
 
-            Update = new UpdateHandlerAggregator(
-                new MyClass(
+            Update = new UpdateHandlerAggregator(new MyClass(
                     () => Rows,
                     () => Columns));
         }
@@ -58,12 +57,12 @@ namespace PaperWork.GameEntities.Grid
 
     public class MyClass : IHandleUpdates
     {
-        private readonly Func<IEnumerable<Collider>> GetRows;
-        private readonly Func<IEnumerable<Collider>> GetColumns;
+        private readonly Func<IEnumerable<Trigger>> GetRows;
+        private readonly Func<IEnumerable<Trigger>> GetColumns;
 
         public MyClass(
-            Func<IEnumerable<Collider>> GetRows
-            , Func<IEnumerable<Collider>> GetColumns)
+            Func<IEnumerable<Trigger>> GetRows
+            , Func<IEnumerable<Trigger>> GetColumns)
         {
             this.GetRows = GetRows;
             this.GetColumns = GetColumns;
@@ -82,7 +81,7 @@ namespace PaperWork.GameEntities.Grid
             foreach (var row in columns)
             {
                 index++;
-                var entities = row.GetEntities().OrderByDescending(f => f.Position.Y);
+                var entities = row.GetEtities().OrderByDescending(f => f.Position.Y);
                 var count = entities.Count();
 
                 var currentColor = Color.GhostWhite;
@@ -136,7 +135,7 @@ namespace PaperWork.GameEntities.Grid
             foreach (var row in rows)
             {
                 index++;
-                var entities = row.GetEntities().OrderByDescending(f => f.Position.X);
+                var entities = row.GetEtities().OrderByDescending(f => f.Position.X);
                 var count = entities.Count();
 
                 var currentColor = Color.GhostWhite;

@@ -43,6 +43,10 @@ namespace GameCore
         internal void Update()
         {
             OnUpdate();
+            foreach (var item in GetColliders())
+            {
+                item.Update();
+            }
         }
 
         protected virtual void OnUpdate()

@@ -20,7 +20,7 @@ namespace PaperWork
             new Color(150, 150, 255)
         };
         Random Random = new Random();
-        private readonly Collider feeler;
+        private readonly Trigger feeler;
         private readonly Action Restart;
 
         public PapersFactory(
@@ -29,7 +29,7 @@ namespace PaperWork
         {
             this.AddToWorld = AddToWorld;
             this.Restart = Restart;
-            feeler = new Collider(this, (50 * 12) - 4, 10, 52, 0, true);
+            feeler = new Trigger(this, (50 * 12) - 4, 10, 52, 0);
             Colliders.Add(feeler);
         }
 
@@ -42,7 +42,7 @@ namespace PaperWork
             }
 
             var coordenates = new List<Coordinate2D>();
-            var others = feeler.GetEntities();
+            var others = feeler.GetEtities();
 
             var x = 50 * 12;
             foreach (var item in others.OrderByDescending(f => f.Position.X))

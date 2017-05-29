@@ -1,58 +1,75 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace GameCore.Collision
 {
-    public struct Collision
+    public class Trigger : Collider
     {
-        public readonly Collider Source;
-        public readonly float Difference;
+        List<Entity> Entities = new List<Entity>();
+        List<Entity> PreviousEntities = new List<Entity>();
 
-        public Collision(
-            Collider Source
-            , float Difference)
+        public Trigger(
+            Entity ParentEntity,              
+            float Width, 
+            float Height,
+            int OffsetX,
+            int OffsetY) : base(
+                ParentEntity, 
+                OffsetX, 
+                OffsetY, 
+                Width, 
+                Height)
         {
-            this.Source = Source;
-            this.Difference = Difference;
+        }
+
+        public IEnumerable<Entity> GetEtities()
+        {
+            return PreviousEntities;
+        }
+
+        public void BotCollision(Collider Self, Collider Other)
+        {
+            if (Entities.Contains(Other.ParentEntity) == false)
+                Entities.Add(Other.ParentEntity);
+        }
+
+        public void LeftCollision(Collider Self, Collider Other)
+        {
+            if (Entities.Contains(Other.ParentEntity) == false)
+                Entities.Add(Other.ParentEntity);
+        }
+
+        public void RightCollision(Collider Self, Collider Other)
+        {
+            if (Entities.Contains(Other.ParentEntity) == false)
+                Entities.Add(Other.ParentEntity);
+        }
+
+        public void TopCollision(Collider Self, Collider Other)
+        {
+            if (Entities.Contains(Other.ParentEntity) == false)
+                Entities.Add(Other.ParentEntity);
+        }
+
+        internal override void Update()
+        {
+            PreviousEntities.Clear();
+            PreviousEntities.AddRange(Entities);
+            Entities.Clear();
         }
     }
+
 
     public class Collider
     {
         internal readonly int OffsetX;
         internal readonly int OffsetY;
-        public readonly bool IsTrigger;
+        private readonly IHandleCollision[] Handlers;
 
         public Entity ParentEntity { get; }
 
         internal float Width { get; set; }
         internal float Height { get; set; }
         public bool Disabled { get; set; }
-
-        internal readonly List<Collision> TopCollisions;
-        internal readonly List<Collision> LeftCollisions;
-        internal readonly List<Collision> RightCollisions;
-        internal readonly List<Collision> BotCollisions;
-
-        public IEnumerable<Collision> GetTopCollisions()
-        {
-            return TopCollisions;
-        }
-
-        public IEnumerable<Collision> GetBotCollisions()
-        {
-            return BotCollisions;
-        }
-
-        public IEnumerable<Collision> GetLeftCollisions()
-        {
-            return LeftCollisions;
-        }
-
-        public IEnumerable<Collision> GetRightCollisions()
-        {
-            return RightCollisions;
-        }
 
         internal Coordinate2D ColliderPosition
         {
@@ -67,11 +84,11 @@ namespace GameCore.Collision
 
         public Collider(
             Entity ParentEntity
+            , int OffsetX
+            , int OffsetY
             , float Width
             , float Height
-            , int OffsetX = 0
-            , int OffsetY = 0
-            , bool IsTrigger = false
+            , params IHandleCollision[] Handlers
             )
         {
             this.Width = Width;
@@ -79,27 +96,56 @@ namespace GameCore.Collision
             this.OffsetX = OffsetX;
             this.OffsetY = OffsetY;
             this.ParentEntity = ParentEntity;
-            this.IsTrigger = IsTrigger;
-
-            TopCollisions = new List<Collision>();
-            LeftCollisions = new List<Collision>();
-            RightCollisions = new List<Collision>();
-            BotCollisions = new List<Collision>();
+            this.Handlers = Handlers;
         }
 
         public override string ToString()
         {
-            return $"{ParentEntity}'s Collider";
+            return $"Collider";
         }
 
-        public IEnumerable<Entity> GetEntities()
+        internal virtual void Update()
         {
-            var result = new List<Entity>();
-            result.AddRange(BotCollisions.Select(f => f.Source.ParentEntity));
-            result.AddRange(TopCollisions.Select(f => f.Source.ParentEntity));
-            result.AddRange(LeftCollisions.Select(f => f.Source.ParentEntity));
-            result.AddRange(RightCollisions.Select(f => f.Source.ParentEntity));
-            return result.Distinct();
         }
+
+        internal void HandleBotCollision(Collider Source, float Difference)
+        {
+            foreach (var item in Handlers)
+            {
+                item.BotCollision(this, Source);
+            }
+        }
+
+        internal void HandleTopCollision(Collider Source, float Difference)
+        {
+            foreach (var item in Handlers)
+            {
+                item.TopCollision(this, Source);
+            }
+        }
+
+        internal void HandleLeftCollision(Collider Source, float Difference)
+        {
+            foreach (var item in Handlers)
+            {
+                item.LeftCollision(this, Source);
+            }
+        }
+
+        internal void HandleRightCollision(Collider Source, float Difference)
+        {
+            foreach (var item in Handlers)
+            {
+                item.RightCollision(this, Source);
+            }
+        }
+    }
+
+    public interface IHandleCollision
+    {
+        void BotCollision(Collider Self, Collider Other);
+        void TopCollision(Collider Self, Collider Other);
+        void LeftCollision(Collider Self, Collider Other);
+        void RightCollision(Collider Self, Collider Other);
     }
 }
