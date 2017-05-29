@@ -20,17 +20,16 @@ namespace PaperWork
             new Color(150, 150, 255)
         };
         Random Random = new Random();
-        private readonly Trigger feeler;
+        private readonly Collider feeler;
         private readonly Action Restart;
 
         public PapersFactory(
             Action<Entity> AddToWorld
-            ,Action Restart)
+            , Action Restart)
         {
             this.AddToWorld = AddToWorld;
             this.Restart = Restart;
-            feeler = new Trigger(this, (50 * 12) - 4, 10);
-            feeler.Position = new Coordinate2D(52, 0);
+            feeler = new Collider(this, (50 * 12) - 4, 10, 52, 0, true);
             Colliders.Add(feeler);
         }
 
@@ -65,7 +64,7 @@ namespace PaperWork
 
             var paper = new PapersEntity(50)
             {
-                Position = new Coordinate2D(x, 5)
+                Position = new Coordinate2D(x , 50)
             };
             paper.Color = Colors[Random.Next(0, Colors.Length)];
 

@@ -11,7 +11,7 @@ namespace GameCore
         public int Height { get; }
         public Coordinate2D Position { get; set; }
         public Action Destroy;
-        protected List<BaseCollider> Colliders = new List<BaseCollider>();
+        protected List<Collider> Colliders = new List<Collider>();
         protected List<EntityTexture> Textures = new List<EntityTexture>();
         private readonly static Dictionary<Type, int> instancesCount = new Dictionary<Type, int>();
 
@@ -35,18 +35,13 @@ namespace GameCore
             return Textures;
         }
 
-        public virtual IList<BaseCollider> GetColliders()
+        public virtual IList<Collider> GetColliders()
         {
             return Colliders;
         }
 
         internal void Update()
         {
-            foreach (var item in GetColliders())
-            {
-                item.Update();
-            }
-
             OnUpdate();
         }
 
@@ -59,15 +54,7 @@ namespace GameCore
         {
             return (T)this;
         }
-
-        internal void AfterCollisions()
-        {
-            foreach (var item in GetColliders())
-            {
-                item.AfterCollisions();
-            }
-        }
-
+        
         public override string ToString()
         {
             return Id;

@@ -14,9 +14,9 @@ namespace GameCore.Extensions
             }
         }
 
-        public static void Disable(this IList<BaseCollider> items)
+        public static void Disable(this IList<Collider> items)
         {
-            foreach (BaseCollider item in items)
+            foreach (Collider item in items)
             {
                 item.Disabled = true;
             }
@@ -30,9 +30,9 @@ namespace GameCore.Extensions
             }
         }
 
-        public static void Enable(this IList<BaseCollider> items)
+        public static void Enable(this IList<Collider> items)
         {
-            foreach (BaseCollider item in items)
+            foreach (Collider item in items)
             {
                 item.Disabled = false;
             }

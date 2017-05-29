@@ -1,11 +1,9 @@
 ﻿using GameCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PaperWork.GameEntities.Player.Updates
 {
-
     public class CheckIfGrounded : IHandleUpdates
     {
         private readonly Func<IEnumerable<Entity>> GetBotEntity;

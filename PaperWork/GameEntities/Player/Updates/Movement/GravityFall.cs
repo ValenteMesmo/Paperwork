@@ -34,17 +34,17 @@ namespace PaperWork.PlayerHandlers.Updates
 
                 SetVerticalSpeed(verticalSpeed);
             }
-            else
-            {
-                if (GetVerticalSpeed() > 0)
-                {
-                    entity.Position = new Coordinate2D(
-                        entity.Position.X
-                        , ground.Position.Y - entity.Height
-                    );
-                    SetVerticalSpeed(0);
-                }
-            }
+            //else
+            //{
+            //    if (GetVerticalSpeed() > 0)
+            //    {
+            //        entity.Position = new Coordinate2D(
+            //            entity.Position.X
+            //            , ground.Position.Y - entity.Height
+            //        );
+            //        SetVerticalSpeed(0);
+            //    }
+            //}
         }
     }
 }

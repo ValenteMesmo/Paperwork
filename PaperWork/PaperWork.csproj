@@ -45,12 +45,8 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameEntities\Grid\GridEntity.cs" />
     <Compile Include="GameEntities\Papers\Updates\FrictionSpeedLoss.cs" />
-    <Compile Include="GameEntities\Papers\Collisions\ZeroVerticalSpeedWhenCollidingVertically.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\ChangeStateAfterUpdateCount.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\ChangeStateWhenCornered.cs" />
-    <Compile Include="GameEntities\Player\Updates\Movement\MoveWhenPaperHitsYourHead.cs" />
-    <Compile Include="GameEntities\Player\Updates\Movement\StopsWhenHitsTheRoof.cs" />
-    <Compile Include="GameEntities\Player\Updates\Movement\StopsWhenWallHit.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRightWall.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearLeftWall.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRoofTop.cs" />
@@ -63,7 +59,6 @@
     <Compile Include="GameEntities\UpdateHandlerAggregator.cs" />
     <Compile Include="GameEntities\Player\Updates\DragAndDrop\DropThePapers.cs" />
     <Compile Include="GameEntities\Papers\Updates\FollowOtherEntity.cs" />
-    <Compile Include="GameEntities\Player\Collisions\SetNearPaperOnTriggerEnter.cs" />
     <Compile Include="GameEntities\Papers\Papers.cs" />
     <Compile Include="GameEntities\Player\Player.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\SetDirectionOnInput.cs" />

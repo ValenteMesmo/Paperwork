@@ -71,11 +71,7 @@ namespace GameCore
                     item.Update();
                 }
 
-                CollisionDetector.DetectCollisions(currentEntities);
-                foreach (var item in currentEntities)
-                {
-                    item.AfterCollisions();
-                }
+                CollisionDetector.DetectCollisions(currentEntities);                
 
             });
             gameloop.Start();
@@ -129,8 +125,8 @@ namespace GameCore
                 {
                     DrawBorder(
                             new Rectangle(
-                                (int)collider.Position.X,
-                                (int)collider.Position.Y,
+                                (int)collider.ColliderPosition.X,
+                                (int)collider.ColliderPosition.Y,
                                 (int)collider.Width,
                                 (int)collider.Height),
                             2,
@@ -176,5 +172,6 @@ namespace GameCore
             Entities.Clear();
             StartGame();
         }
+
     }
 }

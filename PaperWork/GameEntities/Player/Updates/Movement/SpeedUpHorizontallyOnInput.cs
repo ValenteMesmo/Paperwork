@@ -16,21 +16,13 @@ namespace PaperWork
         private readonly Func<bool> RightButtonPressed;
         private readonly Func<bool> Grounded;
         private readonly Func<float> GetHorizontalSpeed;
-        private readonly Func<Entity> NearLeftWall;
-        private readonly Func<Entity> NearRightWall;
-        private readonly Func<Entity> NearBotRightWall;
-        private readonly Func<Entity> NearBotLeftWall;
-
+        
         public SpeedUpHorizontallyOnInput(
             Action<float> SetHorizontalSpeed
             , Func<float> GetHorizontalSpeed
             , Func<bool> LeftButtonPressed
             , Func<bool> RightButtonPressed
             , Func<bool> Grounded
-            , Func<Entity> NearLeftWall
-            , Func<Entity> NearRightWall
-            , Func<Entity> NearBotLeftWall
-            , Func<Entity> NearBotRightWall
             )
         {
             this.SetHorizontalSpeed = SetHorizontalSpeed;
@@ -38,29 +30,20 @@ namespace PaperWork
             this.RightButtonPressed = RightButtonPressed;
             this.Grounded = Grounded;
             this.GetHorizontalSpeed = GetHorizontalSpeed;
-            this.NearLeftWall = NearLeftWall;
-            this.NearRightWall = NearRightWall;
-            this.NearBotLeftWall = NearBotLeftWall;
-            this.NearBotRightWall = NearBotRightWall;
         }
 
         public void Update(Entity ParentEntity)
         {
             var speedx = GetHorizontalSpeed();
 
-            var rightWall = NearRightWall();
-            var rightBotWall = NearBotRightWall();
-            var leftWall = NearLeftWall();
-            var leftBotWall = NearBotLeftWall();
-
-            if (RightButtonPressed() && rightWall == null && rightBotWall == null)
+            if (RightButtonPressed())
             {
                 if (speedx < 0)
                     speedx += acceleration * reactivityPercent;
                 else
                     speedx += acceleration;
             }
-            else if (LeftButtonPressed() && leftWall == null && leftBotWall == null)
+            else if (LeftButtonPressed())
             {
                 if (speedx > 0)
                     speedx -= acceleration * reactivityPercent;
