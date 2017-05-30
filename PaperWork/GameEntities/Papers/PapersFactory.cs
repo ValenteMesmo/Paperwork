@@ -29,7 +29,7 @@ namespace PaperWork
         {
             this.AddToWorld = AddToWorld;
             this.Restart = Restart;
-            feeler = new Trigger(this, (50 * 12) - 4, 10, 52, 0);
+            feeler = new Trigger(this, 52, 70,(50 * 12) - 4, 10);
             Colliders.Add(feeler);
         }
 
@@ -42,7 +42,7 @@ namespace PaperWork
             }
 
             var coordenates = new List<Coordinate2D>();
-            var others = feeler.GetEtities();
+            var others = feeler.GetEntities();
 
             var x = 50 * 12;
             foreach (var item in others.OrderByDescending(f => f.Position.X))
@@ -62,9 +62,9 @@ namespace PaperWork
                 return;
             }
 
-            var paper = new PapersEntity(50)
+            var paper = new PapersEntity(48)
             {
-                Position = new Coordinate2D(x , 50)
+                Position = new Coordinate2D(x, 100)
             };
             paper.Color = Colors[Random.Next(0, Colors.Length)];
 

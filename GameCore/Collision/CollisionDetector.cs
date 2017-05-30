@@ -1,5 +1,6 @@
 ﻿using GameCore.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCore.Collision
 {
@@ -7,8 +8,28 @@ namespace GameCore.Collision
     {
         public void DetectCollisions(IList<Entity> entities)
         {
+            foreach (var item in entities)
+            {
+                item.Position = new Coordinate2D(
+                    item.Position.X + item.Speed.X
+                    , item.Position.Y);
+            }
+
             entities.ForEachCombination(CollideEntitiesHorizontally);
+
+            foreach (var item in entities)
+            {
+                item.Position = new Coordinate2D(
+                    item.Position.X
+                    , item.Position.Y + item.Speed.Y);
+            }
+
             entities.ForEachCombination(CollideEntitiesVertically);
+
+            foreach (var item in entities.SelectMany(f => f.GetColliders()))
+            {
+                item.Update();
+            }
         }
 
         private void CollideEntitiesHorizontally(
@@ -33,52 +54,46 @@ namespace GameCore.Collision
             Collider a,
             Collider b)
         {
-
             if (a == null || a.Disabled)
-            {
                 return;
-            }
 
             if (b == null || b.Disabled)
-            {
                 return;
-            }
 
-            var rightPoint_a = a.ColliderPosition.X + a.Width;
-            var rightPoint_b = b.ColliderPosition.X + b.Width;
-            var botPoint_a = a.ColliderPosition.Y + a.Height;
-            var botPoint_b = b.ColliderPosition.Y + b.Height;
-
-            if (rightPoint_a < b.ColliderPosition.X
-            || rightPoint_b < a.ColliderPosition.X
-            || botPoint_a < b.ColliderPosition.Y
-            || botPoint_b < a.ColliderPosition.Y)
-            {
+            if (a is Trigger && b is Trigger)
                 return;
+
+            var a_max_x = a.ColliderPosition.X + a.Width;
+            var a_min_x = a.ColliderPosition.X;
+            var a_max_y = a.ColliderPosition.Y + a.Height;
+            var a_min_y = a.ColliderPosition.Y;
+
+            var b_max_x = b.ColliderPosition.X + b.Width;
+            var b_min_x = b.ColliderPosition.X;
+            var b_max_y = b.ColliderPosition.Y + b.Height;
+            var b_min_y = b.ColliderPosition.Y;
+
+            if (a_max_x <= b_min_x || a_min_x >= b_max_x)
+                return;
+
+            if (a_max_y <= b_min_y || a_min_y >= b_max_y)
+                return;
+
+            if (a_min_y > b_min_y)
+            {
+                if (b is Trigger == false)
+                    a.HandleTopCollision(b, 0);
+                if (a is Trigger == false)
+                    b.HandleBotCollision(a, 0);
             }
             else
             {
-                var bot_b__top_a__difference = botPoint_b - a.ColliderPosition.Y;
-                var bot_a__top_b__difference = botPoint_a - b.ColliderPosition.Y;
-                var right_a__left_b__difference = rightPoint_a - b.ColliderPosition.X;
-                var right_b__left_a__difference = rightPoint_b - a.ColliderPosition.X;
-
-                if (bot_a__top_b__difference < bot_b__top_a__difference
-                    && bot_a__top_b__difference < right_a__left_b__difference
-                    && bot_a__top_b__difference < right_b__left_a__difference)
-                {
-                    a.HandleBotCollision(b, bot_a__top_b__difference);
-                    b.HandleTopCollision(a, bot_a__top_b__difference);
-                }
-
-                if (bot_b__top_a__difference < bot_a__top_b__difference
-                    && bot_b__top_a__difference < right_a__left_b__difference
-                    && bot_b__top_a__difference < right_b__left_a__difference)
-                {
-                    a.HandleTopCollision(b, bot_b__top_a__difference);
-                    b.HandleBotCollision(a, bot_b__top_a__difference);
-                }
+                if (b is Trigger == false)
+                    a.HandleBotCollision(b, 0);
+                if (a is Trigger == false)
+                    b.HandleTopCollision(a, 0);
             }
+
         }
 
         private static void CollideCollidersHorizontally(
@@ -87,49 +102,39 @@ namespace GameCore.Collision
         {
 
             if (a == null || a.Disabled)
-            {
                 return;
-            }
 
             if (b == null || b.Disabled)
-            {
                 return;
-            }
 
-            var rightPoint_a = a.ColliderPosition.X + a.Width;
-            var rightPoint_b = b.ColliderPosition.X + b.Width;
-            var botPoint_a = a.ColliderPosition.Y + a.Height;
-            var botPoint_b = b.ColliderPosition.Y + b.Height;
-
-            if (rightPoint_a < b.ColliderPosition.X
-            || rightPoint_b < a.ColliderPosition.X
-            || botPoint_a < b.ColliderPosition.Y
-            || botPoint_b < a.ColliderPosition.Y)
-            {
+            if (a is Trigger && b is Trigger)
                 return;
+
+            var a_max_x = a.ColliderPosition.X + a.Width;
+            var a_min_x = a.ColliderPosition.X;
+            var a_max_y = a.ColliderPosition.Y + a.Height;
+            var a_min_y = a.ColliderPosition.Y;
+
+            var b_max_x = b.ColliderPosition.X + b.Width;
+            var b_min_x = b.ColliderPosition.X;
+            var b_max_y = b.ColliderPosition.Y + b.Height;
+            var b_min_y = b.ColliderPosition.Y;
+
+            if (a_max_x <= b_min_x || a_min_x >= b_max_x)
+                return;
+
+            if (a_max_y <= b_min_y || a_min_y >= b_max_y)
+                return;
+
+            if (a_min_x < b_min_x )
+            {
+                a.HandleRightCollision(b, 0);
+                b.HandleLeftCollision(a, 0);
             }
             else
             {
-                var bot_b__top_a__difference = botPoint_b - a.ColliderPosition.Y;
-                var bot_a__top_b__difference = botPoint_a - b.ColliderPosition.Y;
-                var right_a__left_b__difference = rightPoint_a - b.ColliderPosition.X;
-                var right_b__left_a__difference = rightPoint_b - a.ColliderPosition.X;
-
-                if (right_a__left_b__difference < right_b__left_a__difference
-                    && right_a__left_b__difference < bot_a__top_b__difference
-                    && right_a__left_b__difference < bot_b__top_a__difference)
-                {
-                    a.HandleRightCollision(b, right_a__left_b__difference);
-                    b.HandleLeftCollision(a, right_a__left_b__difference);
-                }
-
-                if (right_b__left_a__difference < right_a__left_b__difference
-                    && right_b__left_a__difference < bot_a__top_b__difference
-                    && right_b__left_a__difference < bot_b__top_a__difference)
-                {
-                    a.HandleLeftCollision(b, right_b__left_a__difference);
-                    b.HandleRightCollision(a, right_b__left_a__difference);
-                }
+                a.HandleLeftCollision(b, 0);
+                b.HandleRightCollision(a, 0);
             }
         }
     }

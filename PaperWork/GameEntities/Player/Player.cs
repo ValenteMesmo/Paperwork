@@ -1,5 +1,7 @@
 ﻿using GameCore;
 using GameCore.Collision;
+using PaperWork.GameEntities;
+using PaperWork.GameEntities.Papers.CollisionHandlers;
 using PaperWork.GameEntities.Player.Updates;
 using PaperWork.PlayerHandlers.Updates;
 using System;
@@ -7,27 +9,64 @@ using System.Collections.Generic;
 
 namespace PaperWork
 {
+    public class ExecuteOnUpdate : IHandleUpdates
+    {
+        private readonly Action Action;
+
+        public ExecuteOnUpdate(Action Action)
+        {
+            this.Action = Action;
+        }
+
+        public void Update(Entity entity)
+        {
+            Action();
+        }
+    }
+
+    public class ExecuteOnBotCollision<T> : IHandleCollision
+    {
+        private readonly Action Action;
+
+        public ExecuteOnBotCollision(Action Action)
+        {
+            this.Action = Action;
+        }
+
+        public void BotCollision(Collider Self, Collider Other)
+        {
+            if (Other.ParentEntity is T)
+                Action();
+        }
+
+        public void LeftCollision(Collider Self, Collider Other) { }
+        public void RightCollision(Collider Self, Collider Other) { }
+        public void TopCollision(Collider Self, Collider Other) { }
+    }
+
     public class PlayerEntity : Entity
     {
         private readonly Property<bool> FacingRightDirection = new Property<bool>();
 
-        private readonly Property<Entity> Grounded = new Property<Entity>();
+        private readonly Property<bool> Grounded = new Property<bool>();
         private readonly Property<Entity> LeftWall = new Property<Entity>();
         private readonly Property<Entity> RightWall = new Property<Entity>();
         private readonly Property<Entity> BotLeftWall = new Property<Entity>();
         private readonly Property<Entity> BotRightWall = new Property<Entity>();
         private readonly Property<Entity> RoofTop = new Property<Entity>();
 
-        private readonly Property<float> HorizontalSpeed = new Property<float>();
-        private readonly Property<float> VerticalSpeed = new Property<float>();
-
         private readonly List<EntityTexture> TextureLeft = new List<EntityTexture>();
 
         private IHandleUpdates CurrentState;
         const int WIDTH = 40;
         const int HEIGHT = 100;
-        private readonly Collider VerticalCollider;
-        private readonly Collider HorizontalCollider;
+
+        Action ZeroHorizontalSpeed;
+        Action ZeroVerticalSpeed;
+        Action<float> SetVerticalSpeed;
+        Action<float> SetHorizontalSpeed;
+        Func<float> GetVerticalSpeed;
+        Func<float> GetHorizontalSpeed;
 
         public PlayerEntity(InputRepository Inputs) : base(WIDTH, HEIGHT)
         {
@@ -43,23 +82,37 @@ namespace PaperWork
                 Offset = new Coordinate2D(-5, 0)
             });
 
-            VerticalCollider = new Collider(
-                    this
-                    , WIDTH - 20
-                    , Height + 30
-                    , 10
-                    , -10
-                );
-            HorizontalCollider = new Collider(
-                    this
-                    , WIDTH +20
-                    , Height - 20
-                    , -10
-                    , 10
-                );
+            ZeroHorizontalSpeed = () => Speed = new Coordinate2D(0, Speed.Y);
+            ZeroVerticalSpeed = () => Speed = new Coordinate2D(Speed.X, 0);
+            SetVerticalSpeed = f => Speed = new Coordinate2D(Speed.X, f);
+            SetHorizontalSpeed = f => Speed = new Coordinate2D(f, Speed.Y);
+            GetHorizontalSpeed = () => Speed.X;
+            GetVerticalSpeed = () => Speed.Y;
 
-            Colliders.Add(VerticalCollider);
+            var HorizontalCollider = new BoxCollider(
+                    this
+                    , WIDTH
+                    , HEIGHT
+                    , 0
+                    , 0
+                    , new ExecuteOnBotCollision<SolidBlock>(
+                        () => Grounded.Set(true)
+                    )
+                    , new ZeroHorizontalSpeedWhenHitsLeft<SolidBlock>(
+                        ZeroHorizontalSpeed
+                    )
+                    , new ZeroHorizontalSpeedWhenHitsRight<SolidBlock>(
+                        ZeroHorizontalSpeed
+                    )
+                    , new ZeroVerticalSpeedWhenHitsTop<SolidBlock>(
+                        ZeroVerticalSpeed
+                    )
+                    , new ZeroVerticalSpeedWhenHitsBot<SolidBlock>(
+                        ZeroVerticalSpeed
+                    )
+                );
             Colliders.Add(HorizontalCollider);
+
 
             var rightTrigger = CreateTrigger(Inputs, Width, 10);
             var botRightTrigger = CreateTrigger(Inputs, Width, 65);
@@ -77,7 +130,7 @@ namespace PaperWork
                 topTrigger,
                 botLeftTrigger,
                 leftTrigger,
-                centerTrigger.GetEtities
+                centerTrigger.GetEntities
             );
         }
 
@@ -91,73 +144,59 @@ namespace PaperWork
             , Trigger leftTrigger
             , Func<IEnumerable<Entity>> objectsInsideTHePlayer)
         {
-            return new UpdateHandlerAggregator(                
+            return new UpdateHandlerAggregator(
                  new SpeedUpHorizontallyOnInput(
-                    HorizontalSpeed.Set,
-                    HorizontalSpeed.Get,
+                    SetHorizontalSpeed,
+                    GetHorizontalSpeed,
                     () => Inputs.Left,
                     () => Inputs.Right,
-                    Grounded.HasValue
+                    Grounded.Get
                     )
                 , new SetDirectionOnInput(
                     () => Inputs.Right,
                     () => Inputs.Left,
                     FacingRightDirection.Set)
                 , new GravityIncreasesVerticalSpeed(
-                    VerticalSpeed.Get
-                    , VerticalSpeed.Set
-                    , Grounded.Get)
+                    GetVerticalSpeed
+                    , SetVerticalSpeed)
                 , new JumpOnInputDecreasesVerticalSpeed(
-                    Grounded.HasValue
-                    , VerticalSpeed.Set
+                    Grounded.Get
+                    , SetVerticalSpeed
                     , () => Inputs.Up)
-                //, new StopsWhenHitsTheRoof<SolidBlock>(
-                //    RoofTop.Get
-                //    , VerticalSpeed.Set
-                //)
-               
                 , new DragAndDropHandler(
                     Inputs
                     , FacingRightDirection.Get
-                    , Grounded.HasValue
-                    , rightTrigger.GetEtities
-                    , botRightTrigger.GetEtities
-                    , leftTrigger.GetEtities
-                    , botLeftTrigger.GetEtities
-                    , botTrigger.GetEtities
-                    , HorizontalSpeed.Set
+                    , Grounded.Get
+                    , rightTrigger.GetEntities
+                    , botRightTrigger.GetEntities
+                    , leftTrigger.GetEntities
+                    , botLeftTrigger.GetEntities
+                    , botTrigger.GetEntities
+                    , SetHorizontalSpeed
                     , RoofTop.IsNull)
-                , new CheckIfGrounded(
-                    botTrigger.GetEtities
-                    , Grounded.Set)
                 , new CheckIfNearLeftWall(
                     LeftWall.Set
-                    , leftTrigger.GetEtities
+                    , leftTrigger.GetEntities
                 )
                 , new CheckIfNearRightWall(
                     RightWall.Set
-                    , rightTrigger.GetEtities
+                    , rightTrigger.GetEntities
                 )
                 , new CheckIfNearLeftWall(
                     BotLeftWall.Set
-                    , botLeftTrigger.GetEtities
+                    , botLeftTrigger.GetEntities
                 )
                 , new CheckIfNearRightWall(
                     BotRightWall.Set
-                    , botRightTrigger.GetEtities
+                    , botRightTrigger.GetEntities
                 )
                 , new CheckIfNearRoofTop(
-                    topTrigger.GetEtities
+                    topTrigger.GetEntities
                     , RoofTop.Set
-                )              
-                , new UsesSpeedToMove(
-                    HorizontalSpeed.Get,
-                    VerticalSpeed.Get)                
-                //, new ZeroSpeedWhenHittingTop<SolidBlock>(VerticalCollider, VerticalSpeed.SetDefaut)
-                //, new ZeroSpeedWhenHittingLeft<PapersEntity>(HorizontalCollider, HorizontalSpeed.SetDefaut)
-                //, new ZeroSpeedWhenHittingLeft<SolidBlock>(HorizontalCollider, HorizontalSpeed.SetDefaut)
-                //, new ZeroSpeedWhenHittingRight<PapersEntity>(HorizontalCollider, HorizontalSpeed.SetDefaut)
-                //, new ZeroSpeedWhenHittingRight<SolidBlock>(HorizontalCollider, HorizontalSpeed.SetDefaut)
+                )
+                , new ExecuteOnUpdate(
+                    Grounded.SetDefaut
+                )
             );
         }
 
@@ -168,7 +207,7 @@ namespace PaperWork
 
         private Trigger CreateTrigger(InputRepository Inputs, int x, int y)
         {
-            var trigger = new Trigger(this, 30, 30, x, y);
+            var trigger = new Trigger(this, x, y, 30, 30);
             Colliders.Add(trigger);
             return trigger;
         }

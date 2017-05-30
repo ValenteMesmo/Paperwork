@@ -9,7 +9,8 @@ namespace GameCore
         public string Id { get; }
         public int Width { get; }
         public int Height { get; }
-        public Coordinate2D Position { get; set; }
+        public Coordinate2D Position { get;  set; }
+        public Coordinate2D Speed { get; set; }
         public Action Destroy;
         protected List<Collider> Colliders = new List<Collider>();
         protected List<EntityTexture> Textures = new List<EntityTexture>();
@@ -43,10 +44,6 @@ namespace GameCore
         internal void Update()
         {
             OnUpdate();
-            foreach (var item in GetColliders())
-            {
-                item.Update();
-            }
         }
 
         protected virtual void OnUpdate()
@@ -58,7 +55,7 @@ namespace GameCore
         {
             return (T)this;
         }
-        
+
         public override string ToString()
         {
             return Id;

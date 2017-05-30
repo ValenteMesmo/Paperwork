@@ -2,6 +2,7 @@
 using GameCore;
 using PaperWork.GameEntities;
 using PaperWork.GameEntities.Grid;
+using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
@@ -32,6 +33,7 @@ namespace PaperWork
                 });
 
             AddEntity(new GridEntity(6, 13, 50));
+
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)

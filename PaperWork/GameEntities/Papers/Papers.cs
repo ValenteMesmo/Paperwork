@@ -3,19 +3,48 @@ using GameCore.Collision;
 using Microsoft.Xna.Framework;
 using PaperWork.GameEntities;
 using PaperWork.GameEntities.Collisions;
-using PaperWork.GameEntities.Player.Updates;
+using PaperWork.GameEntities.Papers.CollisionHandlers;
 using PaperWork.PlayerHandlers.Updates;
-using System;
-using System.Diagnostics;
 
 namespace PaperWork
-{   
+{
+    static class EntityExtensions
+    {
+        public static void ZeroHorizontalSpeed(this Entity entity)
+        {
+             entity.Speed = new Coordinate2D(0, entity.Speed.Y);
+        }
+
+        public static void ZeroVerticalSpeed(this Entity entity)
+        {
+             entity.Speed = new Coordinate2D(entity.Speed.X, 0);
+        }
+
+        public static void SetVerticalSpeed(this Entity entity, float f)
+        {
+             entity.Speed = new Coordinate2D(entity.Speed.X, f);
+        }
+
+        public static void SetHorizontalSpeed(this Entity entity, float f)
+        {
+             entity.Speed = new Coordinate2D(f, entity.Speed.Y);
+        }
+
+        public static float GetHorizontalSpeed(this Entity entity)
+        {
+            return  entity.Speed.X;
+        }
+
+        public static float GetVerticalSpeed(this Entity entity)
+        {
+            return  entity.Speed.Y;
+        }
+    }
+
     public class PapersEntity : Entity
     {
         public readonly Property<Entity> Target = new Property<Entity>();
-        public readonly Property<Entity> Grounded = new Property<Entity>();
-        public readonly Property<float> VerticalSpeed = new Property<float>();
-        public readonly Property<float> HorizontalSpeed = new Property<float>();
+        public readonly Property<bool> Grounded = new Property<bool>();
         private Color _color;
         public Color Color
         {
@@ -36,7 +65,8 @@ namespace PaperWork
         private readonly IHandleUpdates PaperUpdate;
         private readonly Collider mainCollider;
 
-        public PapersEntity(int cellSize) : base(cellSize, cellSize)
+        public PapersEntity(
+            int cellSize) : base(cellSize, cellSize)
         {
 
             Textures.Add(new EntityTexture("papers", cellSize, cellSize * 2)
@@ -44,20 +74,23 @@ namespace PaperWork
                 Offset = new Coordinate2D(0, -cellSize)
             });
 
-            mainCollider = new Collider(this, cellSize - 2, cellSize - 2, 1, 1);
+            mainCollider = new BoxCollider(this, cellSize, cellSize, 0, 0
+                , new ZeroVerticalSpeedWhenHitsBot<SolidBlock>(
+                    this.ZeroVerticalSpeed)
+                , new ZeroVerticalSpeedWhenHitsBot<PapersEntity>(
+                    this.ZeroVerticalSpeed)
+            );
             Colliders.Add(mainCollider);
-
-            var botTrigger = new Trigger(this, cellSize - 40, cellSize - 40, 20, +75);
-            Colliders.Add(botTrigger);
 
             PaperUpdate = new UpdateHandlerAggregator(
               new GravityIncreasesVerticalSpeed(
-                 VerticalSpeed.Get,
-                 VerticalSpeed.Set,
-                 Grounded.Get)
-             , new UsesSpeedToMove(HorizontalSpeed.Get, VerticalSpeed.Get)
-             , new FollowOtherEntity(new Coordinate2D(-20, -Height), Target.Get, VerticalSpeed.Set, HorizontalSpeed.Set)
-             , new CheckIfGrounded(botTrigger.GetEtities, Grounded.Set)
+                 this.GetVerticalSpeed,
+                 this.SetVerticalSpeed)
+             , new FollowOtherEntity(
+                 new Coordinate2D(-20, -Height)
+                 , Target.Get
+                 , this.SetVerticalSpeed
+                 , this.SetHorizontalSpeed)
             );
         }
 

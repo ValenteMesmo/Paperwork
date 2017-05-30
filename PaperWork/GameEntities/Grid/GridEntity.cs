@@ -11,40 +11,44 @@ namespace PaperWork.GameEntities.Grid
     {
         private IHandleUpdates Update;
 
-        public GridEntity(int rowsCount, int ColumnsCount, int cellSize)
+        public GridEntity(
+            int rowsCount,
+            int ColumnsCount,
+            int cellSize)
         {
             var Rows = new List<Trigger>();
             var Columns = new List<Trigger>();
 
             for (int i = 1; i < rowsCount; i++)
             {
-                var collider = new Trigger(
-                    this,
-                    cellSize * (ColumnsCount - 1) - 30,
-                    cellSize - 30
+                var trigger = new Trigger(
+                    this
                     , cellSize + 15
                     , (i * cellSize) + 15
-                );
+                    , cellSize * (ColumnsCount - 1) - 30
+                    , cellSize - 30
 
-                Rows.Add(collider);
-                Colliders.Add(collider);
+                );
+                Colliders.Add(trigger);
+                Rows.Add(trigger);
             }
 
             for (int i = 1; i < ColumnsCount; i++)
             {
-                var collider = new Trigger(
-                    this,
-                    cellSize - 30,
-                    cellSize * (rowsCount - 1) - 30
+                var trigger = new Trigger(
+                    this
                     , (i * cellSize) + 15
                     , cellSize + 15
+                    , cellSize - 30
+                    , cellSize * (rowsCount - 1) - 30                    
                 );
+                Colliders.Add(trigger);
 
-                Columns.Add(collider);
-                Colliders.Add(collider);
+                Columns.Add(trigger);
             }
 
-            Update = new UpdateHandlerAggregator(new MyClass(
+            Update = new UpdateHandlerAggregator(
+                new MyClass(
                     () => Rows,
                     () => Columns));
         }
@@ -81,7 +85,7 @@ namespace PaperWork.GameEntities.Grid
             foreach (var row in columns)
             {
                 index++;
-                var entities = row.GetEtities().OrderByDescending(f => f.Position.Y);
+                var entities = row.GetEntities().OrderByDescending(f => f.Position.Y);
                 var count = entities.Count();
 
                 var currentColor = Color.GhostWhite;
@@ -135,7 +139,7 @@ namespace PaperWork.GameEntities.Grid
             foreach (var row in rows)
             {
                 index++;
-                var entities = row.GetEtities().OrderByDescending(f => f.Position.X);
+                var entities = row.GetEntities().OrderByDescending(f => f.Position.X);
                 var count = entities.Count();
 
                 var currentColor = Color.GhostWhite;
