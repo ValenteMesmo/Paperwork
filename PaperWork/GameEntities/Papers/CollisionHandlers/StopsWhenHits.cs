@@ -3,6 +3,7 @@ using System;
 
 namespace PaperWork.GameEntities.Papers.CollisionHandlers
 {
+    //TODO:
     public class ZeroHorizontalSpeedWhenHitsLeft<T> : IHandleCollision
     {
         private readonly Action ZeroHorizontalSpeed;

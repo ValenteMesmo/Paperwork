@@ -8,18 +8,21 @@ namespace PaperWork.GameEntities.Player.Updates
     {
         private readonly Action SetGrabOnCooldown;
         private readonly Action<PapersEntity> GivePaperToPlayer;
+        private readonly Entity entity;
 
         public BaseDragHandler(
-            Action<PapersEntity> GivePaperToPlayer
+            Entity entity
+            ,Action<PapersEntity> GivePaperToPlayer
             , Action SetGrabOnCooldown)
         {
             this.GivePaperToPlayer = GivePaperToPlayer;
             this.SetGrabOnCooldown = SetGrabOnCooldown;
+            this.entity = entity;
         }
 
         protected abstract IEnumerable<Entity> GetEntityToGrab();
 
-        public void Update(Entity entity)
+        public void Update()
         {
             var entities = GetEntityToGrab();
             if (entities == null)

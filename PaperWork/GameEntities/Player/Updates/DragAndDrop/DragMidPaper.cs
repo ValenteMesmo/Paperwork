@@ -14,14 +14,15 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Func<IEnumerable<Entity>> GetLeftEntity;
 
         public DragMidPaper(
-            Action<PapersEntity> GivePaperToPlayer
+            Entity entity
+            , Action<PapersEntity> GivePaperToPlayer
             , Action SetGrabOnCooldown
             , Func<bool> GrabButtonPressed
             , Func<bool> PlayerHandsAreFree
             , Func<bool> GrabCooldownEnded
             , Func<bool> PlayerFacingRight
             , Func<IEnumerable<Entity>> GetRightEntity
-            , Func<IEnumerable<Entity>> GetLeftEntity) : base(GivePaperToPlayer, SetGrabOnCooldown)
+            , Func<IEnumerable<Entity>> GetLeftEntity) : base(entity ,GivePaperToPlayer, SetGrabOnCooldown)
         {
             this.GrabButtonPressed = GrabButtonPressed;
             this.PlayerHandsAreFree = PlayerHandsAreFree;

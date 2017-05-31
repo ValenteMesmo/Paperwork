@@ -11,9 +11,11 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Property<PapersEntity> DraggedEntity = new Property<PapersEntity>();
         private readonly UpdateHandlerAggregator updateHandler;
         private DateTime cooldown;
+        private readonly Entity entity;
 
         public DragAndDropHandler(
-            InputRepository Inputs
+            Entity entity
+            , InputRepository Inputs
             , Func<bool> FacingRightDirection
             , Func<bool> IsGrounded
             , Func<IEnumerable<Entity>> RightEntity
@@ -25,12 +27,14 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<bool> TopPositionFree
             )
         {
+            this.entity = entity;
             Func<bool> CooldownEnded = () => cooldown <= DateTime.Now;
             Action SetOnCooldown = () => cooldown = DateTime.Now.AddMilliseconds(250);
 
             updateHandler = new UpdateHandlerAggregator(
                 new DragBotPaper(
-                    DraggedEntity.Set
+                    entity
+                    , DraggedEntity.Set
                     , SetOnCooldown
                     , () => Inputs.Action1
                     , DraggedEntity.IsNull
@@ -38,7 +42,8 @@ namespace PaperWork.GameEntities.Player.Updates
                     , () => Inputs.Down
                     , BotEntity)
                 , new DragMidPaper(
-                    DraggedEntity.Set
+                    entity
+                    , DraggedEntity.Set
                     , SetOnCooldown
                     , () => Inputs.Action1
                     , DraggedEntity.IsNull
@@ -47,7 +52,8 @@ namespace PaperWork.GameEntities.Player.Updates
                     , RightEntity
                     , LeftEnity)
                 , new DragMidBotPaper(
-                    DraggedEntity.Set
+                    entity
+                    , DraggedEntity.Set
                     , SetOnCooldown
                     , () => Inputs.Action1
                     , DraggedEntity.IsNull
@@ -57,8 +63,8 @@ namespace PaperWork.GameEntities.Player.Updates
                     , BotRightEntity
                     , BotLeftEntity
                 )
-                , new DropThePapers(
-                    DraggedEntity.Get,
+                , new DropThePapers(entity
+                 , DraggedEntity.Get,
                     () => Inputs.Action1,
                     CooldownEnded,
                     SetOnCooldown,
@@ -70,7 +76,8 @@ namespace PaperWork.GameEntities.Player.Updates
                     , TopPositionFree
                     , 50)
                 , new DropThePapers(
-                    DraggedEntity.Get,
+                    entity
+                 , DraggedEntity.Get,
                     () => Inputs.Action1,
                     CooldownEnded,
                     SetOnCooldown,
@@ -84,9 +91,9 @@ namespace PaperWork.GameEntities.Player.Updates
 
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
-            updateHandler.Update(entity);
+            updateHandler.Update();
         }
     }
 }

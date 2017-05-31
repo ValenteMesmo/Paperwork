@@ -45,7 +45,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameEntities\Grid\GridEntity.cs" />
     <Compile Include="GameEntities\Papers\CollisionHandlers\StopsWhenHits.cs" />
-    <Compile Include="GameEntities\Papers\Updates\FrictionSpeedLoss.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\ChangeStateAfterUpdateCount.cs" />
     <Compile Include="GameEntities\Player\Updates\Movement\ChangeStateWhenCornered.cs" />
     <Compile Include="GameEntities\Player\Updates\NearSolids\CheckIfNearRightWall.cs" />

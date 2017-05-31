@@ -9,20 +9,23 @@ namespace PaperWork.GameEntities.Collisions
         private readonly Func<Entity> GetTarget;
         private readonly Action<float> SetVerticalSpeed;
         private readonly Action<float> SetHorizontalSpeed;
+        private readonly Entity entity;
 
         public FollowOtherEntity(
-            Coordinate2D bonus
+            Entity entity
+            ,Coordinate2D bonus
             ,Func<Entity> GetTarget
             ,Action<float> SetVerticalSpeed
             ,Action<float> SetHorizontalSpeed)
         {
+            this.entity = entity;
             this.bonus = bonus;
             this.GetTarget = GetTarget;
             this.SetVerticalSpeed = SetVerticalSpeed;
             this.SetHorizontalSpeed = SetHorizontalSpeed;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             var target = GetTarget();
 

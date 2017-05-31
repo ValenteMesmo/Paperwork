@@ -32,7 +32,7 @@ namespace PaperWork
             this.GetHorizontalSpeed = GetHorizontalSpeed;
         }
 
-        public void Update(Entity ParentEntity)
+        public void Update()
         {
             var speedx = GetHorizontalSpeed();
 

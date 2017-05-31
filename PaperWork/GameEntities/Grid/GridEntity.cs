@@ -55,7 +55,7 @@ namespace PaperWork.GameEntities.Grid
 
         protected override void OnUpdate()
         {
-            Update.Update(this);
+            Update.Update();
         }
     }
 
@@ -72,7 +72,7 @@ namespace PaperWork.GameEntities.Grid
             this.GetColumns = GetColumns;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             ComputeHorizontalCombos();
             ComputeVerticalCombos();

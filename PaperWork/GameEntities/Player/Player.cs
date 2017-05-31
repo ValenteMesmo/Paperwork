@@ -18,7 +18,7 @@ namespace PaperWork
             this.Action = Action;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             Action();
         }
@@ -164,7 +164,8 @@ namespace PaperWork
                     , SetVerticalSpeed
                     , () => Inputs.Up)
                 , new DragAndDropHandler(
-                    Inputs
+                    this
+                    , Inputs
                     , FacingRightDirection.Get
                     , Grounded.Get
                     , rightTrigger.GetEntities
@@ -175,23 +176,28 @@ namespace PaperWork
                     , SetHorizontalSpeed
                     , RoofTop.IsNull)
                 , new CheckIfNearLeftWall(
-                    LeftWall.Set
+                    this
+                 , LeftWall.Set
                     , leftTrigger.GetEntities
                 )
                 , new CheckIfNearRightWall(
-                    RightWall.Set
+                    this
+                 , RightWall.Set
                     , rightTrigger.GetEntities
                 )
                 , new CheckIfNearLeftWall(
-                    BotLeftWall.Set
+                    this
+                 , BotLeftWall.Set
                     , botLeftTrigger.GetEntities
                 )
                 , new CheckIfNearRightWall(
-                    BotRightWall.Set
+                   this
+                 , BotRightWall.Set
                     , botRightTrigger.GetEntities
                 )
                 , new CheckIfNearRoofTop(
-                    topTrigger.GetEntities
+                    this
+                 , topTrigger.GetEntities
                     , RoofTop.Set
                 )
                 , new ExecuteOnUpdate(
@@ -202,7 +208,7 @@ namespace PaperWork
 
         protected override void OnUpdate()
         {
-            CurrentState.Update(this);
+            CurrentState.Update();
         }
 
         private Trigger CreateTrigger(InputRepository Inputs, int x, int y)

@@ -17,7 +17,7 @@ namespace PaperWork
             this.ChangeState = ChangeState;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             var otherEntities = ObjectInsideThePlayer();
             foreach (var other in otherEntities)

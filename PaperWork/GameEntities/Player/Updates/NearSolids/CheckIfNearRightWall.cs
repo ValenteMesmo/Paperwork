@@ -8,16 +8,19 @@ namespace PaperWork.GameEntities.Player.Updates
     {
         private readonly Action<Entity> SetNearRightWall;
         private readonly Func<IEnumerable<Entity>> GetEntitiesOnTheRight;
+        private readonly Entity entity;
 
         public CheckIfNearRightWall(
-            Action<Entity> SetNearRightWall
+            Entity entity
+            ,Action<Entity> SetNearRightWall
             , Func<IEnumerable<Entity>> GetEntitiesOnTheRight)
         {
             this.SetNearRightWall = SetNearRightWall;
             this.GetEntitiesOnTheRight = GetEntitiesOnTheRight;
+            this.entity = entity;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             SetNearRightWall(IsNearLeftWall(entity));
         }

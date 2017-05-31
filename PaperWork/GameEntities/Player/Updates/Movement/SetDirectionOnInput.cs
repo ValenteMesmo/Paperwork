@@ -19,7 +19,7 @@ namespace PaperWork
             this.SetFacingRight = SetFacingRight;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             if (RightPressed())
                 SetFacingRight(true);

@@ -15,7 +15,8 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Func<IEnumerable<Entity>> GetBotLeft;
 
         public DragMidBotPaper(
-            Action<PapersEntity> GivePaperToPlayer
+            Entity entity
+            ,            Action<PapersEntity> GivePaperToPlayer
             , Action SetGrabOnCooldown
             , Func<bool> GrabButtonPressed
             , Func<bool> PlayerHandsAreFree
@@ -23,7 +24,7 @@ namespace PaperWork.GameEntities.Player.Updates
             , Func<bool> PlayerGrounded
             , Func<bool> FacingRight
             , Func<IEnumerable<Entity>> GetBotRight
-            , Func<IEnumerable<Entity>> GetBotLeft) : base(GivePaperToPlayer, SetGrabOnCooldown)
+            , Func<IEnumerable<Entity>> GetBotLeft) : base(entity, GivePaperToPlayer, SetGrabOnCooldown)
         {
             this.GrabButtonPressed = GrabButtonPressed;
             this.PlayerHandsAreFree = PlayerHandsAreFree;

@@ -11,11 +11,11 @@ namespace PaperWork
             this.updates = updates;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             foreach (var item in updates)
             {
-                item.Update(entity);
+                item.Update();
             }
         }
     }

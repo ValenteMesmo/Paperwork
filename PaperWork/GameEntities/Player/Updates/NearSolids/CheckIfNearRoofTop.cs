@@ -9,17 +9,20 @@ namespace PaperWork.GameEntities.Player.Updates
     {
         private readonly Func<IEnumerable<Entity>> GetTopEntity;
         private readonly Action<Entity> SetRoofTop;
+        private readonly Entity player;
 
         public CheckIfNearRoofTop(
-            Func<IEnumerable<Entity>> GetTopEntity
-            , Action<Entity> SetGrounded
+            Entity player
+            , Func<IEnumerable<Entity>> GetTopEntity
+            , Action<Entity> SetRoofTop
         )
         {
             this.GetTopEntity = GetTopEntity;
-            this.SetRoofTop = SetGrounded;
+            this.SetRoofTop = SetRoofTop;
+            this.player = player;
         }
 
-        public void Update(Entity player)
+        public void Update()
         {
             SetRoofTop(
                 IsPlayerNearRoofTop(player));

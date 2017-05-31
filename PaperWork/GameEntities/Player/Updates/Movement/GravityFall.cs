@@ -19,7 +19,7 @@ namespace PaperWork.PlayerHandlers.Updates
             this.SetVerticalSpeed = SetVerticalSpeed;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
        
                 var verticalSpeed = GetVerticalSpeed() + VELOCITY;

@@ -17,7 +17,7 @@ namespace PaperWork
             this.ChangeState = ChangeState;
         }
 
-        public void Update(Entity entity)
+        public void Update()
         {
             currentCount++;
             if (currentCount >= updateCount)

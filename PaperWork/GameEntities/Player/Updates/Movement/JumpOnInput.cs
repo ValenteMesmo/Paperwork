@@ -19,7 +19,7 @@ namespace PaperWork
             this.SetVerticalSpeed = SetVerticalSpeed;
             this.JumpButtonPressed = JumpButtonPressed;
         }
-        public void Update(Entity ParentEntity)
+        public void Update()
         {
             if (JumpButtonPressed()
                 && Grounded()

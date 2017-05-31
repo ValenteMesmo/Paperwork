@@ -13,14 +13,15 @@ namespace PaperWork.GameEntities.Player.Updates
         private readonly Func<IEnumerable<Entity>> GetBotEntity;
 
         public DragBotPaper(
-            Action<PapersEntity> GivePaperToPlayer
+            Entity entity
+            ,Action<PapersEntity> GivePaperToPlayer
             , Action SetGrabOnCooldown
             , Func<bool> GrabButtonPressed
             , Func<bool> PlayerHandsAreFree
             , Func<bool> GrabCooldownEnded
             , Func<bool> DownButtonPressed
             , Func<IEnumerable<Entity>> GetBotEntity
-            ) : base(GivePaperToPlayer, SetGrabOnCooldown)
+            ) : base(entity, GivePaperToPlayer, SetGrabOnCooldown)
         {
             this.GrabButtonPressed = GrabButtonPressed;
             this.PlayerHandsAreFree = PlayerHandsAreFree;

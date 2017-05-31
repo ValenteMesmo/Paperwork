@@ -48,6 +48,7 @@
     <Compile Include="Collision\IHandleCollision.cs" />
     <Compile Include="Collision\Trigger.cs" />
     <Compile Include="Coordinate2D.cs" />
+    <Compile Include="EntityExtensions.cs" />
     <Compile Include="Extensions\FloatExtensions.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
