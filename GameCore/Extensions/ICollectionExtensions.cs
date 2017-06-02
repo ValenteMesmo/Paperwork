@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameCore.Extensions
+namespace GameCore
 {
     public static class ICollectionExtensions
     {

@@ -42,26 +42,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
-    <Compile Include="Collision\BoxCollider.cs" />
-    <Compile Include="Collision\Collider.cs" />
-    <Compile Include="Collision\CollisionDetector.cs" />
-    <Compile Include="Collision\IHandleCollision.cs" />
-    <Compile Include="Collision\Trigger.cs" />
-    <Compile Include="Coordinate2D.cs" />
-    <Compile Include="EntityExtensions.cs" />
-    <Compile Include="Extensions\FloatExtensions.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
-    <Compile Include="FrameCounter.cs" />
-    <Compile Include="GameEntities\Entity.cs" />
-    <Compile Include="GameEntities\EntityTexture.cs" />
-    <Compile Include="GameEntities\UpdateHandler.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameRunner.cs" />
+    <Compile Include="Interfaces\IBotCollisionHandler.cs" />
+    <Compile Include="Interfaces\ICollider.cs" />
+    <Compile Include="Extensions\IColliderExtensions.cs" />
+    <Compile Include="Interfaces\ILeftCollisionHandler.cs" />
     <Compile Include="InputRepository.cs" />
+    <Compile Include="Interfaces\IRightCollisionHandler.cs" />
+    <Compile Include="Interfaces\ITextureGetter.cs" />
+    <Compile Include="Interfaces\ITopCollisionHandler.cs" />
+    <Compile Include="Interfaces\IUpdateHandler.cs" />
+    <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Property.cs" />
-    <Compile Include="Util\ILog.cs" />
+    <Compile Include="World.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Collision\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

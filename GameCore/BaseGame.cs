@@ -1,5 +1,4 @@
-﻿using GameCore.Collision;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -13,17 +12,16 @@ namespace GameCore
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> Textures;
         private string[] TextureNames;
-        private readonly List<Entity> Entities;
         private Texture2D pixel;
-        private CollisionDetector CollisionDetector = new CollisionDetector();
+
         protected InputRepository PlayerInputs;
-        private FrameCounter _frameCounter = new FrameCounter();
+        private World world;
 
         public BaseGame(params string[] TextureNames)
         {
+            world = new World();
             this.TextureNames = TextureNames;
             PlayerInputs = new InputRepository();
-            Entities = new List<Entity>();
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -32,13 +30,13 @@ namespace GameCore
             graphics.SynchronizeWithVerticalRetrace = false;
         }
 
-        protected void AddEntity(Entity Entity)
+        protected void AddEntity(ICollider Entity)
         {
-            Entity.Destroy = () =>
-            {
-                Entities.Remove(Entity);
-            };
-            Entities.Add(Entity);
+            //Entity.Destroy = () =>
+            //{
+            //    Entities.Remove(Entity);
+            //};
+            world.AddCollider(Entity);
         }
 
         protected override void LoadContent()
@@ -63,17 +61,7 @@ namespace GameCore
         private void StartGame()
         {
             OnStart();
-            gameloop = new GameRunner(() =>
-            {
-                var currentEntities = Entities.ToList();
-                foreach (var item in currentEntities)
-                {
-                    item.Update();
-                }
-
-                CollisionDetector.DetectCollisions(currentEntities);                
-
-            });
+            gameloop = new GameRunner(world.Update);
             gameloop.Start();
         }
 
@@ -102,53 +90,33 @@ namespace GameCore
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            var entiies = Entities.ToArray();
+            var entiies = world.GetColliders();
             foreach (var item in entiies)
             {
                 if (item == null)
                     continue;
 
-                foreach (var texture in item.GetTextures())
+                if (item is ITexture)
                 {
-                    if (texture.Disabled == false)
-                        spriteBatch.Draw(
-                            Textures[texture.Name],
+                    var texture = item as ITexture;
+                    spriteBatch.Draw(
+                            Textures[texture.TextureName],
                             new Rectangle(
-                                (int)(item.Position.X + texture.Offset.X),
-                                (int)(item.Position.Y + texture.Offset.Y),
-                                texture.Width,
-                                texture.Height),
-                            texture.Color);
-                }
-
-                foreach (var collider in item.GetColliders())
-                {
-                    DrawBorder(
-                            new Rectangle(
-                                (int)collider.ColliderPosition.X,
-                                (int)collider.ColliderPosition.Y,
-                                (int)collider.Width,
-                                (int)collider.Height),
-                            2,
-                            Color.Red);
+                                (int)(item.X + texture.TextureOffSetX),
+                                (int)(item.Y + texture.TextureOffSetY),
+                                texture.TextureWidth,
+                                texture.TextureHeight),
+                            texture.TextureColor);
                 }
 
                 DrawBorder(
-                    new Rectangle(
-                        (int)item.Position.X
-                        , (int)item.Position.Y
-                        , item.Width
-                        , item.Height)
-                    , 2
-                    , Color.Blue
-                );
-            }
-
-            {
-                var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                _frameCounter.Update(deltaTime);
-                var fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
-                //spriteBatch.DrawString(spriteFont, fps, new Vector2(1, 1), Color.Black);
+                        new Rectangle(
+                            (int)item.X,
+                            (int)item.Y,
+                            (int)item.Width,
+                            (int)item.Height),
+                        2,
+                        Color.Red);
             }
 
             spriteBatch.End();
@@ -168,8 +136,8 @@ namespace GameCore
 
         protected void Restart()
         {
+            //TODO: world...
             gameloop.Dispose();
-            Entities.Clear();
             StartGame();
         }
 

@@ -1,43 +1,10 @@
-﻿using GameCore.Collision;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace GameCore.Extensions
+namespace GameCore
 {
     public static class IListExtensions
     {
-        public static void Disable(this IList<EntityTexture> items)
-        {
-            foreach (EntityTexture item in items)
-            {
-                item.Disabled = true;
-            }
-        }
-
-        public static void Disable(this IList<Collider> items)
-        {
-            foreach (Collider item in items)
-            {
-                item.Disabled = true;
-            }
-        }
-
-        public static void Enable(this IList<EntityTexture> items)
-        {
-            foreach (EntityTexture item in items)
-            {
-                item.Disabled = false;
-            }
-        }
-
-        public static void Enable(this IList<Collider> items)
-        {
-            foreach (Collider item in items)
-            {
-                item.Disabled = false;
-            }
-        }
-
         public static void ForEachCombination<T>(
             this IList<T> items,
             Action<T, T> callback)
