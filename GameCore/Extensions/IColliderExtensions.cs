@@ -2,15 +2,6 @@
 
 namespace GameCore
 {
-    public enum CollisionResult
-    {
-        Nope
-        , Left
-        , Right
-        , Top
-        , Bottom
-    }
-
     public static class IColliderExtensions
     {
         public static CollisionResult IsColliding(this ICollider A, ICollider B)
@@ -103,22 +94,21 @@ namespace GameCore
             if (collision == CollisionResult.Nope)
                 return;
 
-            //TODO: Check for collision after collision handled?
             if (collision == CollisionResult.Left)
             {
-                if (a is ILeftCollisionHandler)
-                    a.As<ILeftCollisionHandler>().LeftCollision(b);
+                if (a is ICollisionHandler)
+                    a.As<ICollisionHandler>().LeftCollision(b);
 
-                if (b is IRightCollisionHandler)
-                    b.As<IRightCollisionHandler>().RightCollision(a);
+                if (b is ICollisionHandler)
+                    b.As<ICollisionHandler>().RightCollision(a);
             }
             else if (collision == CollisionResult.Right)
             {
-                if (a is IRightCollisionHandler)
-                    a.As<IRightCollisionHandler>().RightCollision(b);
+                if (a is ICollisionHandler)
+                    a.As<ICollisionHandler>().RightCollision(b);
 
-                if (b is ILeftCollisionHandler)
-                    b.As<ILeftCollisionHandler>().LeftCollision(a);
+                if (b is ICollisionHandler)
+                    b.As<ICollisionHandler>().LeftCollision(a);
             }            
         }
 
@@ -133,19 +123,19 @@ namespace GameCore
 
             if (collision == CollisionResult.Top)
             {
-                if (a is ITopCollisionHandler)
-                    a.As<ITopCollisionHandler>().TopCollision(b);
+                if (a is ICollisionHandler)
+                    a.As<ICollisionHandler>().TopCollision(b);
 
-                if (b is IBotCollisionHandler)
-                    b.As<IBotCollisionHandler>().BotCollision(a);
+                if (b is ICollisionHandler)
+                    b.As<ICollisionHandler>().BotCollision(a);
             }
             else if (collision == CollisionResult.Bottom)
             {
-                if (a is IBotCollisionHandler)
-                    a.As<IBotCollisionHandler>().BotCollision(b);
+                if (a is ICollisionHandler)
+                    a.As<ICollisionHandler>().BotCollision(b);
 
-                if (b is ITopCollisionHandler)
-                    b.As<ITopCollisionHandler>().TopCollision(a);
+                if (b is ICollisionHandler)
+                    b.As<ICollisionHandler>().TopCollision(a);
             }
         }
     }

@@ -69,7 +69,7 @@ namespace UnitTestProject
         [TestMethod]
         public void CallBotCollisionHandlerOnCollision()
         {
-            var collider = Substitute.For<ICollider, IBotCollisionHandler>();
+            var collider = Substitute.For<ICollider, ICollisionHandler>();
             var other = Substitute.For<ICollider>();
 
             collider.Y = 0;
@@ -87,7 +87,7 @@ namespace UnitTestProject
 
             sut.Update();
 
-            collider.As<IBotCollisionHandler>()
+            collider.As<ICollisionHandler>()
                 .Received(1).BotCollision(other);
         }
     }
