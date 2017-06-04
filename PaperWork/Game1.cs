@@ -13,11 +13,13 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            AddEntity(new Player(PlayerInputs)
+            var player = new Player(PlayerInputs)
             {
                 X = 100,
                 Y = 100
-            });
+            };
+            AddEntity(player);
+            AddEntity(new GroundCheck(player));
 
             CreateBlocks(rowNumber, colNumber);
 

@@ -43,10 +43,12 @@
   <ItemGroup>
     <Compile Include="BaseGame.cs" />
     <Compile Include="Extensions\CollisionResult.cs" />
+    <Compile Include="Extensions\FloatExtensions.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameRunner.cs" />
+    <Compile Include="IBeforeCollisionHandler.cs" />
     <Compile Include="Interfaces\ICollider.cs" />
     <Compile Include="Extensions\IColliderExtensions.cs" />
     <Compile Include="Interfaces\ICollisionHandler.cs" />

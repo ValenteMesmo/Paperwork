@@ -4,11 +4,11 @@ namespace GameCore
 {
     public interface ITexture
     {
-        float TextureOffSetX { get; set; }
-        float TextureOffSetY { get; set; }
-        int TextureWidth { get; set; }
-        int TextureHeight { get; set; }
-        string TextureName { get; set; }
-        Color TextureColor { get; set; }
+        float TextureOffSetX { get; }
+        float TextureOffSetY { get; }
+        int TextureWidth { get; }
+        int TextureHeight { get; }
+        string TextureName { get; }
+        Color TextureColor { get; }
     }
 }

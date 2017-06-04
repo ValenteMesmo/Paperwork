@@ -42,12 +42,17 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AffectedByGravity.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GroundCheck.cs" />
+    <Compile Include="LimitSpeed.cs" />
+    <Compile Include="MoveHorizontallyOnInput.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopsWhenCollidingWith.cs" />
+    <Compile Include="UpdateGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
