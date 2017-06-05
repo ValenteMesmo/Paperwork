@@ -95,7 +95,7 @@ namespace UnitTestProject
     [TestClass]
     public class IColliderIntersectTests
     {
-        public ICollider CreateCollider(float x, float y, float width, float height)
+        public ICollider CreateCollider(int x, int y, int width, int height)
         {
             var collider = Substitute.For<ICollider>();
             collider.X = x;
@@ -119,7 +119,7 @@ namespace UnitTestProject
         public void Intersect_From_The_Left()
         {
             var source = CreateCollider(20, 0, 10, 10);
-            var target = CreateCollider(9.9f, 0, 10, 10);
+            var target = CreateCollider(9, 0, 10, 10);
 
             Assert.AreEqual(CollisionResult.Nope, source.IsColliding(target));
 
@@ -134,7 +134,7 @@ namespace UnitTestProject
         public void Intersect_From_The_Right()
         {
             var source = CreateCollider(20, 0, 10, 10);
-            var target = CreateCollider(30.1f, 0, 10, 10);
+            var target = CreateCollider(31, 0, 10, 10);
 
             Assert.AreEqual(CollisionResult.Nope, source.IsColliding(target));
 
@@ -149,7 +149,7 @@ namespace UnitTestProject
         public void Intersect_From_The_Top()
         {
             var source = CreateCollider(0, 30, 10, 10);
-            var target = CreateCollider(0, 19.9f, 10, 10);
+            var target = CreateCollider(0, 19, 10, 10);
 
             Assert.AreEqual(CollisionResult.Nope, source.IsColliding(target));
 
@@ -164,7 +164,7 @@ namespace UnitTestProject
         public void Intersect_From_The_Bottom()
         {
             var source = CreateCollider(0, 20, 10, 10);
-            var target = CreateCollider(0, 30.1f, 10, 10);
+            var target = CreateCollider(0, 31, 10, 10);
 
             Assert.AreEqual(CollisionResult.Nope, source.IsColliding(target));
 

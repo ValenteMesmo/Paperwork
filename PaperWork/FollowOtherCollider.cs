@@ -6,10 +6,10 @@ namespace PaperWork
     {
         private readonly ICollider Source;
         private readonly ICollider Target;
-        private readonly float OffsetX;
-        private readonly float OffsetY;
+        private readonly int OffsetX;
+        private readonly int OffsetY;
 
-        FollowOtherCollider(ICollider Source, ICollider Target, float OffsetX, float OffsetY)
+        FollowOtherCollider(ICollider Source, ICollider Target, int OffsetX, int OffsetY)
         {
             this.Source = Source;
             this.Target = Target;

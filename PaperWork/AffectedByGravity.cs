@@ -5,7 +5,7 @@ namespace PaperWork
     public class AffectedByGravity : IUpdateHandler
     {
         private readonly ICollider Parent;
-        private const float GRAVITY = 0.2f;
+        private const int GRAVITY = 1;
 
         public AffectedByGravity(ICollider Parent)
         {

@@ -6,22 +6,23 @@ namespace PaperWork
     public class Block :
         ICollider
         , ITexture
+        , IPlayerMovementBlocker
     {
         public Block()
         {
-            Width = 50;
-            Height = 50;
+            Width = 100;
+            Height = 100;
         }
 
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
-        public float HorizontalSpeed { get; set; }
-        public float VerticalSpeed { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int HorizontalSpeed { get; set; }
+        public int VerticalSpeed { get; set; }
 
-        public float TextureOffSetX { get => -World.SPACE_BETWEEN_THINGS; }
-        public float TextureOffSetY { get => -World.SPACE_BETWEEN_THINGS; }
+        public int TextureOffSetX { get => -World.SPACE_BETWEEN_THINGS; }
+        public int TextureOffSetY { get => -World.SPACE_BETWEEN_THINGS; }
         public int TextureWidth { get => (int)(Width + World.SPACE_BETWEEN_THINGS); }
         public int TextureHeight { get => (int)(Height + World.SPACE_BETWEEN_THINGS); }
         public string TextureName { get => "block"; }

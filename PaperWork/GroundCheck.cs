@@ -4,59 +4,59 @@ namespace PaperWork
 {
     public class GroundCheck :
         IUpdateHandler
-        , IBeforeCollisionHandler
+        , IAfterUpdateHandler
         , ICollider
         , ICollisionHandler
     {
         private readonly Player Player;
 
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
-        public float HorizontalSpeed { get; set; }
-        public float VerticalSpeed { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int HorizontalSpeed { get; set; }
+        public int VerticalSpeed { get; set; }
 
         public GroundCheck(Player Player)
         {
             this.Player = Player;
-            Width = Player.Width -10;
-            Height = 10;
+            Width = Player.Width -50;
+            Height = 30;
         }
 
         public void Update()
         {
-            X = Player.X + 5;
+            X = Player.X + 25;
             Y = Player.Bottom() + 10;
             Player.Grounded = false;
         }
 
-        public void BeforeCollision()
+        public void AfterUpdate()
         {
             Player.Grounded = false;
         }
 
         public void BotCollision(ICollider other)
         {
-            if (other is Block)
+            if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
 
         public void LeftCollision(ICollider other)
         {
-            if (other is Block)
+            if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
 
         public void RightCollision(ICollider other)
         {
-            if (other is Block)
+            if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
 
         public void TopCollision(ICollider other)
         {
-            if (other is Block)
+            if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
     }

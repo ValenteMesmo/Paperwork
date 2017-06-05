@@ -1,13 +1,16 @@
 ﻿using GameCore;
-using System;
 
 namespace PaperWork
 {
-    public class Player :
+    public class Paper :
         ICollider
         , ICollisionHandler
         , IUpdateHandler
+        , IPlayerMovementBlocker
     {
+        private ICollisionHandler CollisionHandler;
+        private IUpdateHandler UpdateHandler;
+
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; }
@@ -15,23 +18,21 @@ namespace PaperWork
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
 
-        public bool Grounded { get; set; }
-
-        private readonly ICollisionHandler CollisionHandler;
-        private readonly IUpdateHandler UpdateHandler;
-
-        public Player(InputRepository Inputs)
+        public Paper()
         {
             Width = 100;
-            Height = 200;
+            Height = 100;
 
             CollisionHandler = new StopsWhenCollidingWith<IPlayerMovementBlocker>(this);
             UpdateHandler = new UpdateGroup(
-                new MoveHorizontallyOnInput(this, Inputs)
-                , new AffectedByGravity(this)
-                , new PlayersJump(this, Inputs)
-                , new LimitSpeed(this, 10, 50)
-            );
+               new AffectedByGravity(this)
+               , new LimitSpeed(this, 3, 5)
+           );
+        }
+
+        public void Update()
+        {
+            UpdateHandler.Update();
         }
 
         public void BotCollision(ICollider collider)
@@ -52,12 +53,6 @@ namespace PaperWork
         public void RightCollision(ICollider collider)
         {
             CollisionHandler.RightCollision(collider);
-        }
-
-        public void Update()
-        {
-            UpdateHandler.Update();
-            System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("HH:mm:ss")} {Y}");
         }
     }
 }

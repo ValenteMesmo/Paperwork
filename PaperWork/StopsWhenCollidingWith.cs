@@ -3,7 +3,7 @@ using GameCore;
 
 namespace PaperWork
 {
-    public class StopsWhenCollidingWith<T> : ICollisionHandler where T : ICollider
+    public class StopsWhenCollidingWith<T> : ICollisionHandler
     {
         private readonly ICollider Parent;
 
@@ -28,7 +28,7 @@ namespace PaperWork
             if (other is T)
             {
                 Parent.Y = other.Bottom()
-                    + World.SPACE_BETWEEN_THINGS ;
+                    + World.SPACE_BETWEEN_THINGS;
                 Parent.VerticalSpeed = 0;
             }
         }
@@ -38,7 +38,7 @@ namespace PaperWork
             if (other is T)
             {
                 Parent.X = other.Right()
-                    + World.SPACE_BETWEEN_THINGS ;
+                    + World.SPACE_BETWEEN_THINGS;
                 Parent.HorizontalSpeed = 0;
             }
         }

@@ -4,9 +4,9 @@ namespace PaperWork
 {
     public class MoveHorizontallyOnInput : IUpdateHandler
     {
-        private const float VELOCITY = 0.08f;
-        private const float FRICTION = 0.05f;
-        private const float CHANGE_DIRECTION_BONUS = 2.5f;
+        private const int VELOCITY = 2;
+        private const int FRICTION = 1;
+        private const int CHANGE_DIRECTION_BONUS = 2;
         private readonly InputRepository Inputs;
         private readonly ICollider Parent;
 
@@ -28,7 +28,7 @@ namespace PaperWork
                 Parent.HorizontalSpeed = Parent.HorizontalSpeed.EasyToZero(FRICTION);
         }
 
-        private float Move(float currentSpeed, float velocity)
+        private int Move(int currentSpeed, int velocity)
         {
             if (currentSpeed > 0 && velocity < 0)
                 currentSpeed -= CHANGE_DIRECTION_BONUS;

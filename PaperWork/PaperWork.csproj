@@ -48,9 +48,12 @@
     <Compile Include="FollowOtherCollider.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GroundCheck.cs" />
+    <Compile Include="IPlayerMovementBlocker.cs" />
     <Compile Include="LimitSpeed.cs" />
     <Compile Include="MoveHorizontallyOnInput.cs" />
+    <Compile Include="Paper.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayersJump.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopsWhenCollidingWith.cs" />

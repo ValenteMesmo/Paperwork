@@ -20,6 +20,10 @@ namespace GameCore
 
         public BaseGame(params string[] TextureNames)
         {
+            Camera = new Camera2d();
+            Camera.Pos = new Vector2(700f, 380f);
+            Camera.Zoom = 0.5f;
+
             world = new World();
             this.TextureNames = TextureNames;
             PlayerInputs = new InputRepository();
@@ -85,11 +89,18 @@ namespace GameCore
 
         //SpriteFont spriteFont;
         private GameRunner gameloop;
+        private Camera2d Camera;
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                        BlendState.AlphaBlend,
+                        null,
+                        null,
+                        null,
+                        null,
+                        Camera.get_transformation(GraphicsDevice /*Send the variable that has your graphic device here*/));
 
             var entiies = world.GetColliders();
             foreach (var item in entiies)
@@ -103,8 +114,8 @@ namespace GameCore
                     spriteBatch.Draw(
                             Textures[texture.TextureName],
                             new Rectangle(
-                                (int)(item.X + texture.TextureOffSetX),
-                                (int)(item.Y + texture.TextureOffSetY),
+                                item.X + texture.TextureOffSetX,
+                                item.Y + texture.TextureOffSetY,
                                 texture.TextureWidth,
                                 texture.TextureHeight),
                             texture.TextureColor);
@@ -112,10 +123,10 @@ namespace GameCore
 
                 DrawBorder(
                         new Rectangle(
-                            (int) item.RoundX(),
-                            (int)item.Y,
-                            (int)item.Width,
-                            (int)item.Height),
+                            item.X,
+                            item.Y,
+                            item.Width,
+                            item.Height),
                         2,
                         Color.Red);
             }

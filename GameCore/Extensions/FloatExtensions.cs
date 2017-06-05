@@ -2,7 +2,7 @@
 {
     public static class FloatExtensions
     {
-        public static float Range(this float number, float min, float max)
+        public static int Range(this int number, int min, int max)
         {
             if (number > max)
                 number = max;
@@ -13,7 +13,7 @@
             return number;
         }
 
-        public static float EasyToZero(this float value, float decrement)
+        public static int EasyToZero(this int value, int decrement)
         {
             if (value > 0)
             {

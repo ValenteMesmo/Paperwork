@@ -5,10 +5,10 @@ namespace PaperWork
     public class LimitSpeed : IUpdateHandler
     {
         private readonly ICollider Parent;
-        private readonly float MaxHorizontal;
-        private readonly float MaxVertical;
+        private readonly int MaxHorizontal;
+        private readonly int MaxVertical;
 
-        public LimitSpeed(ICollider Parent, float MaxHorizontal, float MaxVertical)
+        public LimitSpeed(ICollider Parent, int MaxHorizontal, int MaxVertical)
         {
             this.Parent = Parent;
             this.MaxHorizontal = MaxHorizontal;

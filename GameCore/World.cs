@@ -5,7 +5,7 @@ namespace GameCore
 {
     public class World
     {
-        public const float SPACE_BETWEEN_THINGS = 1;
+        public const int SPACE_BETWEEN_THINGS = 1;
         private List<ICollider> Items = new List<ICollider>();
 
         public void AddCollider(ICollider collider)
@@ -25,8 +25,8 @@ namespace GameCore
                 if (item is IUpdateHandler)
                     item.As<IUpdateHandler>().Update();
 
-                if (item is IBeforeCollisionHandler)
-                    item.As<IBeforeCollisionHandler>().BeforeCollision();
+                if (item is IAfterUpdateHandler)
+                    item.As<IAfterUpdateHandler>().AfterUpdate();
 
                 item.MoveHorizontally();
             }
@@ -35,14 +35,18 @@ namespace GameCore
             //https://github.com/ChevyRay/QuadTree
             //https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
 
-            Items.ForEachCombination(IColliderExtensions.HandleHorizontalCollision);
+            Items.ForEachCombination(
+                IColliderExtensions
+                    .HandleHorizontalCollision);
 
             foreach (var item in Items)
             {
                 item.MoveVertically();
             }
 
-            Items.ForEachCombination(IColliderExtensions.HandleVerticalCollision);
+            Items.ForEachCombination(
+                IColliderExtensions
+                    .HandleVerticalCollision);
         }
     }
 }

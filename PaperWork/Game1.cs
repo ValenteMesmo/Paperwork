@@ -21,6 +21,8 @@ namespace PaperWork
             AddEntity(player);
             AddEntity(new GroundCheck(player));
 
+           // AddEntity(new Paper() { X = 200, Y = 100 });
+
             CreateBlocks(rowNumber, colNumber);
 
             //AddEntity(
@@ -37,7 +39,7 @@ namespace PaperWork
 
         private void CreateBlocks(int rowNumber, int colNumber)
         {
-            var cellsize = 50 + World.SPACE_BETWEEN_THINGS;
+            var cellsize = 100 + World.SPACE_BETWEEN_THINGS;
             for (int i = 1; i < rowNumber; i++)
             {
                 AddEntity(new Block

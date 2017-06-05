@@ -6,16 +6,16 @@ namespace GameCore
     {
         public static CollisionResult IsColliding(this ICollider A, ICollider B)
         {
-            float w = 0.5f * (A.Width + B.Width);
-            float h = 0.5f * (A.Height + B.Height);
-            float dx = A.CenterX() - B.CenterX();
-            float dy = A.CenterY() - B.CenterY();
+            var w = 0.5f * (A.Width + B.Width);
+            var h = 0.5f * (A.Height + B.Height);
+            var dx = A.CenterX() - B.CenterX();
+            var dy = A.CenterY() - B.CenterY();
 
             if (Math.Abs(dx) <= w && Math.Abs(dy) <= h)
             {
                 /* collision! */
-                float wy = w * dy;
-                float hx = h * dx;
+                var wy = w * dy;
+                var hx = h * dx;
 
                 if (wy > hx)
                 {
@@ -45,22 +45,22 @@ namespace GameCore
             return CollisionResult.Nope;
         }
 
-        public static float Left(this ICollider a)
+        public static int Left(this ICollider a)
         {
             return a.X;
         }
 
-        public static float Right(this ICollider a)
+        public static int Right(this ICollider a)
         {
             return a.X + a.Width;
         }
 
-        public static float Top(this ICollider a)
+        public static int Top(this ICollider a)
         {
             return a.Y;
         }
 
-        public static float Bottom(this ICollider a)
+        public static int Bottom(this ICollider a)
         {
             return a.Y + a.Height;
         }
@@ -110,17 +110,6 @@ namespace GameCore
                 if (b is ICollisionHandler)
                     b.As<ICollisionHandler>().LeftCollision(a);
             }
-        }
-
-        public static int RoundX(this ICollider collider)
-        {
-            if (collider.HorizontalSpeed > 0)
-                return (int)Math.Floor(collider.X);
-
-            if (collider.HorizontalSpeed < 0)
-                return (int)Math.Ceiling(collider.X);
-
-            return (int)collider.X;
         }
 
         public static void HandleVerticalCollision(
