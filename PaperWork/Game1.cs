@@ -22,7 +22,7 @@ namespace PaperWork
             AddEntity(new GroundCheck(player));
 
             AddEntity(new Paper() { X = 400, Y = 400 });
-            //AddEntity(new Paper() { X = 400, Y = 100 });
+            AddEntity(new Paper() { X = 400, Y = 100 });
 
             CreateBlocks(rowNumber, colNumber);
 

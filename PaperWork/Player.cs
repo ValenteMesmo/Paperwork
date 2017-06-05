@@ -25,7 +25,12 @@ namespace PaperWork
             Width = 100;
             Height = 200;
 
-            CollisionHandler = new StopsWhenCollidingWith<IPlayerMovementBlocker>(this);
+            CollisionHandler = new CollisionHandlerGroup(
+                new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
+                , new StopsWhenTopCollidingWith<IPlayerMovementBlocker>(this)
+                , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
+                , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
+            );
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
                 , new AffectedByGravity(this)

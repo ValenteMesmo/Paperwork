@@ -1,13 +1,12 @@
-﻿using System;
-using GameCore;
+﻿using GameCore;
 
 namespace PaperWork
 {
-    public class StopsWhenCollidingWith<T> : ICollisionHandler
+    public class StopsWhenBotCollidingWith<T> : ICollisionHandler
     {
         private readonly ICollider Parent;
 
-        public StopsWhenCollidingWith(ICollider Parent)
+        public StopsWhenBotCollidingWith(ICollider Parent)
         {
             this.Parent = Parent;
         }
@@ -23,6 +22,22 @@ namespace PaperWork
             }
         }
 
+        public void TopCollision(ICollider other) { }
+
+        public void LeftCollision(ICollider other) { }
+
+        public void RightCollision(ICollider other) { }
+    }
+
+    public class StopsWhenTopCollidingWith<T> : ICollisionHandler
+    {
+        private readonly ICollider Parent;
+
+        public StopsWhenTopCollidingWith(ICollider Parent)
+        {
+            this.Parent = Parent;
+        }
+
         public void TopCollision(ICollider other)
         {
             if (other is T)
@@ -33,6 +48,28 @@ namespace PaperWork
             }
         }
 
+        public void BotCollision(ICollider other) { }
+
+        public void LeftCollision(ICollider other) { }
+
+        public void RightCollision(ICollider other) { }
+    }
+
+    public class StopsWhenLeftCollidingWith<T> : ICollisionHandler
+    {
+        private readonly ICollider Parent;
+
+        public StopsWhenLeftCollidingWith(ICollider Parent)
+        {
+            this.Parent = Parent;
+        }
+
+        public void BotCollision(ICollider other) { }
+
+        public void TopCollision(ICollider other) { }
+
+        public void RightCollision(ICollider other) { }
+
         public void LeftCollision(ICollider other)
         {
             if (other is T)
@@ -42,6 +79,22 @@ namespace PaperWork
                 Parent.HorizontalSpeed = 0;
             }
         }
+    }
+
+    public class StopsWhenRightCollidingWith<T> : ICollisionHandler
+    {
+        private readonly ICollider Parent;
+
+        public StopsWhenRightCollidingWith(ICollider Parent)
+        {
+            this.Parent = Parent;
+        }
+
+        public void BotCollision(ICollider other) { }
+
+        public void TopCollision(ICollider other) { }
+
+        public void LeftCollision(ICollider other) { }
 
         public void RightCollision(ICollider other)
         {
