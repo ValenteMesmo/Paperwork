@@ -30,7 +30,7 @@ namespace PaperWork
                 new MoveHorizontallyOnInput(this, Inputs)
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)
-                , new LimitSpeed(this, 10, 50)
+                , new LimitSpeed(this, 8, 15)
             );
         }
 

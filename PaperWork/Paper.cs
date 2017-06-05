@@ -26,7 +26,7 @@ namespace PaperWork
             CollisionHandler = new StopsWhenCollidingWith<IPlayerMovementBlocker>(this);
             UpdateHandler = new UpdateGroup(
                new AffectedByGravity(this)
-               , new LimitSpeed(this, 3, 5)
+               , new LimitSpeed(this, 10, 8)
            );
         }
 

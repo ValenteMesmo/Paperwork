@@ -15,13 +15,14 @@ namespace PaperWork
 
             var player = new Player(PlayerInputs)
             {
-                X = 100,
-                Y = 100
+                X = 200,
+                Y = 200
             };
             AddEntity(player);
             AddEntity(new GroundCheck(player));
 
-           // AddEntity(new Paper() { X = 200, Y = 100 });
+            AddEntity(new Paper() { X = 400, Y = 400 });
+            //AddEntity(new Paper() { X = 400, Y = 100 });
 
             CreateBlocks(rowNumber, colNumber);
 
