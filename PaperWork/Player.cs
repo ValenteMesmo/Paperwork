@@ -1,5 +1,6 @@
 ﻿using System;
 using GameCore;
+using System.Diagnostics;
 
 namespace PaperWork
 {
@@ -77,6 +78,7 @@ namespace PaperWork
         public void Update()
         {
             UpdateHandler.Update();
+            Debug.WriteLine($"{X} {DateTime.Now.ToString("HH:mm:ss.f")}");
         }
     }
 }

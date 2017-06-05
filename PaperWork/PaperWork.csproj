@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="AffectedByGravity.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="CollisionChecker.cs" />
+    <Compile Include="FollowOtherCollider.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GroundCheck.cs" />
     <Compile Include="LimitSpeed.cs" />

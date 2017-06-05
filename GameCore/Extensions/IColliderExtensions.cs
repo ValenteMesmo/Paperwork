@@ -67,12 +67,12 @@ namespace GameCore
 
         public static float CenterX(this ICollider collider)
         {
-            return (collider.Left() + collider.Right()) / 2;
+            return (collider.Left() + collider.Right()) * 0.5f;
         }
 
         public static float CenterY(this ICollider collider)
         {
-            return (collider.Top() + collider.Bottom()) / 2;
+            return (collider.Top() + collider.Bottom()) * 0.5f;
         }
 
         public static void MoveHorizontally(this ICollider a)
@@ -109,7 +109,18 @@ namespace GameCore
 
                 if (b is ICollisionHandler)
                     b.As<ICollisionHandler>().LeftCollision(a);
-            }            
+            }
+        }
+
+        public static int RoundX(this ICollider collider)
+        {
+            if (collider.HorizontalSpeed > 0)
+                return (int)Math.Floor(collider.X);
+
+            if (collider.HorizontalSpeed < 0)
+                return (int)Math.Ceiling(collider.X);
+
+            return (int)collider.X;
         }
 
         public static void HandleVerticalCollision(
