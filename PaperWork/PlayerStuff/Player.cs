@@ -1,33 +1,8 @@
 ﻿using GameCore;
 using System;
-using System.Linq;
 
 namespace PaperWork
 {
-    public class GrabPaperNearPlayersChest : IUpdateHandler
-    {
-        private readonly Player Player;
-
-        public GrabPaperNearPlayersChest(Player Player)
-        {
-            this.Player = Player;
-        }
-
-        public void Update()
-        {
-            if (Player.GrabbedPaper == null
-                && Player.Inputs.Action1)
-            {
-                var papers = Player.ChestPaperDetetor.GetDetectedItems();
-                if (papers.Any())
-                {
-                    Player.GrabbedPaper = papers.First();
-                    Player.GrabbedPaper.Disabled = true;
-                }
-            }
-        }
-    }
-
     public class Player :
         ICollider
         , ICollisionHandler
@@ -43,6 +18,7 @@ namespace PaperWork
 
         public bool Grounded { get; set; }
         public Paper GrabbedPaper { get; set; }
+        public int TimeUntilDragDropEnable { get; set; }
 
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
@@ -63,6 +39,15 @@ namespace PaperWork
             Width = 100;
             Height = 200;
 
+            UpdateHandler = new UpdateGroup(
+                new MoveHorizontallyOnInput(this, Inputs)
+                , new AffectedByGravity(this)
+                , new PlayersJump(this, Inputs)
+                ,new GrabPaperNearPlayersChest(this)
+                , new DropPaper(this)
+                , new LimitSpeed(this, 8, 15)
+            );
+
             CollisionHandler = new CollisionHandlerGroup(
                 new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenTopCollidingWith<IPlayerMovementBlocker>(this)
@@ -70,13 +55,6 @@ namespace PaperWork
                 , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
             );
 
-            UpdateHandler = new UpdateGroup(
-                new MoveHorizontallyOnInput(this, Inputs)
-                , new AffectedByGravity(this)
-                , new PlayersJump(this, Inputs)
-                ,new GrabPaperNearPlayersChest(this)
-                , new LimitSpeed(this, 8, 15)
-            );
         }
 
         public void Update()
@@ -88,6 +66,8 @@ namespace PaperWork
                 GrabbedPaper.X = X;
                 GrabbedPaper.Y= Y;
             }
+            if (TimeUntilDragDropEnable > 0)
+                TimeUntilDragDropEnable--;
         }
 
         public void BotCollision(ICollider collider)
