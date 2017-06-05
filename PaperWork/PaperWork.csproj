@@ -52,6 +52,7 @@
     <Compile Include="LimitSpeed.cs" />
     <Compile Include="MoveHorizontallyOnInput.cs" />
     <Compile Include="Paper.cs" />
+    <Compile Include="PaperFactory.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayersJump.cs" />
     <Compile Include="Program.cs" />

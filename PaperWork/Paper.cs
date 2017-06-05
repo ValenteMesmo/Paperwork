@@ -1,5 +1,6 @@
 ﻿using System;
 using GameCore;
+using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
@@ -51,6 +52,7 @@ namespace PaperWork
         , ICollisionHandler
         , IUpdateHandler
         , IPlayerMovementBlocker
+        , ITexture
     {
         private ICollisionHandler CollisionHandler;
         private IUpdateHandler UpdateHandler;
@@ -62,12 +64,19 @@ namespace PaperWork
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
 
+        public int TextureOffSetX { get; }
+        public int TextureOffSetY { get => -Height; }
+        public int TextureWidth { get => Width ; }        
+        public int TextureHeight { get => Height*2 ; }
+        public string TextureName { get=> "papers"; }
+        public Color TextureColor { get; set; }
+
         public Paper()
         {
             Width = 100;
             Height = 100;
 
-            CollisionHandler = 
+            CollisionHandler =
                 new CollisionHandlerGroup(
                     new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
                 );

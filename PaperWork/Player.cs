@@ -31,6 +31,7 @@ namespace PaperWork
                 , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
             );
+
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
                 , new AffectedByGravity(this)

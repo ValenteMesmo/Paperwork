@@ -5,7 +5,7 @@ namespace GameCore
 {
     public class World
     {
-        public const int SPACE_BETWEEN_THINGS = 1;
+        public const int SPACE_BETWEEN_THINGS = 2;
         private List<ICollider> Items = new List<ICollider>();
 
         public void AddCollider(ICollider collider)
@@ -20,7 +20,7 @@ namespace GameCore
 
         public void Update()
         {
-            foreach (var item in Items)
+            foreach (var item in Items.ToList())
             {
                 if (item is IUpdateHandler)
                     item.As<IUpdateHandler>().Update();
