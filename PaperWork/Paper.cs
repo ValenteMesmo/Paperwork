@@ -70,6 +70,7 @@ namespace PaperWork
         public int TextureHeight { get => Height*2 ; }
         public string TextureName { get=> "papers"; }
         public Color TextureColor { get; set; }
+        public bool Disabled { get; set; }
 
         public Paper()
         {

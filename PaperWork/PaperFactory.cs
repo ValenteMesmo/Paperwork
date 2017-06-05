@@ -9,11 +9,12 @@ namespace PaperWork
     class PaperFactory :
         ICollider
         , IUpdateHandler
-        , ICollisionHandler       
+        , ICollisionHandler
     {
         private int cooldownCount = 0;
         private HashSet<ICollider> PapersOnSpawnArea;
         private Random Random;
+        public bool Disabled { get; set; }
 
         Color[] Colors = new Color[]
         {
@@ -74,7 +75,7 @@ namespace PaperWork
                 return;
             }
 
-            var x = (100 * 12 ) + 25;
+            var x = (100 * 12) + 25;
             foreach (var item in PapersOnSpawnArea.OrderByDescending(f => f.X))
             {
                 if (item is Paper == false)
@@ -82,7 +83,7 @@ namespace PaperWork
 
                 if (item.X == x)
                 {
-                    x -= item.Width + World.SPACE_BETWEEN_THINGS; 
+                    x -= item.Width + World.SPACE_BETWEEN_THINGS;
                 }
             }
 
@@ -95,7 +96,8 @@ namespace PaperWork
             var paper = new Paper()
             {
                 X = x
-                ,Y = 200
+                ,
+                Y = 200
             };
             paper.TextureColor = Colors[Random.Next(0, Colors.Length)];
 

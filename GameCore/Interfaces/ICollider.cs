@@ -8,5 +8,6 @@
         int Height { get; set; }
         int HorizontalSpeed { get; set; }
         int VerticalSpeed { get; set; }
+        bool Disabled { get; set; }
     }
 }

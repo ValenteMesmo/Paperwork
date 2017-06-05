@@ -89,6 +89,9 @@ namespace GameCore
             this ICollider a
             , ICollider b)
         {
+            if (a.Disabled || b.Disabled)
+                return;
+
             var collision = a.IsColliding(b);
 
             if (collision == CollisionResult.Nope)
@@ -116,6 +119,9 @@ namespace GameCore
             this ICollider a
             , ICollider b)
         {
+            if (a.Disabled || b.Disabled)
+                return;
+
             var collision = a.IsColliding(b);
 
             if (collision == CollisionResult.Nope)

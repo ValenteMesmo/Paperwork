@@ -1,4 +1,5 @@
-﻿using GameCore;
+﻿using System;
+using GameCore;
 
 namespace PaperWork
 {
@@ -16,6 +17,7 @@ namespace PaperWork
         public int Height { get; set; }
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
+        public bool Disabled { get; set; }
 
         public GroundCheck(Player Player)
         {

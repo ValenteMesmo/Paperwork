@@ -13,28 +13,24 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var player = new Player(PlayerInputs)
+            var nearChest = new Detector<Paper>(140, 30, 50, 50);
+            var nearFeet = new Detector<Paper>(140, 120, 50, 50);
+            var player = new Player(PlayerInputs, nearFeet, nearChest)
             {
                 X = 200,
                 Y = 200
             };
             AddEntity(player);
+
+            AddEntity(nearChest);
+            AddEntity(nearFeet);
+
             AddEntity(new GroundCheck(player));
             AddEntity(new PaperFactory(AddEntity));
 
-
             CreateBlocks(rowNumber, colNumber);
 
-            //AddEntity(
-            //    new PapersFactory(AddEntity, Restart)
-            //    {
-            //        Position = new Coordinate2D(
-            //            0,//50*12, 
-            //            (50 * 1) + 5)
-            //    });
-
             //AddEntity(new GridEntity(6, 13, 50));
-
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)
@@ -44,8 +40,8 @@ namespace PaperWork
             {
                 AddEntity(new Block
                 {
-                    X = i * cellsize ,
-                    Y = 0 
+                    X = i * cellsize,
+                    Y = 0
                 });
             }
 
@@ -53,8 +49,8 @@ namespace PaperWork
             {
                 AddEntity(new Block
                 {
-                    X = 0 ,
-                    Y = i * cellsize 
+                    X = 0,
+                    Y = i * cellsize
                 });
             }
 
@@ -62,8 +58,8 @@ namespace PaperWork
             {
                 AddEntity(new Block
                 {
-                    X = i * cellsize ,
-                    Y = cellsize * colNumber 
+                    X = i * cellsize,
+                    Y = cellsize * colNumber
                 });
             }
 
@@ -71,8 +67,8 @@ namespace PaperWork
             {
                 AddEntity(new Block
                 {
-                    X = cellsize * rowNumber ,
-                    Y = i * cellsize 
+                    X = cellsize * rowNumber,
+                    Y = i * cellsize
                 });
             }
         }
