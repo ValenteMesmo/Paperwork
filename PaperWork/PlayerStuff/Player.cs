@@ -24,13 +24,13 @@ namespace PaperWork
         public int TimeUntilDragDropEnable { get; set; }
         public Detector<Paper> ChestPaperDetetor { get; }
         public Detector<Paper> FeetPaperDetector { get; }
+        public  Detector<IPlayerMovementBlocker> GroundDetector { get; }
 
         public const int DRAG_AND_DROP_COOLDOWN = 30;
 
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
         public readonly InputRepository Inputs;
-        private readonly Detector<IPlayerMovementBlocker> GroundDetector;
 
         public Player(
             InputRepository Inputs,
