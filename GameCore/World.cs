@@ -5,7 +5,7 @@ namespace GameCore
 {
     public class World
     {
-        public const int SPACE_BETWEEN_THINGS = 2;
+        public const int SPACE_BETWEEN_THINGS = 1;
         private List<ICollider> Items = new List<ICollider>();
 
         public void AddCollider(ICollider collider)
@@ -22,6 +22,9 @@ namespace GameCore
         {
             foreach (var item in Items.ToList())
             {
+                item.DrawableX = item.X;
+                item.DrawableY = item.Y;
+
                 if (item is IUpdateHandler)
                     item.As<IUpdateHandler>().Update();
 
@@ -40,8 +43,8 @@ namespace GameCore
                     .HandleHorizontalCollision);
 
             foreach (var item in Items)
-            {
-                item.MoveVertically();
+            {                
+                item.MoveVertically();                
             }
 
             Items.ForEachCombination(

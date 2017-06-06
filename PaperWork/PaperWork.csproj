@@ -47,7 +47,9 @@
     <Compile Include="CollisionChecker.cs" />
     <Compile Include="FollowOtherCollider.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="PlayerStuff\SpecialDownDropPaper.cs" />
     <Compile Include="PlayerStuff\DropPaper.cs" />
+    <Compile Include="PlayerStuff\GrabPaperNearPlayersFeet.cs" />
     <Compile Include="PlayerStuff\GrabPaperNearPlayersChest.cs" />
     <Compile Include="PlayerStuff\GroundCheck.cs" />
     <Compile Include="PlayerStuff\IPlayerMovementBlocker.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="MoveHorizontallyOnInput.cs" />
     <Compile Include="Paper.cs" />
     <Compile Include="PaperFactory.cs" />
+    <Compile Include="PlayerStuff\MathHelper.cs" />
     <Compile Include="PlayerStuff\Player.cs" />
     <Compile Include="PlayerStuff\PlayersJump.cs" />
     <Compile Include="Program.cs" />

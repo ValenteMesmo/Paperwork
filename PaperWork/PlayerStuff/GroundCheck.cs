@@ -18,17 +18,19 @@ namespace PaperWork
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
         public bool Disabled { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
 
         public GroundCheck(Player Player)
         {
             this.Player = Player;
-            Width = Player.Width -50;
+            Width = Player.Width -20;
             Height = 30;
         }
 
         public void Update()
         {
-            X = Player.X + 25;
+            X = Player.X + 10;
             Y = Player.Bottom() + 10;
             Player.Grounded = false;
         }

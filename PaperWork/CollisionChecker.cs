@@ -23,6 +23,8 @@ namespace PaperWork
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
         public bool Disabled { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
 
         public void Update()
         {

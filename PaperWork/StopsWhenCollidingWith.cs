@@ -101,7 +101,7 @@ namespace PaperWork
             if (other is T)
             {
                 Parent.X = other.Left()
-                       - other.Width
+                       - Parent.Width
                        - World.SPACE_BETWEEN_THINGS;
                 Parent.HorizontalSpeed = 0;
             }

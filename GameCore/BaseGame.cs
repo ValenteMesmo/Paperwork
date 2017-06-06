@@ -114,8 +114,8 @@ namespace GameCore
                     spriteBatch.Draw(
                             Textures[texture.TextureName],
                             new Rectangle(
-                                item.X + texture.TextureOffSetX,
-                                item.Y + texture.TextureOffSetY,
+                                item.DrawableX + texture.TextureOffSetX,
+                                item.DrawableY + texture.TextureOffSetY,
                                 texture.TextureWidth,
                                 texture.TextureHeight),
                             texture.TextureColor);
@@ -123,8 +123,8 @@ namespace GameCore
 
                 DrawBorder(
                         new Rectangle(
-                            item.X,
-                            item.Y,
+                            item.DrawableX,
+                            item.DrawableY,
                             item.Width,
                             item.Height),
                         2,

@@ -31,6 +31,8 @@ namespace PaperWork
         public int Height { get; set; }
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
 
         public PaperFactory(Action<ICollider> AddToWorld)
         {
@@ -75,7 +77,7 @@ namespace PaperWork
                 return;
             }
 
-            var x = (100 * 12) + 25;
+            var x = (100 * 12) + 12;
             foreach (var item in PapersOnSpawnArea.OrderByDescending(f => f.X))
             {
                 if (item is Paper == false)
@@ -96,8 +98,9 @@ namespace PaperWork
             var paper = new Paper()
             {
                 X = x
-                ,
-                Y = 200
+                ,Y = 200
+                ,DrawableX = x
+                ,DrawableY = 100
             };
             paper.TextureColor = Colors[Random.Next(0, Colors.Length)];
 

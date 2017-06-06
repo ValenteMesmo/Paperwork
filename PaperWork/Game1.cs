@@ -13,8 +13,8 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var nearChest = new Detector<Paper>(140, 30, 50, 50);
-            var nearFeet = new Detector<Paper>(140, 120, 50, 50);
+            var nearChest = new Detector<Paper>(80, -20, 50, 50);
+            var nearFeet = new Detector<Paper>(80, 80, 50, 50);
             var player = new Player(PlayerInputs, nearFeet, nearChest)
             {
                 X = 200,

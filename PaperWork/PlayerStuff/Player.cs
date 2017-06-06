@@ -15,6 +15,8 @@ namespace PaperWork
         public int HorizontalSpeed { get; set; }
         public int VerticalSpeed { get; set; }
         public bool Disabled { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
 
         public bool Grounded { get; set; }
         public Paper GrabbedPaper { get; set; }
@@ -36,14 +38,17 @@ namespace PaperWork
                 FeetPaperDetector.Parent = this;
             this.FeetPaperDetector = FeetPaperDetector;
             this.ChestPaperDetetor = ChestPaperDetetor;
-            Width = 100;
-            Height = 200;
+            Width = 70;
+            Height = 150;
 
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)
-                ,new GrabPaperNearPlayersChest(this)
+                //TODO: Grab paper from bottonright 
+                , new GrabPaperNearPlayersChest(this)
+                , new GrabPaperNearPlayersFeet(this)
+                , new SpecialDownDropPaper(this)
                 , new DropPaper(this)
                 , new LimitSpeed(this, 8, 15)
             );
@@ -64,7 +69,7 @@ namespace PaperWork
             if (GrabbedPaper != null)
             {
                 GrabbedPaper.X = X;
-                GrabbedPaper.Y= Y;
+                GrabbedPaper.Y = Y;
             }
             if (TimeUntilDragDropEnable > 0)
                 TimeUntilDragDropEnable--;

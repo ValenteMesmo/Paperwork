@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace PaperWork
 {
-    public class DropPaper : IUpdateHandler
+    public class SpecialDownDropPaper : IUpdateHandler
     {
         private readonly Player Player;
 
-        public DropPaper(Player Player)
+        public SpecialDownDropPaper(Player Player)
         {
             this.Player = Player;
         }
@@ -16,13 +16,16 @@ namespace PaperWork
         {
             if (Player.GrabbedPaper != null
                 && Player.Inputs.Action1
-                && Player.ChestPaperDetetor.GetDetectedItems().Any() == false
+                && Player.Inputs.Down
                 && Player.TimeUntilDragDropEnable == 0)
             {
                 Player.GrabbedPaper.Disabled = false;
                 Player.GrabbedPaper.X = MathHelper.RoundUp(
-                    Player.Right(),
+                    Player.X,
                     Player.GrabbedPaper.Width + World.SPACE_BETWEEN_THINGS);
+                Player.GrabbedPaper.Y = Player.Bottom() - Player.GrabbedPaper.Height;
+                Player.Y -= Player.GrabbedPaper.Height + World.SPACE_BETWEEN_THINGS;
+
                 Player.GrabbedPaper = null;
 
                 Player.TimeUntilDragDropEnable = 50;
