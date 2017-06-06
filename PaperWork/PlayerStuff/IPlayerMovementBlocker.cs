@@ -1,6 +1,8 @@
-﻿namespace PaperWork
+﻿using GameCore;
+
+namespace PaperWork
 {
-    public interface IPlayerMovementBlocker
+    public interface IPlayerMovementBlocker: Collider
     {
     }
 }

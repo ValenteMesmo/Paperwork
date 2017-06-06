@@ -13,19 +13,12 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var nearChest = new Detector<Paper>(80, -20, 50, 50);
-            var nearFeet = new Detector<Paper>(80, 80, 50, 50);
-            var player = new Player(PlayerInputs, nearFeet, nearChest)
+            var player = new Player(PlayerInputs, world)
             {
                 X = 200,
                 Y = 200
             };
-            world.Add(player);
 
-            world.Add(nearChest);
-            world.Add(nearFeet);
-
-            world.Add(new GroundCheck(player));
             world.Add(new PaperFactory(world.Add));
 
             CreateBlocks(rowNumber, colNumber);

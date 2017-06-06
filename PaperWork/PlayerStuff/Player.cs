@@ -1,5 +1,6 @@
 ﻿using GameCore;
 using System;
+using System.Linq;
 
 namespace PaperWork
 {
@@ -21,24 +22,30 @@ namespace PaperWork
         public bool Grounded { get; set; }
         public Paper GrabbedPaper { get; set; }
         public int TimeUntilDragDropEnable { get; set; }
+        public Detector<Paper> ChestPaperDetetor { get; }
+        public Detector<Paper> FeetPaperDetector { get; }
+
         public const int DRAG_AND_DROP_COOLDOWN = 30;
 
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
         public readonly InputRepository Inputs;
-        public readonly Detector<Paper> FeetPaperDetector;
-        public readonly Detector<Paper> ChestPaperDetetor;
+        private readonly Detector<IPlayerMovementBlocker> GroundDetector;
 
         public Player(
             InputRepository Inputs,
-            Detector<Paper> FeetPaperDetector,
-            Detector<Paper> ChestPaperDetetor)
+            World world)
         {
             this.Inputs = Inputs;
-            ChestPaperDetetor.Parent =
-                FeetPaperDetector.Parent = this;
-            this.FeetPaperDetector = FeetPaperDetector;
-            this.ChestPaperDetetor = ChestPaperDetetor;
+
+            ChestPaperDetetor = new Detector<Paper>(80, -20, 50, 50) { Parent = this };
+            FeetPaperDetector = new Detector<Paper>(80, 80, 50, 50) { Parent = this };
+            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 180, 50, 50) { Parent = this };
+            
+            world.Add(GroundDetector);
+            world.Add(ChestPaperDetetor);
+            world.Add(FeetPaperDetector);
+
             Width = 70;
             Height = 150;
 
@@ -47,6 +54,7 @@ namespace PaperWork
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)
                 //TODO: Grab paper from bottonright 
+                , new GrabPaperThatThePlayerIsStandingOn(this)
                 , new GrabPaperNearPlayersChest(this)
                 , new GrabPaperNearPlayersFeet(this)
                 , new SpecialDownDropPaper(this)
@@ -60,18 +68,22 @@ namespace PaperWork
                 , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
             );
-
+            world.Add(this);
         }
 
         public void Update()
         {
+            Grounded = GroundDetector.GetDetectedItems().Any();
+
             UpdateHandler.Update();
-            System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("HH:mm:ss")} {Y}");
+
             if (GrabbedPaper != null)
             {
                 GrabbedPaper.X = X;
                 GrabbedPaper.Y = Y;
             }
+
+
             if (TimeUntilDragDropEnable > 0)
                 TimeUntilDragDropEnable--;
         }
