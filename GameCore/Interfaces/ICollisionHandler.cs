@@ -2,9 +2,9 @@
 {
     public interface ICollisionHandler
     {
-        void RightCollision(ICollider other);
-        void LeftCollision(ICollider other);
-        void TopCollision(ICollider other);
-        void BotCollision(ICollider other);
+        void RightCollision(Collider other);
+        void LeftCollision(Collider other);
+        void TopCollision(Collider other);
+        void BotCollision(Collider other);
     }
 }

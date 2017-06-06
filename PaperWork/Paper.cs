@@ -14,7 +14,7 @@ namespace PaperWork
             this.Handlers = Handlers;
         }
 
-        public void BotCollision(ICollider other)
+        public void BotCollision(Collider other)
         {
             foreach (var item in Handlers)
             {
@@ -22,7 +22,7 @@ namespace PaperWork
             }
         }
 
-        public void LeftCollision(ICollider other)
+        public void LeftCollision(Collider other)
         {
             foreach (var item in Handlers)
             {
@@ -30,7 +30,7 @@ namespace PaperWork
             }
         }
 
-        public void RightCollision(ICollider other)
+        public void RightCollision(Collider other)
         {
             foreach (var item in Handlers)
             {
@@ -38,7 +38,7 @@ namespace PaperWork
             }
         }
 
-        public void TopCollision(ICollider other)
+        public void TopCollision(Collider other)
         {
             foreach (var item in Handlers)
             {
@@ -48,11 +48,11 @@ namespace PaperWork
     }
 
     public class Paper :
-        ICollider
+        Collider
         , ICollisionHandler
         , IUpdateHandler
         , IPlayerMovementBlocker
-        , ITexture
+        , Texture
     {
         private ICollisionHandler CollisionHandler;
         private IUpdateHandler UpdateHandler;
@@ -71,7 +71,7 @@ namespace PaperWork
         public int TextureWidth { get => Width ; }        
         public int TextureHeight { get => Height*2 ; }
         public string TextureName { get=> "papers"; }
-        public Color TextureColor { get; set; }
+        public Color Color { get; set; }
         public bool Disabled { get; set; }
 
         public Paper()
@@ -94,22 +94,22 @@ namespace PaperWork
             UpdateHandler.Update();
         }
 
-        public void BotCollision(ICollider collider)
+        public void BotCollision(Collider collider)
         {
             CollisionHandler.BotCollision(collider);
         }
 
-        public void TopCollision(ICollider collider)
+        public void TopCollision(Collider collider)
         {
             CollisionHandler.TopCollision(collider);
         }
 
-        public void LeftCollision(ICollider collider)
+        public void LeftCollision(Collider collider)
         {
             CollisionHandler.LeftCollision(collider);
         }
 
-        public void RightCollision(ICollider collider)
+        public void RightCollision(Collider collider)
         {
             CollisionHandler.RightCollision(collider);
         }

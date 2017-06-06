@@ -20,17 +20,17 @@ namespace PaperWork
                 X = 200,
                 Y = 200
             };
-            AddEntity(player);
+            world.Add(player);
 
-            AddEntity(nearChest);
-            AddEntity(nearFeet);
+            world.Add(nearChest);
+            world.Add(nearFeet);
 
-            AddEntity(new GroundCheck(player));
-            AddEntity(new PaperFactory(AddEntity));
+            world.Add(new GroundCheck(player));
+            world.Add(new PaperFactory(world.Add));
 
             CreateBlocks(rowNumber, colNumber);
 
-            //AddEntity(new GridEntity(6, 13, 50));
+            new Grid(world);
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)
@@ -38,7 +38,7 @@ namespace PaperWork
             var cellsize = 100 + World.SPACE_BETWEEN_THINGS;
             for (int i = 1; i < rowNumber; i++)
             {
-                AddEntity(new Block
+                world.Add(new Block
                 {
                     X = i * cellsize,
                     Y = 0
@@ -47,7 +47,7 @@ namespace PaperWork
 
             for (int i = 1; i < colNumber; i++)
             {
-                AddEntity(new Block
+                world.Add(new Block
                 {
                     X = 0,
                     Y = i * cellsize
@@ -56,7 +56,7 @@ namespace PaperWork
 
             for (int i = 1; i < rowNumber; i++)
             {
-                AddEntity(new Block
+                world.Add(new Block
                 {
                     X = i * cellsize,
                     Y = cellsize * colNumber
@@ -65,7 +65,7 @@ namespace PaperWork
 
             for (int i = 1; i < colNumber; i++)
             {
-                AddEntity(new Block
+                world.Add(new Block
                 {
                     X = cellsize * rowNumber,
                     Y = i * cellsize

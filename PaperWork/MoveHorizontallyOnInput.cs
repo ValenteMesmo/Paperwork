@@ -8,10 +8,10 @@ namespace PaperWork
         private const int FRICTION = 1;
         private const int CHANGE_DIRECTION_BONUS = 2;
         private readonly InputRepository Inputs;
-        private readonly ICollider Parent;
+        private readonly Collider Parent;
 
         public MoveHorizontallyOnInput(
-            ICollider Parent
+            Collider Parent
             , InputRepository Inputs)
         {
             this.Parent = Parent;

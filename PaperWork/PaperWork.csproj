@@ -47,6 +47,7 @@
     <Compile Include="CollisionChecker.cs" />
     <Compile Include="FollowOtherCollider.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Grid.cs" />
     <Compile Include="PlayerStuff\SpecialDownDropPaper.cs" />
     <Compile Include="PlayerStuff\DropPaper.cs" />
     <Compile Include="PlayerStuff\GrabPaperNearPlayersFeet.cs" />

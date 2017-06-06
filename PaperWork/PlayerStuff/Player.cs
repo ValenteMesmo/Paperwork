@@ -4,7 +4,7 @@ using System;
 namespace PaperWork
 {
     public class Player :
-        ICollider
+        Collider
         , ICollisionHandler
         , IUpdateHandler
     {
@@ -21,6 +21,7 @@ namespace PaperWork
         public bool Grounded { get; set; }
         public Paper GrabbedPaper { get; set; }
         public int TimeUntilDragDropEnable { get; set; }
+        public const int DRAG_AND_DROP_COOLDOWN = 30;
 
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
@@ -75,22 +76,22 @@ namespace PaperWork
                 TimeUntilDragDropEnable--;
         }
 
-        public void BotCollision(ICollider collider)
+        public void BotCollision(Collider collider)
         {
             CollisionHandler.BotCollision(collider);
         }
 
-        public void TopCollision(ICollider collider)
+        public void TopCollision(Collider collider)
         {
             CollisionHandler.TopCollision(collider);
         }
 
-        public void LeftCollision(ICollider collider)
+        public void LeftCollision(Collider collider)
         {
             CollisionHandler.LeftCollision(collider);
         }
 
-        public void RightCollision(ICollider collider)
+        public void RightCollision(Collider collider)
         {
             CollisionHandler.RightCollision(collider);
         }

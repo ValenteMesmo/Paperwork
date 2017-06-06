@@ -4,7 +4,7 @@ namespace GameCore
 {
     public static class IColliderExtensions
     {
-        public static CollisionResult IsColliding(this ICollider A, ICollider B)
+        public static CollisionResult IsColliding(this Collider A, Collider B)
         {
             var w = 0.5f * (A.Width + B.Width);
             var h = 0.5f * (A.Height + B.Height);
@@ -45,49 +45,49 @@ namespace GameCore
             return CollisionResult.Nope;
         }
 
-        public static int Left(this ICollider a)
+        public static int Left(this Collider a)
         {
             return a.X;
         }
 
-        public static int Right(this ICollider a)
+        public static int Right(this Collider a)
         {
             return a.X + a.Width;
         }
 
-        public static int Top(this ICollider a)
+        public static int Top(this Collider a)
         {
             return a.Y;
         }
 
-        public static int Bottom(this ICollider a)
+        public static int Bottom(this Collider a)
         {
             return a.Y + a.Height;
         }
 
-        public static float CenterX(this ICollider collider)
+        public static float CenterX(this Collider collider)
         {
             return (collider.Left() + collider.Right()) * 0.5f;
         }
 
-        public static float CenterY(this ICollider collider)
+        public static float CenterY(this Collider collider)
         {
             return (collider.Top() + collider.Bottom()) * 0.5f;
         }
 
-        public static void MoveHorizontally(this ICollider a)
+        public static void MoveHorizontally(this Collider a)
         {
             a.X += a.HorizontalSpeed;
         }
 
-        public static void MoveVertically(this ICollider a)
+        public static void MoveVertically(this Collider a)
         {
             a.Y += a.VerticalSpeed;
         }
 
         public static void HandleHorizontalCollision(
-            this ICollider a
-            , ICollider b)
+            this Collider a
+            , Collider b)
         {
             if (a.Disabled || b.Disabled)
                 return;
@@ -116,8 +116,8 @@ namespace GameCore
         }
 
         public static void HandleVerticalCollision(
-            this ICollider a
-            , ICollider b)
+            this Collider a
+            , Collider b)
         {
             if (a.Disabled || b.Disabled)
                 return;

@@ -35,9 +35,9 @@ namespace UnitTestProject
         {
             var world = new World();
 
-            var player = Substitute.For<ICollider>();
+            var player = Substitute.For<Collider>();
             player.HorizontalSpeed = 1;
-            world.AddCollider(player);
+            world.Add(player);
 
             Assert.AreEqual(0, player.X);
 
@@ -53,9 +53,9 @@ namespace UnitTestProject
         {
             var world = new World();
 
-            var player = Substitute.For<ICollider>();
+            var player = Substitute.For<Collider>();
             player.VerticalSpeed = 1;
-            world.AddCollider(player);
+            world.Add(player);
 
             Assert.AreEqual(0, player.Y);
 
@@ -69,8 +69,8 @@ namespace UnitTestProject
         [TestMethod]
         public void CallBotCollisionHandlerOnCollision()
         {
-            var collider = Substitute.For<ICollider, ICollisionHandler>();
-            var other = Substitute.For<ICollider>();
+            var collider = Substitute.For<Collider, ICollisionHandler>();
+            var other = Substitute.For<Collider>();
 
             collider.Y = 0;
             collider.Width = 10;
@@ -82,8 +82,8 @@ namespace UnitTestProject
             other.Height = 10;
 
             var sut = new World();
-            sut.AddCollider(collider);
-            sut.AddCollider(other);
+            sut.Add(collider);
+            sut.Add(other);
 
             sut.Update();
 
@@ -95,9 +95,9 @@ namespace UnitTestProject
     [TestClass]
     public class IColliderIntersectTests
     {
-        public ICollider CreateCollider(int x, int y, int width, int height)
+        public Collider CreateCollider(int x, int y, int width, int height)
         {
-            var collider = Substitute.For<ICollider>();
+            var collider = Substitute.For<Collider>();
             collider.X = x;
             collider.Y = y;
             collider.Width = width;

@@ -16,7 +16,7 @@ namespace GameCore
         private Texture2D pixel;
 
         protected InputRepository PlayerInputs;
-        private World world;
+        protected World world;
 
         public BaseGame(params string[] TextureNames)
         {
@@ -33,15 +33,6 @@ namespace GameCore
             IsFixedTimeStep = false;
             //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
-        }
-
-        protected void AddEntity(ICollider Entity)
-        {
-            //Entity.Destroy = () =>
-            //{
-            //    Entities.Remove(Entity);
-            //};
-            world.AddCollider(Entity);
         }
 
         protected override void LoadContent()
@@ -108,27 +99,31 @@ namespace GameCore
                 if (item == null)
                     continue;
 
-                if (item is ITexture)
+                if (item is Texture)
                 {
-                    var texture = item as ITexture;
+                    var texture = item as Texture;
                     spriteBatch.Draw(
                             Textures[texture.TextureName],
                             new Rectangle(
-                                item.DrawableX + texture.TextureOffSetX,
-                                item.DrawableY + texture.TextureOffSetY,
+                                texture.DrawableX + texture.TextureOffSetX,
+                                texture.DrawableY + texture.TextureOffSetY,
                                 texture.TextureWidth,
                                 texture.TextureHeight),
-                            texture.TextureColor);
+                            texture.Color);
                 }
 
-                DrawBorder(
-                        new Rectangle(
-                            item.DrawableX,
-                            item.DrawableY,
-                            item.Width,
-                            item.Height),
-                        2,
-                        Color.Red);
+                if (item is DimensionalThing)
+                {
+                    var dimensions = item as DimensionalThing;
+                    DrawBorder(
+                            new Rectangle(
+                                dimensions.DrawableX,
+                                dimensions.DrawableY,
+                                dimensions.Width,
+                                dimensions.Height),
+                            2,
+                            Color.Red);
+                }
             }
 
             spriteBatch.End();

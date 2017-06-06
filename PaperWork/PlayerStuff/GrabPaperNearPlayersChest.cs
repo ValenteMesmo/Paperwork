@@ -23,7 +23,7 @@ namespace PaperWork
                 {
                     Player.GrabbedPaper = papers.First();
                     Player.GrabbedPaper.Disabled = true;
-                    Player.TimeUntilDragDropEnable = 50;
+                    Player.TimeUntilDragDropEnable = Player.DRAG_AND_DROP_COOLDOWN;
                 }
             }
         }

@@ -4,14 +4,14 @@ namespace PaperWork
 {
     public class StopsWhenBotCollidingWith<T> : ICollisionHandler
     {
-        private readonly ICollider Parent;
+        private readonly Collider Parent;
 
-        public StopsWhenBotCollidingWith(ICollider Parent)
+        public StopsWhenBotCollidingWith(Collider Parent)
         {
             this.Parent = Parent;
         }
 
-        public void BotCollision(ICollider other)
+        public void BotCollision(Collider other)
         {
             if (other is T)
             {
@@ -22,23 +22,23 @@ namespace PaperWork
             }
         }
 
-        public void TopCollision(ICollider other) { }
+        public void TopCollision(Collider other) { }
 
-        public void LeftCollision(ICollider other) { }
+        public void LeftCollision(Collider other) { }
 
-        public void RightCollision(ICollider other) { }
+        public void RightCollision(Collider other) { }
     }
 
     public class StopsWhenTopCollidingWith<T> : ICollisionHandler
     {
-        private readonly ICollider Parent;
+        private readonly Collider Parent;
 
-        public StopsWhenTopCollidingWith(ICollider Parent)
+        public StopsWhenTopCollidingWith(Collider Parent)
         {
             this.Parent = Parent;
         }
 
-        public void TopCollision(ICollider other)
+        public void TopCollision(Collider other)
         {
             if (other is T)
             {
@@ -48,29 +48,29 @@ namespace PaperWork
             }
         }
 
-        public void BotCollision(ICollider other) { }
+        public void BotCollision(Collider other) { }
 
-        public void LeftCollision(ICollider other) { }
+        public void LeftCollision(Collider other) { }
 
-        public void RightCollision(ICollider other) { }
+        public void RightCollision(Collider other) { }
     }
 
     public class StopsWhenLeftCollidingWith<T> : ICollisionHandler
     {
-        private readonly ICollider Parent;
+        private readonly Collider Parent;
 
-        public StopsWhenLeftCollidingWith(ICollider Parent)
+        public StopsWhenLeftCollidingWith(Collider Parent)
         {
             this.Parent = Parent;
         }
 
-        public void BotCollision(ICollider other) { }
+        public void BotCollision(Collider other) { }
 
-        public void TopCollision(ICollider other) { }
+        public void TopCollision(Collider other) { }
 
-        public void RightCollision(ICollider other) { }
+        public void RightCollision(Collider other) { }
 
-        public void LeftCollision(ICollider other)
+        public void LeftCollision(Collider other)
         {
             if (other is T)
             {
@@ -83,20 +83,20 @@ namespace PaperWork
 
     public class StopsWhenRightCollidingWith<T> : ICollisionHandler
     {
-        private readonly ICollider Parent;
+        private readonly Collider Parent;
 
-        public StopsWhenRightCollidingWith(ICollider Parent)
+        public StopsWhenRightCollidingWith(Collider Parent)
         {
             this.Parent = Parent;
         }
 
-        public void BotCollision(ICollider other) { }
+        public void BotCollision(Collider other) { }
 
-        public void TopCollision(ICollider other) { }
+        public void TopCollision(Collider other) { }
 
-        public void LeftCollision(ICollider other) { }
+        public void LeftCollision(Collider other) { }
 
-        public void RightCollision(ICollider other)
+        public void RightCollision(Collider other)
         {
             if (other is T)
             {

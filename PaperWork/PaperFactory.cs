@@ -7,12 +7,12 @@ using System.Linq;
 namespace PaperWork
 {
     class PaperFactory :
-        ICollider
+        Collider
         , IUpdateHandler
         , ICollisionHandler
     {
         private int cooldownCount = 0;
-        private HashSet<ICollider> PapersOnSpawnArea;
+        private HashSet<Collider> PapersOnSpawnArea;
         private Random Random;
         public bool Disabled { get; set; }
 
@@ -23,7 +23,7 @@ namespace PaperWork
             new Color(100, 255, 100),
             new Color(150, 150, 255)
         };
-        private readonly Action<ICollider> AddToWorld;
+        private readonly Action<Collider> AddToWorld;
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -34,10 +34,10 @@ namespace PaperWork
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
 
-        public PaperFactory(Action<ICollider> AddToWorld)
+        public PaperFactory(Action<Collider> AddToWorld)
         {
             this.AddToWorld = AddToWorld;
-            PapersOnSpawnArea = new HashSet<ICollider>();
+            PapersOnSpawnArea = new HashSet<Collider>();
             Random = new Random();
             Width = (100 * 12) - 25;
             Height = 50;
@@ -45,25 +45,25 @@ namespace PaperWork
             X = 125;
         }
 
-        public void BotCollision(ICollider other)
+        public void BotCollision(Collider other)
         {
             if (other is Paper)
                 PapersOnSpawnArea.Add(other);
         }
 
-        public void LeftCollision(ICollider other)
+        public void LeftCollision(Collider other)
         {
             if (other is Paper)
                 PapersOnSpawnArea.Add(other);
         }
 
-        public void RightCollision(ICollider other)
+        public void RightCollision(Collider other)
         {
             if (other is Paper)
                 PapersOnSpawnArea.Add(other);
         }
 
-        public void TopCollision(ICollider other)
+        public void TopCollision(Collider other)
         {
             if (other is Paper)
                 PapersOnSpawnArea.Add(other);
@@ -102,7 +102,7 @@ namespace PaperWork
                 ,DrawableX = x
                 ,DrawableY = 100
             };
-            paper.TextureColor = Colors[Random.Next(0, Colors.Length)];
+            paper.Color = Colors[Random.Next(0, Colors.Length)];
 
             AddToWorld(paper);
             cooldownCount = 200;

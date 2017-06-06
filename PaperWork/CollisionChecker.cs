@@ -6,15 +6,15 @@ namespace PaperWork
     public class Detector<T> :
         ICollisionHandler
         , IUpdateHandler
-        , ICollider
-        , IAfterUpdateHandler where T : ICollider
+        , Collider
+        , IAfterUpdateHandler where T : Collider
     {
         private readonly HashSet<T> Colliders;
         private readonly int OffSetY;
         private readonly int OffSetX;
 
         public IEnumerable<T> GetDetectedItems() { return Colliders; }
-        public ICollider Parent { get; set; }
+        public Collider Parent { get; set; }
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -40,8 +40,8 @@ namespace PaperWork
             Colliders = new HashSet<T>();
             this.Width = Width;
             this.Height = Height;
-            this.OffSetX = OffSetX;
-            this.OffSetY = OffSetY;
+            X = this.OffSetX = OffSetX;
+            Y = this.OffSetY = OffSetY;
         }
 
         public void AfterUpdate()
@@ -49,7 +49,7 @@ namespace PaperWork
             Colliders.Clear();
         }
 
-        public void BotCollision(ICollider other)
+        public void BotCollision(Collider other)
         {
             if (other is T)
             {
@@ -57,7 +57,7 @@ namespace PaperWork
             }
         }
 
-        public void LeftCollision(ICollider other)
+        public void LeftCollision(Collider other)
         {
             if (other is T)
             {
@@ -65,7 +65,7 @@ namespace PaperWork
             }
         }
 
-        public void RightCollision(ICollider other)
+        public void RightCollision(Collider other)
         {
             if (other is T)
             {
@@ -73,7 +73,7 @@ namespace PaperWork
             }
         }
 
-        public void TopCollision(ICollider other)
+        public void TopCollision(Collider other)
         {
             if (other is T)
             {

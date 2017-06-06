@@ -6,7 +6,7 @@ namespace PaperWork
     public class GroundCheck :
         IUpdateHandler
         , IAfterUpdateHandler
-        , ICollider
+        , Collider
         , ICollisionHandler
     {
         private readonly Player Player;
@@ -40,25 +40,25 @@ namespace PaperWork
             Player.Grounded = false;
         }
 
-        public void BotCollision(ICollider other)
+        public void BotCollision(Collider other)
         {
             if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
 
-        public void LeftCollision(ICollider other)
+        public void LeftCollision(Collider other)
         {
             if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
 
-        public void RightCollision(ICollider other)
+        public void RightCollision(Collider other)
         {
             if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;
         }
 
-        public void TopCollision(ICollider other)
+        public void TopCollision(Collider other)
         {
             if (other is IPlayerMovementBlocker)
                 Player.Grounded = true;

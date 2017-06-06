@@ -4,10 +4,10 @@ namespace PaperWork
 {
     public class AffectedByGravity : IUpdateHandler
     {
-        private readonly ICollider Parent;
+        private readonly Collider Parent;
         private const int GRAVITY = 1;
 
-        public AffectedByGravity(ICollider Parent)
+        public AffectedByGravity(Collider Parent)
         {
             this.Parent = Parent;
         }

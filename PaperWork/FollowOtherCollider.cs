@@ -4,12 +4,12 @@ namespace PaperWork
 {
     public class FollowOtherCollider : IUpdateHandler
     {
-        private readonly ICollider Source;
-        private readonly ICollider Target;
+        private readonly Collider Source;
+        private readonly Collider Target;
         private readonly int OffsetX;
         private readonly int OffsetY;
 
-        FollowOtherCollider(ICollider Source, ICollider Target, int OffsetX, int OffsetY)
+        FollowOtherCollider(Collider Source, Collider Target, int OffsetX, int OffsetY)
         {
             this.Source = Source;
             this.Target = Target;

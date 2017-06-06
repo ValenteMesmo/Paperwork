@@ -28,7 +28,7 @@ namespace PaperWork
 
                 Player.GrabbedPaper = null;
 
-                Player.TimeUntilDragDropEnable = 50;
+                Player.TimeUntilDragDropEnable = Player.DRAG_AND_DROP_COOLDOWN;
             }
         }
     }

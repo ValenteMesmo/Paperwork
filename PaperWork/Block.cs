@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework;
 namespace PaperWork
 {
     public class Block :
-        ICollider
-        , ITexture
+        Collider
+        , Texture
         , IPlayerMovementBlocker
     {
         public Block()
@@ -29,6 +29,6 @@ namespace PaperWork
         public int TextureWidth { get => (int)(Width + World.SPACE_BETWEEN_THINGS); }
         public int TextureHeight { get => (int)(Height + World.SPACE_BETWEEN_THINGS); }
         public string TextureName { get => "block"; }
-        public Color TextureColor { get => Color.White; }
+        public Color Color { get => Color.White; }
     }
 }
