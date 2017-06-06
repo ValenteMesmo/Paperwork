@@ -53,10 +53,10 @@ namespace PaperWork
                 new MoveHorizontallyOnInput(this, Inputs)
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)
-                //TODO: Grab paper from bottonright 
+                , new GrabPaperNearPlayersFeetAsFirstOption(this)
                 , new GrabPaperThatThePlayerIsStandingOn(this)
                 , new GrabPaperNearPlayersChest(this)
-                , new GrabPaperNearPlayersFeet(this)
+                , new GrabPaperNearPlayersFeetAsLastOption(this)
                 , new SpecialDownDropPaper(this)
                 , new DropPaper(this)
                 , new LimitSpeed(this, 8, 15)

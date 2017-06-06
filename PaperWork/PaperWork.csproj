@@ -48,10 +48,11 @@
     <Compile Include="FollowOtherCollider.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="PlayerStuff\GrabPaperNearPlayersFeetAsFirstOption.cs" />
+    <Compile Include="PlayerStuff\GrabPaperNearPlayersFeetAsLastOption.cs" />
     <Compile Include="PlayerStuff\GrabPaperThatThePlayerIsStandingOn.cs" />
     <Compile Include="PlayerStuff\SpecialDownDropPaper.cs" />
     <Compile Include="PlayerStuff\DropPaper.cs" />
-    <Compile Include="PlayerStuff\GrabPaperNearPlayersFeet.cs" />
     <Compile Include="PlayerStuff\GrabPaperNearPlayersChest.cs" />
     <Compile Include="PlayerStuff\IPlayerMovementBlocker.cs" />
     <Compile Include="LimitSpeed.cs" />
