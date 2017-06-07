@@ -14,6 +14,7 @@ namespace PaperWork
         private int cooldownCount = 0;
         private HashSet<Collider> PapersOnSpawnArea;
         private Random Random;
+        private Color PreviousColor;
         public bool Disabled { get; set; }
 
         Color[] Colors = new Color[]
@@ -111,8 +112,10 @@ namespace PaperWork
                 DrawableX = x,
                 DrawableY = y
             };
-            paper.Color = Colors[Random.Next(0, Colors.Length)];
 
+            var colors = Colors.Where(f=> PreviousColor != f).ToArray();
+            paper.Color = colors[Random.Next(0, colors.Length)];
+            PreviousColor = paper.Color;
             AddToWorld(paper);
             cooldownCount = 70;
 
