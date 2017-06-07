@@ -71,5 +71,10 @@ namespace GameCore
                 IColliderExtensions
                     .HandleVerticalCollision);
         }
+
+        public void Clear()
+        {
+            Items.Clear();
+        }
     }
 }

@@ -141,9 +141,10 @@ namespace GameCore
 
         protected abstract void OnStart();
 
-        protected void Restart()
+        public void Restart()
         {
-            //TODO: world...
+            world.Clear();
+            world = new World();
             gameloop.Dispose();
             StartGame();
         }

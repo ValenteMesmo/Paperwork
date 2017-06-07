@@ -13,7 +13,7 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var player = new Player(PlayerInputs, world)
+            var player = new Player(PlayerInputs, world, this)
             {
                 X = 200,
                 Y = 200

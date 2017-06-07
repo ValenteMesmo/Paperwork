@@ -7,10 +7,12 @@ namespace PaperWork
     public class HandlePaperFallingInThehead : ICollisionHandler
     {
         private readonly Player Player;
+        private readonly Game1 World;
 
-        public HandlePaperFallingInThehead(Player Player)
+        public HandlePaperFallingInThehead(Player Player, Game1 World)
         {
             this.Player = Player;
+            this.World = World;
         }
 
         public void BotCollision(Collider other)
@@ -33,6 +35,10 @@ namespace PaperWork
                     && Player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
                 {
                     Player.HorizontalSpeed = -10;
+                }
+                else
+                {
+                    World.Restart();
                 }
             }
         }

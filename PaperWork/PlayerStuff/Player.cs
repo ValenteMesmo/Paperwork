@@ -38,7 +38,9 @@ namespace PaperWork
 
         public Player(
             InputRepository Inputs,
-            World world)
+            World world,
+            //Remove this
+            Game1 Game1)
         {
             this.Inputs = Inputs;
             Width = 70;
@@ -82,7 +84,7 @@ namespace PaperWork
             CollisionHandler = new CollisionHandlerGroup(
                 new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenTopCollidingWith<Block>(this)
-                , new HandlePaperFallingInThehead(this)
+                , new HandlePaperFallingInThehead(this, Game1)
                 , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
             );
