@@ -16,7 +16,7 @@ namespace PaperWork
         {
             if (Player.GrabbedPaper != null
                 && Player.Inputs.Action1
-                && Player.ChestPaperDetetor.GetDetectedItems().Any() == false
+                && Player.Right_ChestPaperDetetor.GetDetectedItems().Any() == false
                 && Player.TimeUntilDragDropEnable == 0)
             {
                 Player.GrabbedPaper.Disabled = false;

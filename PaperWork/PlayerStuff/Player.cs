@@ -22,8 +22,10 @@ namespace PaperWork
         public bool Grounded { get; set; }
         public Paper GrabbedPaper { get; set; }
         public int TimeUntilDragDropEnable { get; set; }
-        public Detector<Paper> ChestPaperDetetor { get; }
-        public Detector<Paper> FeetPaperDetector { get; }
+        public Detector<Paper> Right_ChestPaperDetetor { get; }
+        public Detector<Paper> Right_FeetPaperDetector { get; }
+        public Detector<Paper> Left_ChestPaperDetetor { get; }
+        public Detector<Paper> Left_FeetPaperDetector { get; }
         public  Detector<IPlayerMovementBlocker> GroundDetector { get; }
 
         public const int DRAG_AND_DROP_COOLDOWN = 30;
@@ -32,31 +34,42 @@ namespace PaperWork
         private readonly IUpdateHandler UpdateHandler;
         public readonly InputRepository Inputs;
 
+        public bool FacingRight { get; set; }
+
         public Player(
             InputRepository Inputs,
             World world)
         {
             this.Inputs = Inputs;
 
-            ChestPaperDetetor = new Detector<Paper>(80, -20, 50, 50) { Parent = this };
-            FeetPaperDetector = new Detector<Paper>(80, 80, 50, 50) { Parent = this };
-            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 180, 50, 50) { Parent = this };
+            Right_ChestPaperDetetor = new Detector<Paper>(80, -20, 50, 50) { Parent = this };
+            Right_FeetPaperDetector = new Detector<Paper>(80, 80, 50, 50) { Parent = this };
+            world.Add(Right_ChestPaperDetetor);
+            world.Add(Right_FeetPaperDetector);
+
+            Left_ChestPaperDetetor = new Detector<Paper>(-60, -20, 50, 50) { Parent = this };
+            Left_FeetPaperDetector = new Detector<Paper>(-60, 80, 50, 50) { Parent = this };
+            world.Add(Left_ChestPaperDetetor);
+            world.Add(Left_FeetPaperDetector);
             
+            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 180, 50, 50) { Parent = this };
             world.Add(GroundDetector);
-            world.Add(ChestPaperDetetor);
-            world.Add(FeetPaperDetector);
 
             Width = 70;
             Height = 150;
 
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
+                , new SetPlayerDirection(this)
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)
-                , new GrabPaperNearPlayersFeetAsFirstOption(this)
+                , new GrabPaperNearPlayersFeetAsFirstOption_Right(this)
+                , new GrabPaperNearPlayersFeetAsFirstOption_Left(this)
                 , new GrabPaperThatThePlayerIsStandingOn(this)
-                , new GrabPaperNearPlayersChest(this)
-                , new GrabPaperNearPlayersFeetAsLastOption(this)
+                , new GrabPaperNearPlayersChest_Right(this)
+                , new GrabPaperNearPlayersChest_Left(this)
+                , new GrabPaperNearPlayersFeetAsLastOption_Right(this)
+                , new GrabPaperNearPlayersFeetAsLastOption_Left(this)
                 , new SpecialDownDropPaper(this)
                 , new DropPaper(this)
                 , new LimitSpeed(this, 8, 15)

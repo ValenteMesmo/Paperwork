@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace PaperWork
 {
-    public class GrabPaperNearPlayersChest : IUpdateHandler
+    public class GrabPaperNearPlayersFeetAsFirstOption_Right : IUpdateHandler
     {
         private readonly Player Player;
 
-        public GrabPaperNearPlayersChest(Player Player)
+        public GrabPaperNearPlayersFeetAsFirstOption_Right(Player Player)
         {
             this.Player = Player;
         }
@@ -16,9 +16,12 @@ namespace PaperWork
         {
             if (Player.GrabbedPaper == null
                 && Player.Inputs.Action1
+                && Player.FacingRight
+                && Player.Inputs.Right
+                && Player.Inputs.Down
                 && Player.TimeUntilDragDropEnable == 0)
             {
-                var papers = Player.ChestPaperDetetor.GetDetectedItems();
+                var papers = Player.Right_FeetPaperDetector.GetDetectedItems();
                 if (papers.Any())
                 {
                     Player.GrabbedPaper = papers.First();
