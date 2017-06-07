@@ -69,6 +69,14 @@ namespace PaperWork
 
         public void BotCollision(Collider collider)
         {
+            if (collider is Paper || collider is Block)
+            {
+                if (
+                    Y > 300+World.SPACE_BETWEEN_THINGS
+                    && HorizontalSpeed == 0
+                    && X % Width + World.SPACE_BETWEEN_THINGS != 0)
+                    X = MathHelper.RoundUp(X, Width + World.SPACE_BETWEEN_THINGS);
+            }
             CollisionHandler.BotCollision(collider);
         }
 
