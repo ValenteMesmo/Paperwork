@@ -20,8 +20,8 @@ namespace GameCore
 
         public IEnumerable<Thing> GetColliders()
         {
-            //error destination array was not long enough
-            return Items.ToList();
+            lock (Items)
+                return Items.ToList();
         }
 
         public void Update()
