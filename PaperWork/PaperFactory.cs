@@ -41,71 +41,80 @@ namespace PaperWork
             Random = new Random();
             Width = (100 * 12) - 25;
             Height = 50;
-            Y = 125;
+            Y = 225;
             X = 125;
         }
 
         public void BotCollision(Collider other)
         {
-            if (other is Paper)
+            if (other is Paper || other is Player)
                 PapersOnSpawnArea.Add(other);
         }
 
         public void LeftCollision(Collider other)
         {
-            if (other is Paper)
+            if (other is Paper || other is Player)
                 PapersOnSpawnArea.Add(other);
         }
 
         public void RightCollision(Collider other)
         {
-            if (other is Paper)
+            if (other is Paper || other is Player)
                 PapersOnSpawnArea.Add(other);
         }
 
         public void TopCollision(Collider other)
         {
-            if (other is Paper)
+            if (other is Paper || other is Player)
                 PapersOnSpawnArea.Add(other);
         }
 
         public void Update()
         {
+            //foreach (var item in PapersOnSpawnArea.OfType<Paper>())
+            //{
+            //    if (item.X > (100 * 11) + 12)
+            //    {
+            //        item.HorizontalSpeed = -2;
+            //    }
+            //    else
+            //        item.HorizontalSpeed = 0;
+            //}
             if (cooldownCount > 0)
             {
                 cooldownCount--;
                 return;
             }
 
-            var x = (100 * 12) + 12;
-            foreach (var item in PapersOnSpawnArea.OrderByDescending(f => f.X))
-            {
-                if (item is Paper == false)
-                    continue;
+            var x = (100 * 12) + 12 * World.SPACE_BETWEEN_THINGS;
+            //foreach (var item in PapersOnSpawnArea.OrderByDescending(f => f.X))
+            //{
+            //    //if (item is Paper == false)
+            //    //    continue;
 
-                if (item.X == x)
-                {
-                    x -= item.Width + World.SPACE_BETWEEN_THINGS;
-                }
-            }
+            //    if (item.X == x || item is Player)
+            //    {
+            //        // x -= 100 + World.SPACE_BETWEEN_THINGS;
+            //    }
+            //}
 
             //if (x == 50)
             //{
             //    Restart();
             //    return;
             //}
-
+            var y = 200 + World.SPACE_BETWEEN_THINGS;
             var paper = new Paper()
             {
-                X = x
-                ,Y = 200
-                ,DrawableX = x
-                ,DrawableY = 100
+                X = x,
+                Y = y,
+                DrawableX = x,
+                DrawableY = y
             };
             paper.Color = Colors[Random.Next(0, Colors.Length)];
 
             AddToWorld(paper);
-            cooldownCount = 200;
+            cooldownCount = 90;
 
             PapersOnSpawnArea.Clear();
         }

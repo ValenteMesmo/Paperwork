@@ -4,49 +4,6 @@ using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
-
-    public class CollisionHandlerGroup : ICollisionHandler
-    {
-        private readonly ICollisionHandler[] Handlers;
-
-        public CollisionHandlerGroup(params ICollisionHandler[] Handlers)
-        {
-            this.Handlers = Handlers;
-        }
-
-        public void BotCollision(Collider other)
-        {
-            foreach (var item in Handlers)
-            {
-                item.BotCollision(other);
-            }
-        }
-
-        public void LeftCollision(Collider other)
-        {
-            foreach (var item in Handlers)
-            {
-                item.LeftCollision(other);
-            }
-        }
-
-        public void RightCollision(Collider other)
-        {
-            foreach (var item in Handlers)
-            {
-                item.RightCollision(other);
-            }
-        }
-
-        public void TopCollision(Collider other)
-        {
-            foreach (var item in Handlers)
-            {
-                item.TopCollision(other);
-            }
-        }
-    }
-
     public class Paper :
         Collider
         , ICollisionHandler
@@ -68,9 +25,9 @@ namespace PaperWork
 
         public int TextureOffSetX { get; }
         public int TextureOffSetY { get => -Height; }
-        public int TextureWidth { get => Width ; }        
-        public int TextureHeight { get => Height*2 ; }
-        public string TextureName { get=> "papers"; }
+        public int TextureWidth { get => Width; }
+        public int TextureHeight { get => Height * 2; }
+        public string TextureName { get => "papers"; }
         public Color Color { get; set; }
         public bool Disabled { get; set; }
 
@@ -78,19 +35,35 @@ namespace PaperWork
         {
             Width = 100;
             Height = 100;
-
+            UpdateHandler = new UpdateGroup(
+               new AffectedByGravity(this)
+               //, new SlowPaperDown(this)
+               , new LimitSpeed(this, 10, 8)
+            );
+            
+            //handle bot collision with player e ou inverso
             CollisionHandler =
                 new CollisionHandlerGroup(
                     new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
-                );
-            UpdateHandler = new UpdateGroup(
-               new AffectedByGravity(this)
-               , new LimitSpeed(this, 10, 8)
-           );
+                    //,new StopsWhenBotCollidingWith<Player>(this)
+                    ,new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
+                    //,new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
+            );
         }
 
         public void Update()
         {
+            if (X >= (100 * 11) + 12
+                && Y <= 300 + World.SPACE_BETWEEN_THINGS
+                && VerticalSpeed == 0)
+            {
+                HorizontalSpeed = -2;
+
+            }
+            else
+            {
+                HorizontalSpeed = 0;
+            }
             UpdateHandler.Update();
         }
 

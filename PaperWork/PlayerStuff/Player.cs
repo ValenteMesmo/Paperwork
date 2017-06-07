@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using System;
 using System.Linq;
 
 namespace PaperWork
@@ -26,7 +25,8 @@ namespace PaperWork
         public Detector<IPlayerMovementBlocker> Right_FeetPaperDetector { get; }
         public Detector<IPlayerMovementBlocker> Left_ChestPaperDetetor { get; }
         public Detector<IPlayerMovementBlocker> Left_FeetPaperDetector { get; }
-        public  Detector<IPlayerMovementBlocker> GroundDetector { get; }
+        public Detector<IPlayerMovementBlocker> GroundDetector { get; }
+        public Detector<Paper> HeadDetector { get; }
 
         public const int DRAG_AND_DROP_COOLDOWN = 30;
 
@@ -41,25 +41,28 @@ namespace PaperWork
             World world)
         {
             this.Inputs = Inputs;
+            Width = 70;
+            Height = 110;
 
-            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(80, -20, 50, 50) { Parent = this };
-            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(80, 80, 50, 50) { Parent = this };
+            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };
+            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(100, 50, 25, 25) { Parent = this };
             world.Add(Right_ChestPaperDetetor);
             world.Add(Right_FeetPaperDetector);
 
-            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-60, -20, 50, 50) { Parent = this };
-            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-60, 80, 50, 50) { Parent = this };
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-80, -50, 25, 25) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-80, 50, 25, 25) { Parent = this };
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
-            
-            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 180, 50, 50) { Parent = this };
+
+            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 150, 50, 50) { Parent = this };
             world.Add(GroundDetector);
 
-            Width = 70;
-            Height = 150;
-
+            HeadDetector = new Detector<Paper>(20, -40, 25, 25) { Parent = this };
+            world.Add(HeadDetector);
+            
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
+                //, new HandlePaperFallingInThehead(this)
                 , new SetPlayerDirection(this)
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)
@@ -78,7 +81,8 @@ namespace PaperWork
 
             CollisionHandler = new CollisionHandlerGroup(
                 new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
-                , new StopsWhenTopCollidingWith<IPlayerMovementBlocker>(this)
+                , new StopsWhenTopCollidingWith<Block>(this)
+                , new HandlePaperFallingInThehead(this)
                 , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
             );
