@@ -51,8 +51,8 @@ namespace PaperWork
             world.Add(Right_ChestPaperDetetor);
             world.Add(Right_FeetPaperDetector);
 
-            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-80, -50, 25, 25) { Parent = this };
-            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-80, 50, 25, 25) { Parent = this };
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-60, -50, 25, 25) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-60, 50, 25, 25) { Parent = this };
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
 
@@ -61,7 +61,7 @@ namespace PaperWork
 
             HeadDetector = new Detector<Paper>(20, -40, 25, 25) { Parent = this };
             world.Add(HeadDetector);
-            
+
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
                 //, new HandlePaperFallingInThehead(this)
