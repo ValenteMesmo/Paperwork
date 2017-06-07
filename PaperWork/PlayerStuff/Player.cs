@@ -22,10 +22,10 @@ namespace PaperWork
         public bool Grounded { get; set; }
         public Paper GrabbedPaper { get; set; }
         public int TimeUntilDragDropEnable { get; set; }
-        public Detector<Paper> Right_ChestPaperDetetor { get; }
-        public Detector<Paper> Right_FeetPaperDetector { get; }
-        public Detector<Paper> Left_ChestPaperDetetor { get; }
-        public Detector<Paper> Left_FeetPaperDetector { get; }
+        public Detector<IPlayerMovementBlocker> Right_ChestPaperDetetor { get; }
+        public Detector<IPlayerMovementBlocker> Right_FeetPaperDetector { get; }
+        public Detector<IPlayerMovementBlocker> Left_ChestPaperDetetor { get; }
+        public Detector<IPlayerMovementBlocker> Left_FeetPaperDetector { get; }
         public  Detector<IPlayerMovementBlocker> GroundDetector { get; }
 
         public const int DRAG_AND_DROP_COOLDOWN = 30;
@@ -42,13 +42,13 @@ namespace PaperWork
         {
             this.Inputs = Inputs;
 
-            Right_ChestPaperDetetor = new Detector<Paper>(80, -20, 50, 50) { Parent = this };
-            Right_FeetPaperDetector = new Detector<Paper>(80, 80, 50, 50) { Parent = this };
+            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(80, -20, 50, 50) { Parent = this };
+            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(80, 80, 50, 50) { Parent = this };
             world.Add(Right_ChestPaperDetetor);
             world.Add(Right_FeetPaperDetector);
 
-            Left_ChestPaperDetetor = new Detector<Paper>(-60, -20, 50, 50) { Parent = this };
-            Left_FeetPaperDetector = new Detector<Paper>(-60, 80, 50, 50) { Parent = this };
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-60, -20, 50, 50) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-60, 80, 50, 50) { Parent = this };
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
             

@@ -19,7 +19,7 @@ namespace PaperWork
                 && Player.FacingRight
                 && Player.TimeUntilDragDropEnable == 0)
             {
-                var papers = Player.Right_ChestPaperDetetor.GetDetectedItems();
+                var papers = Player.Right_ChestPaperDetetor.GetDetectedItems().OfType<Paper>();
                 if (papers.Any())
                 {
                     Player.GrabbedPaper = papers.First();
