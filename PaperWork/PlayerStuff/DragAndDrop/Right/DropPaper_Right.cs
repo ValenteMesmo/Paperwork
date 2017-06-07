@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace PaperWork
 {
-    public class DropPaper : IUpdateHandler
+    public class DropPaper_Right : IUpdateHandler
     {
         private readonly Player Player;
 
-        public DropPaper(Player Player)
+        public DropPaper_Right(Player Player)
         {
             this.Player = Player;
         }
@@ -16,6 +16,7 @@ namespace PaperWork
         {
             if (Player.GrabbedPaper != null
                 && Player.Inputs.Action1
+                && Player.FacingRight
                 && Player.Right_ChestPaperDetetor.GetDetectedItems().Any() == false
                 && Player.TimeUntilDragDropEnable == 0)
             {

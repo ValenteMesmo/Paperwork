@@ -48,6 +48,7 @@
     <Compile Include="FollowOtherCollider.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="PlayerStuff\DragAndDrop\Left\DropPaper_Left.cs" />
     <Compile Include="PlayerStuff\DragAndDrop\Left\GrabPaperNearPlayersChest_Left.cs" />
     <Compile Include="PlayerStuff\DragAndDrop\Left\GrabPaperNearPlayersFeetAsFirstOption_Left.cs" />
     <Compile Include="PlayerStuff\DragAndDrop\Left\GrabPaperNearPlayersFeetAsLastOption_Left.cs" />
@@ -56,7 +57,7 @@
     <Compile Include="PlayerStuff\DragAndDrop\GrabPaperThatThePlayerIsStandingOn.cs" />
     <Compile Include="PlayerStuff\SetPlayerDirection.cs" />
     <Compile Include="PlayerStuff\SpecialDownDropPaper.cs" />
-    <Compile Include="PlayerStuff\DragAndDrop\DropPaper.cs" />
+    <Compile Include="PlayerStuff\DragAndDrop\Right\DropPaper_Right.cs" />
     <Compile Include="PlayerStuff\DragAndDrop\Right\GrabPaperNearPlayersChest_Right.cs" />
     <Compile Include="PlayerStuff\IPlayerMovementBlocker.cs" />
     <Compile Include="LimitSpeed.cs" />

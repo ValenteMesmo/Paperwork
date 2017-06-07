@@ -71,7 +71,8 @@ namespace PaperWork
                 , new GrabPaperNearPlayersFeetAsLastOption_Right(this)
                 , new GrabPaperNearPlayersFeetAsLastOption_Left(this)
                 , new SpecialDownDropPaper(this)
-                , new DropPaper(this)
+                , new DropPaper_Right(this)
+                , new DropPaper_Left(this)
                 , new LimitSpeed(this, 8, 15)
             );
 
