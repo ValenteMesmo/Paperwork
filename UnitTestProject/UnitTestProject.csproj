@@ -71,10 +71,6 @@
       <Project>{2ac01835-6ba1-44c5-a106-8bcac3de7be0}</Project>
       <Name>GameCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PaperWork\PaperWork.csproj">
-      <Project>{8DA2FFD8-801D-4ADC-BECE-3D3BED73AC3A}</Project>
-      <Name>PaperWork</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -112,13 +112,13 @@ namespace GameCore
                             texture.Color);
                 }
 
-                if (item is DimensionalThing)
+                if (item is Collider)
                 {
-                    var dimensions = item as DimensionalThing;
+                    var dimensions = item as Collider;
                     DrawBorder(
                             new Rectangle(
-                                dimensions.DrawableX,
-                                dimensions.DrawableY,
+                                dimensions.X,
+                                dimensions.Y,
                                 dimensions.Width,
                                 dimensions.Height),
                             2,

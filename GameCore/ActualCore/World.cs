@@ -20,8 +20,14 @@ namespace GameCore
 
         public IEnumerable<Thing> GetColliders()
         {
-            lock (Items)
+            try
+            {
                 return Items.ToList();
+            }
+            catch 
+            {
+                return Enumerable.Empty<Thing>() ;
+            }
         }
 
         public void Update()
@@ -30,11 +36,11 @@ namespace GameCore
 
             foreach (var item in currentItems)
             {
-                if (item is DimensionalThing)
+                if (item is Texture)
                 {
-                    var dimensions = item as DimensionalThing;
-                    dimensions.DrawableX = dimensions.X;
-                    dimensions.DrawableY = dimensions.Y;
+                    var texture = item as Texture;
+                    texture.DrawableX = texture.X;
+                    texture.DrawableY = texture.Y;
                 }
 
                 if (item is IUpdateHandler)

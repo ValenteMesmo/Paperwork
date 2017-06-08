@@ -1,12 +1,17 @@
 ﻿using GameCore;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace PaperWork
 {
+    //bug! if player let room fill, on top of papers... game will not end
+    //we should end game max number of  blocks reached!
     public class Player :
         Collider
         , ICollisionHandler
         , IUpdateHandler
+        , Texture
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -36,15 +41,31 @@ namespace PaperWork
 
         public bool FacingRight { get; set; }
 
+        //Animator Animator;
+        //public int TextureOffSetX => Animator.TextureOffSetX;
+        //public int TextureOffSetY => Animator.TextureOffSetY;
+        //public int TextureWidth => Animator.TextureWidth;
+        //public int TextureHeight => Animator.TextureHeight;
+        //public string TextureName => Animator.TextureName;
+        //public Color Color => Animator.Color;
+
+        public int TextureOffSetX { get; }
+        public int TextureOffSetY { get => -Height; }
+        public int TextureWidth { get => Width*2; }
+        public int TextureHeight { get => Height * 2; }
+        public string TextureName { get => FacingRight ? "char" : "char_left"; }
+        public Color Color { get; set; }
+
         public Player(
             InputRepository Inputs,
             World world,
             //Remove this
-            Game1 Game1)
+            IWorld Game1)
         {
             this.Inputs = Inputs;
             Width = 70;
             Height = 110;
+            Color = Color.White;
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };
             Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(100, 50, 25, 25) { Parent = this };

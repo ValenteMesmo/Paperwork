@@ -5,6 +5,8 @@ namespace GameCore
     public interface Texture : DimensionalThing
     {
         //should i move x,y,w and h to other interface? dimentionalthing?
+        int DrawableX { get; set; }
+        int DrawableY { get; set; }
         int TextureOffSetX { get; }
         int TextureOffSetY { get; }
         int TextureWidth { get; }

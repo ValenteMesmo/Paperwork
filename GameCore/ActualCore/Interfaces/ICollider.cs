@@ -8,9 +8,6 @@
         int Y { get; set; }
         int Width { get; set; }
         int Height { get; set; }
-
-        int DrawableX { get; set; }
-        int DrawableY { get; set; }
     }
 
     public interface Collider : DimensionalThing
