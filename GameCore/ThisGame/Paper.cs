@@ -54,7 +54,7 @@ namespace PaperWork
         public void Update()
         {
             if (X >= (100 * 11) + 12
-                && Y <= 300 + World.SPACE_BETWEEN_THINGS
+                && Y <= 200 + World.SPACE_BETWEEN_THINGS
                 && VerticalSpeed == 0)
             {
                 HorizontalSpeed = -2;
