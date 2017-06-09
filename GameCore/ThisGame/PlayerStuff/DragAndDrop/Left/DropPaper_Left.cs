@@ -20,6 +20,7 @@ namespace PaperWork
                 && Player.Left_ChestPaperDetetor.GetDetectedItems().Any() == false
                 && Player.TimeUntilDragDropEnable == 0)
             {
+                Player.HorizontalSpeed = 0;
                 Player.GrabbedPaper.Disabled = false;
                 Player.GrabbedPaper.X = MathHelper.RoundUp(
                     Player.Left() - Player.Width,
