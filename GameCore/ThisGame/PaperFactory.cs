@@ -22,23 +22,10 @@ namespace PaperWork
         };
         private readonly Action<Collider> AddToWorld;
 
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int HorizontalSpeed { get; set; }
-        public int VerticalSpeed { get; set; }
-        public int DrawableX { get; set; }
-        public int DrawableY { get; set; }
-
         public PaperFactory(Action<Collider> AddToWorld)
         {
             this.AddToWorld = AddToWorld;
-            Random = new Random();
-            Width = (100 * 12) - 25;
-            Height = 50;
-            Y = 125;
-            X = 125;
+            this.Random = new Random();
         }
 
         public void Update()
@@ -51,7 +38,7 @@ namespace PaperWork
 
             var x = (100 * 12) + 12 * World.SPACE_BETWEEN_THINGS;
  
-            var y = 100 + World.SPACE_BETWEEN_THINGS;
+            var y = 200 + World.SPACE_BETWEEN_THINGS;
             var paper = new Paper()
             {
                 X = x,
