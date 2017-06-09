@@ -20,19 +20,17 @@ namespace AndroidVersion
         {
             base.OnCreate(bundle);
             var g = new Game1();
-
+            g.FullScreen = true;
             var view = (View)g.Services.GetService(typeof(View));
             view.SystemUiVisibility = (StatusBarVisibility)
-                (SystemUiFlags.LayoutStable 
-                | SystemUiFlags.LayoutHideNavigation 
-                | SystemUiFlags.LayoutFullscreen 
-                | SystemUiFlags.HideNavigation 
-                | SystemUiFlags.Fullscreen 
-                | SystemUiFlags.ImmersiveSticky                
+                (SystemUiFlags.LayoutStable
+                | SystemUiFlags.LayoutHideNavigation
+                | SystemUiFlags.LayoutFullscreen
+                | SystemUiFlags.HideNavigation
+                | SystemUiFlags.Fullscreen
+                | SystemUiFlags.ImmersiveSticky
                 );
 
-            
-            
             SetContentView(view);
             g.Run();
         }

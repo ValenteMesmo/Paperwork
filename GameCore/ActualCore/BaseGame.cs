@@ -27,11 +27,13 @@ namespace GameCore
             PlayerInputs = new InputRepository();
 
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content";                        
             IsFixedTimeStep = false;
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
         }
+
+        public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
 
         protected override void LoadContent()
         {
