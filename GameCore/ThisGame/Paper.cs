@@ -40,25 +40,25 @@ namespace PaperWork
                //, new SlowPaperDown(this)
                , new LimitSpeed(this, 10, 8)
             );
-            
+
             //handle bot collision with player e ou inverso
             CollisionHandler =
                 new CollisionHandlerGroup(
                     new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
                     //,new StopsWhenBotCollidingWith<Player>(this)
-                    ,new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
-                    //,new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
+                    , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
+            //,new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
             );
         }
 
         public void Update()
         {
-            if (X >= (100 * 11) + 12
-                && Y <= 200 + World.SPACE_BETWEEN_THINGS
+            if (
+                X >= (100 * 11) + 12
+                && (Y <= 300 + World.SPACE_BETWEEN_THINGS)
                 && VerticalSpeed == 0)
             {
                 HorizontalSpeed = -2;
-
             }
             else
             {
@@ -72,7 +72,7 @@ namespace PaperWork
             if (collider is Paper || collider is Block)
             {
                 if (
-                    Y > 300+World.SPACE_BETWEEN_THINGS
+                    Y > 300 + World.SPACE_BETWEEN_THINGS
                     && HorizontalSpeed == 0
                     && X % Width + World.SPACE_BETWEEN_THINGS != 0)
                     X = MathHelper.RoundUp(X, Width + World.SPACE_BETWEEN_THINGS);

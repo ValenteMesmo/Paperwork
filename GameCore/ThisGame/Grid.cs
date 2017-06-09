@@ -25,6 +25,7 @@ namespace PaperWork
 
             for (int i = 1; i < rowsCount; i++)
             {
+                //tem uma row a mais... dentro do teto
                 var trigger = new Detector<Paper>(
                     cellSize + cellSize / 4
                    , (i * cellSize) + cellSize / 4
