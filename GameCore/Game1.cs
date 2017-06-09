@@ -34,7 +34,7 @@ namespace PaperWork
                 world.Add(new Block
                 {
                     X = i * cellsize,
-                    Y = 0
+                    Y = cellsize
                 });
             }
 
