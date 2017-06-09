@@ -36,11 +36,11 @@ namespace GameCore
 
             foreach (var item in currentItems)
             {
-                if (item is Animation)
+                if (item is DimensionalThing)
                 {
-                    var texture = item as Animation;
-                    texture.DrawableX = texture.X;
-                    texture.DrawableY = texture.Y;
+                    var dimensions = item as DimensionalThing;
+                    dimensions.DrawableX = dimensions.X;
+                    dimensions.DrawableY = dimensions.Y;
                 }
 
                 if (item is IUpdateHandler)

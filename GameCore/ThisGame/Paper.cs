@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameCore;
 using Microsoft.Xna.Framework;
 
@@ -9,7 +10,7 @@ namespace PaperWork
         , ICollisionHandler
         , IUpdateHandler
         , IPlayerMovementBlocker
-        , Texture
+        , Animation
     {
         private ICollisionHandler CollisionHandler;
         private IUpdateHandler UpdateHandler;
@@ -23,31 +24,23 @@ namespace PaperWork
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
 
-        public int TextureOffSetX { get; }
-        public int TextureOffSetY { get => -Height; }
-        public int TextureWidth { get => Width; }
-        public int TextureHeight { get => Height * 2; }
-        public string TextureName { get => "papers"; }
-        public Color Color { get; set; }
         public bool Disabled { get; set; }
+
+        private const int SIZE = 100;
 
         public Paper()
         {
-            Width = 100;
-            Height = 100;
+            Width = SIZE;
+            Height = SIZE;
             UpdateHandler = new UpdateGroup(
                new AffectedByGravity(this)
-               //, new SlowPaperDown(this)
                , new LimitSpeed(this, 10, 8)
             );
 
-            //handle bot collision with player e ou inverso
             CollisionHandler =
                 new CollisionHandlerGroup(
                     new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
-                    //,new StopsWhenBotCollidingWith<Player>(this)
                     , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
-            //,new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
             );
         }
 
@@ -93,6 +86,14 @@ namespace PaperWork
         public void RightCollision(Collider collider)
         {
             CollisionHandler.RightCollision(collider);
+        }
+
+        public Color Color { get { return Texture.Color; } set { Texture.Color = value; } }
+        private TextureClass Texture = new TextureClass("papers", 0, -SIZE, SIZE, SIZE * 2);
+
+        public IEnumerable<TextureClass> GetTextures()
+        {
+            yield return Texture;
         }
     }
 }

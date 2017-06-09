@@ -1,17 +1,21 @@
-﻿using GameCore;
+﻿using System;
+using System.Collections.Generic;
+using GameCore;
 using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
     public class Block :
         Collider
-        , Texture
+        , Animation
         , IPlayerMovementBlocker
     {
+        const int SIZE = 100;
+
         public Block()
         {
-            Width = 100;
-            Height = 100;
+            Width = SIZE;
+            Height = SIZE;
         }
 
         public int X { get; set; }
@@ -23,12 +27,27 @@ namespace PaperWork
         public bool Disabled { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
+        private IEnumerable<TextureClass> Texture = new TextureClass[]{
+        new TextureClass(
+            "block"
+            , -World.SPACE_BETWEEN_THINGS
+            , -World.SPACE_BETWEEN_THINGS
+            , SIZE + World.SPACE_BETWEEN_THINGS
+            , SIZE + World.SPACE_BETWEEN_THINGS
+            )
+        };
 
-        public int TextureOffSetX { get => -World.SPACE_BETWEEN_THINGS; }
-        public int TextureOffSetY { get => -World.SPACE_BETWEEN_THINGS; }
-        public int TextureWidth { get => (int)(Width + World.SPACE_BETWEEN_THINGS); }
-        public int TextureHeight { get => (int)(Height + World.SPACE_BETWEEN_THINGS); }
-        public string TextureName { get => "block"; }
-        public Color Color { get => Color.White; }
+
+        public IEnumerable<TextureClass> GetTextures()
+        {
+            return Texture;
+        }
+
+        //public int TextureOffSetX { get => -World.SPACE_BETWEEN_THINGS; }
+        //public int TextureOffSetY { get => -World.SPACE_BETWEEN_THINGS; }
+        //public int TextureWidth { get => (int)(Width + World.SPACE_BETWEEN_THINGS); }
+        //public int TextureHeight { get => (int)(Height + World.SPACE_BETWEEN_THINGS); }
+        //public string TextureName { get => "block"; }
+        //public Color Color { get => Color.White; }
     }
 }

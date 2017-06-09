@@ -23,7 +23,7 @@ namespace GameCore
         public int Width { get; }
         public int Height { get; }
         public string Name { get; }
-        public Color Color { get; }
+        public Color Color { get; set; }
     }
 
     //public interface Texture : DimensionalThing
@@ -39,7 +39,7 @@ namespace GameCore
     //    Color Color { get; }
     //}
 
-    public interface Animation
+    public interface Animation : DimensionalThing
     {
         IEnumerable<TextureClass> GetTextures();
     }
@@ -56,7 +56,7 @@ namespace GameCore
         }
     }
 
-    public class SimpleAnimation : Animation
+    public class SimpleAnimation
     {
         private readonly AnimationFrame[] Frames;
         private int CurrentFrame;
@@ -76,10 +76,9 @@ namespace GameCore
                 return;
             }
 
+            CurrentFrame++;
             if (CurrentFrame >= Frames.Length)
                 CurrentFrame = 0;
-            else
-                CurrentFrame++;
 
             UpdatesUntilNextFrame = Frames[CurrentFrame].DurationInUpdatesCount;
         }

@@ -27,7 +27,7 @@ namespace GameCore
             PlayerInputs = new InputRepository();
 
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";                        
+            Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
             //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
@@ -99,31 +99,35 @@ namespace GameCore
                 if (item == null)
                     continue;
 
-                if (item is Texture)
+                if (item is DimensionalThing)
                 {
-                    var texture = item as Texture;
-                    spriteBatch.Draw(
-                            Textures[texture.TextureName],
-                            new Rectangle(
-                                texture.DrawableX + texture.TextureOffSetX,
-                                texture.DrawableY + texture.TextureOffSetY,
-                                texture.TextureWidth,
-                                texture.TextureHeight),
-                            texture.Color);
-                }
+                    var dimensions = item.As<DimensionalThing>();
+                    if (item is Animation)
+                    {
+                        var textures = item.As<Animation>().GetTextures();
 
-                //if (item is Collider)
-                //{
-                //    var dimensions = item as Collider;
-                //    DrawBorder(
-                //            new Rectangle(
-                //                dimensions.X,
-                //                dimensions.Y,
-                //                dimensions.Width,
-                //                dimensions.Height),
-                //            2,
-                //            Color.Red);
-                //}
+                        foreach (var texture in textures)
+                        {
+                            spriteBatch.Draw(
+                                    Textures[texture.Name],
+                                    new Rectangle(
+                                        dimensions.DrawableX + texture.X,
+                                        dimensions.DrawableY + texture.Y,
+                                        texture.Width,
+                                        texture.Height),
+                                    texture.Color);
+                        }
+                    }
+
+                    DrawBorder(
+                            new Rectangle(
+                                dimensions.X,
+                                dimensions.Y,
+                                dimensions.Width,
+                                dimensions.Height),
+                            2,
+                            Color.Red);
+                }
             }
 
             spriteBatch.End();
