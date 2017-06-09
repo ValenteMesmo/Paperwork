@@ -12,7 +12,7 @@ namespace AndroidVersion
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
         , LaunchMode = Android.Content.PM.LaunchMode.SingleInstance
-        , ScreenOrientation = ScreenOrientation.FullUser
+        , ScreenOrientation = ScreenOrientation.Landscape
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
@@ -20,7 +20,20 @@ namespace AndroidVersion
         {
             base.OnCreate(bundle);
             var g = new Game1();
-            SetContentView((View)g.Services.GetService(typeof(View)));
+
+            var view = (View)g.Services.GetService(typeof(View));
+            view.SystemUiVisibility = (StatusBarVisibility)
+                (SystemUiFlags.LayoutStable 
+                | SystemUiFlags.LayoutHideNavigation 
+                | SystemUiFlags.LayoutFullscreen 
+                | SystemUiFlags.HideNavigation 
+                | SystemUiFlags.Fullscreen 
+                | SystemUiFlags.ImmersiveSticky                
+                );
+
+            
+            
+            SetContentView(view);
             g.Run();
         }
     }

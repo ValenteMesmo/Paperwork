@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GameCore
 {
@@ -31,7 +29,7 @@ namespace GameCore
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
         }
 
@@ -112,18 +110,18 @@ namespace GameCore
                             texture.Color);
                 }
 
-                if (item is Collider)
-                {
-                    var dimensions = item as Collider;
-                    DrawBorder(
-                            new Rectangle(
-                                dimensions.X,
-                                dimensions.Y,
-                                dimensions.Width,
-                                dimensions.Height),
-                            2,
-                            Color.Red);
-                }
+                //if (item is Collider)
+                //{
+                //    var dimensions = item as Collider;
+                //    DrawBorder(
+                //            new Rectangle(
+                //                dimensions.X,
+                //                dimensions.Y,
+                //                dimensions.Width,
+                //                dimensions.Height),
+                //            2,
+                //            Color.Red);
+                //}
             }
 
             spriteBatch.End();
