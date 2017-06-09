@@ -19,8 +19,7 @@ namespace AndroidVersion
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            var g = new Game1();
-            g.FullScreen = true;
+            var g = new Game1() { FullScreen = true };
             var view = (View)g.Services.GetService(typeof(View));
             view.SystemUiVisibility = (StatusBarVisibility)
                 (SystemUiFlags.LayoutStable

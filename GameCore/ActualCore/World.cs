@@ -36,9 +36,9 @@ namespace GameCore
 
             foreach (var item in currentItems)
             {
-                if (item is Texture)
+                if (item is Animation)
                 {
-                    var texture = item as Texture;
+                    var texture = item as Animation;
                     texture.DrawableX = texture.X;
                     texture.DrawableY = texture.Y;
                 }

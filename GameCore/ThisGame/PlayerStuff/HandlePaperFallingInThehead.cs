@@ -4,7 +4,7 @@ using System;
 
 namespace PaperWork
 {
-    public interface IWorld
+    public interface IGame
     {
         void Restart();
     }
@@ -12,9 +12,9 @@ namespace PaperWork
     public class HandlePaperFallingInThehead : ICollisionHandler
     {
         private readonly Player Player;
-        private readonly IWorld World;
+        private readonly IGame World;
 
-        public HandlePaperFallingInThehead(Player Player, IWorld World)
+        public HandlePaperFallingInThehead(Player Player, IGame World)
         {
             this.Player = Player;
             this.World = World;

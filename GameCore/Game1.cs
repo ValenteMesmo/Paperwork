@@ -2,7 +2,7 @@
 
 namespace PaperWork
 {
-    public class Game1 : BaseGame, IWorld
+    public class Game1 : BaseGame, IGame
     {
         public Game1() : base("char", "char_left", "papers", "block")
         {

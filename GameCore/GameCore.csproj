@@ -54,7 +54,7 @@
     <Compile Include="ActualCore\Extensions\IColliderExtensions.cs" />
     <Compile Include="ActualCore\Interfaces\ICollisionHandler.cs" />
     <Compile Include="ActualCore\InputRepository.cs" />
-    <Compile Include="ActualCore\Interfaces\ITextureGetter.cs" />
+    <Compile Include="ActualCore\Interfaces\Texture.cs" />
     <Compile Include="ActualCore\Interfaces\IUpdateHandler.cs" />
     <Compile Include="ActualCore\Extensions\ObjectExtension.cs" />
     <Compile Include="Game1.cs" />

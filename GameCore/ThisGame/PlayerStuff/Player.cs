@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace PaperWork
 {
@@ -11,7 +12,7 @@ namespace PaperWork
         Collider
         , ICollisionHandler
         , IUpdateHandler
-        , Texture
+        , Animation
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -38,6 +39,7 @@ namespace PaperWork
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
         public readonly InputRepository Inputs;
+        private readonly SimpleAnimation Animation;
 
         public bool FacingRight { get; set; }
 
@@ -60,12 +62,14 @@ namespace PaperWork
             InputRepository Inputs,
             World world,
             //Remove this
-            IWorld Game1)
+            IGame Game1)
         {
             this.Inputs = Inputs;
             Width = 70;
             Height = 110;
             Color = Color.White;
+
+            Animation = new SimpleAnimation(new AnimationFrame(10,new TextureClass("char",0,0,Width,Height)));
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };
             Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(100, 50, 25, 25) { Parent = this };
@@ -147,6 +151,11 @@ namespace PaperWork
         public void RightCollision(Collider collider)
         {
             CollisionHandler.RightCollision(collider);
+        }
+
+        public IEnumerable<TextureClass> GetTextures()
+        {
+            return Animation.GetTextures();
         }
     }
 }
