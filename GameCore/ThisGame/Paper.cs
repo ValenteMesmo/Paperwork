@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameCore;
 using Microsoft.Xna.Framework;
 
@@ -26,7 +25,7 @@ namespace PaperWork
 
         public bool Disabled { get; set; }
 
-        private const int SIZE = 100;
+        private const int SIZE = 1000;
 
         public Paper()
         {
@@ -34,7 +33,7 @@ namespace PaperWork
             Height = SIZE;
             UpdateHandler = new UpdateGroup(
                new AffectedByGravity(this)
-               , new LimitSpeed(this, 10, 8)
+               , new LimitSpeed(this, 100, 80)
             );
 
             CollisionHandler =
@@ -47,11 +46,11 @@ namespace PaperWork
         public void Update()
         {
             if (
-                X >= (100 * 11) + 12
-                && (Y <= 300 + World.SPACE_BETWEEN_THINGS)
+                X >= (1000 * 11) + 12
+                && (Y <= 3000 + World.SPACE_BETWEEN_THINGS)
                 && VerticalSpeed == 0)
             {
-                HorizontalSpeed = -2;
+                HorizontalSpeed = -20;
             }
             else
             {
@@ -65,7 +64,7 @@ namespace PaperWork
             if (collider is Paper || collider is Block)
             {
                 if (
-                    Y > 300 + World.SPACE_BETWEEN_THINGS
+                    Y > 3000 + World.SPACE_BETWEEN_THINGS
                     && HorizontalSpeed == 0
                     && X % Width + World.SPACE_BETWEEN_THINGS != 0)
                     X = MathHelper.RoundUp(X, Width + World.SPACE_BETWEEN_THINGS);

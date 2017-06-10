@@ -39,7 +39,7 @@ namespace PaperWork
                 if (Player.Left_ChestPaperDetetor.GetDetectedItems().Any() == false
                     && Player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
                 {
-                    Player.HorizontalSpeed = -10;
+                    Player.HorizontalSpeed = -100;
                 }
                 else
                 {

@@ -19,8 +19,8 @@ namespace GameCore
         public BaseGame(params string[] TextureNames)
         {
             Camera = new Camera2d();
-            Camera.Pos = new Vector2(700f, 380f);
-            Camera.Zoom = 0.5f;
+            Camera.Pos = new Vector2(7000f, 4380f);
+            Camera.Zoom = 0.06f;
 
             world = new World();
             this.TextureNames = TextureNames;
@@ -136,7 +136,7 @@ namespace GameCore
                                 dimensions.Y,
                                 dimensions.Width,
                                 dimensions.Height),
-                            2,
+                            20,
                             Color.Red);
                 }
             }

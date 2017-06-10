@@ -10,7 +10,7 @@ namespace PaperWork
         , Animation
         , IPlayerMovementBlocker
     {
-        const int SIZE = 100;
+        const int SIZE = 1000;
 
         public Block()
         {

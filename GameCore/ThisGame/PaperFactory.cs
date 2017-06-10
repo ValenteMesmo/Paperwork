@@ -36,9 +36,9 @@ namespace PaperWork
                 return;
             }
 
-            var x = (100 * 12) + 12 * World.SPACE_BETWEEN_THINGS;
+            var x = (1000 * 12) + 12 * World.SPACE_BETWEEN_THINGS;
  
-            var y = 200 + World.SPACE_BETWEEN_THINGS;
+            var y = 2000 + World.SPACE_BETWEEN_THINGS;
             var paper = new Paper()
             {
                 X = x,

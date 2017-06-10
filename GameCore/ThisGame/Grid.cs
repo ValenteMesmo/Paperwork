@@ -1,6 +1,5 @@
 ﻿using GameCore;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +17,7 @@ namespace PaperWork
 
             var rowsCount = 4;
             var ColumnsCount = 12;
-            var cellSize = 100 + World.SPACE_BETWEEN_THINGS;
+            var cellSize = 1000 + World.SPACE_BETWEEN_THINGS;
 
             Rows = new List<Detector<Paper>>();
             Columns = new List<Detector<Paper>>();

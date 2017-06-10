@@ -29,7 +29,7 @@ namespace PaperWork
         public Detector<IPlayerMovementBlocker> Left_ChestPaperDetetor { get; }
         public Detector<IPlayerMovementBlocker> Left_FeetPaperDetector { get; }
         public Detector<IPlayerMovementBlocker> GroundDetector { get; }
-        public Detector<Paper> HeadDetector { get; }
+        //public Detector<Paper> HeadDetector { get; }
 
         public const int DRAG_AND_DROP_COOLDOWN = 30;
 
@@ -47,30 +47,30 @@ namespace PaperWork
             IGame Game1)
         {
             this.Inputs = Inputs;
-            Width = 70;
-            Height = 110;
+            Width = 700;
+            Height = 1100;
 
             var stand_right = new SimpleAnimation(
-                 new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
+                 new AnimationFrame(10, new Texture("Walk0001", 0, 100, 1000, 1000) { Flipped = true })
 
             );
 
             var stand_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", -30, 10, 100, 100))
+                new AnimationFrame(10, new Texture("Walk0001", -300, 100, 1000, 1000))
             );
 
             var walkAnimation_right = new SimpleAnimation(
-                 new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
-                , new AnimationFrame(10, new Texture("Walk0002", 0, 10, 100, 100) { Flipped = true })
-                , new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
-                , new AnimationFrame(10, new Texture("Walk0003", 0, 10, 100, 100) { Flipped = true })
+                 new AnimationFrame(10, new Texture("Walk0001", 0, 100, 1000, 1000) { Flipped = true })
+                , new AnimationFrame(10, new Texture("Walk0002", 0, 100, 1000, 1000) { Flipped = true })
+                , new AnimationFrame(10, new Texture("Walk0001", 0, 100, 1000, 1000) { Flipped = true })
+                , new AnimationFrame(10, new Texture("Walk0003", 0, 100, 1000, 1000) { Flipped = true })
             );
 
             var walkAnimation_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", -30, 10, 100, 100))
-                , new AnimationFrame(10, new Texture("Walk0002", -30, 10, 100, 100))
-                , new AnimationFrame(10, new Texture("Walk0001", -30, 10, 100, 100))
-                , new AnimationFrame(10, new Texture("Walk0003", -30, 10, 100, 100))
+                new AnimationFrame(10, new Texture("Walk0001", -300, 100, 1000, 1000))
+                , new AnimationFrame(10, new Texture("Walk0002", -300, 100, 1000, 1000))
+                , new AnimationFrame(10, new Texture("Walk0001", -300, 100, 1000, 1000))
+                , new AnimationFrame(10, new Texture("Walk0003", -300, 100, 1000, 1000))
             );
 
             Animation = new Animator(
@@ -111,21 +111,21 @@ namespace PaperWork
                     () => FacingRight && HorizontalSpeed == 0)
             );
 
-            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 10, 10) { Parent = this };
-            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(100, 50, 10, 10) { Parent = this };
+            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1000, -500, 100, 100) { Parent = this };
+            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1000, 500, 100, 100) { Parent = this };
             world.Add(Right_ChestPaperDetetor);
             world.Add(Right_FeetPaperDetector);
 
-            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-45, -50, 10, 10) { Parent = this };
-            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-45, 50, 10, 10) { Parent = this };
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-450, -500, 100, 100) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-450, 500, 100, 100) { Parent = this };
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
 
-            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 125, 50, 25) { Parent = this };
+            GroundDetector = new Detector<IPlayerMovementBlocker>(100, 1250, 500, 250) { Parent = this };
             world.Add(GroundDetector);
 
-            HeadDetector = new Detector<Paper>(20, -40, 25, 25) { Parent = this };
-            world.Add(HeadDetector);
+            //HeadDetector = new Detector<Paper>(200, -400, 250, 250) { Parent = this };
+            //world.Add(HeadDetector);
 
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
@@ -142,7 +142,7 @@ namespace PaperWork
                 , new SpecialDownDropPaper(this)
                 , new DropPaper_Right(this)
                 , new DropPaper_Left(this)
-                , new LimitSpeed(this, 8, 15)
+                , new LimitSpeed(this, 80, 150)
             );
 
             CollisionHandler = new CollisionHandlerGroup(

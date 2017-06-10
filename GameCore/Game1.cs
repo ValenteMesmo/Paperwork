@@ -15,8 +15,8 @@ namespace PaperWork
 
             var player = new Player(PlayerInputs, world, this)
             {
-                X = 200,
-                Y = 200
+                X = 2000,
+                Y = 2000
             };
 
             world.Add(new PaperFactory(world.Add));
@@ -28,7 +28,8 @@ namespace PaperWork
 
         private void CreateBlocks(int rowNumber, int colNumber)
         {
-            var cellsize = 100 + World.SPACE_BETWEEN_THINGS;
+            //remove left wall? let the player fall?
+            var cellsize = 1000 + World.SPACE_BETWEEN_THINGS;
             for (int i = 1; i < rowNumber; i++)
             {
                 world.Add(new Block

@@ -19,7 +19,7 @@ namespace GameCore
         public float Zoom
         {
             get { return _zoom; }
-            set { _zoom = value; if (_zoom < 0.1f) _zoom = 0.1f; } // Negative zoom will flip image
+            set { _zoom = value; if (_zoom < 0.01f) _zoom = 0.01f; } // Negative zoom will flip image
         }
 
         public float Rotation
