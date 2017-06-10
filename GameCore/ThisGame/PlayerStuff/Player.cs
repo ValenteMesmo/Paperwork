@@ -40,13 +40,6 @@ namespace PaperWork
 
         public bool FacingRight { get; set; }
 
-        //public int TextureOffSetX { get; }
-        //public int TextureOffSetY { get => -Height; }
-        //public int TextureWidth { get => Width*2; }
-        //public int TextureHeight { get => Height * 2; }
-        //public string TextureName { get => FacingRight ? "char" : "char_left"; }
-        //public Color Color { get; set; }
-
         public Player(
             InputRepository Inputs,
             World world,
@@ -118,13 +111,13 @@ namespace PaperWork
                     () => FacingRight && HorizontalSpeed == 0)
             );
 
-            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };
-            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(100, 50, 25, 25) { Parent = this };
+            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 10, 10) { Parent = this };
+            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(100, 50, 10, 10) { Parent = this };
             world.Add(Right_ChestPaperDetetor);
             world.Add(Right_FeetPaperDetector);
 
-            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-60, -50, 25, 25) { Parent = this };
-            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-60, 50, 25, 25) { Parent = this };
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-45, -50, 10, 10) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-45, 50, 10, 10) { Parent = this };
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
 
@@ -136,7 +129,6 @@ namespace PaperWork
 
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
-                //, new HandlePaperFallingInThehead(this)
                 , new SetPlayerDirection(this)
                 , new AffectedByGravity(this)
                 , new PlayersJump(this, Inputs)

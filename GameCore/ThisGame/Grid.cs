@@ -16,19 +16,18 @@ namespace PaperWork
         {
             this.World = World;
 
-            var rowsCount = 6;
+            var rowsCount = 4;
             var ColumnsCount = 12;
             var cellSize = 100 + World.SPACE_BETWEEN_THINGS;
 
             Rows = new List<Detector<Paper>>();
             Columns = new List<Detector<Paper>>();
 
-            for (int i = 1; i < rowsCount; i++)
+            for (int i = 1; i <= rowsCount; i++)
             {
-                //tem uma row a mais... dentro do teto
                 var trigger = new Detector<Paper>(
-                    cellSize + cellSize / 4
-                   , (i * cellSize) + cellSize / 4
+                    (cellSize + cellSize / 4)
+                   , ((i + 1) * cellSize) + cellSize / 4
                    , cellSize * (ColumnsCount) - cellSize / 2
                    , cellSize - cellSize / 2
 
@@ -37,13 +36,13 @@ namespace PaperWork
                 Rows.Add(trigger);
             }
 
-            for (int i = 1; i <= ColumnsCount ; i++)
+            for (int i = 1; i <= ColumnsCount; i++)
             {
                 var trigger = new Detector<Paper>(
-                     (i * cellSize) + cellSize/4
-                    , cellSize + cellSize / 4
-                     , cellSize - cellSize / 2
-                     , cellSize * (rowsCount - 1) - cellSize / 2
+                    (i * cellSize) + cellSize / 4
+                    , (cellSize * 2) + cellSize / 4
+                    , cellSize - cellSize / 2
+                    , cellSize * rowsCount - cellSize / 2
              );
 
                 World.Add(trigger);
@@ -80,7 +79,7 @@ namespace PaperWork
 
                     var paper = other.As<Paper>();
                     if (currentColor != paper.Color
-                        || previousY - paper.Y >  paper.Height + World.SPACE_BETWEEN_THINGS
+                        || previousY - paper.Y > paper.Height + World.SPACE_BETWEEN_THINGS
                         || paper.X != previousX)
                     {
                         currentColor = paper.Color;
