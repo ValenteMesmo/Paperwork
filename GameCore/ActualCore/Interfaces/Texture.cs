@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace GameCore
@@ -25,9 +26,10 @@ namespace GameCore
         public int ZIndex { get; set; }
     }
 
-    public interface Animation : DimensionalThing
+    public interface Animation //: DimensionalThing
     {
         IEnumerable<Texture> GetTextures();
+        void Update();
     }
 
     public class AnimationFrame
@@ -42,7 +44,7 @@ namespace GameCore
         }
     }
 
-    public class SimpleAnimation
+    public class SimpleAnimation : Animation
     {
         private readonly AnimationFrame[] Frames;
         private int CurrentFrame;
@@ -72,6 +74,59 @@ namespace GameCore
         public IEnumerable<Texture> GetTextures()
         {
             return Frames[CurrentFrame].Textures;
+        }
+
+        public void Restart()
+        {
+            CurrentFrame = 0;
+        }
+    }
+
+    public class AnimationTransition
+    {
+        public readonly Animation a1;
+        public readonly Animation a2;
+        public readonly Func<bool> Condition;
+
+        public AnimationTransition(Animation a1, Animation a2, Func<bool> Condition)
+        {
+            this.a1 = a1;
+            this.a2 = a2;
+            this.Condition = Condition;
+        }
+    }
+
+    public class Animator
+    {
+        private readonly AnimationTransition[] Transitions;
+        private Animation CurrentAnimation;
+
+        public Animator(params AnimationTransition[] Transitions)
+        {
+            this.Transitions = Transitions;
+            CurrentAnimation = Transitions[0].a1;
+        }
+
+        public void Update()
+        {
+            foreach (var item in Transitions)
+            {
+                if (item.a1 == CurrentAnimation)
+                {
+                    if (item.Condition())
+                    {
+                        if (item.a1 is SimpleAnimation)
+                            item.a1.As<SimpleAnimation>().Restart();
+                        CurrentAnimation = item.a2;
+                    }
+                }
+            }
+            CurrentAnimation.Update();
+        }
+
+        public IEnumerable<Texture> GetTextures()
+        {
+            return CurrentAnimation.GetTextures();
         }
     }
 }

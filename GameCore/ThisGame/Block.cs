@@ -43,11 +43,9 @@ namespace PaperWork
             return Texture;
         }
 
-        //public int TextureOffSetX { get => -World.SPACE_BETWEEN_THINGS; }
-        //public int TextureOffSetY { get => -World.SPACE_BETWEEN_THINGS; }
-        //public int TextureWidth { get => (int)(Width + World.SPACE_BETWEEN_THINGS); }
-        //public int TextureHeight { get => (int)(Height + World.SPACE_BETWEEN_THINGS); }
-        //public string TextureName { get => "block"; }
-        //public Color Color { get => Color.White; }
+        //todo:  remove update from animation?
+        public void Update()
+        {
+        }
     }
 }

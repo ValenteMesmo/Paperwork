@@ -36,7 +36,7 @@ namespace PaperWork
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
         public readonly InputRepository Inputs;
-        private readonly SimpleAnimation Animation;
+        private readonly Animator Animation;
 
         public bool FacingRight { get; set; }
 
@@ -57,16 +57,38 @@ namespace PaperWork
             Width = 70;
             Height = 110;
 
-            Animation = new SimpleAnimation(
+            var stand_right = new SimpleAnimation(
+                 new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
+
+            );
+
+            var stand_left = new SimpleAnimation(
+                new AnimationFrame(10, new Texture("Walk0001", -30, 10, 100, 100))
+            );
+
+            var walkAnimation_right = new SimpleAnimation(
+                 new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
+                , new AnimationFrame(10, new Texture("Walk0002", 0, 10, 100, 100) { Flipped = true })
+                , new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
+                , new AnimationFrame(10, new Texture("Walk0003", 0, 10, 100, 100) { Flipped = true })
+            );
+
+            var walkAnimation_left = new SimpleAnimation(
                 new AnimationFrame(10, new Texture("Walk0001", -30, 10, 100, 100))
                 , new AnimationFrame(10, new Texture("Walk0002", -30, 10, 100, 100))
                 , new AnimationFrame(10, new Texture("Walk0001", -30, 10, 100, 100))
                 , new AnimationFrame(10, new Texture("Walk0003", -30, 10, 100, 100))
+            );
 
-                , new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
-                , new AnimationFrame(10, new Texture("Walk0002", 0, 10, 100, 100) { Flipped = true })
-                , new AnimationFrame(10, new Texture("Walk0001", 0, 10, 100, 100) { Flipped = true })
-                , new AnimationFrame(10, new Texture("Walk0003", 0, 10, 100, 100) { Flipped = true })
+            Animation = new Animator(
+                new AnimationTransition(walkAnimation_left, walkAnimation_right, () => FacingRight)
+                , new AnimationTransition(walkAnimation_left, stand_left, () => HorizontalSpeed == 0)
+                , new AnimationTransition(walkAnimation_right, walkAnimation_left, () => FacingRight == false)
+                , new AnimationTransition(walkAnimation_right, stand_right, () => HorizontalSpeed == 0)
+                , new AnimationTransition(stand_right, walkAnimation_right, () => HorizontalSpeed > 0)
+                , new AnimationTransition(stand_right, walkAnimation_left, () => HorizontalSpeed < 0)
+                , new AnimationTransition(stand_left, walkAnimation_left, () => HorizontalSpeed < 0)
+                , new AnimationTransition(stand_left, walkAnimation_right, () => HorizontalSpeed > 0)
             );
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };
@@ -79,7 +101,7 @@ namespace PaperWork
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
 
-            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 150, 50, 50) { Parent = this };
+            GroundDetector = new Detector<IPlayerMovementBlocker>(10, 125, 50, 25) { Parent = this };
             world.Add(GroundDetector);
 
             HeadDetector = new Detector<Paper>(20, -40, 25, 25) { Parent = this };

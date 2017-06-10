@@ -33,6 +33,11 @@ namespace GameCore
             graphics.SynchronizeWithVerticalRetrace = false;
         }
 
+        ~BaseGame()
+        {
+            gameloop.Dispose();
+        }
+
         public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
 
         protected override void LoadContent()
@@ -63,8 +68,8 @@ namespace GameCore
 
         protected override void UnloadContent()
         {
-            gameloop.Dispose();
-            Content.Unload();
+            //gameloop.Dispose();
+            //Content.Unload();
         }
 
         protected override void Update(GameTime gameTime)
