@@ -81,14 +81,41 @@ namespace PaperWork
             );
 
             Animation = new Animator(
-                new AnimationTransition(walkAnimation_left, walkAnimation_right, () => FacingRight)
-                , new AnimationTransition(walkAnimation_left, stand_left, () => HorizontalSpeed == 0)
-                , new AnimationTransition(walkAnimation_right, walkAnimation_left, () => FacingRight == false)
-                , new AnimationTransition(walkAnimation_right, stand_right, () => HorizontalSpeed == 0)
-                , new AnimationTransition(stand_right, walkAnimation_right, () => HorizontalSpeed > 0)
-                , new AnimationTransition(stand_right, walkAnimation_left, () => HorizontalSpeed < 0)
-                , new AnimationTransition(stand_left, walkAnimation_left, () => HorizontalSpeed < 0)
-                , new AnimationTransition(stand_left, walkAnimation_right, () => HorizontalSpeed > 0)
+                new AnimationTransition(
+                    new[] {
+                        walkAnimation_left
+                        ,stand_left
+                        ,stand_right
+                    },
+                    walkAnimation_right,
+                    () => FacingRight && HorizontalSpeed > 0
+                )
+                , new AnimationTransition(
+                    new[] {
+                        walkAnimation_right
+                        ,stand_left
+                        ,stand_right
+                    },
+                    walkAnimation_left,
+                    () => FacingRight == false && HorizontalSpeed < 0
+                )
+                , new AnimationTransition(
+                    new[] {
+                        walkAnimation_left
+                        ,walkAnimation_right
+                        ,stand_right
+                    },
+                    stand_left,
+                    () => FacingRight == false && HorizontalSpeed == 0
+                )
+                , new AnimationTransition(
+                    new[] {
+                        walkAnimation_right
+                        ,walkAnimation_left
+                        ,stand_left
+                    },
+                    stand_right,
+                    () => FacingRight && HorizontalSpeed == 0)
             );
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };

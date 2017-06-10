@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCore
 {
@@ -84,14 +85,14 @@ namespace GameCore
 
     public class AnimationTransition
     {
-        public readonly Animation a1;
-        public readonly Animation a2;
+        public readonly Animation[] Sources;
+        public readonly Animation Target;
         public readonly Func<bool> Condition;
 
-        public AnimationTransition(Animation a1, Animation a2, Func<bool> Condition)
+        public AnimationTransition(Animation[] Sources, Animation Target, Func<bool> Condition)
         {
-            this.a1 = a1;
-            this.a2 = a2;
+            this.Sources = Sources;
+            this.Target = Target;
             this.Condition = Condition;
         }
     }
@@ -104,20 +105,21 @@ namespace GameCore
         public Animator(params AnimationTransition[] Transitions)
         {
             this.Transitions = Transitions;
-            CurrentAnimation = Transitions[0].a1;
+            CurrentAnimation = Transitions[0].Sources[0];
         }
 
         public void Update()
         {
             foreach (var item in Transitions)
             {
-                if (item.a1 == CurrentAnimation)
+                if (item.Sources.Contains( CurrentAnimation))
                 {
                     if (item.Condition())
                     {
-                        if (item.a1 is SimpleAnimation)
-                            item.a1.As<SimpleAnimation>().Restart();
-                        CurrentAnimation = item.a2;
+                        if (CurrentAnimation is SimpleAnimation)
+                            CurrentAnimation.As<SimpleAnimation>().Restart();
+
+                        CurrentAnimation = item.Target;
                     }
                 }
             }
