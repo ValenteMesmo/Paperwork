@@ -17,7 +17,7 @@ namespace PaperWork
         {
             if (Player.Grounded && Input.Up)
             {
-                Player.VerticalSpeed = -200;
+                Player.VerticalSpeed = -100;
             }
         }
     }
