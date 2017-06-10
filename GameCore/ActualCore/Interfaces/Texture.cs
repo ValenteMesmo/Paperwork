@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class TextureClass
+    public class Texture
     {
-        public TextureClass(string Name, int X, int Y, int Width, int Height)
+        public Texture(string Name, int X, int Y, int Width, int Height)
         {
             this.Color = Color.White;
             this.Name = Name;
@@ -25,30 +25,17 @@ namespace GameCore
         public int ZIndex { get; set; }
     }
 
-    //public interface Texture : DimensionalThing
-    //{
-    //    //should i move x,y,w and h to other interface? dimentionalthing?
-    //    int DrawableX { get; set; }
-    //    int DrawableY { get; set; }
-    //    int TextureOffSetX { get; }
-    //    int TextureOffSetY { get; }
-    //    int TextureWidth { get; }
-    //    int TextureHeight { get; }
-    //    string TextureName { get; }
-    //    Color Color { get; }
-    //}
-
     public interface Animation : DimensionalThing
     {
-        IEnumerable<TextureClass> GetTextures();
+        IEnumerable<Texture> GetTextures();
     }
 
     public class AnimationFrame
     {
-        public TextureClass[] Textures { get; set; }
+        public Texture[] Textures { get; set; }
         public int DurationInUpdatesCount { get; set; }
 
-        public AnimationFrame(int DurationInUpdatesCount, params TextureClass[] Textures)
+        public AnimationFrame(int DurationInUpdatesCount, params Texture[] Textures)
         {
             this.DurationInUpdatesCount = DurationInUpdatesCount;
             this.Textures = Textures;
@@ -82,7 +69,7 @@ namespace GameCore
             UpdatesUntilNextFrame = Frames[CurrentFrame].DurationInUpdatesCount;
         }
 
-        public IEnumerable<TextureClass> GetTextures()
+        public IEnumerable<Texture> GetTextures()
         {
             return Frames[CurrentFrame].Textures;
         }

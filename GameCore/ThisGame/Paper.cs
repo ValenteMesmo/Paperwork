@@ -89,9 +89,9 @@ namespace PaperWork
         }
 
         public Color Color { get { return Texture.Color; } set { Texture.Color = value; } }
-        private TextureClass Texture = new TextureClass("papers", 0, -SIZE, SIZE, SIZE * 2);
+        private Texture Texture = new Texture("papers", 0, -SIZE, SIZE, SIZE * 2);
 
-        public IEnumerable<TextureClass> GetTextures()
+        public IEnumerable<Texture> GetTextures()
         {
             yield return Texture;
         }

@@ -27,8 +27,8 @@ namespace PaperWork
         public bool Disabled { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
-        private IEnumerable<TextureClass> Texture = new TextureClass[]{
-        new TextureClass(
+        private IEnumerable<Texture> Texture = new Texture[]{
+        new Texture(
             "block"
             , -World.SPACE_BETWEEN_THINGS
             , -World.SPACE_BETWEEN_THINGS
@@ -38,7 +38,7 @@ namespace PaperWork
         };
 
 
-        public IEnumerable<TextureClass> GetTextures()
+        public IEnumerable<Texture> GetTextures()
         {
             return Texture;
         }
