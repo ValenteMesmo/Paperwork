@@ -4,7 +4,7 @@ namespace PaperWork
 {
     public class Game1 : BaseGame, IGame
     {
-        public Game1() : base("char", "char_left", "papers", "block")
+        public Game1() : base("char", "Walk0001", "Walk0002", "Walk0003", "char_left", "papers", "block")
         {
         }
 

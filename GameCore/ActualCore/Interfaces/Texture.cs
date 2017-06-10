@@ -5,12 +5,9 @@ namespace GameCore
 {
     public class TextureClass
     {
-        public TextureClass(string Name, int X, int Y, int Width, int Height, Color? color = null)
+        public TextureClass(string Name, int X, int Y, int Width, int Height)
         {
-            if (color == null)
-                color = Color.White;
-
-            this.Color = color.Value;
+            this.Color = Color.White;
             this.Name = Name;
             this.X = X;
             this.Y = Y;
@@ -24,6 +21,7 @@ namespace GameCore
         public int Height { get; }
         public string Name { get; }
         public Color Color { get; set; }
+        public bool Flipped { get; set; }
     }
 
     //public interface Texture : DimensionalThing
