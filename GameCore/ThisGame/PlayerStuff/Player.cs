@@ -58,12 +58,15 @@ namespace PaperWork
             Height = 110;
 
             Animation = new SimpleAnimation(
-                new AnimationFrame(10,
-                    new TextureClass("Walk0001", -30, 10, 100, 100)
-                )
+                new AnimationFrame(10, new TextureClass("Walk0001", -30, 10, 100, 100))
                 , new AnimationFrame(10, new TextureClass("Walk0002", -30, 10, 100, 100))
                 , new AnimationFrame(10, new TextureClass("Walk0001", -30, 10, 100, 100))
                 , new AnimationFrame(10, new TextureClass("Walk0003", -30, 10, 100, 100))
+
+                , new AnimationFrame(10, new TextureClass("Walk0001", 0, 10, 100, 100) { Flipped = true })
+                , new AnimationFrame(10, new TextureClass("Walk0002", 0, 10, 100, 100) { Flipped = true })
+                , new AnimationFrame(10, new TextureClass("Walk0001", 0, 10, 100, 100) { Flipped = true })
+                , new AnimationFrame(10, new TextureClass("Walk0003", 0, 10, 100, 100) { Flipped = true })
             );
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(100, -50, 25, 25) { Parent = this };

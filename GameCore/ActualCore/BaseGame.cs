@@ -109,13 +109,19 @@ namespace GameCore
                         foreach (var texture in textures)
                         {
                             spriteBatch.Draw(
-                                    Textures[texture.Name],
-                                    new Rectangle(
+                                    Textures[texture.Name]
+                                    , new Rectangle(
                                         dimensions.DrawableX + texture.X,
                                         dimensions.DrawableY + texture.Y,
                                         texture.Width,
-                                        texture.Height),
-                                    texture.Color);
+                                        texture.Height)
+                                    , null
+                                    , texture.Color
+                                    , 0
+                                    , Vector2.Zero
+                                    , texture.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                                    , texture.ZIndex
+                            );
                         }
                     }
 
