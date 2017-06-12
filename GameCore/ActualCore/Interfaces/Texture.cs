@@ -24,7 +24,7 @@ namespace GameCore
         public string Name { get; }
         public Color Color { get; set; }
         public bool Flipped { get; set; }
-        public int ZIndex { get; set; }
+        public float ZIndex { get; set; }
     }
 
     public interface Animation //: DimensionalThing

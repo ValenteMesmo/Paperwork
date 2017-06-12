@@ -24,9 +24,9 @@ namespace GameCore
             {
                 return Items.ToList();
             }
-            catch 
+            catch
             {
-                return Enumerable.Empty<Thing>() ;
+                return Enumerable.Empty<Thing>();
             }
         }
 

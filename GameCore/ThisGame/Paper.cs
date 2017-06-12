@@ -46,11 +46,11 @@ namespace PaperWork
         public void Update()
         {
             if (
-                X >= (1000 * 11) + 12
-                && (Y <= 3000 + World.SPACE_BETWEEN_THINGS)
+                X > ((1000 + World.SPACE_BETWEEN_THINGS) *11) + 100
+                && Y <= 3000 + World.SPACE_BETWEEN_THINGS
                 && VerticalSpeed == 0)
             {
-                HorizontalSpeed = -20;
+                HorizontalSpeed = -500 - World.SPACE_BETWEEN_THINGS;
             }
             else
             {

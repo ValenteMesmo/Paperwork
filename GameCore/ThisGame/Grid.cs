@@ -76,12 +76,12 @@ namespace PaperWork
                     if (other is Paper == false)
                         continue;
 
-                    var paper = other.As<Paper>();
-                    if (currentColor != paper.Color
-                        || previousY - paper.Y > paper.Height + World.SPACE_BETWEEN_THINGS
-                        || paper.X != previousX)
+                    var current = other.As<Paper>();
+                    if (currentColor != current.Color
+                        || previousY - current.Y > current.Height + World.SPACE_BETWEEN_THINGS
+                        || previousX - +World.SPACE_BETWEEN_THINGS > current.X && current.X < previousX + World.SPACE_BETWEEN_THINGS)
                     {
-                        currentColor = paper.Color;
+                        currentColor = current.Color;
                         if (combo.Count >= 3)
                         {
                             foreach (var comboItem in combo)
@@ -90,14 +90,14 @@ namespace PaperWork
                             }
                         }
                         combo.Clear();
-                        combo.Add(paper);
+                        combo.Add(current);
                     }
                     else
                     {
-                        combo.Add(paper);
+                        combo.Add(current);
                     }
-                    previousY = paper.Y;
-                    previousX = paper.X;
+                    previousY = current.Y;
+                    previousX = current.X;
                 }
 
                 if (combo.Count >= 3)
