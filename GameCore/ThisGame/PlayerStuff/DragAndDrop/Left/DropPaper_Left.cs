@@ -23,7 +23,7 @@ namespace PaperWork
                 Player.HorizontalSpeed = 0;
                 Player.GrabbedPaper.Disabled = false;
                 Player.GrabbedPaper.X = MathHelper.RoundUp(
-                    Player.Left() - Player.Width,
+                    Player.Left() - Player.GrabbedPaper.Width - World.SPACE_BETWEEN_THINGS,
                     Player.GrabbedPaper.Width + World.SPACE_BETWEEN_THINGS);
                 Player.GrabbedPaper = null;
 

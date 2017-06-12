@@ -18,7 +18,7 @@ namespace GameCore
 
         public BaseGame(params string[] TextureNames)
         {
-            
+
             _resolutionIndependence = new ResolutionIndependentRenderer(this);
             world = new World();
             this.TextureNames = TextureNames;
@@ -43,8 +43,8 @@ namespace GameCore
             _camera = new Camera2D(_resolutionIndependence);
             _camera.Zoom = 0.06f;
             _camera.Position = new Vector2(
-                _resolutionIndependence.VirtualWidth *5.15f, 
-                _resolutionIndependence.VirtualHeight*7f);
+                _resolutionIndependence.VirtualWidth * 5.15f,
+                _resolutionIndependence.VirtualHeight * 7f);
             //Camera = new Camera2d();
             //Camera.Pos = new Vector2(7000f, 4380f);
             //Camera.Zoom = 0.06f;
@@ -112,12 +112,12 @@ namespace GameCore
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(
-                SpriteSortMode.Deferred, 
-                BlendState.AlphaBlend, 
-                SamplerState.LinearWrap, 
-                DepthStencilState.None, 
-                RasterizerState.CullNone, 
-                null, 
+                SpriteSortMode.Deferred,
+                BlendState.AlphaBlend,
+                SamplerState.LinearWrap,
+                DepthStencilState.None,
+                RasterizerState.CullNone,
+                null,
                 _camera.GetViewTransformationMatrix());
 
             var entiies = world.GetColliders();
@@ -152,14 +152,14 @@ namespace GameCore
                         }
                     }
 
-                    //DrawBorder(
-                    //        new Rectangle(
-                    //            dimensions.X,
-                    //            dimensions.Y,
-                    //            dimensions.Width,
-                    //            dimensions.Height),
-                    //        20,
-                    //        Color.Red);
+                    DrawBorder(
+                            new Rectangle(
+                                dimensions.X,
+                                dimensions.Y,
+                                dimensions.Width,
+                                dimensions.Height),
+                            20,
+                            Color.Red);
                 }
             }
 
