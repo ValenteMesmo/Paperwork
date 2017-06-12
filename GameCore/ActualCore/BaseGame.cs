@@ -44,7 +44,7 @@ namespace GameCore
             _camera.Zoom = 0.06f;
             _camera.Position = new Vector2(
                 _resolutionIndependence.VirtualWidth *5.15f, 
-                _resolutionIndependence.VirtualHeight*5);
+                _resolutionIndependence.VirtualHeight*7f);
             //Camera = new Camera2d();
             //Camera.Pos = new Vector2(7000f, 4380f);
             //Camera.Zoom = 0.06f;
