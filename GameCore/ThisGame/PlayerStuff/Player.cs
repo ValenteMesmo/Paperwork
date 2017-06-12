@@ -55,31 +55,30 @@ namespace PaperWork
             var head_left = new Texture("Head", -300, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
 
             var stand_right = new SimpleAnimation(
-                 new AnimationFrame(10, 
+                 new AnimationFrame(10,
                  new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }
                  , head_right)
 
             );
 
             var stand_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) {  ZIndex = 1 }
+                new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }
                 , head_left)
             );
 
             var walkAnimation_right = new SimpleAnimation(
-                 new AnimationFrame(100,
-                 new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }
-                 , head_right)
+                 new AnimationFrame(10,
+                 new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
                 , new AnimationFrame(10, new Texture("Walk0002", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
                 , new AnimationFrame(10, new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
                 , new AnimationFrame(10, new Texture("Walk0003", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
             );
 
             var walkAnimation_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth)  {   ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0002", -300, 100, walkingWidth, walkingWidth){   ZIndex = 1}, head_left)
-                , new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth){   ZIndex = 1}, head_left)
-                , new AnimationFrame(10, new Texture("Walk0003", -300, 100, walkingWidth, walkingWidth) {  ZIndex = 1}, head_left)
+                new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                , new AnimationFrame(10, new Texture("Walk0002", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                , new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                , new AnimationFrame(10, new Texture("Walk0003", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
             );
 
             Animation = new Animator(
