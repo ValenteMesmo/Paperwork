@@ -49,11 +49,16 @@
     <Compile Include="ActualCore\Extensions\IListExtensions.cs" />
     <Compile Include="ActualCore\GameLoop.cs" />
     <Compile Include="ActualCore\GameRunner.cs" />
+    <Compile Include="ActualCore\Interfaces\Animation.cs" />
+    <Compile Include="ActualCore\Interfaces\AnimationFrame.cs" />
+    <Compile Include="ActualCore\Interfaces\AnimationTransition.cs" />
+    <Compile Include="ActualCore\Interfaces\Animator.cs" />
     <Compile Include="ActualCore\Interfaces\IBeforeCollisionHandler.cs" />
     <Compile Include="ActualCore\Interfaces\ICollider.cs" />
     <Compile Include="ActualCore\Extensions\IColliderExtensions.cs" />
     <Compile Include="ActualCore\Interfaces\ICollisionHandler.cs" />
     <Compile Include="ActualCore\InputRepository.cs" />
+    <Compile Include="ActualCore\Interfaces\SimpleAnimation.cs" />
     <Compile Include="ActualCore\Interfaces\Texture.cs" />
     <Compile Include="ActualCore\Interfaces\IUpdateHandler.cs" />
     <Compile Include="ActualCore\Extensions\ObjectExtension.cs" />

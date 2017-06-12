@@ -39,6 +39,7 @@ namespace PaperWork
         private readonly Animator Animation;
 
         public bool FacingRight { get; set; }
+        public bool AnimationFacingRight { get; set; }
 
         public Player(
             InputRepository Inputs,
@@ -54,28 +55,27 @@ namespace PaperWork
             var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0, Flipped = true };
             var head_left = new Texture("Head", -300, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
 
-            var stand_right = new SimpleAnimation(
+            SimpleAnimation stand_right = new SimpleAnimation(
                  new AnimationFrame(10,
                  new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }
                  , head_right)
 
             );
 
-            var stand_left = new SimpleAnimation(
+            SimpleAnimation stand_left = new SimpleAnimation(
                 new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }
                 , head_left)
             );
 
-            var walkAnimation_right = new SimpleAnimation(
-                 new AnimationFrame(10,
-                 new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
+            SimpleAnimation walkAnimation_right = new SimpleAnimation(
+                  new AnimationFrame(10, new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
                 , new AnimationFrame(10, new Texture("Walk0002", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
                 , new AnimationFrame(10, new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
                 , new AnimationFrame(10, new Texture("Walk0003", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
             );
 
-            var walkAnimation_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+            SimpleAnimation walkAnimation_left = new SimpleAnimation(
+                 new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
                 , new AnimationFrame(10, new Texture("Walk0002", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
                 , new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
                 , new AnimationFrame(10, new Texture("Walk0003", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
@@ -90,6 +90,7 @@ namespace PaperWork
                     },
                     walkAnimation_right,
                     () => FacingRight && HorizontalSpeed > 0
+                    , () => AnimationFacingRight = true
                 )
                 , new AnimationTransition(
                     new[] {
@@ -99,6 +100,7 @@ namespace PaperWork
                     },
                     walkAnimation_left,
                     () => FacingRight == false && HorizontalSpeed < 0
+                    , () => AnimationFacingRight = false
                 )
                 , new AnimationTransition(
                     new[] {
@@ -108,15 +110,18 @@ namespace PaperWork
                     },
                     stand_left,
                     () => FacingRight == false && HorizontalSpeed == 0
+                    , () => AnimationFacingRight = false
                 )
                 , new AnimationTransition(
                     new[] {
                         walkAnimation_right
                         ,walkAnimation_left
                         ,stand_left
-                    },
-                    stand_right,
-                    () => FacingRight && HorizontalSpeed == 0)
+                    }
+                    , stand_right
+                    , () => FacingRight && HorizontalSpeed == 0
+                    , () => AnimationFacingRight = true
+                )
             );
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1000, -500, 100, 100) { Parent = this };
@@ -172,8 +177,12 @@ namespace PaperWork
 
             if (GrabbedPaper != null)
             {
-                GrabbedPaper.X = X;
-                GrabbedPaper.Y = Y;
+                if (AnimationFacingRight)
+                    GrabbedPaper.X = X;
+                else
+                    GrabbedPaper.X = X - Width / 2;
+
+                GrabbedPaper.Y = Y - GrabbedPaper.Height + World.SPACE_BETWEEN_THINGS;
             }
 
 
