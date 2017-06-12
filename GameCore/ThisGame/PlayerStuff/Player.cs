@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
+    //TODO: brilho dos olhos tem que ficar do mesmo lado!
     //TODO: prevent player from special drop down when near the roof
     public class Player :
         Collider
