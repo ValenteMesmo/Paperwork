@@ -18,10 +18,8 @@ namespace GameCore
 
         public BaseGame(params string[] TextureNames)
         {
-            Camera = new Camera2d();
-            Camera.Pos = new Vector2(7000f, 4380f);
-            Camera.Zoom = 0.06f;
-
+            
+            _resolutionIndependence = new ResolutionIndependentRenderer(this);
             world = new World();
             this.TextureNames = TextureNames;
             PlayerInputs = new InputRepository();
@@ -42,6 +40,17 @@ namespace GameCore
 
         protected override void LoadContent()
         {
+            _camera = new Camera2D(_resolutionIndependence);
+            _camera.Zoom = 0.06f;
+            _camera.Position = new Vector2(
+                _resolutionIndependence.VirtualWidth *5.15f, 
+                _resolutionIndependence.VirtualHeight*5);
+            //Camera = new Camera2d();
+            //Camera.Pos = new Vector2(7000f, 4380f);
+            //Camera.Zoom = 0.06f;
+            InitializeResolutionIndependence(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Textures = new Dictionary<string, Texture2D>();
 
@@ -57,6 +66,17 @@ namespace GameCore
             //spriteFont = Content.Load<SpriteFont>("File");
 
             StartGame();
+        }
+
+        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+        {
+            _resolutionIndependence.VirtualWidth = 1366;
+            _resolutionIndependence.VirtualHeight = 768;
+            _resolutionIndependence.ScreenWidth = realScreenWidth;
+            _resolutionIndependence.ScreenHeight = realScreenHeight;
+            _resolutionIndependence.Initialize();
+
+            _camera.RecalculateTransformationMatrices();
         }
 
         private void StartGame()
@@ -85,18 +105,20 @@ namespace GameCore
 
         //SpriteFont spriteFont;
         private GameRunner gameloop;
-        private Camera2d Camera;
+        private readonly ResolutionIndependentRenderer _resolutionIndependence;
+        private Camera2D _camera;
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
-                        BlendState.AlphaBlend,
-                        null,
-                        null,
-                        null,
-                        null,
-                        Camera.get_transformation(GraphicsDevice /*Send the variable that has your graphic device here*/));
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred, 
+                BlendState.AlphaBlend, 
+                SamplerState.LinearWrap, 
+                DepthStencilState.None, 
+                RasterizerState.CullNone, 
+                null, 
+                _camera.GetViewTransformationMatrix());
 
             var entiies = world.GetColliders();
             foreach (var item in entiies)
@@ -130,14 +152,14 @@ namespace GameCore
                         }
                     }
 
-                    DrawBorder(
-                            new Rectangle(
-                                dimensions.X,
-                                dimensions.Y,
-                                dimensions.Width,
-                                dimensions.Height),
-                            20,
-                            Color.Red);
+                    //DrawBorder(
+                    //        new Rectangle(
+                    //            dimensions.X,
+                    //            dimensions.Y,
+                    //            dimensions.Width,
+                    //            dimensions.Height),
+                    //        20,
+                    //        Color.Red);
                 }
             }
 

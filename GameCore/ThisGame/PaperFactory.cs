@@ -36,8 +36,8 @@ namespace PaperWork
                 return;
             }
 
-            var x = (1000 * 12) + 12 * World.SPACE_BETWEEN_THINGS;
- 
+            var x = (1000 * 13) + 12 * World.SPACE_BETWEEN_THINGS;
+
             var y = 2000 + World.SPACE_BETWEEN_THINGS;
             var paper = new Paper()
             {
@@ -47,12 +47,33 @@ namespace PaperWork
                 DrawableY = y
             };
 
-            var colors = Colors.Where(f=> PreviousColor != f).ToArray();
-            paper.Color = colors[Random.Next(0, colors.Length)];
+            Color newcolor = GetNewColor();
+            paper.Color = newcolor;
             PreviousColor = paper.Color;
             AddToWorld(paper);
             cooldownCount = 70;
-            
+
+        }
+
+        Color[] fakeColors = new Color[] { Color.Blue, Color.Red, Color.Red, Color.Green, Color.Blue };
+        int fakeColorIndex = -1;
+        private Color GetNewColor()
+        {
+            var usingFakeColorList = false;
+            if (usingFakeColorList)
+            {
+                fakeColorIndex++;
+
+                if (fakeColorIndex >= fakeColors.Length)
+                    fakeColorIndex = 0;
+                return fakeColors[fakeColorIndex];
+            }
+            else
+            {
+                var colors = Colors.Where(f => PreviousColor != f).ToArray();
+                var newcolor = colors[Random.Next(0, colors.Length)];
+                return newcolor;
+            }
         }
     }
 }

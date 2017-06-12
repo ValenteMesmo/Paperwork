@@ -5,7 +5,7 @@ namespace GameCore
 {
     public class World
     {
-        public const int SPACE_BETWEEN_THINGS = 1;
+        public const int SPACE_BETWEEN_THINGS = 4;
         private List<Thing> Items = new List<Thing>();
 
         public void Add(Thing thing)

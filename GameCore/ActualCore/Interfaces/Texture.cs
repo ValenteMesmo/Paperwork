@@ -9,6 +9,7 @@ namespace GameCore
     {
         public Texture(string Name, int X, int Y, int Width, int Height)
         {
+            ZIndex = 1;
             this.Color = Color.White;
             this.Name = Name;
             this.X = X;
