@@ -1,6 +1,8 @@
 ﻿namespace GameCore
 {
-    public interface Thing { }
+    public interface Thing
+    {        
+    }
 
     public interface DimensionalThing : Thing
     {

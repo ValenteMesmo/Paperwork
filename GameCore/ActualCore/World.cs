@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using PaperWork;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +16,14 @@ namespace GameCore
         public World(Camera2d Camera2d)
         {
             this.Camera2d = Camera2d;
+            var btnWidth = 2000;
+            var btnHeight = 1000;
+            Add(new TouchButton(300, 6100, btnWidth * 2, btnHeight - 200));
+
+            Add(new TouchButton(300, 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f)));
+            Add(new TouchButton(300 + (int)(btnHeight * 1.5f) + btnHeight , 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f)));
+
+            Add(new TouchButton(300, 6100 + 200 + btnHeight * 2, btnWidth * 2, btnHeight - 200));
         }
 
         public void Add(Thing thing)
@@ -42,11 +48,34 @@ namespace GameCore
             }
         }
 
+        private List<Touchable> PreviouslyTouched = new List<Touchable>();
+        private List<Touchable> CurrentlyTouched = new List<Touchable>();
+
         public void Update()
         {
-            UpdateInputs();
+            var state = Keyboard.GetState();
+            //if (state.IsKeyDown(Keys.Escape))
+            //    Exit();
+
+            PlayerInputs.Update(state);
+
+            TouchCollection touchCollection = TouchPanel.GetState();
+            var touches = new List<Vector2>();
+            foreach (TouchLocation tl in touchCollection)
+            {
+                if ((tl.State == TouchLocationState.Pressed)
+                    || (tl.State == TouchLocationState.Moved))
+                {
+                    touches.Add(
+                        Camera2d.ToWorldLocation(tl.Position));
+                }
+            }
 
             var currentItems = Items.ToList();
+
+            PreviouslyTouched.Clear();
+            PreviouslyTouched.AddRange(CurrentlyTouched);
+            CurrentlyTouched.Clear();
 
             foreach (var item in currentItems)
             {
@@ -55,6 +84,9 @@ namespace GameCore
                     var dimensions = item as DimensionalThing;
                     dimensions.DrawableX = dimensions.X;
                     dimensions.DrawableY = dimensions.Y;
+
+                    if (item is Touchable)
+                        HandleTouchable(touches, dimensions);
                 }
 
                 if (item is IUpdateHandler)
@@ -92,24 +124,37 @@ namespace GameCore
                     .HandleVerticalCollision);
         }
 
-        private void UpdateInputs()
+        private void HandleTouchable(List<Vector2> touches, DimensionalThing item)
         {
-            var state = Keyboard.GetState();
-            //if (state.IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            PlayerInputs.Update(state);
-            
-            TouchCollection touchCollection = TouchPanel.GetState();
-
-            foreach (TouchLocation tl in touchCollection)
+            var touchable = item.As<Touchable>();
+            foreach (var touch in touches)
             {
-                if ((tl.State == TouchLocationState.Pressed)
-                        || (tl.State == TouchLocationState.Moved))
+                if (item.Left() <= touch.X
+                    && item.Right() >= touch.X
+                    && item.Top() <= touch.Y
+                    && item.Bottom() >= touch.Y)
                 {
-                    var asdasd = Camera2d.ToWorldLocation(tl.Position);
-                    Add(new Paper() {X= (int)asdasd.X,Y=(int)asdasd.Y });
+                    if (CurrentlyTouched.Contains(touchable) == false)
+                    {
+                        CurrentlyTouched.Add(touchable);
+                    }
                 }
+            }
+
+            if (PreviouslyTouched.Contains(touchable) == false
+                && CurrentlyTouched.Contains(touchable) == true)
+            {
+                touchable.TouchBegin();
+            }
+            else if (PreviouslyTouched.Contains(touchable) == true
+                && CurrentlyTouched.Contains(touchable) == true)
+            {
+                touchable.TouchContinue();
+            }
+            else if (PreviouslyTouched.Contains(touchable) == true
+                && CurrentlyTouched.Contains(touchable) == false)
+            {
+                touchable.TouchEnded();
             }
         }
 

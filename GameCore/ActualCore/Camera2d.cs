@@ -54,12 +54,12 @@ namespace GameCore
             var widthDiff = graphicsDevice.Viewport.Width / VirtualWidth;
             var HeightDiff = graphicsDevice.Viewport.Height / VirtualHeight;
 
-            _transform =      
+            _transform =
               Matrix.CreateTranslation(new Vector3(-_pos.X, -_pos.Y, 0)) *
                                          Matrix.CreateRotationZ(_rotation) *
-                                         Matrix.CreateScale(new Vector3(Zoom* widthDiff, Zoom* HeightDiff, 1)) *
+                                         Matrix.CreateScale(new Vector3(Zoom * widthDiff, Zoom * HeightDiff, 1)) *
                                          Matrix.CreateTranslation(new Vector3(
-                                             graphicsDevice.Viewport.Width * 0.5f, 
+                                             graphicsDevice.Viewport.Width * 0.5f,
                                              graphicsDevice.Viewport.Height * 0.5f, 0));
             return _transform;
         }
