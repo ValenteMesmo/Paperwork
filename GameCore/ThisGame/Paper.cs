@@ -50,7 +50,7 @@ namespace PaperWork
                 && Y <= 3000 + World.SPACE_BETWEEN_THINGS
                 && VerticalSpeed == 0)
             {
-                HorizontalSpeed = -500 - World.SPACE_BETWEEN_THINGS;
+                HorizontalSpeed = -250 ;
             }
             else
             {

@@ -13,7 +13,7 @@ namespace GameCore
         private string[] TextureNames;
         private Texture2D pixel;
 
-        protected InputRepository PlayerInputs;
+        //protected InputRepository PlayerInputs;
         protected World world;
 
         public BaseGame(params string[] TextureNames)
@@ -22,7 +22,6 @@ namespace GameCore
             _resolutionIndependence = new ResolutionIndependentRenderer(this);
             world = new World();
             this.TextureNames = TextureNames;
-            PlayerInputs = new InputRepository();
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -94,11 +93,7 @@ namespace GameCore
 
         protected override void Update(GameTime gameTime)
         {
-            var state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.Escape))
-                Exit();
-
-            PlayerInputs.Update(state);
+            
 
             base.Update(gameTime);
         }

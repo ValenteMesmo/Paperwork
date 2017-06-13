@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameCore
@@ -7,6 +8,7 @@ namespace GameCore
     {
         public const int SPACE_BETWEEN_THINGS = 4;
         private List<Thing> Items = new List<Thing>();
+        public readonly InputRepository PlayerInputs = new InputRepository();
 
         public void Add(Thing thing)
         {
@@ -32,6 +34,12 @@ namespace GameCore
 
         public void Update()
         {
+            var state = Keyboard.GetState();
+            //if (state.IsKeyDown(Keys.Escape))
+            //    Exit();
+
+            PlayerInputs.Update(state);
+
             var currentItems = Items.ToList();
 
             foreach (var item in currentItems)
