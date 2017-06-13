@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 
 namespace GameCore
@@ -12,44 +12,47 @@ namespace GameCore
         private Dictionary<string, Texture2D> Textures;
         private string[] TextureNames;
         private Texture2D pixel;
-
-        //protected InputRepository PlayerInputs;
         protected World world;
+        private GameRunner gameloop;
+        private readonly Camera2d cam;
+
+        public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
 
         public BaseGame(params string[] TextureNames)
         {
-
-            _resolutionIndependence = new ResolutionIndependentRenderer(this);
-            world = new World();
             this.TextureNames = TextureNames;
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
-            //graphics.IsFullScreen = true;
             graphics.SynchronizeWithVerticalRetrace = false;
+            //graphics.IsFullScreen = true;
+
+            cam = new Camera2d();
+            cam.Pos = new Vector2(7000f, 5300f);
+            cam.Zoom = 0.1f;
+
+
+            world = new World(cam);
         }
 
-        ~BaseGame()
+        protected override void Initialize()
         {
-            gameloop.Dispose();
+            base.Initialize();
         }
 
-        public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                gameloop.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+        
         protected override void LoadContent()
         {
-            _camera = new Camera2D(_resolutionIndependence);
-            _camera.Zoom = 0.06f;
-            _camera.Position = new Vector2(
-                _resolutionIndependence.VirtualWidth * 5.15f,
-                _resolutionIndependence.VirtualHeight * 7f);
-            //Camera = new Camera2d();
-            //Camera.Pos = new Vector2(7000f, 4380f);
-            //Camera.Zoom = 0.06f;
-            InitializeResolutionIndependence(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-
-
+            
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Textures = new Dictionary<string, Texture2D>();
 
@@ -61,21 +64,7 @@ namespace GameCore
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
 
-
-            //spriteFont = Content.Load<SpriteFont>("File");
-
             StartGame();
-        }
-
-        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
-        {
-            _resolutionIndependence.VirtualWidth = 1366;
-            _resolutionIndependence.VirtualHeight = 768;
-            _resolutionIndependence.ScreenWidth = realScreenWidth;
-            _resolutionIndependence.ScreenHeight = realScreenHeight;
-            _resolutionIndependence.Initialize();
-
-            _camera.RecalculateTransformationMatrices();
         }
 
         private void StartGame()
@@ -85,35 +74,16 @@ namespace GameCore
             gameloop.Start();
         }
 
-        protected override void UnloadContent()
-        {
-            //gameloop.Dispose();
-            //Content.Unload();
-        }
-
-        protected override void Update(GameTime gameTime)
-        {
-            
-
-            base.Update(gameTime);
-        }
-
-        //SpriteFont spriteFont;
-        private GameRunner gameloop;
-        private readonly ResolutionIndependentRenderer _resolutionIndependence;
-        private Camera2D _camera;
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(
-                SpriteSortMode.Deferred,
-                BlendState.AlphaBlend,
-                SamplerState.LinearWrap,
-                DepthStencilState.None,
-                RasterizerState.CullNone,
-                null,
-                _camera.GetViewTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                       BlendState.AlphaBlend,
+                       null,
+                       null,
+                       null,
+                       null,
+                       cam.get_transformation(GraphicsDevice));
 
             var entiies = world.GetColliders();
             foreach (var item in entiies)
@@ -176,7 +146,7 @@ namespace GameCore
         public void Restart()
         {
             world.Clear();
-            world = new World();
+            world = new World(cam);
             gameloop.Dispose();
             StartGame();
         }
