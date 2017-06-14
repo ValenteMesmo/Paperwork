@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace GameCore
 {
@@ -17,17 +16,24 @@ namespace GameCore
         public World(Camera2d Camera2d)
         {
             this.Camera2d = Camera2d;
-            var btnWidth = 2000;
+            var btnWidth = 1500;
             var btnHeight = 1000;
-            Add(new TouchButton(300, 6100, btnWidth * 2, btnHeight, f => PlayerInputs.Up = f));
+            var space = 1;
 
-            Add(new TouchButton(300, 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f), f => PlayerInputs.Left = f));
-            Add(new TouchButton(300 + (int)(btnHeight * 1.5f) + btnHeight, 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f), f => PlayerInputs.Right = f));
+            Add(new TouchButton(300, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
+            Add(new TouchButton(300 + btnWidth , 6100, btnWidth- space, btnHeight- space, f => PlayerInputs.Up = f));
+            Add(new TouchButton(300 + btnWidth*2, 6100, btnWidth - space, btnHeight- space, f => PlayerInputs.Up = PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100 + btnHeight * 2, btnWidth * 2, btnHeight, f => PlayerInputs.Down = f));
+            Add(new TouchButton(300, 6100 + btnHeight, btnWidth + btnWidth/2 - space, btnHeight - space, f => PlayerInputs.Left = f));
+            Add(new TouchButton(300+ btnWidth + btnWidth/2, 6100 + btnHeight, btnWidth + btnWidth/2 - space, btnHeight - space, f => PlayerInputs.Right = f));
 
-            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2, (int)(btnHeight * 1.5f), f => PlayerInputs.Action1= f));
-            Add(new TouchButton(9700, (int)(4100 + btnHeight * 3.5f), btnWidth * 2, (int)(btnHeight * 1.5f), f => PlayerInputs.Up = f));
+            Add(new TouchButton(300, 6100+ btnHeight*2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Left = f));
+            Add(new TouchButton(300 + btnWidth, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = f));
+            Add(new TouchButton(300 + btnWidth * 2, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Right = f));
+
+            btnWidth = 1000;
+            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3f) - space, f => PlayerInputs.Action1= f));
+            Add(new TouchButton(9700 + btnWidth * 2 , 4100 + btnHeight * 2 , btnWidth * 2 - space, (int)(btnHeight * 3.0f) - space, f => PlayerInputs.Up = f));
         }
 
         public void Add(Thing thing)

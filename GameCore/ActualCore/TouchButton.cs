@@ -27,7 +27,7 @@ namespace GameCore
             this.Width = Width;
             this.Height = Height;
             this.SetValue = SetValue;
-            Texture = new Texture("block", 0, 0, Width, Height) { Color = Color.BlueViolet, ZIndex=0 };
+            Texture = new Texture("block", 0, 0, Width, Height) { Color = new Color(0,0,0,0.2f), ZIndex=0 };
         }
 
         public IEnumerable<Texture> GetTextures()
@@ -37,7 +37,7 @@ namespace GameCore
 
         public void TouchBegin()
         {
-            AndroidStuff.Vibrate( new long[] { 0, 20 });
+            AndroidStuff.Vibrate( new long[] { 0, 15 });
             SetValue(true);
         }
 
@@ -48,7 +48,8 @@ namespace GameCore
 
         public void TouchEnded()
         {
-            AndroidStuff.Vibrate(new long[] { 0, 10, 20, 10 });
+            //todo: prevent player and paper from reaching known limits( stage borders)
+            AndroidStuff.Vibrate(new long[] { 0, 20 });
             SetValue(false);
         }
 

@@ -26,6 +26,8 @@ namespace GameCore
             Content.RootDirectory = "Content";
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
+            //TODO: fullscreen on alt+enter
+            //TODO: close when esc pressed
             //graphics.IsFullScreen = true;
 
             cam = new Camera2d();
@@ -117,14 +119,14 @@ namespace GameCore
                         }
                     }
 
-                    DrawBorder(
-                            new Rectangle(
-                                dimensions.X,
-                                dimensions.Y,
-                                dimensions.Width,
-                                dimensions.Height),
-                            20,
-                            Color.Red);
+                    //DrawBorder(
+                    //        new Rectangle(
+                    //            dimensions.X,
+                    //            dimensions.Y,
+                    //            dimensions.Width,
+                    //            dimensions.Height),
+                    //        20,
+                    //        Color.Red);
                 }
             }
 
