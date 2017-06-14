@@ -4,11 +4,11 @@ namespace GameCore
 {
     public class InputRepository
     {
-        public bool Left { get; private set; }
-        public bool Right { get; private set; }
-        public bool Up { get; private set; }
-        public bool Down { get; private set; }
-        public bool Action1 { get; private set; }
+        public bool Left { get;  set; }
+        public bool Right { get; set; }
+        public bool Up { get; set; }
+        public bool Down { get; set; }
+        public bool Action1 { get; set; }
 
         internal void Update(KeyboardState state)
         {

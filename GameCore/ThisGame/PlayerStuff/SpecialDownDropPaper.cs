@@ -1,5 +1,4 @@
 ﻿using GameCore;
-using System.Linq;
 
 namespace PaperWork
 {
@@ -19,6 +18,9 @@ namespace PaperWork
                 && Player.Inputs.Down
                 && Player.TimeUntilDragDropEnable == 0)
             {
+                Player.HorizontalSpeed = 0;
+                Player.VerticalSpeed = 0;
+
                 Player.GrabbedPaper.Disabled = false;
                 Player.GrabbedPaper.X = MathHelper.RoundUp(
                     Player.X,

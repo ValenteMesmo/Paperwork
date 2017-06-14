@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
+    //TODO: brilho dos olhos tem que ficar do mesmo lado!
+    //TODO: prevent player from special drop down when near the roof
     public class Player :
         Collider
         , ICollisionHandler
@@ -29,7 +31,6 @@ namespace PaperWork
         public Detector<IPlayerMovementBlocker> Left_ChestPaperDetetor { get; }
         public Detector<IPlayerMovementBlocker> Left_FeetPaperDetector { get; }
         public Detector<IPlayerMovementBlocker> GroundDetector { get; }
-        //public Detector<Paper> HeadDetector { get; }
 
         public const int DRAG_AND_DROP_COOLDOWN = 30;
 

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameCore
@@ -7,6 +10,31 @@ namespace GameCore
     {
         public const int SPACE_BETWEEN_THINGS = 4;
         private List<Thing> Items = new List<Thing>();
+        public readonly InputRepository PlayerInputs = new InputRepository();
+        private readonly Camera2d Camera2d;
+
+        public World(Camera2d Camera2d)
+        {
+            this.Camera2d = Camera2d;
+            var btnWidth = 1500;
+            var btnHeight = 1000;
+            var space = 1;
+
+            Add(new TouchButton(300, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
+            Add(new TouchButton(300 + btnWidth , 6100, btnWidth- space, btnHeight- space, f => PlayerInputs.Up = f));
+            Add(new TouchButton(300 + btnWidth*2, 6100, btnWidth - space, btnHeight- space, f => PlayerInputs.Up = PlayerInputs.Right = f));
+
+            Add(new TouchButton(300, 6100 + btnHeight, btnWidth + btnWidth/2 - space, btnHeight - space, f => PlayerInputs.Left = f));
+            Add(new TouchButton(300+ btnWidth + btnWidth/2, 6100 + btnHeight, btnWidth + btnWidth/2 - space, btnHeight - space, f => PlayerInputs.Right = f));
+
+            Add(new TouchButton(300, 6100+ btnHeight*2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Left = f));
+            Add(new TouchButton(300 + btnWidth, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = f));
+            Add(new TouchButton(300 + btnWidth * 2, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Right = f));
+
+            btnWidth = 1000;
+            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3f) - space, f => PlayerInputs.Action1= f));
+            Add(new TouchButton(9700 + btnWidth * 2 , 4100 + btnHeight * 2 , btnWidth * 2 - space, (int)(btnHeight * 3.0f) - space, f => PlayerInputs.Up = f));
+        }
 
         public void Add(Thing thing)
         {
@@ -30,9 +58,34 @@ namespace GameCore
             }
         }
 
+        private List<Touchable> PreviouslyTouched = new List<Touchable>();
+        private List<Touchable> CurrentlyTouched = new List<Touchable>();
+
         public void Update()
         {
+            var state = Keyboard.GetState();
+            //if (state.IsKeyDown(Keys.Escape))
+            //    Exit();
+
+            PlayerInputs.Update(state);
+
+            TouchCollection touchCollection = TouchPanel.GetState();
+            var touches = new List<Vector2>();
+            foreach (TouchLocation tl in touchCollection)
+            {
+                if ((tl.State == TouchLocationState.Pressed)
+                    || (tl.State == TouchLocationState.Moved))
+                {
+                    touches.Add(
+                        Camera2d.ToWorldLocation(tl.Position));
+                }
+            }
+
             var currentItems = Items.ToList();
+
+            PreviouslyTouched.Clear();
+            PreviouslyTouched.AddRange(CurrentlyTouched);
+            CurrentlyTouched.Clear();
 
             foreach (var item in currentItems)
             {
@@ -41,6 +94,9 @@ namespace GameCore
                     var dimensions = item as DimensionalThing;
                     dimensions.DrawableX = dimensions.X;
                     dimensions.DrawableY = dimensions.Y;
+
+                    if (item is Touchable)
+                        HandleTouchable(touches, dimensions);
                 }
 
                 if (item is IUpdateHandler)
@@ -76,6 +132,40 @@ namespace GameCore
             colliders.ForEachCombination(
                 IColliderExtensions
                     .HandleVerticalCollision);
+        }
+
+        private void HandleTouchable(List<Vector2> touches, DimensionalThing item)
+        {
+            var touchable = item.As<Touchable>();
+            foreach (var touch in touches)
+            {
+                if (item.Left() <= touch.X
+                    && item.Right() >= touch.X
+                    && item.Top() <= touch.Y
+                    && item.Bottom() >= touch.Y)
+                {
+                    if (CurrentlyTouched.Contains(touchable) == false)
+                    {
+                        CurrentlyTouched.Add(touchable);
+                    }
+                }
+            }
+
+            if (PreviouslyTouched.Contains(touchable) == false
+                && CurrentlyTouched.Contains(touchable) == true)
+            {
+                touchable.TouchBegin();
+            }
+            else if (PreviouslyTouched.Contains(touchable) == true
+                && CurrentlyTouched.Contains(touchable) == true)
+            {
+                touchable.TouchContinue();
+            }
+            else if (PreviouslyTouched.Contains(touchable) == true
+                && CurrentlyTouched.Contains(touchable) == false)
+            {
+                touchable.TouchEnded();
+            }
         }
 
         public void Clear()

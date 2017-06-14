@@ -13,7 +13,7 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var player = new Player(PlayerInputs, world, this)
+            var player = new Player(world.PlayerInputs, world, this)
             {
                 X = 2000,
                 Y = 2000
@@ -59,6 +59,8 @@ namespace PaperWork
 
             for (int i = 1; i < colNumber; i++)
             {
+                if (i == 2)
+                    continue;
                 world.Add(new Block
                 {
                     X = cellsize * rowNumber,

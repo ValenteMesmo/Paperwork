@@ -51,9 +51,12 @@ namespace PaperWork
             paper.Color = newcolor;
             PreviousColor = paper.Color;
             AddToWorld(paper);
-            cooldownCount = 70;
-
+            cooldownCount = CurrentInterval;
         }
+
+        private int CurrentInterval = MAX_INTERVAL;
+        private const int MIN_INTERVAL = 30;
+        private const int MAX_INTERVAL = 200;
 
         Color[] fakeColors = new Color[] { Color.Blue, Color.Red, Color.Red, Color.Green, Color.Blue };
         int fakeColorIndex = -1;
