@@ -2,6 +2,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using GameCore.ActualCore;
 using PaperWork;
 
 namespace AndroidVersion
@@ -19,6 +20,10 @@ namespace AndroidVersion
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);            
+            AndroidStuff.Vibrate = f => vibrator.Vibrate(f, -1);
+
             var g = new Game1() { FullScreen = true };
             var view = (View)g.Services.GetService(typeof(View));
             view.SystemUiVisibility = (StatusBarVisibility)

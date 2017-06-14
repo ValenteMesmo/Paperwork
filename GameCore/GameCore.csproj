@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActualCore\AndroidStuff.cs" />
     <Compile Include="ActualCore\BaseGame.cs" />
     <Compile Include="ActualCore\Camera2d.cs" />
     <Compile Include="ActualCore\Extensions\CollisionResult.cs" />

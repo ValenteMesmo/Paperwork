@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace GameCore
 {
@@ -18,12 +19,15 @@ namespace GameCore
             this.Camera2d = Camera2d;
             var btnWidth = 2000;
             var btnHeight = 1000;
-            Add(new TouchButton(300, 6100, btnWidth * 2, btnHeight - 200));
+            Add(new TouchButton(300, 6100, btnWidth * 2, btnHeight, f => PlayerInputs.Up = f));
 
-            Add(new TouchButton(300, 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f)));
-            Add(new TouchButton(300 + (int)(btnHeight * 1.5f) + btnHeight , 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f)));
+            Add(new TouchButton(300, 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f), f => PlayerInputs.Left = f));
+            Add(new TouchButton(300 + (int)(btnHeight * 1.5f) + btnHeight, 6100, (int)(btnHeight * 1.5f), (int)(btnWidth * 1.5f), f => PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100 + 200 + btnHeight * 2, btnWidth * 2, btnHeight - 200));
+            Add(new TouchButton(300, 6100 + btnHeight * 2, btnWidth * 2, btnHeight, f => PlayerInputs.Down = f));
+
+            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2, (int)(btnHeight * 1.5f), f => PlayerInputs.Action1= f));
+            Add(new TouchButton(9700, (int)(4100 + btnHeight * 3.5f), btnWidth * 2, (int)(btnHeight * 1.5f), f => PlayerInputs.Up = f));
         }
 
         public void Add(Thing thing)

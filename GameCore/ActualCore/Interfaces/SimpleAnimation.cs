@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GameCore
 {
@@ -31,7 +32,14 @@ namespace GameCore
 
         public IEnumerable<Texture> GetTextures()
         {
-            return Frames[CurrentFrame].Textures;
+            try
+            {
+                return Frames[CurrentFrame].Textures;
+            }
+            catch 
+            {
+                return Enumerable.Empty<Texture>();
+            }
         }
 
         public void Restart()
