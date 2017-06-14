@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopVersion", "DesktopVe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertJsonToCSharp", "ConvertJsonToCSharp\ConvertJsonToCSharp.csproj", "{C42E820B-2234-4969-AB19-2CD14F3B3DDF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedContent", "SharedContent", "{AB3D5257-7A3E-4E91-A484-658E2A0985B7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

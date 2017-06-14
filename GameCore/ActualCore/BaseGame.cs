@@ -101,8 +101,8 @@ namespace GameCore
                     if (item is DimensionalThing)
                     {
                         var dimensions = item.As<DimensionalThing>();
-                        bonusX = dimensions.X;
-                        bonusY = dimensions.Y;
+                        bonusX = dimensions.DrawableX;
+                        bonusY = dimensions.DrawableY;
                     }
 
                     var textures = item.As<Animation>().GetTextures();
