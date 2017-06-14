@@ -51,10 +51,10 @@ namespace GameCore
             }
             base.Dispose(disposing);
         }
-        
+
         protected override void LoadContent()
         {
-            
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Textures = new Dictionary<string, Texture2D>();
 
@@ -93,31 +93,38 @@ namespace GameCore
                 if (item == null)
                     continue;
 
-                if (item is DimensionalThing)
+                if (item is Animation)
                 {
-                    var dimensions = item.As<DimensionalThing>();
-                    if (item is Animation)
-                    {
-                        var textures = item.As<Animation>().GetTextures();
+                    int bonusX = 0;
+                    int bonusY = 0;
 
-                        foreach (var texture in textures)
-                        {
-                            spriteBatch.Draw(
-                                    Textures[texture.Name]
-                                    , new Rectangle(
-                                        dimensions.DrawableX + texture.X,
-                                        dimensions.DrawableY + texture.Y,
-                                        texture.Width,
-                                        texture.Height)
-                                    , null
-                                    , texture.Color
-                                    , 0
-                                    , Vector2.Zero
-                                    , texture.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
-                                    , texture.ZIndex
-                            );
-                        }
+                    if (item is DimensionalThing)
+                    {
+                        var dimensions = item.As<DimensionalThing>();
+                        bonusX = dimensions.X;
+                        bonusY = dimensions.Y;
                     }
+
+                    var textures = item.As<Animation>().GetTextures();
+
+                    foreach (var texture in textures)
+                    {
+                        spriteBatch.Draw(
+                                Textures[texture.Name]
+                                , new Rectangle(
+                                    bonusX + texture.X,
+                                    bonusY + texture.Y,
+                                    texture.Width,
+                                    texture.Height)
+                                , null
+                                , texture.Color
+                                , 0
+                                , Vector2.Zero
+                                , texture.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None
+                                , texture.ZIndex
+                        );
+                    }
+
 
                     //DrawBorder(
                     //        new Rectangle(

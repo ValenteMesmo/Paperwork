@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidVersion", "AndroidVe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopVersion", "DesktopVersion\DesktopVersion.csproj", "{1A79AEAD-41DB-47AF-9D49-EFDAEBAD091D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConvertJsonToCSharp", "ConvertJsonToCSharp\ConvertJsonToCSharp.csproj", "{C42E820B-2234-4969-AB19-2CD14F3B3DDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedContent", "SharedContent", "{AB3D5257-7A3E-4E91-A484-658E2A0985B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{1A79AEAD-41DB-47AF-9D49-EFDAEBAD091D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A79AEAD-41DB-47AF-9D49-EFDAEBAD091D}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A79AEAD-41DB-47AF-9D49-EFDAEBAD091D}.Release|x86.Build.0 = Release|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Debug|x86.Build.0 = Debug|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C42E820B-2234-4969-AB19-2CD14F3B3DDF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

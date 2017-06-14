@@ -2,7 +2,7 @@
 
 namespace GameCore
 {
-    public interface Animation //: DimensionalThing
+    public interface Animation : Thing
     {
         IEnumerable<Texture> GetTextures();
         void Update();

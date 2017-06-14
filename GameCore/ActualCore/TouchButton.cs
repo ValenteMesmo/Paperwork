@@ -1,16 +1,10 @@
 ﻿using GameCore.ActualCore;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace GameCore
 {
-    public class TouchButton :
-        Animation
-        , Touchable
+    public class TouchButton :Touchable
     {
-        Texture Texture;
         private readonly Action<bool> SetValue;
 
         public int X { get; set; }
@@ -27,12 +21,6 @@ namespace GameCore
             this.Width = Width;
             this.Height = Height;
             this.SetValue = SetValue;
-            Texture = new Texture("block", 0, 0, Width, Height) { Color = new Color(0,0,0,0.2f), ZIndex=0 };
-        }
-
-        public IEnumerable<Texture> GetTextures()
-        {
-            yield return Texture;
         }
 
         public void TouchBegin()
@@ -51,11 +39,6 @@ namespace GameCore
             //todo: prevent player and paper from reaching known limits( stage borders)
             AndroidStuff.Vibrate(new long[] { 0, 20 });
             SetValue(false);
-        }
-
-        public void Update()
-        {
-
         }
     }
 }

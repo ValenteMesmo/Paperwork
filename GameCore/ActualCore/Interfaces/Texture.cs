@@ -4,7 +4,7 @@ namespace GameCore
 {
     public class Texture
     {
-        public Texture(string Name, int X, int Y, int Width, int Height)
+        public Texture(string Name, int X, int Y, int Width, int Height, Rectangle? PositionOnSpriteSheet = null)
         {
             ZIndex = 1;
             this.Color = Color.White;

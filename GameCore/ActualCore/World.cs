@@ -3,9 +3,34 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace GameCore
 {
+    class TouchButtonAnimation : Animation
+    {
+        Texture[] Texture;
+        public TouchButtonAnimation()
+        {
+            var btnWidth = 1500;
+            var btnHeight = 1000;
+            //SpriteSheet_touch_inputs
+            Texture = new Texture[] {
+                //new Texture("Left0001", 300, 6100, btnWidth , btnHeight ) { ZIndex = 0 }
+                //,new Texture("Up0001", 300 + btnWidth, 6100, 450*4 , 310*4 ) { ZIndex = 0 }
+            };
+        }
+
+        public IEnumerable<Texture> GetTextures()
+        {
+            return Texture;
+        }
+
+        public void Update()
+        {
+        }
+    }
+
     public class World
     {
         public const int SPACE_BETWEEN_THINGS = 4;
@@ -20,20 +45,22 @@ namespace GameCore
             var btnHeight = 1000;
             var space = 1;
 
+            Add(new TouchButtonAnimation());
+
             Add(new TouchButton(300, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
-            Add(new TouchButton(300 + btnWidth , 6100, btnWidth- space, btnHeight- space, f => PlayerInputs.Up = f));
-            Add(new TouchButton(300 + btnWidth*2, 6100, btnWidth - space, btnHeight- space, f => PlayerInputs.Up = PlayerInputs.Right = f));
+            Add(new TouchButton(300 + btnWidth, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = f));
+            Add(new TouchButton(300 + btnWidth * 2, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100 + btnHeight, btnWidth + btnWidth/2 - space, btnHeight - space, f => PlayerInputs.Left = f));
-            Add(new TouchButton(300+ btnWidth + btnWidth/2, 6100 + btnHeight, btnWidth + btnWidth/2 - space, btnHeight - space, f => PlayerInputs.Right = f));
+            Add(new TouchButton(300, 6100 + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => PlayerInputs.Left = f));
+            Add(new TouchButton(300 + btnWidth + btnWidth / 2, 6100 + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100+ btnHeight*2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Left = f));
+            Add(new TouchButton(300, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Left = f));
             Add(new TouchButton(300 + btnWidth, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = f));
             Add(new TouchButton(300 + btnWidth * 2, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Right = f));
 
             btnWidth = 1000;
-            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3f) - space, f => PlayerInputs.Action1= f));
-            Add(new TouchButton(9700 + btnWidth * 2 , 4100 + btnHeight * 2 , btnWidth * 2 - space, (int)(btnHeight * 3.0f) - space, f => PlayerInputs.Up = f));
+            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3f) - space, f => PlayerInputs.Action1 = f));
+            Add(new TouchButton(9700 + btnWidth * 2, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3.0f) - space, f => PlayerInputs.Up = f));
         }
 
         public void Add(Thing thing)
