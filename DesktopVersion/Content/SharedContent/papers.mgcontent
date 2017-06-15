@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/github/Paperwork/DesktopVersion/Content/../../SharedContent/papers.bmp</SourceFile>
-  <SourceTime>2017-06-01T02:01:56.6022328-03:00</SourceTime>
-  <DestFile>C:/github/Paperwork/DesktopVersion/Content/bin/DesktopGL/../../SharedContent/papers.xnb</DestFile>
-  <DestTime>2017-06-14T19:25:05.5123585-03:00</DestTime>
+  <SourceFile>C:/GitHub/Paperwork/DesktopVersion/Content/../../SharedContent/papers.bmp</SourceFile>
+  <SourceTime>2017-06-14T19:58:16.9861324-03:00</SourceTime>
+  <DestFile>C:/GitHub/Paperwork/DesktopVersion/Content/bin/DesktopGL/../../SharedContent/papers.xnb</DestFile>
+  <DestTime>2017-06-14T21:11:14.8988634-03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T12:05:36-03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

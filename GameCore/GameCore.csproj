@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedContent\SpriteSheet_touch_inputs.cs">
+      <Link>SpriteSheet_touch_inputs.cs</Link>
+    </Compile>
     <Compile Include="ActualCore\AndroidStuff.cs" />
     <Compile Include="ActualCore\BaseGame.cs" />
     <Compile Include="ActualCore\Camera2d.cs" />
@@ -94,7 +97,6 @@
     <Compile Include="ThisGame\PlayerStuff\PlayersJump.cs" />
     <Compile Include="ThisGame\PlayerStuff\SetPlayerDirection.cs" />
     <Compile Include="ThisGame\PlayerStuff\SpecialDownDropPaper.cs" />
-    <Compile Include="ThisGame\SpriteSheet_touch_inputs.cs" />
     <Compile Include="ThisGame\StopsWhenCollidingWith.cs" />
     <Compile Include="ThisGame\UpdateGroup.cs" />
   </ItemGroup>
