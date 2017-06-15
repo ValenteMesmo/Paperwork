@@ -4,17 +4,40 @@ using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace ConvertJsonToCSharp
 {
     public class Program
     {
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public static void Main(string[] args)
         {
-            Run();
+            var SharedContentDirectoryPath = Path.GetFullPath(
+                Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\SharedContent"));
+
+            var imageFiles = new DirectoryInfo(SharedContentDirectoryPath)
+                .GetFiles("*.*", SearchOption.AllDirectories)
+                .Where(f =>
+                    f.Extension == ".png"
+                    || f.Extension == ".bmp"
+                );
+
+            var jsonFiles = new DirectoryInfo(SharedContentDirectoryPath)
+                .GetFiles("*.*", SearchOption.AllDirectories)
+                .Where(f =>
+                    f.Extension == ".json"
+                );
+
+            CreateCSharpFile(imageFiles,jsonFiles);
         }
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        private static void CreateCSharpFile(IEnumerable<FileInfo> imageFiles, IEnumerable<FileInfo> jsonFiles)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void Run()
         {
             var currentDir = new DirectoryInfo(Directory.GetCurrentDirectory());
@@ -23,7 +46,6 @@ namespace ConvertJsonToCSharp
 
         private static void Watch(string fullName)
         {
-
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = fullName;
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite

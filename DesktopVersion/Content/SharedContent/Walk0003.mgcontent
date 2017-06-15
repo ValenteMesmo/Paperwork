@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/GitHub/Paperwork/DesktopVersion/Content/../../SharedContent/Walk0003.png</SourceFile>
-  <SourceTime>2017-06-14T19:58:16.9821282-03:00</SourceTime>
-  <DestFile>C:/GitHub/Paperwork/DesktopVersion/Content/bin/DesktopGL/../../SharedContent/Walk0003.xnb</DestFile>
-  <DestTime>2017-06-14T21:11:14.9958847-03:00</DestTime>
+  <SourceFile>C:/github/Paperwork/DesktopVersion/Content/../../SharedContent/Walk0003.png</SourceFile>
+  <SourceTime>2017-06-12T01:46:06.427216-03:00</SourceTime>
+  <DestFile>C:/github/Paperwork/DesktopVersion/Content/bin/DesktopGL/../../SharedContent/Walk0003.xnb</DestFile>
+  <DestTime>2017-06-15T01:56:01.9576832-03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T12:05:36-03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
