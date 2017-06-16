@@ -4,15 +4,18 @@ namespace GameCore
 {
     public class Texture
     {
+        public readonly Rectangle? PositionOnSpriteSheet;
+
         public Texture(string Name, int X, int Y, int Width, int Height, Rectangle? PositionOnSpriteSheet = null)
         {
             ZIndex = 1;
-            this.Color = Color.White;
+            Color = Color.White;
             this.Name = Name;
             this.X = X;
             this.Y = Y;
             this.Width = Width;
             this.Height = Height;
+            this.PositionOnSpriteSheet = PositionOnSpriteSheet;
         }
 
         public int X { get; }

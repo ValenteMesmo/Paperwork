@@ -93,12 +93,12 @@ public class GeneratedContent
                 foreach (var item in group)
                 {
                     rectangles += $@"
-            new AnimationFrame(10, new GameCore.Texture(""{fileName}"",0,0,{item.frame.w},{item.frame.h}, new Rectangle({item.frame.x}, {item.frame.y}, {item.frame.w}, {item.frame.h}))),";
+            new AnimationFrame(10, new GameCore.Texture(""{fileName}"", X, Y, (int)({item.frame.w} * WidthScale), (int)({item.frame.h} * HeightScale), new Rectangle({item.frame.x}, {item.frame.y}, {item.frame.w}, {item.frame.h}))),";
                 }
                 rectangles = rectangles.Remove(rectangles.Length - 1);
                 methods +=
 $@"
-    public SimpleAnimation Create_{fileName}_{group.Key.Replace(' ', '_')}()
+    public SimpleAnimation Create_{fileName}_{group.Key.Replace(' ', '_')}(int X, int Y, float WidthScale, float HeightScale)
     {{
         var animation = new SimpleAnimation(
             {rectangles}

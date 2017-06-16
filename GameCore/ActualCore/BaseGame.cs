@@ -9,8 +9,7 @@ namespace GameCore
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private Dictionary<string, Texture2D> Textures;
-        private string[] TextureNames;
+
         private Texture2D pixel;
         protected World world;
         private GameRunner gameloop;
@@ -18,9 +17,8 @@ namespace GameCore
 
         public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
 
-        public BaseGame(params string[] TextureNames)
+        public BaseGame()
         {
-            this.TextureNames = TextureNames;
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -51,17 +49,14 @@ namespace GameCore
             }
             base.Dispose(disposing);
         }
-
+        GeneratedContent GeneratedContent;
         protected override void LoadContent()
         {
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Textures = new Dictionary<string, Texture2D>();
 
-            foreach (var name in TextureNames)
-            {
-                Textures.Add(name, Content.Load<Texture2D>(name));
-            }
+            GeneratedContent = new GeneratedContent();
+            GeneratedContent.Load(Content);
 
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
@@ -110,13 +105,13 @@ namespace GameCore
                     foreach (var texture in textures)
                     {
                         spriteBatch.Draw(
-                                Textures[texture.Name]
+                                GeneratedContent.Textures[texture.Name]
                                 , new Rectangle(
                                     bonusX + texture.X,
                                     bonusY + texture.Y,
                                     texture.Width,
                                     texture.Height)
-                                , null
+                                , texture.PositionOnSpriteSheet
                                 , texture.Color
                                 , 0
                                 , Vector2.Zero

@@ -36,7 +36,7 @@ namespace GameCore
             {
                 return Frames[CurrentFrame].Textures;
             }
-            catch 
+            catch (System.IndexOutOfRangeException ex)
             {
                 return Enumerable.Empty<Texture>();
             }

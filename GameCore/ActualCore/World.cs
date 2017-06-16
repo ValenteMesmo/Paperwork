@@ -7,34 +7,34 @@ using System;
 
 namespace GameCore
 {
-    class TouchButtonAnimation : Animation
-    {
-        Texture[] Texture;
-        public TouchButtonAnimation(World World)
-        {
-            var btnWidth = 1500;
-            var btnHeight = 1000;
-            //SpriteSheet_touch_inputs
-            Texture = new Texture[] {
-                //new Texture("Left0001", 300, 6100, btnWidth , btnHeight ) { ZIndex = 0 }
-                //,new Texture("Up0001", 300 + btnWidth, 6100, 450*4 , 310*4 ) { ZIndex = 0 }
-            };
+    //class TouchButtonAnimation : Animation
+    //{
+    //    Texture[] Texture;
+    //    public TouchButtonAnimation(World World)
+    //    {
+    //        var btnWidth = 1500;
+    //        var btnHeight = 1000;
+    //        //SpriteSheet_touch_inputs
+    //        Texture = new Texture[] {
+    //            //new Texture("Left0001", 300, 6100, btnWidth , btnHeight ) { ZIndex = 0 }
+    //            //,new Texture("Up0001", 300 + btnWidth, 6100, 450*4 , 310*4 ) { ZIndex = 0 }
+    //        };
 
-            //World.Add(SpriteSheet_touch_inputs.Load_Down(null, 0, 0));
-            //SpriteSheet_touch_inputs.Load_Up(null, 0, 0);
-            //SpriteSheet_touch_inputs.Load_Left(null, 0, 0);
-            //SpriteSheet_touch_inputs.Load_Right(null, 0, 0);
-        }
+    //        //World.Add(SpriteSheet_touch_inputs.Load_Down(null, 0, 0));
+    //        //SpriteSheet_touch_inputs.Load_Up(null, 0, 0);
+    //        //SpriteSheet_touch_inputs.Load_Left(null, 0, 0);
+    //        //SpriteSheet_touch_inputs.Load_Right(null, 0, 0);
+    //    }
 
-        public IEnumerable<Texture> GetTextures()
-        {
-            return Texture;
-        }
+    //    public IEnumerable<Texture> GetTextures()
+    //    {
+    //        return Texture;
+    //    }
 
-        public void Update()
-        {
-        }
-    }
+    //    public void Update()
+    //    {
+    //    }
+    //}
 
     public class World
     {
@@ -50,7 +50,10 @@ namespace GameCore
             var btnHeight = 1000;
             var space = 1;
 
-            new TouchButtonAnimation(this);
+            Add(new GeneratedContent().Create_touch_inputs_Up(300, 6100  , 30, 30));
+            Add(new GeneratedContent().Create_touch_inputs_Left(300, 6100 , 30, 30));
+            Add(new GeneratedContent().Create_touch_inputs_Right(300, 6100, 30, 30));
+            Add(new GeneratedContent().Create_touch_inputs_Down(300, 6100*3 , 30, 30));
 
             Add(new TouchButton(300, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
             Add(new TouchButton(300 + btnWidth, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = f));
@@ -96,45 +99,64 @@ namespace GameCore
 
         public void Update()
         {
-            var state = Keyboard.GetState();
-            //if (state.IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            PlayerInputs.Update(state);
-
-            TouchCollection touchCollection = TouchPanel.GetState();
-            var touches = new List<Vector2>();
-            foreach (TouchLocation tl in touchCollection)
+            //erro quando reseta o game
+            try
             {
-                if ((tl.State == TouchLocationState.Pressed)
-                    || (tl.State == TouchLocationState.Moved))
-                {
-                    touches.Add(
-                        Camera2d.ToWorldLocation(tl.Position));
-                }
+                var state = Keyboard.GetState();
+                //if (state.IsKeyDown(Keys.Escape))
+                //    Exit();
+
+                PlayerInputs.Update(state);
+
+            }
+            catch (Exception ex)
+            {
             }
 
             var currentItems = Items.ToList();
-
-            PreviouslyTouched.Clear();
-            PreviouslyTouched.AddRange(CurrentlyTouched);
-            CurrentlyTouched.Clear();
-
-            foreach (var item in currentItems)
+            //null reference when game closed
+            try
             {
-                if (item is DimensionalThing)
+                TouchCollection touchCollection = TouchPanel.GetState();
+                var touches = new List<Vector2>();
+                foreach (TouchLocation tl in touchCollection)
                 {
-                    var dimensions = item as DimensionalThing;
-                    dimensions.DrawableX = dimensions.X;
-                    dimensions.DrawableY = dimensions.Y;
-
-                    if (item is Touchable)
-                        HandleTouchable(touches, dimensions);
+                    if ((tl.State == TouchLocationState.Pressed)
+                        || (tl.State == TouchLocationState.Moved))
+                    {
+                        touches.Add(
+                            Camera2d.ToWorldLocation(tl.Position));
+                    }
                 }
 
-                if (item is IUpdateHandler)
-                    item.As<IUpdateHandler>().Update();
+
+                PreviouslyTouched.Clear();
+                PreviouslyTouched.AddRange(CurrentlyTouched);
+                CurrentlyTouched.Clear();
+
+                foreach (var item in currentItems)
+                {
+                    if (item is DimensionalThing)
+                    {
+                        var dimensions = item as DimensionalThing;
+                        dimensions.DrawableX = dimensions.X;
+                        dimensions.DrawableY = dimensions.Y;
+
+                        if (item is Touchable)
+                            HandleTouchable(touches, dimensions);
+                    }
+
+                    if (item is IUpdateHandler)
+                        item.As<IUpdateHandler>().Update();
+                }
+
             }
+            catch (NullReferenceException ex)
+            {
+            }
+
+            
+
 
             foreach (var item in currentItems)
             {

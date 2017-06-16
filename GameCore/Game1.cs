@@ -4,21 +4,6 @@ namespace PaperWork
 {
     public class Game1 : BaseGame, IGame
     {
-        public Game1() : base(
-            "char"
-            , "Walk0001"
-            , "Walk0002"
-            , "Walk0003"
-            , "char_left"
-            , "papers"
-            , "block"
-            , "Head"
-            //, "Up0001"
-            //, "Left0001"
-            )
-        {
-        }
-
         protected override void OnStart()
         {
             var rowNumber = 13;
