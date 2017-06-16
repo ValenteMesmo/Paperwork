@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/github/Paperwork/DesktopVersion/Content/../../SharedContent/touch_inputs.png</SourceFile>
-  <SourceTime>2017-06-15T01:51:35.9775397-03:00</SourceTime>
-  <DestFile>C:/github/Paperwork/DesktopVersion/Content/bin/DesktopGL/../../SharedContent/touch_inputs.xnb</DestFile>
-  <DestTime>2017-06-15T01:56:01.8189926-03:00</DestTime>
+  <SourceFile>C:/GitHub/Paperwork/DesktopVersion/Content/../../SharedContent/touch_inputs.png</SourceFile>
+  <SourceTime>2017-06-14T21:07:42.0725018-03:00</SourceTime>
+  <DestFile>C:/GitHub/Paperwork/DesktopVersion/Content/bin/DesktopGL/../../SharedContent/touch_inputs.xnb</DestFile>
+  <DestTime>2017-06-15T23:55:05.240744-03:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T12:05:36-03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

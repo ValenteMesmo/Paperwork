@@ -30,110 +30,86 @@ namespace ConvertJsonToCSharp
                     f.Extension == ".json"
                 );
 
-            CreateCSharpFile(imageFiles,jsonFiles);
+            CreateCSharpFile(SharedContentDirectoryPath, imageFiles, jsonFiles);
         }
 
-        private static void CreateCSharpFile(IEnumerable<FileInfo> imageFiles, IEnumerable<FileInfo> jsonFiles)
+        private static void CreateCSharpFile(
+            string path,
+            IEnumerable<FileInfo> imageFiles,
+            IEnumerable<FileInfo> jsonFiles)
         {
-            throw new NotImplementedException();
+            var fileNamesArray = "new string[] {";
+            foreach (var image in imageFiles)
+            {
+                fileNamesArray += $@" ""{Path.GetFileNameWithoutExtension(image.Name)}"",";
+            }
+            fileNamesArray = fileNamesArray.Remove(fileNamesArray.Length - 1);
+            fileNamesArray += " }";
+
+
+            var methods = "";
+            foreach (var file in jsonFiles)
+            {
+                methods += GetMethodsAsString(file);
+            }
+
+            var fileContent = $@"using GameCore;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+
+public class GeneratedContent
+{{
+    public Dictionary<string, Texture2D> Textures = new Dictionary<string, Texture2D>();
+
+    public void Load(ContentManager content)
+    {{
+        var names = {fileNamesArray};
+
+        foreach (var name in names)
+        {{
+            Textures.Add(name, content.Load<Texture2D>(name));
+        }}
+    }}
+    {methods}
+}}
+";
+
+            File.WriteAllText(Path.Combine(path, "GeneratedContent.cs"), fileContent);
         }
 
-        public static void Run()
-        {
-            var currentDir = new DirectoryInfo(Directory.GetCurrentDirectory());
-            Watch(currentDir.FullName);
-        }
-
-        private static void Watch(string fullName)
-        {
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Path = fullName;
-            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
-               | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Filter = "*.json";
-
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.Created += new FileSystemEventHandler(OnChanged);
-            watcher.Deleted += new FileSystemEventHandler(OnDeleted);
-            watcher.Renamed += new RenamedEventHandler(OnRenamed);
-
-            watcher.EnableRaisingEvents = true;
-
-            Console.WriteLine("Press \'q\' to quit.");
-            while (Console.Read() != 'q') ;
-        }
-
-        private static void OnChanged(object source, FileSystemEventArgs e)
-        {
-            Thread.Sleep(2000);
-            ConvertFile(new FileInfo(e.FullPath));
-            Console.WriteLine($"Arquivo atualizado: {Path.GetFileName(e.FullPath)}");
-        }
-
-        private static void OnRenamed(object source, RenamedEventArgs e)
-        {
-            Thread.Sleep(2000);
-
-            File.Delete(e.OldFullPath);
-            Console.WriteLine($"Arquivo renomeado: {Path.GetFileName(e.OldFullPath)} > {Path.GetFileName(e.FullPath)}");
-            ConvertFile(new FileInfo(e.FullPath));
-        }
-
-        private static void OnDeleted(object source, FileSystemEventArgs e)
-        {
-            Thread.Sleep(2000);
-
-            Console.WriteLine($"Arquivo excluido: {Path.GetFileName(e.FullPath)}");
-            //File.Delete(e.FullPath);
-        }
-
-        private static void ConvertFile(FileInfo file)
+        private static string GetMethodsAsString(FileInfo file)
         {
             var fileName = Path.GetFileNameWithoutExtension(file.Name);
-            var content = JsonConvert.DeserializeObject<AnimationFramesFile>(File.ReadAllText(file.FullName))
+            var groupedContent = JsonConvert.DeserializeObject<AnimationFramesFile>(File.ReadAllText(file.FullName))
                 .frames
                 .GroupBy(f => f.filename.Remove(f.filename.Length - 4));
 
             var methods = "";
-            foreach (var group in content)
+            foreach (var group in groupedContent)
             {
                 var rectangles = "";
                 foreach (var item in group)
                 {
                     rectangles += $@"
-                new AnimationFrame(10, new GameCore.Texture(""{fileName}"",0,0,{item.frame.w},{item.frame.h}, new Rectangle({item.frame.x}, {item.frame.y}, {item.frame.w}, {item.frame.h}))),";
+            new AnimationFrame(10, new GameCore.Texture(""{fileName}"",0,0,{item.frame.w},{item.frame.h}, new Rectangle({item.frame.x}, {item.frame.y}, {item.frame.w}, {item.frame.h}))),";
                 }
                 rectangles = rectangles.Remove(rectangles.Length - 1);
                 methods +=
 $@"
-        public static SimpleAnimation Load_{group.Key.Replace(' ', '_')}(ContentManager content, int X = 0, int Y = 0)
-        {{
-            //if (Texture == null)
-               //Texture = content.Load<Texture2D>(""{fileName}"");
-            var animation = new SimpleAnimation(
-                {rectangles}
-            );
+    public SimpleAnimation Create_{fileName}_{group.Key.Replace(' ', '_')}()
+    {{
+        var animation = new SimpleAnimation(
+            {rectangles}
+        );
 
-            return animation;
-        }}
+        return animation;
+    }}
 ";
             }
 
-            File.WriteAllText(
-$"SpriteSheet_{fileName.Replace(' ', '_')}.cs",
-$@"using GameCore;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace MonogameAutoGeneratedContent{{
-    public static class SpriteSheet_{fileName.Replace(' ', '_')}
-    {{
-        private static Texture2D Texture;
-        {methods}
-    }}
-}}");
-            //file.Delete();
+            return methods;
         }
 
     }

@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SharedContent\SpriteSheet_touch_inputs.cs">
-      <Link>SpriteSheet_touch_inputs.cs</Link>
+    <Compile Include="..\SharedContent\GeneratedContent.cs">
+      <Link>GeneratedContent.cs</Link>
     </Compile>
     <Compile Include="ActualCore\AndroidStuff.cs" />
     <Compile Include="ActualCore\BaseGame.cs" />
