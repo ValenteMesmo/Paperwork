@@ -8,6 +8,6 @@ namespace GameCore.ActualCore
 {
     public static class AndroidStuff
     {
-        public static Action<long[]> Vibrate = f=> { };
+        public static Action<long> Vibrate = f=> { };
     }
 }

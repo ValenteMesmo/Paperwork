@@ -46,29 +46,39 @@ namespace GameCore
         public World(Camera2d Camera2d)
         {
             this.Camera2d = Camera2d;
-            var btnWidth = 1500;
-            var btnHeight = 1000;
+            var btnWidth = 1000;
+            var btnHeight = 800;
             var space = 1;
+            var yAnchor = 6600;
+            var xAnchor = 300;
 
-            Add(new GeneratedContent().Create_touch_inputs_Up(300, 6100  , 30, 30));
-            Add(new GeneratedContent().Create_touch_inputs_Left(300, 6100 , 30, 30));
-            Add(new GeneratedContent().Create_touch_inputs_Right(300, 6100, 30, 30));
-            Add(new GeneratedContent().Create_touch_inputs_Down(300, 6100*3 , 30, 30));
+            //todo: reduzir o width dos botoes... tanto na esquerda quanto na direita
+            Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
+            Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = f));
+            Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
-            Add(new TouchButton(300 + btnWidth, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = f));
-            Add(new TouchButton(300 + btnWidth * 2, 6100, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Right = f));
+            Add(new TouchButton(xAnchor, yAnchor + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => PlayerInputs.Left = f));
+            Add(new TouchButton(xAnchor + btnWidth + btnWidth / 2, yAnchor + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100 + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => PlayerInputs.Left = f));
-            Add(new TouchButton(300 + btnWidth + btnWidth / 2, 6100 + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => PlayerInputs.Right = f));
+            Add(new TouchButton(xAnchor, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Left = f));
+            Add(new TouchButton(xAnchor + btnWidth, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = f));
+            Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Right = f));
 
-            Add(new TouchButton(300, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Left = f));
-            Add(new TouchButton(300 + btnWidth, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = f));
-            Add(new TouchButton(300 + btnWidth * 2, 6100 + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Right = f));
-
-            btnWidth = 1000;
-            Add(new TouchButton(9700, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3f) - space, f => PlayerInputs.Action1 = f));
-            Add(new TouchButton(9700 + btnWidth * 2, 4100 + btnHeight * 2, btnWidth * 2 - space, (int)(btnHeight * 3.0f) - space, f => PlayerInputs.Up = f));
+            xAnchor = 9600;
+            //yAnchor = 5000;
+            btnWidth = 2000;
+            Add(new TouchButton(
+                xAnchor
+                , yAnchor 
+                , btnWidth - space
+                , (int)(btnHeight * 3f) - space
+                , f => PlayerInputs.Action1 = f));
+            Add(new TouchButton(
+                xAnchor + btnWidth
+                , yAnchor 
+                , btnWidth - space
+                , (int)(btnHeight * 3f) - space
+                , f => PlayerInputs.Up = f));
         }
 
         public void Add(Thing thing)
@@ -155,7 +165,7 @@ namespace GameCore
             {
             }
 
-            
+
 
 
             foreach (var item in currentItems)

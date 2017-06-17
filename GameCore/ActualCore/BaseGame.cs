@@ -88,6 +88,20 @@ namespace GameCore
                 if (item == null)
                     continue;
 
+                if (item is DimensionalThing)
+                {
+                    var dimensions = item.As<DimensionalThing>();
+
+                    DrawBorder(
+                        new Rectangle(
+                            dimensions.X,
+                            dimensions.Y,
+                            dimensions.Width,
+                            dimensions.Height),
+                        20,
+                        Color.Red);
+                }
+
                 if (item is Animation)
                 {
                     int bonusX = 0;
@@ -98,6 +112,7 @@ namespace GameCore
                         var dimensions = item.As<DimensionalThing>();
                         bonusX = dimensions.DrawableX;
                         bonusY = dimensions.DrawableY;
+
                     }
 
                     var textures = item.As<Animation>().GetTextures();
@@ -121,14 +136,7 @@ namespace GameCore
                     }
 
 
-                    //DrawBorder(
-                    //        new Rectangle(
-                    //            dimensions.X,
-                    //            dimensions.Y,
-                    //            dimensions.Width,
-                    //            dimensions.Height),
-                    //        20,
-                    //        Color.Red);
+
                 }
             }
 

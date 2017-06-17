@@ -22,8 +22,8 @@ namespace AndroidVersion
             base.OnCreate(bundle);
 
             Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);            
-            AndroidStuff.Vibrate = f => vibrator.Vibrate(f, -1);
-
+            AndroidStuff.Vibrate = f => vibrator.Vibrate(f);
+            
             var g = new Game1() { FullScreen = true };
             var view = (View)g.Services.GetService(typeof(View));
             view.SystemUiVisibility = (StatusBarVisibility)

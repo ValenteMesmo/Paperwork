@@ -49,18 +49,6 @@
 /processorParam:TextureFormat=Color
 /build:papers.bmp
 
-#begin touch_inputs.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:touch_inputs.png
-
 #begin Walk0001.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,4 +84,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Walk0003.png
+
+#begin touch_inputs.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:touch_inputs.png
 

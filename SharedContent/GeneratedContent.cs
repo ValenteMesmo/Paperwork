@@ -18,81 +18,21 @@ public class GeneratedContent
         }
     }
     
-    public SimpleAnimation Create_touch_inputs_Down(int X, int Y, float WidthScale, float HeightScale)
+    public SimpleAnimation Create_touch_inputs_button(int X, int Y, float Z, int Width, int Height)
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(43 * WidthScale), (int)(28 * HeightScale), new Rectangle(0, 0, 43, 28)) { ZIndex=0})
+            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 0, 68, 68)){ ZIndex = Z })
         );
 
         return animation;
     }
 
-    public SimpleAnimation Create_touch_inputs_DownPressed(int X, int Y, float WidthScale, float HeightScale)
+    public SimpleAnimation Create_touch_inputs_button_pressed(int X, int Y, float Z, int Width, int Height)
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(42 * WidthScale), (int)(25 * HeightScale), new Rectangle(0, 28, 42, 25)))
-        );
-
-        return animation;
-    }
-
-    public SimpleAnimation Create_touch_inputs_Left(int X, int Y, float WidthScale, float HeightScale)
-    {
-        var animation = new SimpleAnimation(
-            
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(26 * WidthScale), (int)(50 * HeightScale), new Rectangle(0, 53, 26, 50)))
-        );
-
-        return animation;
-    }
-
-    public SimpleAnimation Create_touch_inputs_LeftPressed(int X, int Y, float WidthScale, float HeightScale)
-    {
-        var animation = new SimpleAnimation(
-            
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(26 * WidthScale), (int)(46 * HeightScale), new Rectangle(26, 53, 26, 46)))
-        );
-
-        return animation;
-    }
-
-    public SimpleAnimation Create_touch_inputs_Right(int X, int Y, float WidthScale, float HeightScale)
-    {
-        var animation = new SimpleAnimation(
-            
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(29 * WidthScale), (int)(50 * HeightScale), new Rectangle(0, 103, 29, 50)))
-        );
-
-        return animation;
-    }
-
-    public SimpleAnimation Create_touch_inputs_RightPressed(int X, int Y, float WidthScale, float HeightScale)
-    {
-        var animation = new SimpleAnimation(
-            
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(28 * WidthScale), (int)(47 * HeightScale), new Rectangle(29, 103, 28, 47)))
-        );
-
-        return animation;
-    }
-
-    public SimpleAnimation Create_touch_inputs_Up(int X, int Y, float WidthScale, float HeightScale)
-    {
-        var animation = new SimpleAnimation(
-            
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(47 * WidthScale), (int)(32 * HeightScale), new Rectangle(0, 153, 47, 32)))
-        );
-
-        return animation;
-    }
-
-    public SimpleAnimation Create_touch_inputs_UpPressed(int X, int Y, float WidthScale, float HeightScale)
-    {
-        var animation = new SimpleAnimation(
-            
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, (int)(45 * WidthScale), (int)(29 * HeightScale), new Rectangle(0, 185, 45, 29)))
+            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 68, 64, 62)){ ZIndex = Z })
         );
 
         return animation;
