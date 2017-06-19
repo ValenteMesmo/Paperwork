@@ -52,6 +52,10 @@ namespace PaperWork
     //TODO: arregalar os olhos do player quando estiver correndo perigo
     //https://s-media-cache-ak0.pinimg.com/originals/f4/cc/41/f4cc41f0e3ecd673a6292ca150bcc32d.jpg
     //(fear in anime)
+    //TODO: camera shake
+    //sleep on death
+    //sleep on combo
+    //keep score
     public class Player :
         Collider
         , ICollisionHandler
