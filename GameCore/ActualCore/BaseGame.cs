@@ -11,7 +11,7 @@ namespace GameCore
         private SpriteBatch spriteBatch;
 
         private Texture2D pixel;
-        protected World world;
+        public World World { get; private set; }
         private GameRunner gameloop;
         private readonly Camera2d cam;
 
@@ -33,7 +33,7 @@ namespace GameCore
             cam.Zoom = 0.1f;
 
 
-            world = new World(cam);
+            World = new World(cam);
         }
 
         protected override void Initialize()
@@ -67,7 +67,7 @@ namespace GameCore
         private void StartGame()
         {
             OnStart();
-            gameloop = new GameRunner(world.Update);
+            gameloop = new GameRunner(World.Update);
             gameloop.Start();
         }
 
@@ -82,7 +82,8 @@ namespace GameCore
                        null,
                        cam.get_transformation(GraphicsDevice));
 
-            var entiies = world.GetColliders();
+            var entiies = World.GetColliders();
+            var drawColliders = false;
             foreach (var item in entiies)
             {
                 if (item == null)
@@ -92,14 +93,17 @@ namespace GameCore
                 {
                     var dimensions = item.As<DimensionalThing>();
 
-                    DrawBorder(
-                        new Rectangle(
-                            dimensions.X,
-                            dimensions.Y,
-                            dimensions.Width,
-                            dimensions.Height),
-                        20,
-                        Color.Red);
+                    if (drawColliders)
+                    {
+                        DrawBorder(
+                                        new Rectangle(
+                                            dimensions.X,
+                                            dimensions.Y,
+                                            dimensions.Width,
+                                            dimensions.Height),
+                                        20,
+                                        Color.Red); 
+                    }
                 }
 
                 if (item is Animation)
@@ -157,8 +161,8 @@ namespace GameCore
 
         public void Restart()
         {
-            world.Clear();
-            world = new World(cam);
+            World.Clear();
+            World = new World(cam);
             gameloop.Dispose();
             StartGame();
         }

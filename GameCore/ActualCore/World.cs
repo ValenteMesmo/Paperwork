@@ -7,35 +7,6 @@ using System;
 
 namespace GameCore
 {
-    //class TouchButtonAnimation : Animation
-    //{
-    //    Texture[] Texture;
-    //    public TouchButtonAnimation(World World)
-    //    {
-    //        var btnWidth = 1500;
-    //        var btnHeight = 1000;
-    //        //SpriteSheet_touch_inputs
-    //        Texture = new Texture[] {
-    //            //new Texture("Left0001", 300, 6100, btnWidth , btnHeight ) { ZIndex = 0 }
-    //            //,new Texture("Up0001", 300 + btnWidth, 6100, 450*4 , 310*4 ) { ZIndex = 0 }
-    //        };
-
-    //        //World.Add(SpriteSheet_touch_inputs.Load_Down(null, 0, 0));
-    //        //SpriteSheet_touch_inputs.Load_Up(null, 0, 0);
-    //        //SpriteSheet_touch_inputs.Load_Left(null, 0, 0);
-    //        //SpriteSheet_touch_inputs.Load_Right(null, 0, 0);
-    //    }
-
-    //    public IEnumerable<Texture> GetTextures()
-    //    {
-    //        return Texture;
-    //    }
-
-    //    public void Update()
-    //    {
-    //    }
-    //}
-
     public class World
     {
         public const int SPACE_BETWEEN_THINGS = 4;
@@ -47,12 +18,11 @@ namespace GameCore
         {
             this.Camera2d = Camera2d;
             var btnWidth = 1000;
-            var btnHeight = 800;
+            var btnHeight = 900;
             var space = 1;
             var yAnchor = 6600;
             var xAnchor = 300;
 
-            //todo: reduzir o width dos botoes... tanto na esquerda quanto na direita
             Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Left = f));
             Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = f));
             Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor, btnWidth - space, btnHeight - space, f => PlayerInputs.Up = PlayerInputs.Right = f));
@@ -65,17 +35,16 @@ namespace GameCore
             Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => PlayerInputs.Down = PlayerInputs.Right = f));
 
             xAnchor = 9600;
-            //yAnchor = 5000;
             btnWidth = 2000;
             Add(new TouchButton(
                 xAnchor
-                , yAnchor 
+                , yAnchor
                 , btnWidth - space
                 , (int)(btnHeight * 3f) - space
                 , f => PlayerInputs.Action1 = f));
             Add(new TouchButton(
                 xAnchor + btnWidth
-                , yAnchor 
+                , yAnchor
                 , btnWidth - space
                 , (int)(btnHeight * 3f) - space
                 , f => PlayerInputs.Up = f));
@@ -127,6 +96,7 @@ namespace GameCore
             //null reference when game closed
             try
             {
+                //check if game is running
                 TouchCollection touchCollection = TouchPanel.GetState();
                 var touches = new List<Vector2>();
                 foreach (TouchLocation tl in touchCollection)

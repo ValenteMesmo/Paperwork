@@ -86,7 +86,7 @@ namespace PaperWork
                         {
                             foreach (var comboItem in combo)
                             {
-                                World.Remove(comboItem);
+                                DestroyPaper(comboItem);
                             }
                         }
                         combo.Clear();
@@ -104,10 +104,21 @@ namespace PaperWork
                 {
                     foreach (var comboItem in combo)
                     {
-                        World.Remove(comboItem);
+                        DestroyPaper(comboItem);
                     }
                 }
             }
+        }
+
+        private void DestroyPaper(Paper comboItem)
+        {
+            World.Add(new PaperDestroyed(World)
+            {
+                X = comboItem.X
+                                                ,
+                Y = comboItem.Y
+            });
+            World.Remove(comboItem);
         }
 
         private void ComputeHorizontalCombos()
@@ -139,7 +150,7 @@ namespace PaperWork
                         {
                             foreach (var comboItem in combo)
                             {
-                                World.Remove(comboItem);
+                                DestroyPaper(comboItem);
                             }
                         }
                         combo.Clear();
@@ -157,7 +168,7 @@ namespace PaperWork
                 {
                     foreach (var comboItem in combo)
                     {
-                        World.Remove(comboItem);
+                        DestroyPaper(comboItem);
                     }
                 }
             }

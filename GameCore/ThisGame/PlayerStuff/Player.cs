@@ -2,9 +2,52 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace PaperWork
 {
+    public class PlayerDestroyed : Animation, DimensionalThing
+    {
+        private readonly SimpleAnimation animation;
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
+
+        private int Duration = 100;
+        private readonly IGame Game;
+        public PlayerDestroyed(IGame Game)
+        {
+            this.Game = Game;
+            var walkingWidth = (int)(700 * 1.4f);
+
+            var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0, Flipped = true };
+            var head_left = new Texture("Head", -300, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
+
+            animation = new SimpleAnimation(
+                 new AnimationFrame(10,
+                 new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }
+                 , head_right)
+
+            );
+        }
+
+        public IEnumerable<Texture> GetTextures()
+        {
+            return animation.GetTextures();
+        }
+
+        public void Update()
+        {
+            Duration--;
+            if (Duration == 0)
+                Game.Restart();
+        }
+    }
+
     //TODO: brilho dos olhos tem que ficar do mesmo lado!
     //TODO: prevent player from special drop down when near the roof
     //TODO: arregalar os olhos do player quando estiver correndo perigo

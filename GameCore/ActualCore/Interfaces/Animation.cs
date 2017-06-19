@@ -2,9 +2,8 @@
 
 namespace GameCore
 {
-    public interface Animation : Thing
+    public interface Animation : IUpdateHandler//Thing
     {
         IEnumerable<Texture> GetTextures();
-        void Update();
     }
 }

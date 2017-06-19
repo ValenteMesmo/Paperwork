@@ -9,17 +9,17 @@ namespace PaperWork
             var rowNumber = 13;
             var colNumber = 6;
 
-            var player = new Player(world.PlayerInputs, world, this)
+            var player = new Player(World.PlayerInputs, World, this)
             {
                 X = 2000,
                 Y = 2000
             };
 
-            world.Add(new PaperFactory(world.Add));
+            World.Add(new PaperFactory(World.Add));
 
             CreateBlocks(rowNumber, colNumber);
 
-            new Grid(world);
+            new Grid(World);
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)
@@ -28,7 +28,7 @@ namespace PaperWork
             var cellsize = 1000 + World.SPACE_BETWEEN_THINGS;
             for (int i = 1; i < rowNumber; i++)
             {
-                world.Add(new Block
+                World.Add(new Block
                 {
                     X = i * cellsize,
                     Y = cellsize
@@ -37,7 +37,7 @@ namespace PaperWork
 
             for (int i = 1; i < colNumber; i++)
             {
-                world.Add(new Block
+                World.Add(new Block
                 {
                     X = 0,
                     Y = i * cellsize
@@ -46,7 +46,7 @@ namespace PaperWork
 
             for (int i = 1; i < rowNumber; i++)
             {
-                world.Add(new Block
+                World.Add(new Block
                 {
                     X = i * cellsize,
                     Y = cellsize * colNumber
@@ -57,7 +57,7 @@ namespace PaperWork
             {
                 if (i == 2)
                     continue;
-                world.Add(new Block
+                World.Add(new Block
                 {
                     X = cellsize * rowNumber,
                     Y = i * cellsize

@@ -6,18 +6,19 @@ namespace PaperWork
 {
     public interface IGame
     {
+        World World { get; }
         void Restart();
     }
 
     public class HandlePaperFallingInThehead : ICollisionHandler
     {
         private readonly Player Player;
-        private readonly IGame World;
+        private readonly IGame Game;
 
         public HandlePaperFallingInThehead(Player Player, IGame World)
         {
             this.Player = Player;
-            this.World = World;
+            this.Game = World;
         }
 
         public void BotCollision(Collider other)
@@ -43,7 +44,8 @@ namespace PaperWork
                 }
                 else
                 {
-                    World.Restart();
+                    Game.World.Remove(Player);
+                    Game.World.Add(new PlayerDestroyed(Game) { X = Player.X, Y = Player.Y });
                 }
             }
         }
