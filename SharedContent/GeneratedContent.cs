@@ -22,12 +22,26 @@ public class GeneratedContent
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 0, 128, 101)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(128, 0, 128, 101)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 101, 128, 101)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(128, 101, 128, 101)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 202, 128, 101)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 202, 128, 101)){ ZIndex = Z, Flipped = Flipped })
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 0, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 0, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 101, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 101, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(126, 202, 126, 101)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;
@@ -37,7 +51,7 @@ public class GeneratedContent
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(128, 202, 54, 38)){ ZIndex = Z, Flipped = Flipped })
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 303, 54, 38)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;
@@ -47,9 +61,9 @@ public class GeneratedContent
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(182, 202, 71, 72)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 303, 71, 72)){ ZIndex = Z, Flipped = Flipped }),
-            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(71, 303, 71, 72)){ ZIndex = Z, Flipped = Flipped })
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(54, 303, 71, 72)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(125, 303, 71, 72)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 375, 71, 72)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;
