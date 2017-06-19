@@ -19,15 +19,18 @@ namespace PaperWork
 
         private int Duration = 100;
         private readonly IGame Game;
-        public PlayerDestroyed(IGame Game)
+        public PlayerDestroyed(IGame Game, bool facingRight)
         {
             this.Game = Game;
-            var walkingWidth = (int)(700 * 1.4f);
+            var walkingWidth = (int)(2000);
 
-            var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0, Flipped = true };
-            var head_left = new Texture("Head", -300, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
-
-            animation = new GeneratedContent().Create_recycle_mantis_Death(0, 100,0, walkingWidth, walkingWidth);
+            animation = GeneratedContent.Create_recycle_mantis_Death(
+                -500,
+                -500,
+                0,
+                walkingWidth,
+                walkingWidth,
+                facingRight);
         }
 
         public IEnumerable<Texture> GetTextures()

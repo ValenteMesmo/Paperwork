@@ -45,7 +45,7 @@ namespace PaperWork
                 else
                 {
                     Game.World.Remove(Player);
-                    Game.World.Add(new PlayerDestroyed(Game) { X = Player.X, Y = Player.Y });
+                    Game.World.Add(new PlayerDestroyed(Game, Player.AnimationFacingRight) { X = Player.X, Y = Player.Y });
                 }
             }
         }

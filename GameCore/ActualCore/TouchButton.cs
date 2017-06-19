@@ -29,9 +29,9 @@ namespace GameCore
 
             var offsetX = (Width / 100) * 5;
             var offsetY = (Height / 100) * 5;
-            var content = new GeneratedContent();
-            buttonUp = content.Create_touch_inputs_button(-offsetX, -offsetY, 0, Width + offsetX, Height + offsetY);
-            buttonDown = content.Create_touch_inputs_button_pressed(0, 0, 0, Width, Height);
+            ;
+            buttonUp = GeneratedContent.Create_touch_inputs_button(-offsetX, -offsetY, 0, Width + offsetX, Height + offsetY);
+            buttonDown = GeneratedContent.Create_touch_inputs_button_pressed(0, 0, 0, Width, Height);
             Current = buttonUp;
         }
 
