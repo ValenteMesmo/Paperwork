@@ -27,12 +27,7 @@ namespace PaperWork
             var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0, Flipped = true };
             var head_left = new Texture("Head", -300, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
 
-            animation = new SimpleAnimation(
-                 new AnimationFrame(10,
-                 new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }
-                 , head_right)
-
-            );
+            animation = new GeneratedContent().Create_recycle_mantis_Death(0, 100,0, walkingWidth, walkingWidth);
         }
 
         public IEnumerable<Texture> GetTextures()
@@ -42,6 +37,7 @@ namespace PaperWork
 
         public void Update()
         {
+            animation.Update();
             Duration--;
             if (Duration == 0)
                 Game.Restart();

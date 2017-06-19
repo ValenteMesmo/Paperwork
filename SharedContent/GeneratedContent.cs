@@ -10,7 +10,7 @@ public class GeneratedContent
 
     public void Load(ContentManager content)
     {
-        var names = new string[] { "block", "Head", "papers", "touch_inputs", "Walk0001", "Walk0002", "Walk0003" };
+        var names = new string[] { "block", "Head", "papers", "recycle_mantis", "touch_inputs", "Walk0001", "Walk0002", "Walk0003" };
 
         foreach (var name in names)
         {
@@ -18,6 +18,43 @@ public class GeneratedContent
         }
     }
     
+    public SimpleAnimation Create_recycle_mantis_Death(int X, int Y, float Z, int Width, int Height)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 0, 128, 101)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(128, 0, 128, 101)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 101, 128, 101)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(128, 101, 128, 101)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 202, 128, 101)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 202, 128, 101)){ ZIndex = Z })
+        );
+
+        return animation;
+    }
+
+    public SimpleAnimation Create_recycle_mantis_Head(int X, int Y, float Z, int Width, int Height)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(128, 202, 54, 38)){ ZIndex = Z })
+        );
+
+        return animation;
+    }
+
+    public SimpleAnimation Create_recycle_mantis_Walk(int X, int Y, float Z, int Width, int Height)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(182, 202, 71, 72)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(0, 303, 71, 72)){ ZIndex = Z }),
+            new AnimationFrame(10, new GameCore.Texture("recycle_mantis", X, Y, Width, Height, new Rectangle(71, 303, 71, 72)){ ZIndex = Z })
+        );
+
+        return animation;
+    }
+
     public SimpleAnimation Create_touch_inputs_button(int X, int Y, float Z, int Width, int Height)
     {
         var animation = new SimpleAnimation(
