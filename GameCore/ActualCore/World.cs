@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace GameCore
 {
@@ -14,10 +13,11 @@ namespace GameCore
         public readonly InputRepository PlayerInputs = new InputRepository();
         private readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
+        public int Sleep { get; set; }
 
         public World(Camera2d Camera2d)
         {
-            this.Camera2d = Camera2d;            
+            this.Camera2d = Camera2d;
         }
 
         public void Add(Thing thing)
@@ -29,7 +29,6 @@ namespace GameCore
         {
             Items.Remove(thing);
         }
-
 
         public IEnumerable<Thing> GetColliders()
         {
@@ -44,7 +43,12 @@ namespace GameCore
         {
             if (Stopped)
                 return;
-            //erro quando reseta o game
+
+            if (Sleep > 0)
+            {
+                Sleep--;
+                return;
+            }
 
             var state = Keyboard.GetState();
             //if (state.IsKeyDown(Keys.Escape))
@@ -54,10 +58,9 @@ namespace GameCore
 
             currentItems = Items.ToList();
 
-
-            //check if game is running
             if (Stopped)
                 return;
+
             TouchCollection touchCollection = TouchPanel.GetState();
             var touches = new List<Vector2>();
             foreach (TouchLocation tl in touchCollection)

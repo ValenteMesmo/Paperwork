@@ -112,10 +112,10 @@ namespace PaperWork
 
         private void DestroyPaper(Paper comboItem)
         {
+            World.Sleep = 10;
             World.Add(new PaperDestroyed(World, comboItem.Color)
             {
-                X = comboItem.X
-                                                ,
+                X = comboItem.X,
                 Y = comboItem.Y
             });
             World.Remove(comboItem);
