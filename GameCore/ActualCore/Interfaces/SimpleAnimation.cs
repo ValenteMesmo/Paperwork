@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameCore
@@ -13,6 +15,20 @@ namespace GameCore
         {
             UpdatesUntilNextFrame = Frames[CurrentFrame].DurationInUpdatesCount;
             this.Frames = Frames;
+        }
+
+        public void ChangeColor(Color Color)
+        {
+            foreach (var texture in Frames.SelectMany(f => f.Textures))
+            {
+                texture.Color = Color;
+            }
+        }
+
+        [Obsolete("Gambiarra")]
+        public Color GetColor()
+        {
+            return Frames[0].Textures[0].Color;
         }
 
         public void Update()

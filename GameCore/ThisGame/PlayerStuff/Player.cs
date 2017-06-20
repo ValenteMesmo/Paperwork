@@ -56,6 +56,7 @@ namespace PaperWork
     //sleep on death
     //sleep on combo
     //keep score
+    // smoke effect after combo
     public class Player :
         Collider
         , ICollisionHandler

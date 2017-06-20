@@ -80,6 +80,7 @@
     <Compile Include="ThisGame\LimitSpeed.cs" />
     <Compile Include="ThisGame\MoveHorizontallyOnInput.cs" />
     <Compile Include="ThisGame\Paper.cs" />
+    <Compile Include="ThisGame\PaperDestroyed.cs" />
     <Compile Include="ThisGame\PaperFactory.cs" />
     <Compile Include="ThisGame\PlayerStuff\DragAndDrop\GrabPaperThatThePlayerIsStandingOn.cs" />
     <Compile Include="ThisGame\PlayerStuff\DragAndDrop\Left\DropPaper_Left.cs" />

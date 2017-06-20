@@ -18,7 +18,7 @@ namespace PaperWork
             Color.Yellow,
             new Color(255, 100, 100),
             new Color(100, 255, 100),
-            new Color(150, 150, 255)
+            new Color(100, 150, 255)
         };
         private readonly Action<Collider> AddToWorld;
 

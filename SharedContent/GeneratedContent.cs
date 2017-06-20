@@ -10,7 +10,7 @@ public class GeneratedContent
 
     public void Load(ContentManager content)
     {
-        var names = new string[] { "block", "Head", "papers", "recycle_mantis", "touch_inputs", "Walk0001", "Walk0002", "Walk0003" };
+        var names = new string[] { "block", "Head", "papers", "recycle_mantis", "touch_inputs", "trash_bag", "Walk0001", "Walk0002", "Walk0003" };
 
         foreach (var name in names)
         {
@@ -84,6 +84,18 @@ public class GeneratedContent
         var animation = new SimpleAnimation(
             
             new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 68, 64, 62)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
+    public static SimpleAnimation Create_trash_bag_Trash(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("trash_bag", X, Y, Width, Height, new Rectangle(0, 0, 72, 65)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_bag", X, Y, Width, Height, new Rectangle(0, 65, 72, 65)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_bag", X, Y, Width, Height, new Rectangle(0, 130, 72, 65)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;
