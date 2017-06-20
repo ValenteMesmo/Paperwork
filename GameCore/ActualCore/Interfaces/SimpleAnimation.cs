@@ -35,6 +35,8 @@ namespace GameCore
 
         public void Update()
         {
+            CurrentTextures = Frames[CurrentFrameIndex].Textures;
+
             if (UpdatesUntilNextFrame > 0)
             {
                 UpdatesUntilNextFrame--;
@@ -45,8 +47,7 @@ namespace GameCore
             if (CurrentFrameIndex >= Frames.Length)
                 CurrentFrameIndex = 0;
 
-            UpdatesUntilNextFrame = Frames[CurrentFrameIndex].DurationInUpdatesCount;
-            CurrentTextures = Frames[CurrentFrameIndex].Textures;
+            UpdatesUntilNextFrame = Frames[CurrentFrameIndex].DurationInUpdatesCount;            
         }
 
         public IEnumerable<Texture> GetTextures()

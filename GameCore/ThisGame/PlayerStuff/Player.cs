@@ -6,47 +6,6 @@ using System;
 
 namespace PaperWork
 {
-    public class PlayerDestroyed : Animation, DimensionalThing
-    {
-        private readonly SimpleAnimation animation;
-
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int DrawableX { get; set; }
-        public int DrawableY { get; set; }
-
-        private int Duration = 100;
-        private readonly IGame Game;
-        public PlayerDestroyed(IGame Game, bool facingRight)
-        {
-            this.Game = Game;
-            var walkingWidth = (int)(2000);
-
-            animation = GeneratedContent.Create_recycle_mantis_Death(
-                -500,
-                -500,
-                0,
-                walkingWidth,
-                walkingWidth,
-                facingRight);
-        }
-
-        public IEnumerable<Texture> GetTextures()
-        {
-            return animation.GetTextures();
-        }
-
-        public void Update()
-        {
-            animation.Update();
-            Duration--;
-            if (Duration == 0)
-                Game.Restart();
-        }
-    }
-
     //TODO: brilho dos olhos tem que ficar do mesmo lado!
     //TODO: prevent player from special drop down when near the roof
     //TODO: arregalar os olhos do player quando estiver correndo perigo
@@ -57,6 +16,8 @@ namespace PaperWork
     //sleep on combo
     //keep score
     // smoke effect after combo
+    // jump animation
+    // look up animation (open mouth)
     public class Player :
         Collider
         , ICollisionHandler
@@ -102,9 +63,11 @@ namespace PaperWork
             Width = 700;
             Height = 1100;
 
+            var leftOffsetX = -300;
+
             var walkingWidth = (int)(700 * 1.4f);
             var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0, Flipped = true };
-            var head_left = new Texture("Head", -300, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
+            var head_left = new Texture("Head", leftOffsetX, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
 
             SimpleAnimation stand_right = new SimpleAnimation(
                  new AnimationFrame(10,
@@ -114,7 +77,7 @@ namespace PaperWork
             );
 
             SimpleAnimation stand_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }
+                new AnimationFrame(10, new Texture("Walk0001", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }
                 , head_left)
             );
 
@@ -126,10 +89,10 @@ namespace PaperWork
             );
 
             SimpleAnimation walkAnimation_left = new SimpleAnimation(
-                 new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0002", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0001", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0003", -300, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                 new AnimationFrame(10, new Texture("Walk0001", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                , new AnimationFrame(10, new Texture("Walk0002", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                , new AnimationFrame(10, new Texture("Walk0001", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
+                , new AnimationFrame(10, new Texture("Walk0003", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
             );
 
             Animation = new Animator(
