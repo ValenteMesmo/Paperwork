@@ -83,7 +83,7 @@ namespace GameCore
                        cam.get_transformation(GraphicsDevice));
 
             var entiies = World.GetColliders();
-            var drawColliders = true;
+            var drawColliders = false;
 
             if (entiies == null)
                 return;

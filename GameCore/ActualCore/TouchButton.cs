@@ -1,4 +1,5 @@
 ﻿using GameCore.ActualCore;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -8,9 +9,9 @@ namespace GameCore
     {
         private readonly Action<bool> SetValue;
 
-        private Animation buttonUp;
-        private Animation Current;
-        private Animation buttonDown;
+        private SimpleAnimation buttonUp;
+        private SimpleAnimation Current;
+        private SimpleAnimation buttonDown;
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -29,9 +30,12 @@ namespace GameCore
 
             var offsetX = (Width / 100) * 5;
             var offsetY = (Height / 100) * 5;
-            ;
+
             buttonUp = GeneratedContent.Create_touch_inputs_button(-offsetX, -offsetY, 0, Width + offsetX, Height + offsetY);
+            buttonUp.ChangeColor(new Color(253, 225, 21));
             buttonDown = GeneratedContent.Create_touch_inputs_button_pressed(0, 0, 0, Width, Height);
+            buttonDown.ChangeColor(new Color(253, 205, 1));
+
             Current = buttonUp;
         }
 
