@@ -66,8 +66,8 @@ namespace PaperWork
             var leftOffsetX = -300;
 
             var walkingWidth = (int)(700 * 1.4f);
-            var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0, Flipped = true };
-            var head_left = new Texture("Head", leftOffsetX, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0 };
+            var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0.01f, Flipped = true };
+            var head_left = new Texture("Head", leftOffsetX, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0.01f };
 
             SimpleAnimation stand_right = new SimpleAnimation(
                  new AnimationFrame(10,

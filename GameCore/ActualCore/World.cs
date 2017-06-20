@@ -13,6 +13,7 @@ namespace GameCore
         private List<Thing> Items = new List<Thing>();
         public readonly InputRepository PlayerInputs = new InputRepository();
         private readonly Camera2d Camera2d;
+        public bool Stopped { get; set; }
 
         public World(Camera2d Camera2d)
         {
@@ -41,6 +42,8 @@ namespace GameCore
 
         public void Update()
         {
+            if (Stopped)
+                return;
             //erro quando reseta o game
 
             var state = Keyboard.GetState();
@@ -51,7 +54,10 @@ namespace GameCore
 
             currentItems = Items.ToList();
 
+
             //check if game is running
+            if (Stopped)
+                return;
             TouchCollection touchCollection = TouchPanel.GetState();
             var touches = new List<Vector2>();
             foreach (TouchLocation tl in touchCollection)

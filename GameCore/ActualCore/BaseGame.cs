@@ -171,5 +171,10 @@ namespace GameCore
             StartGame();
         }
 
+        protected override void EndRun()
+        {
+            World.Stopped = true;
+            base.EndRun();
+        }
     }
 }
