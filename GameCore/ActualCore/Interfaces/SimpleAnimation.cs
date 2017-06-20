@@ -8,13 +8,15 @@ namespace GameCore
     public class SimpleAnimation : Animation
     {
         private readonly AnimationFrame[] Frames;
-        private int CurrentFrame;
+        private int CurrentFrameIndex;
         private int UpdatesUntilNextFrame;
+        private Texture[] CurrentTextures;
 
         public SimpleAnimation(params AnimationFrame[] Frames)
         {
-            UpdatesUntilNextFrame = Frames[CurrentFrame].DurationInUpdatesCount;
+            UpdatesUntilNextFrame = Frames[CurrentFrameIndex].DurationInUpdatesCount;
             this.Frames = Frames;
+            CurrentTextures = Frames[CurrentFrameIndex].Textures;
         }
 
         public void ChangeColor(Color Color)
@@ -39,28 +41,22 @@ namespace GameCore
                 return;
             }
 
-            CurrentFrame++;
-            if (CurrentFrame >= Frames.Length)
-                CurrentFrame = 0;
+            CurrentFrameIndex++;
+            if (CurrentFrameIndex >= Frames.Length)
+                CurrentFrameIndex = 0;
 
-            UpdatesUntilNextFrame = Frames[CurrentFrame].DurationInUpdatesCount;
+            UpdatesUntilNextFrame = Frames[CurrentFrameIndex].DurationInUpdatesCount;
+            CurrentTextures = Frames[CurrentFrameIndex].Textures;
         }
 
         public IEnumerable<Texture> GetTextures()
         {
-            try
-            {
-                return Frames[CurrentFrame].Textures;
-            }
-            catch (System.IndexOutOfRangeException ex)
-            {
-                return Enumerable.Empty<Texture>();
-            }
+            return CurrentTextures;
         }
 
         public void Restart()
         {
-            CurrentFrame = 0;
+            CurrentFrameIndex = 0;
         }
     }
 }

@@ -61,14 +61,14 @@ namespace GameCore
             pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
 
+            gameloop = new GameRunner(World.Update);
+            gameloop.Start();
             StartGame();
         }
 
         private void StartGame()
         {
             OnStart();
-            gameloop = new GameRunner(World.Update);
-            gameloop.Start();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -84,6 +84,10 @@ namespace GameCore
 
             var entiies = World.GetColliders();
             var drawColliders = true;
+
+            if (entiies == null)
+                return;
+
             foreach (var item in entiies)
             {
                 if (item == null)
@@ -161,9 +165,9 @@ namespace GameCore
 
         public void Restart()
         {
+            //gameloop.Dispose();
             World.Clear();
-            World = new World(cam);
-            gameloop.Dispose();
+            //World = new World(cam);
             StartGame();
         }
 

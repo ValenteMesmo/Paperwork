@@ -20,6 +20,41 @@ namespace PaperWork
             CreateBlocks(rowNumber, colNumber);
 
             new Grid(World);
+
+
+
+
+            var btnWidth = 1000;
+            var btnHeight = 900;
+            var space = 1;
+            var yAnchor = 6600;
+            var xAnchor = 300;
+
+            World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Left = f));
+            World.Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = f));
+            World.Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Right = f));
+            
+            World.Add(new TouchButton(xAnchor, yAnchor + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => World.PlayerInputs.Left = f));
+            World.Add(new TouchButton(xAnchor + btnWidth + btnWidth / 2, yAnchor + btnHeight, btnWidth + btnWidth / 2 - space, btnHeight - space, f => World.PlayerInputs.Right = f));
+            
+            World.Add(new TouchButton(xAnchor, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Down = World.PlayerInputs.Left = f));
+            World.Add(new TouchButton(xAnchor + btnWidth, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Down = f));
+            World.Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Down = World.PlayerInputs.Right = f));
+
+            xAnchor = 9600;
+            btnWidth = 2000;
+            World.Add(new TouchButton(
+                xAnchor
+                , yAnchor
+                , btnWidth - space
+                , (int)(btnHeight * 3f) - space
+                , f => World.PlayerInputs.Action1 = f));
+            World.Add(new TouchButton(
+                xAnchor + btnWidth
+                , yAnchor
+                , btnWidth - space
+                , (int)(btnHeight * 3f) - space
+                , f => World.PlayerInputs.Up = f));
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)
