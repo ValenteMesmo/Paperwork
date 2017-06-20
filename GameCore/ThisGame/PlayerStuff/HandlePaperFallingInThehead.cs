@@ -46,7 +46,7 @@ namespace PaperWork
                 {
                     Game.World.Remove(Player);
                     Game.World.Add(new PlayerDestroyed(Game, Player.AnimationFacingRight) { X = Player.X, Y = Player.Y });
-                    Game.World.Sleep = 30;
+                    Game.World.Sleep = 15;
                 }
             }
         }
