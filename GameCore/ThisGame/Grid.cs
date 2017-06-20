@@ -112,7 +112,7 @@ namespace PaperWork
 
         private void DestroyPaper(Paper comboItem)
         {
-            World.Add(new PaperDestroyed(World)
+            World.Add(new PaperDestroyed(World, comboItem.Color)
             {
                 X = comboItem.X
                                                 ,

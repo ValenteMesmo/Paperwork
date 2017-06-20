@@ -6,15 +6,21 @@ namespace PaperWork
 {
     public class PaperDestroyed : Animation, DimensionalThing
     {
-        World World;
-        private Texture Texture = new Texture("papers", 0, -Paper.SIZE, Paper.SIZE, Paper.SIZE * 2) { ZIndex = 0, Color = new Color(255,255,100,0.5f) };
+        private World World;
         private int duration;
+        private readonly SimpleAnimation Animation;
 
-
-        public PaperDestroyed(World World)
+        public PaperDestroyed(World World, Color Color)
         {
             this.World = World;
-            duration = 100;
+            Animation = GeneratedContent.Create_trash_explosion_Explosion(
+                - (int)(Paper.SIZE*0.8f)
+                , -(int)(Paper.SIZE*1)
+                , 0
+                , (int)(Paper.SIZE*2.8f)
+                , (int)(Paper.SIZE*2.8f));
+            Animation.ChangeColor(Color);
+            duration = 200;
         }
 
         public int X { get; set; }
@@ -26,11 +32,12 @@ namespace PaperWork
 
         public IEnumerable<Texture> GetTextures()
         {
-            yield return Texture;
+            return Animation.GetTextures();
         }
 
         public void Update()
         {
+            Animation.Update();
             duration--;
 
             if (duration == 0)

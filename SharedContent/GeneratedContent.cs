@@ -10,7 +10,7 @@ public class GeneratedContent
 
     public void Load(ContentManager content)
     {
-        var names = new string[] { "block", "Head", "papers", "recycle_mantis", "touch_inputs", "trash_bag", "Walk0001", "Walk0002", "Walk0003" };
+        var names = new string[] { "block", "Head", "papers", "recycle_mantis", "touch_inputs", "trash_bag", "trash_explosion", "Walk0001", "Walk0002", "Walk0003" };
 
         foreach (var name in names)
         {
@@ -96,6 +96,65 @@ public class GeneratedContent
             new AnimationFrame(10, new GameCore.Texture("trash_bag", X, Y, Width, Height, new Rectangle(0, 0, 72, 65)){ ZIndex = Z, Flipped = Flipped }),
             new AnimationFrame(10, new GameCore.Texture("trash_bag", X, Y, Width, Height, new Rectangle(0, 65, 72, 65)){ ZIndex = Z, Flipped = Flipped }),
             new AnimationFrame(10, new GameCore.Texture("trash_bag", X, Y, Width, Height, new Rectangle(0, 130, 72, 65)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
+    public static SimpleAnimation Create_trash_explosion_Explosion(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 0, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(159, 0, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(318, 0, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 147, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(159, 147, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(318, 147, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 294, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(159, 294, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(318, 294, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 441, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(159, 441, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(318, 441, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("trash_explosion", X, Y, Width, Height, new Rectangle(0, 588, 159, 147)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;
