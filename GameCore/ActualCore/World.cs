@@ -41,41 +41,21 @@ namespace GameCore
 
         public void Update()
         {
+            lock (Items)
+            {
+                currentItems = Items.ToList();
+            }
+
             if (Stopped)
                 return;
 
-            if (Sleep > 0)
-            {
-                Sleep--;
-                return;
-            }
+            List<Vector2> touches = GetTouches();
 
             var state = Keyboard.GetState();
             //if (state.IsKeyDown(Keys.Escape))
             //    Exit();
 
             PlayerInputs.Update(state);
-
-            currentItems = Items.ToList();
-
-            if (Stopped)
-                return;
-
-            TouchCollection touchCollection = TouchPanel.GetState();
-            var touches = new List<Vector2>();
-            foreach (TouchLocation tl in touchCollection)
-            {
-                if ((tl.State == TouchLocationState.Pressed)
-                    || (tl.State == TouchLocationState.Moved))
-                {
-                    touches.Add(
-                        Camera2d.ToWorldLocation(tl.Position));
-                }
-            }
-
-            PreviouslyTouched.Clear();
-            PreviouslyTouched.AddRange(CurrentlyTouched);
-            CurrentlyTouched.Clear();
 
             foreach (var item in currentItems)
             {
@@ -89,6 +69,16 @@ namespace GameCore
                         HandleTouchable(touches, dimensions);
                 }
 
+            }
+
+            if (Sleep > 0)
+            {
+                Sleep--;
+                return;
+            }
+
+            foreach (var item in currentItems)
+            {
                 if (item is IUpdateHandler)
                     item.As<IUpdateHandler>().Update();
             }
@@ -122,6 +112,26 @@ namespace GameCore
             colliders.ForEachCombination(
                 IColliderExtensions
                     .HandleVerticalCollision);
+        }
+
+        private List<Vector2> GetTouches()
+        {
+            TouchCollection touchCollection = TouchPanel.GetState();
+            var touches = new List<Vector2>();
+            foreach (TouchLocation tl in touchCollection)
+            {
+                if ((tl.State == TouchLocationState.Pressed)
+                    || (tl.State == TouchLocationState.Moved))
+                {
+                    touches.Add(
+                        Camera2d.ToWorldLocation(tl.Position));
+                }
+            }
+
+            PreviouslyTouched.Clear();
+            PreviouslyTouched.AddRange(CurrentlyTouched);
+            CurrentlyTouched.Clear();
+            return touches;
         }
 
         private void HandleTouchable(List<Vector2> touches, DimensionalThing item)

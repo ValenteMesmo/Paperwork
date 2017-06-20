@@ -32,7 +32,8 @@ namespace PaperWork
             var yAnchor = 6600;
             var xAnchor = 300;
 
-            World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Left = f));
+            World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, 
+                f => World.PlayerInputs.Up = World.PlayerInputs.Left = f));
             World.Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = f));
             World.Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Right = f));
 

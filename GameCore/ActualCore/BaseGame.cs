@@ -11,7 +11,7 @@ namespace GameCore
         private SpriteBatch spriteBatch;
 
         private Texture2D pixel;
-        public World World { get; private set; }
+        public World World { get; }
         private GameRunner gameloop;
         private readonly Camera2d cam;
 
