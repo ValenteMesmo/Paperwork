@@ -37,13 +37,16 @@ namespace PaperWork
         {
             if (other is Paper)
             {
-                if (Player.Left_ChestPaperDetetor.GetDetectedItems().Any() == false
-                    && Player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
+                if (Player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
                 {
-                    Player.HorizontalSpeed = -100;
+                    Player.HorizontalSpeed = -80;
                 }
                 else
                 {
+                    if (Player.GrabbedPaper != null)
+                    {
+                        Player.GrabbedPaper.Disabled = false;
+                    }
                     Game.World.Remove(Player);
                     Game.World.Add(new PlayerDestroyed(Game, Player.AnimationFacingRight) { X = Player.X, Y = Player.Y });
                     Game.World.Sleep = 15;

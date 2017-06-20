@@ -27,13 +27,12 @@ namespace PaperWork
         private void CreateTouchInputs()
         {
             var btnWidth = 1000;
-            var btnHeight = 900;
+            var btnHeight = 1000;
             var space = 1;
-            var yAnchor = 6600;
-            var xAnchor = 300;
+            var yAnchor = 6200;
+            var xAnchor = 250;
 
-            World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, 
-                f => World.PlayerInputs.Up = World.PlayerInputs.Left = f));
+            World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Left = f));
             World.Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = f));
             World.Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Right = f));
 
@@ -44,18 +43,18 @@ namespace PaperWork
             World.Add(new TouchButton(xAnchor + btnWidth, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Down = f));
             World.Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Down = World.PlayerInputs.Right = f));
 
-            xAnchor = 9600;
-            btnWidth = 2000;
+            xAnchor = 10500;
+            btnWidth = 1500;
             World.Add(new TouchButton(
                 xAnchor
-                , yAnchor
+                , yAnchor + 100
                 , btnWidth - space
                 , (int)(btnHeight * 3f) - space
                 , f => World.PlayerInputs.Action1 = f));
             World.Add(new TouchButton(
                 xAnchor + btnWidth
-                , yAnchor
-                , btnWidth - space
+                , yAnchor + 100
+                , (int)(btnWidth * 1.25f - space)
                 , (int)(btnHeight * 3f) - space
                 , f => World.PlayerInputs.Up = f));
         }

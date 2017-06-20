@@ -12,10 +12,8 @@ namespace PaperWork
     //https://s-media-cache-ak0.pinimg.com/originals/f4/cc/41/f4cc41f0e3ecd673a6292ca150bcc32d.jpg
     //(fear in anime)
     //TODO: camera shake
-    //sleep on death
-    //sleep on combo
     //keep score
-    // smoke effect after combo
+    //close game when ESC pressed
     // jump animation
     // look up animation (open mouth)
     public class Player :
@@ -63,6 +61,54 @@ namespace PaperWork
             Width = 700;
             Height = 1100;
 
+            Animation = CreateAnimator();
+
+            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1150, -500, 100, 100) { Parent = this };
+            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1150, 500, 100, 100) { Parent = this };
+            world.Add(Right_ChestPaperDetetor);
+            world.Add(Right_FeetPaperDetector);
+
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-600, -500, 100, 100) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-600, 500, 100, 100) { Parent = this };
+            world.Add(Left_ChestPaperDetetor);
+            world.Add(Left_FeetPaperDetector);
+
+            GroundDetector = new Detector<IPlayerMovementBlocker>(100, 1250, 500, 250) { Parent = this };
+            world.Add(GroundDetector);
+
+            //HeadDetector = new Detector<Paper>(200, -400, 250, 250) { Parent = this };
+            //world.Add(HeadDetector);
+
+            UpdateHandler = new UpdateGroup(
+                new MoveHorizontallyOnInput(this, Inputs)
+                , new SetPlayerDirection(this)
+                , new AffectedByGravity(this)
+                , new PlayersJump(this, Inputs)
+                , new GrabPaperNearPlayersFeetAsFirstOption_Right(this)
+                , new GrabPaperNearPlayersFeetAsFirstOption_Left(this)
+                , new GrabPaperThatThePlayerIsStandingOn(this)
+                , new GrabPaperNearPlayersChest_Right(this)
+                , new GrabPaperNearPlayersChest_Left(this)
+                , new GrabPaperNearPlayersFeetAsLastOption_Right(this)
+                , new GrabPaperNearPlayersFeetAsLastOption_Left(this)
+                , new SpecialDownDropPaper(this)
+                , new DropPaper_Right(this)
+                , new DropPaper_Left(this)
+                , new LimitSpeed(this, 80, 150)
+            );
+
+            CollisionHandler = new CollisionHandlerGroup(
+                new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
+                , new StopsWhenTopCollidingWith<Block>(this)
+                , new HandlePaperFallingInThehead(this, Game1)
+                , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
+                , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
+            );
+            world.Add(this);
+        }
+
+        private Animator CreateAnimator()
+        {
             var leftOffsetX = -300;
 
             var walkingWidth = (int)(700 * 1.4f);
@@ -95,7 +141,7 @@ namespace PaperWork
                 , new AnimationFrame(10, new Texture("Walk0003", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
             );
 
-            Animation = new Animator(
+            var Animator = new Animator(
                 new AnimationTransition(
                     new[] {
                         walkAnimation_left
@@ -138,48 +184,7 @@ namespace PaperWork
                 )
             );
 
-            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1000, -500, 100, 100) { Parent = this };
-            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1000, 500, 100, 100) { Parent = this };
-            world.Add(Right_ChestPaperDetetor);
-            world.Add(Right_FeetPaperDetector);
-
-            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-450, -500, 100, 100) { Parent = this };
-            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-450, 500, 100, 100) { Parent = this };
-            world.Add(Left_ChestPaperDetetor);
-            world.Add(Left_FeetPaperDetector);
-
-            GroundDetector = new Detector<IPlayerMovementBlocker>(100, 1250, 500, 250) { Parent = this };
-            world.Add(GroundDetector);
-
-            //HeadDetector = new Detector<Paper>(200, -400, 250, 250) { Parent = this };
-            //world.Add(HeadDetector);
-
-            UpdateHandler = new UpdateGroup(
-                new MoveHorizontallyOnInput(this, Inputs)
-                , new SetPlayerDirection(this)
-                , new AffectedByGravity(this)
-                , new PlayersJump(this, Inputs)
-                , new GrabPaperNearPlayersFeetAsFirstOption_Right(this)
-                , new GrabPaperNearPlayersFeetAsFirstOption_Left(this)
-                , new GrabPaperThatThePlayerIsStandingOn(this)
-                , new GrabPaperNearPlayersChest_Right(this)
-                , new GrabPaperNearPlayersChest_Left(this)
-                , new GrabPaperNearPlayersFeetAsLastOption_Right(this)
-                , new GrabPaperNearPlayersFeetAsLastOption_Left(this)
-                , new SpecialDownDropPaper(this)
-                , new DropPaper_Right(this)
-                , new DropPaper_Left(this)
-                , new LimitSpeed(this, 80, 150)
-            );
-
-            CollisionHandler = new CollisionHandlerGroup(
-                new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
-                , new StopsWhenTopCollidingWith<Block>(this)
-                , new HandlePaperFallingInThehead(this, Game1)
-                , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
-                , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
-            );
-            world.Add(this);
+            return Animator;
         }
 
         public void Update()
