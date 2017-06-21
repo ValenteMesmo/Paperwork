@@ -34,9 +34,10 @@ namespace GameCore
             var offsetX = (Width / 100) * 5;
             var offsetY = (Height / 100) * 5;
 
-            buttonUp = GeneratedContent.Create_touch_inputs_button(-offsetX, -offsetY, 0.9f, Width + offsetX, Height + offsetY);
+            var z = 0.8f;
+            buttonUp = GeneratedContent.Create_touch_inputs_button(-offsetX, -offsetY, z, Width + offsetX, Height + offsetY);
             buttonUp.ChangeColor(new Color(253, 205, 1));
-            buttonDown = GeneratedContent.Create_touch_inputs_button_pressed(0, 0, 0.9f, Width, Height);
+            buttonDown = GeneratedContent.Create_touch_inputs_button_pressed(0, 0, z, Width, Height);
             buttonDown.ChangeColor(new Color(253, 205, 1));
 
             Current = buttonUp;

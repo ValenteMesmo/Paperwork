@@ -21,12 +21,14 @@ namespace GameCore
 
         public void Add(Thing thing)
         {
-            Items.Add(thing);
+            lock (Items)
+                Items.Add(thing);
         }
 
         public void Remove(Thing thing)
         {
-            Items.Remove(thing);
+            lock (Items)
+                Items.Remove(thing);
         }
 
         public IEnumerable<Thing> GetColliders()
@@ -42,6 +44,7 @@ namespace GameCore
         {
             lock (Items)
             {
+                //Destination array was not long enough. Check destIndex and length, and the array's lower bounds.'
                 currentItems = Items.ToList();
             }
 

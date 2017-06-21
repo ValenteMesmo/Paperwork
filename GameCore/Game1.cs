@@ -65,16 +65,17 @@ namespace PaperWork
             var cellsize = 1000 + World.SPACE_BETWEEN_THINGS;
             for (int i = 1; i < rowNumber; i++)
             {
-                World.Add(new Block
+                World.Add(new Block(Direction.Top)
                 {
                     X = i * cellsize,
                     Y = cellsize
                 });
             }
 
-            for (int i = 1; i < colNumber; i++)
+            for (int i = 1; i <= colNumber; i++)
             {
-                World.Add(new Block
+
+                World.Add(new Block(i == 1 || i == colNumber ? Direction.Center : Direction.Left)
                 {
                     X = 0,
                     Y = i * cellsize
@@ -83,22 +84,35 @@ namespace PaperWork
 
             for (int i = 1; i < rowNumber; i++)
             {
-                World.Add(new Block
+                World.Add(new Block(Direction.Bot)
                 {
                     X = i * cellsize,
                     Y = cellsize * colNumber
                 });
             }
 
-            for (int i = 1; i < colNumber; i++)
+            for (int i = 1; i <= colNumber; i++)
             {
                 if (i == 2)
                     continue;
-                World.Add(new Block
+                World.Add(new Block(i == 1 || i == colNumber ? Direction.Center : Direction.Right)
                 {
                     X = cellsize * rowNumber,
                     Y = i * cellsize
                 });
+            }
+
+            for (int i = 1; i <= 3; i++)
+            {
+                for (int j = 1; j < rowNumber; j++)
+                {
+                    World.Add(new Block(Direction.Center)
+                    {
+                        X = j * cellsize,
+                        Y = cellsize * (colNumber + i),
+                        Disabled = true
+                    });
+                }
             }
         }
     }

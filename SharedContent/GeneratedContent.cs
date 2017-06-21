@@ -10,7 +10,7 @@ public class GeneratedContent
 
     public void Load(ContentManager content)
     {
-        var names = new string[] { "block", "recycle_mantis", "touch_inputs", "trash_bag", "trash_explosion" };
+        var names = new string[] { "background", "recycle_mantis", "touch_inputs", "trash_bag", "trash_explosion" };
 
         foreach (var name in names)
         {
@@ -18,6 +18,56 @@ public class GeneratedContent
         }
     }
     
+    public static SimpleAnimation Create_background_wall_bot(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("background", X, Y, Width, Height, new Rectangle(0, 0, 69, 68)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
+    public static SimpleAnimation Create_background_wall_center(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("background", X, Y, Width, Height, new Rectangle(69, 0, 69, 68)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
+    public static SimpleAnimation Create_background_wall_left(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("background", X, Y, Width, Height, new Rectangle(138, 0, 69, 68)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
+    public static SimpleAnimation Create_background_wall_right(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("background", X, Y, Width, Height, new Rectangle(0, 68, 69, 68)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
+    public static SimpleAnimation Create_background_wall_top(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
+    {
+        var animation = new SimpleAnimation(
+            
+            new AnimationFrame(10, new GameCore.Texture("background", X, Y, Width, Height, new Rectangle(69, 68, 69, 68)){ ZIndex = Z, Flipped = Flipped })
+        );
+
+        return animation;
+    }
+
     public static SimpleAnimation Create_recycle_mantis_Death(int X, int Y, float Z, int Width, int Height, bool Flipped = false)
     {
         var animation = new SimpleAnimation(

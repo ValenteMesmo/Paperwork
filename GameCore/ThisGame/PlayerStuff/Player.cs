@@ -4,9 +4,11 @@ using System.Linq;
 
 namespace PaperWork
 {
-    //TODO: camera shake
+    //TODO: 
+    //camera shake
     //keep score
-    // jump animation
+    //audio
+    //jump and drop only on key down... not pressed
     public class Player :
         Collider
         , ICollisionHandler
@@ -107,10 +109,10 @@ namespace PaperWork
 
         private Animator CreateHeadAnimator()
         {
-            var head_right = GeneratedContent.Create_recycle_mantis_Head(200, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var head_right = GeneratedContent.Create_recycle_mantis_Head(250, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
             var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
-            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(200, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(250, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
             var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
             var Animator = new Animator(
