@@ -4,11 +4,12 @@ using System;
 
 namespace GameCore
 {
-    public class Camera2d
+    public class Camera2d : IUpdateHandler
     {
         protected float _zoom;
         public Matrix _transform;
         public Vector2 _pos;
+        public Vector2 OriginalPosition;
         protected float _rotation;
 
         public float Zoom
@@ -37,7 +38,7 @@ namespace GameCore
         public Vector2 Pos
         {
             get { return _pos; }
-            set { _pos = value; }
+            set { OriginalPosition = _pos = value; }
         }
 
         public Camera2d()
@@ -74,5 +75,21 @@ namespace GameCore
             return Vector2.Transform(position, _transform);
         }
 
+        public void Update()
+        {
+            if (shakeDuration > 0)
+            {
+                _pos.Y = OriginalPosition.Y + shakeDuration * 10;
+
+                shakeDuration--;
+            }
+            else
+            {
+                shakeDuration = 0;
+                _pos.Y = OriginalPosition.Y;
+            }
+        }
+
+        public int shakeDuration { get; set; }
     }
 }

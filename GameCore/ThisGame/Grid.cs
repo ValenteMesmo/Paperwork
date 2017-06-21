@@ -119,6 +119,7 @@ namespace PaperWork
                 Y = comboItem.Y
             });
             World.Remove(comboItem);
+            World.Camera2d.shakeDuration = 2;
         }
 
         private void ComputeHorizontalCombos()

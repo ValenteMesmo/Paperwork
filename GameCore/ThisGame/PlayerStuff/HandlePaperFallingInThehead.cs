@@ -50,20 +50,9 @@ namespace PaperWork
                     Game.World.Remove(Player);
                     Game.World.Add(new PlayerDestroyed(Game, Player.AnimationFacingRight) { X = Player.X, Y = Player.Y });
                     Game.World.Sleep = 15;
+                    Game.World.Camera2d.shakeDuration = 5;
                 }
             }
         }
-
-        //public void Update()
-        //{
-        //    if (Player.HeadDetector.GetDetectedItems().Any())
-        //    {
-        //        if (Player.Left_ChestPaperDetetor.GetDetectedItems().Any() == false
-        //            && Player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
-        //        {
-        //            Player.HorizontalSpeed = -10;
-        //        }
-        //    }
-        //}
     }
 }
