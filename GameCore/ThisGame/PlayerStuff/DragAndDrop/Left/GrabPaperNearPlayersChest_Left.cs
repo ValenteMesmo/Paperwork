@@ -15,7 +15,7 @@ namespace PaperWork
         public void Update()
         {
             if (Player.GrabbedPaper == null
-                && Player.Inputs.Action1
+                && Player.Inputs.ClickedAction1
                 && Player.FacingRight == false
                 && Player.TimeUntilDragDropEnable == 0)
             {

@@ -20,9 +20,9 @@ namespace PaperWork
 
         public void Update()
         {
-            if (Inputs.Left)
+            if (Inputs.LeftDown)
                 Parent.HorizontalSpeed = Move(Parent.HorizontalSpeed, -VELOCITY);
-            else if (Inputs.Right)
+            else if (Inputs.RightDown)
                 Parent.HorizontalSpeed = Move(Parent.HorizontalSpeed, VELOCITY);
             else
                 Parent.HorizontalSpeed = Parent.HorizontalSpeed.EasyToZero(FRICTION);

@@ -7,7 +7,7 @@ namespace PaperWork
     //TODO: 
     //keep score
     //audio
-    //jump and drop only on key down... not pressed
+    // speed up trash spawn
     public class Player :
         Collider
         , ICollisionHandler
@@ -115,10 +115,10 @@ namespace PaperWork
             var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
             var Animator = new Animator(
-                new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.Up == false)
-                , new AnimationTransitionOnCondition(new Animation[] { head_left, headUp_right, headUp_left }, head_right, () => AnimationFacingRight && Inputs.Up == false)
-                , new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, head_left }, headUp_left, () => AnimationFacingRight == false && Inputs.Up)
-                , new AnimationTransitionOnCondition(new Animation[] { head_left, head_right, headUp_left }, headUp_right, () => AnimationFacingRight && Inputs.Up)
+                new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.UpDown == false)
+                , new AnimationTransitionOnCondition(new Animation[] { head_left, headUp_right, headUp_left }, head_right, () => AnimationFacingRight && Inputs.UpDown == false)
+                , new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, head_left }, headUp_left, () => AnimationFacingRight == false && Inputs.UpDown)
+                , new AnimationTransitionOnCondition(new Animation[] { head_left, head_right, headUp_left }, headUp_right, () => AnimationFacingRight && Inputs.UpDown)
             );
 
             return Animator;
@@ -141,7 +141,7 @@ namespace PaperWork
                     , hand_left
                     , () =>
                         AnimationFacingRight == false
-                        && Inputs.Action1 == false
+                        && Inputs.Action1Down == false
                         && GrabbedPaper == null)
                 , new AnimationTransitionOnCondition(
                     new Animation[] {
@@ -149,21 +149,21 @@ namespace PaperWork
                         ,hand_air_left
                         ,hand_air_right
                     }
-                    , hand_right, () => AnimationFacingRight && (Inputs.Action1 == false && GrabbedPaper == null))
+                    , hand_right, () => AnimationFacingRight && (Inputs.Action1Down == false && GrabbedPaper == null))
                 , new AnimationTransitionOnCondition(
                     new Animation[] {
                          hand_right
                         , hand_left
                         ,hand_air_right
                     }
-                    , hand_air_left, () => AnimationFacingRight == false && (Inputs.Action1 || GrabbedPaper != null))
+                    , hand_air_left, () => AnimationFacingRight == false && (Inputs.Action1Down || GrabbedPaper != null))
                 , new AnimationTransitionOnCondition(
                     new Animation[] {
                          hand_right
                         , hand_left
                         ,hand_air_left
                     }
-                    , hand_air_right, () => AnimationFacingRight && (Inputs.Action1 || GrabbedPaper != null))
+                    , hand_air_right, () => AnimationFacingRight && (Inputs.Action1Down || GrabbedPaper != null))
             );
 
             return Animator;

@@ -14,8 +14,8 @@ namespace PaperWork
         public void Update()
         {
             if (Player.GrabbedPaper != null
-                && Player.Inputs.Action1
-                && Player.Inputs.Down
+                && Player.Inputs.Action1Down
+                && Player.Inputs.DownDown
                 && Player.TimeUntilDragDropEnable == 0
                 && Player.Y > (Paper.SIZE + World.SPACE_BETWEEN_THINGS) *2)
             {

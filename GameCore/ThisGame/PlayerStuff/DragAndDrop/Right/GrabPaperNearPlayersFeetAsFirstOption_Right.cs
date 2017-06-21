@@ -15,10 +15,10 @@ namespace PaperWork
         public void Update()
         {
             if (Player.GrabbedPaper == null
-                && Player.Inputs.Action1
+                && Player.Inputs.ClickedAction1
                 && Player.FacingRight
-                && Player.Inputs.Right
-                && Player.Inputs.Down
+                && Player.Inputs.RightDown
+                && Player.Inputs.DownDown
                 && Player.TimeUntilDragDropEnable == 0)
             {
                 var papers = Player.Right_FeetPaperDetector.GetDetectedItems().OfType<Paper>();

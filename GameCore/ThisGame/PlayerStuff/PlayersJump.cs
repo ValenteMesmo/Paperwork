@@ -15,7 +15,7 @@ namespace PaperWork
 
         public void Update()
         {
-            if (Player.Grounded && Input.Jump)
+            if (Player.Grounded && Input.ClickedJump)
             {
                 Player.VerticalSpeed = -100;
             }

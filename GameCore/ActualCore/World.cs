@@ -51,6 +51,7 @@ namespace GameCore
             if (Stopped)
                 return;
 
+            PlayerInputs.Update();
             List<Vector2> touches = GetTouches();
 
             foreach (var item in currentItems)

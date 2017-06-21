@@ -18,9 +18,9 @@ namespace PaperWork
 
         public void Update()
         {
-            if (Player.Inputs.Right)
+            if (Player.Inputs.RightDown)
                 Player.FacingRight = true;
-            if (Player.Inputs.Left)
+            if (Player.Inputs.LeftDown)
                 Player.FacingRight = false;
         }
     }

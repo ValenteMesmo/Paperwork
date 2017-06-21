@@ -78,8 +78,8 @@ namespace GameCore
                 Exit();
 
             TouchCollection touchCollection = TouchPanel.GetState();
-            World.PlayerInputs.Update(state);
-            World.PlayerInputs.Update(touchCollection);
+            World.PlayerInputs.SetState(state);
+            World.PlayerInputs.SetState(touchCollection);
             base.Update(gameTime);
         }
 
