@@ -5,7 +5,6 @@ using System.Linq;
 namespace PaperWork
 {
     //TODO: 
-    //camera shake
     //keep score
     //audio
     //jump and drop only on key down... not pressed

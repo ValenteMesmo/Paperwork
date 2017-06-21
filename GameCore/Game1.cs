@@ -22,6 +22,8 @@ namespace PaperWork
             new Grid(World);
 
             CreateTouchInputs();
+
+            World.Add(World.Camera2d);
         }
 
         private void CreateTouchInputs()
