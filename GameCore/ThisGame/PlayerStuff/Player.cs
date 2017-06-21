@@ -16,6 +16,7 @@ namespace PaperWork
     //close game when ESC pressed
     // jump animation
     // look up animation (open mouth)
+    //antenas
     public class Player :
         Collider
         , ICollisionHandler
@@ -46,7 +47,8 @@ namespace PaperWork
         private readonly ICollisionHandler CollisionHandler;
         private readonly IUpdateHandler UpdateHandler;
         public readonly InputRepository Inputs;
-        private readonly Animator Animation;
+        private readonly Animator BodyAnimation;
+        private readonly Animator HeadAnimation;
 
         public bool FacingRight { get; set; }
         public bool AnimationFacingRight { get; set; }
@@ -61,7 +63,8 @@ namespace PaperWork
             Width = 700;
             Height = 1100;
 
-            Animation = CreateAnimator();
+            BodyAnimation = CreateBodyAnimator();
+            HeadAnimation = CreateHeadAnimator();
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1150, -500, 100, 100) { Parent = this };
             Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1150, 500, 100, 100) { Parent = this };
@@ -107,39 +110,30 @@ namespace PaperWork
             world.Add(this);
         }
 
-        private Animator CreateAnimator()
+        private Animator CreateHeadAnimator()
         {
-            var leftOffsetX = -300;
+            var head_right = GeneratedContent.Create_recycle_mantis_Head(200, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
+            var Animator = new Animator(
+                new AnimationTransition(new Animation[] { head_right }, head_left, () => AnimationFacingRight == false)
+                , new AnimationTransition(new Animation[] { head_left }, head_right, () => AnimationFacingRight)
+
+            );
+
+            return Animator;
+        }
+
+        const int leftOffsetX = -300;
+        private Animator CreateBodyAnimator()
+        {
             var walkingWidth = (int)(700 * 1.4f);
-            var head_right = new Texture("Head", 200, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0.01f, Flipped = true };
-            var head_left = new Texture("Head", leftOffsetX, -100, (int)(540 * 1.4f), (int)(380 * 1.4f)) { ZIndex = 0.01f };
 
-            SimpleAnimation stand_right = new SimpleAnimation(
-                 new AnimationFrame(10,
-                 new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }
-                 , head_right)
+            var walkAnimation_right = GeneratedContent.Create_recycle_mantis_Walk(0, 100, 0.86f, walkingWidth, walkingWidth, true);
+            var walkAnimation_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
 
-            );
-
-            SimpleAnimation stand_left = new SimpleAnimation(
-                new AnimationFrame(10, new Texture("Walk0001", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }
-                , head_left)
-            );
-
-            SimpleAnimation walkAnimation_right = new SimpleAnimation(
-                  new AnimationFrame(10, new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
-                , new AnimationFrame(10, new Texture("Walk0002", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
-                , new AnimationFrame(10, new Texture("Walk0001", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
-                , new AnimationFrame(10, new Texture("Walk0003", 0, 100, walkingWidth, walkingWidth) { Flipped = true, ZIndex = 1 }, head_right)
-            );
-
-            SimpleAnimation walkAnimation_left = new SimpleAnimation(
-                 new AnimationFrame(10, new Texture("Walk0001", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0002", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0001", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-                , new AnimationFrame(10, new Texture("Walk0003", leftOffsetX, 100, walkingWidth, walkingWidth) { ZIndex = 1 }, head_left)
-            );
+            var stand_right = GeneratedContent.Create_recycle_mantis_Walk(0, 100, 0.86f, walkingWidth, walkingWidth, true);
+            var stand_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
 
             var Animator = new Animator(
                 new AnimationTransition(
@@ -189,7 +183,8 @@ namespace PaperWork
 
         public void Update()
         {
-            Animation.Update();
+            BodyAnimation.Update();
+            HeadAnimation.Update();
             Grounded = GroundDetector.GetDetectedItems().Any();
 
             UpdateHandler.Update();
@@ -231,7 +226,7 @@ namespace PaperWork
 
         public IEnumerable<Texture> GetTextures()
         {
-            return Animation.GetTextures();
+            return BodyAnimation.GetTextures().Concat(HeadAnimation.GetTextures());
         }
     }
 }

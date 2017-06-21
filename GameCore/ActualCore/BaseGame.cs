@@ -5,6 +5,7 @@ namespace GameCore
 {
     public abstract class BaseGame : Game
     {
+        private const bool RENDER_COLLIDERS = true;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
@@ -80,7 +81,6 @@ namespace GameCore
                        cam.get_transformation(GraphicsDevice));
 
             var entiies = World.GetColliders();
-            var drawColliders = false;
 
             if (entiies == null)
                 return;
@@ -94,7 +94,7 @@ namespace GameCore
                 {
                     var dimensions = item.As<DimensionalThing>();
 
-                    if (drawColliders)
+                    if (RENDER_COLLIDERS)
                     {
                         DrawBorder(
                                         new Rectangle(
