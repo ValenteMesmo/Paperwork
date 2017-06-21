@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +8,7 @@ namespace GameCore
     {
         public const int SPACE_BETWEEN_THINGS = 4;
         private List<Thing> Items = new List<Thing>();
-        public readonly InputRepository PlayerInputs = new InputRepository();
+        public readonly InputRepository PlayerInputs;
         private readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
         public int Sleep { get; set; }
@@ -18,6 +16,7 @@ namespace GameCore
         public World(Camera2d Camera2d)
         {
             this.Camera2d = Camera2d;
+            PlayerInputs = new InputRepository(Camera2d);
         }
 
         public void Add(Thing thing)
@@ -50,12 +49,6 @@ namespace GameCore
                 return;
 
             List<Vector2> touches = GetTouches();
-
-            var state = Keyboard.GetState();
-            //if (state.IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            PlayerInputs.Update(state);
 
             foreach (var item in currentItems)
             {
@@ -116,17 +109,7 @@ namespace GameCore
 
         private List<Vector2> GetTouches()
         {
-            TouchCollection touchCollection = TouchPanel.GetState();
-            var touches = new List<Vector2>();
-            foreach (TouchLocation tl in touchCollection)
-            {
-                if ((tl.State == TouchLocationState.Pressed)
-                    || (tl.State == TouchLocationState.Moved))
-                {
-                    touches.Add(
-                        Camera2d.ToWorldLocation(tl.Position));
-                }
-            }
+            var touches = PlayerInputs.GetTouches();
 
             PreviouslyTouched.Clear();
             PreviouslyTouched.AddRange(CurrentlyTouched);

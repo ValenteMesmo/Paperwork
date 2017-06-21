@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace GameCore
 {
@@ -67,6 +69,18 @@ namespace GameCore
         private void StartGame()
         {
             OnStart();
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            var state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Escape))
+                Exit();
+
+            TouchCollection touchCollection = TouchPanel.GetState();
+            World.PlayerInputs.Update(state);
+            World.PlayerInputs.Update(touchCollection);
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)

@@ -1,8 +1,6 @@
 ﻿using GameCore;
-using System.Linq;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using System;
+using System.Linq;
 
 namespace PaperWork
 {
@@ -13,9 +11,7 @@ namespace PaperWork
     //(fear in anime)
     //TODO: camera shake
     //keep score
-    //close game when ESC pressed
     // jump animation
-    // look up animation (open mouth)
     //antenas
     public class Player :
         Collider
