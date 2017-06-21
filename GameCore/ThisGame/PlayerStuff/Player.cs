@@ -151,28 +151,28 @@ namespace PaperWork
                         ,hand_air_left
                         ,hand_air_right
                     }
-                    , hand_left, () => AnimationFacingRight == false && Inputs.Action1 == false)
+                    , hand_left, () => AnimationFacingRight == false && (Inputs.Action1 == false && GrabbedPaper == null))
                 , new AnimationTransition(
                     new Animation[] {
                         hand_left
                         ,hand_air_left
                         ,hand_air_right
                     }
-                    , hand_right, () => AnimationFacingRight && Inputs.Action1 == false)
+                    , hand_right, () => AnimationFacingRight && (Inputs.Action1 == false && GrabbedPaper == null))
                 , new AnimationTransition(
                     new Animation[] {
                          hand_right
                         , hand_left
                         ,hand_air_right
                     }
-                    , hand_air_left, () => AnimationFacingRight == false && Inputs.Action1)
+                    , hand_air_left, () => AnimationFacingRight == false && (Inputs.Action1 || GrabbedPaper != null))
                 , new AnimationTransition(
                     new Animation[] {
                          hand_right
                         , hand_left
                         ,hand_air_left
                     }
-                    , hand_air_right, () => AnimationFacingRight && Inputs.Action1)
+                    , hand_air_right, () => AnimationFacingRight && (Inputs.Action1 || GrabbedPaper != null))
             );
 
             return Animator;
