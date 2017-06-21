@@ -5,7 +5,7 @@ namespace GameCore
 {
     public abstract class BaseGame : Game
     {
-        private const bool RENDER_COLLIDERS = true;
+        private const bool RENDER_COLLIDERS = false;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 

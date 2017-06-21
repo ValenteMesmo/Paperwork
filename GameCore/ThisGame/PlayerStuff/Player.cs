@@ -49,6 +49,7 @@ namespace PaperWork
         public readonly InputRepository Inputs;
         private readonly Animator BodyAnimation;
         private readonly Animator HeadAnimation;
+        private readonly Animator HandsAnimation;
 
         public bool FacingRight { get; set; }
         public bool AnimationFacingRight { get; set; }
@@ -65,6 +66,7 @@ namespace PaperWork
 
             BodyAnimation = CreateBodyAnimator();
             HeadAnimation = CreateHeadAnimator();
+            HandsAnimation = CreateHandsAnimator();
 
             Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1150, -500, 100, 100) { Parent = this };
             Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1150, 500, 100, 100) { Parent = this };
@@ -115,10 +117,62 @@ namespace PaperWork
             var head_right = GeneratedContent.Create_recycle_mantis_Head(200, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
             var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
-            var Animator = new Animator(
-                new AnimationTransition(new Animation[] { head_right }, head_left, () => AnimationFacingRight == false)
-                , new AnimationTransition(new Animation[] { head_left }, head_right, () => AnimationFacingRight)
+            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(200, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
+            var Animator = new Animator(
+                new AnimationTransition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.Up == false)
+                , new AnimationTransition(new Animation[] { head_left, headUp_right, headUp_left }, head_right, () => AnimationFacingRight && Inputs.Up == false)
+                , new AnimationTransition(new Animation[] { head_right, headUp_right, head_left }, headUp_left, () => AnimationFacingRight == false && Inputs.Up)
+                , new AnimationTransition(new Animation[] { head_left, head_right, headUp_left }, headUp_right, () => AnimationFacingRight && Inputs.Up)
+            );
+
+            return Animator;
+        }
+
+        private Animator CreateHandsAnimator()
+        {
+            var hand_right = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            var hand_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+
+            var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+
+            //var hand_going_down = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            //var hand_going_down_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+
+            //var hand_going_up = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            //var hand_going_up_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+
+            var Animator = new Animator(
+                new AnimationTransition(
+                    new Animation[] {
+                         hand_right
+                        ,hand_air_left
+                        ,hand_air_right
+                    }
+                    , hand_left, () => AnimationFacingRight == false && Inputs.Action1 == false)
+                , new AnimationTransition(
+                    new Animation[] {
+                        hand_left
+                        ,hand_air_left
+                        ,hand_air_right
+                    }
+                    , hand_right, () => AnimationFacingRight && Inputs.Action1 == false)
+                , new AnimationTransition(
+                    new Animation[] {
+                         hand_right
+                        , hand_left
+                        ,hand_air_right
+                    }
+                    , hand_air_left, () => AnimationFacingRight == false && Inputs.Action1)
+                , new AnimationTransition(
+                    new Animation[] {
+                         hand_right
+                        , hand_left
+                        ,hand_air_left
+                    }
+                    , hand_air_right, () => AnimationFacingRight && Inputs.Action1)
             );
 
             return Animator;
@@ -132,8 +186,8 @@ namespace PaperWork
             var walkAnimation_right = GeneratedContent.Create_recycle_mantis_Walk(0, 100, 0.86f, walkingWidth, walkingWidth, true);
             var walkAnimation_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
 
-            var stand_right = GeneratedContent.Create_recycle_mantis_Walk(0, 100, 0.86f, walkingWidth, walkingWidth, true);
-            var stand_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
+            var stand_right = GeneratedContent.Create_recycle_mantis_Stand(0, 100, 0.86f, walkingWidth, walkingWidth, true);
+            var stand_left = GeneratedContent.Create_recycle_mantis_Stand(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
 
             var Animator = new Animator(
                 new AnimationTransition(
@@ -185,6 +239,8 @@ namespace PaperWork
         {
             BodyAnimation.Update();
             HeadAnimation.Update();
+            HandsAnimation.Update();
+
             Grounded = GroundDetector.GetDetectedItems().Any();
 
             UpdateHandler.Update();
@@ -226,7 +282,9 @@ namespace PaperWork
 
         public IEnumerable<Texture> GetTextures()
         {
-            return BodyAnimation.GetTextures().Concat(HeadAnimation.GetTextures());
+            return BodyAnimation.GetTextures()
+                .Concat(HeadAnimation.GetTextures())
+                .Concat(HandsAnimation.GetTextures());
         }
     }
 }
