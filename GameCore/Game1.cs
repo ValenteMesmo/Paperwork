@@ -30,7 +30,7 @@ namespace PaperWork
             var btnHeight = 1000;
             var space = 1;
             var yAnchor = 6200;
-            var xAnchor = 250;
+            var xAnchor = 200;
 
             World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = World.PlayerInputs.Left = f));
             World.Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.Up = f));
@@ -56,7 +56,7 @@ namespace PaperWork
                 , yAnchor + 100
                 , (int)(btnWidth * 1.25f - space)
                 , (int)(btnHeight * 3f) - space
-                , f => World.PlayerInputs.Up = f));
+                , f => World.PlayerInputs.Jump = f));
         }
 
         private void CreateBlocks(int rowNumber, int colNumber)

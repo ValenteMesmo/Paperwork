@@ -26,10 +26,10 @@ namespace GameCore
         {
             Left = state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left);
             Right = state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right);
-            Up = state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
+            Jump = state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
             Down = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
             Action1 = state.IsKeyDown(Keys.J) || state.IsKeyDown(Keys.LeftControl);
-            Jump = state.IsKeyDown(Keys.K) || state.IsKeyDown(Keys.Space);
+            Up = state.IsKeyDown(Keys.K) || state.IsKeyDown(Keys.Space);
         }
 
         List<Vector2> touches = new List<Vector2>();

@@ -98,7 +98,9 @@ namespace PaperWork
         }
 
         public Color Color { get { return Animation.GetColor(); } set { Animation.ChangeColor(value); } }
-        //private Texture Texture = new Texture("papers", 0, -SIZE, SIZE, SIZE * 2);
+
+        //TODO: remove
+        public bool Ended => false;
 
         public IEnumerable<Texture> GetTextures()
         {

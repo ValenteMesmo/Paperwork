@@ -13,6 +13,8 @@ namespace PaperWork
         public int Height { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
+        //TODO: remove
+        public bool Ended => false;
 
         private int Duration = 100;
         private readonly IGame Game;

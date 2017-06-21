@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameCore;
 using Microsoft.Xna.Framework;
 
@@ -29,6 +30,9 @@ namespace PaperWork
         public int Height { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
+
+        //TODO: remove
+        public bool Ended => false;
 
         public IEnumerable<Texture> GetTextures()
         {

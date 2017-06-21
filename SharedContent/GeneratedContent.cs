@@ -147,7 +147,9 @@ public class GeneratedContent
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 0, 68, 68)){ ZIndex = Z, Flipped = Flipped })
+            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 0, 68, 69)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(68, 0, 68, 69)){ ZIndex = Z, Flipped = Flipped }),
+            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(136, 0, 68, 69)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;
@@ -157,7 +159,7 @@ public class GeneratedContent
     {
         var animation = new SimpleAnimation(
             
-            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 68, 64, 62)){ ZIndex = Z, Flipped = Flipped })
+            new AnimationFrame(10, new GameCore.Texture("touch_inputs", X, Y, Width, Height, new Rectangle(0, 69, 64, 62)){ ZIndex = Z, Flipped = Flipped })
         );
 
         return animation;

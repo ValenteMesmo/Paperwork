@@ -4,15 +4,9 @@ using System.Linq;
 
 namespace PaperWork
 {
-    //TODO: brilho dos olhos tem que ficar do mesmo lado!
-    //TODO: prevent player from special drop down when near the roof
-    //TODO: arregalar os olhos do player quando estiver correndo perigo
-    //https://s-media-cache-ak0.pinimg.com/originals/f4/cc/41/f4cc41f0e3ecd673a6292ca150bcc32d.jpg
-    //(fear in anime)
     //TODO: camera shake
     //keep score
     // jump animation
-    //antenas
     public class Player :
         Collider
         , ICollisionHandler
@@ -49,6 +43,9 @@ namespace PaperWork
 
         public bool FacingRight { get; set; }
         public bool AnimationFacingRight { get; set; }
+
+        //remove this
+        public bool Ended => false;
 
         public Player(
             InputRepository Inputs,
@@ -117,10 +114,10 @@ namespace PaperWork
             var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
             var Animator = new Animator(
-                new AnimationTransition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.Up == false)
-                , new AnimationTransition(new Animation[] { head_left, headUp_right, headUp_left }, head_right, () => AnimationFacingRight && Inputs.Up == false)
-                , new AnimationTransition(new Animation[] { head_right, headUp_right, head_left }, headUp_left, () => AnimationFacingRight == false && Inputs.Up)
-                , new AnimationTransition(new Animation[] { head_left, head_right, headUp_left }, headUp_right, () => AnimationFacingRight && Inputs.Up)
+                new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.Up == false)
+                , new AnimationTransitionOnCondition(new Animation[] { head_left, headUp_right, headUp_left }, head_right, () => AnimationFacingRight && Inputs.Up == false)
+                , new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, head_left }, headUp_left, () => AnimationFacingRight == false && Inputs.Up)
+                , new AnimationTransitionOnCondition(new Animation[] { head_left, head_right, headUp_left }, headUp_right, () => AnimationFacingRight && Inputs.Up)
             );
 
             return Animator;
@@ -133,36 +130,33 @@ namespace PaperWork
 
             var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
             var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
-
-            //var hand_going_down = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
-            //var hand_going_down_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
-
-            //var hand_going_up = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
-            //var hand_going_up_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
-
-            var Animator = new Animator(
-                new AnimationTransition(
+            
+            var Animator = new Animator(new AnimationTransitionOnCondition(
                     new Animation[] {
                          hand_right
                         ,hand_air_left
                         ,hand_air_right
                     }
-                    , hand_left, () => AnimationFacingRight == false && (Inputs.Action1 == false && GrabbedPaper == null))
-                , new AnimationTransition(
+                    , hand_left
+                    , () =>
+                        AnimationFacingRight == false
+                        && Inputs.Action1 == false
+                        && GrabbedPaper == null)
+                , new AnimationTransitionOnCondition(
                     new Animation[] {
                         hand_left
                         ,hand_air_left
                         ,hand_air_right
                     }
                     , hand_right, () => AnimationFacingRight && (Inputs.Action1 == false && GrabbedPaper == null))
-                , new AnimationTransition(
+                , new AnimationTransitionOnCondition(
                     new Animation[] {
                          hand_right
                         , hand_left
                         ,hand_air_right
                     }
                     , hand_air_left, () => AnimationFacingRight == false && (Inputs.Action1 || GrabbedPaper != null))
-                , new AnimationTransition(
+                , new AnimationTransitionOnCondition(
                     new Animation[] {
                          hand_right
                         , hand_left
@@ -186,7 +180,7 @@ namespace PaperWork
             var stand_left = GeneratedContent.Create_recycle_mantis_Stand(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
 
             var Animator = new Animator(
-                new AnimationTransition(
+                new AnimationTransitionOnCondition(
                     new[] {
                         walkAnimation_left
                         ,stand_left
@@ -196,7 +190,7 @@ namespace PaperWork
                     () => FacingRight && HorizontalSpeed > 0
                     , () => AnimationFacingRight = true
                 )
-                , new AnimationTransition(
+                , new AnimationTransitionOnCondition(
                     new[] {
                         walkAnimation_right
                         ,stand_left
@@ -206,7 +200,7 @@ namespace PaperWork
                     () => FacingRight == false && HorizontalSpeed < 0
                     , () => AnimationFacingRight = false
                 )
-                , new AnimationTransition(
+                , new AnimationTransitionOnCondition(
                     new[] {
                         walkAnimation_left
                         ,walkAnimation_right
@@ -216,7 +210,7 @@ namespace PaperWork
                     () => FacingRight == false && HorizontalSpeed == 0
                     , () => AnimationFacingRight = false
                 )
-                , new AnimationTransition(
+                , new AnimationTransitionOnCondition(
                     new[] {
                         walkAnimation_right
                         ,walkAnimation_left

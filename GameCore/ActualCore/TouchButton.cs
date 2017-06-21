@@ -20,6 +20,9 @@ namespace GameCore
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
 
+        //TODO: remove
+        public bool Ended => false;
+
         public TouchButton(int X, int Y, int Width, int Height, Action<bool> SetValue)
         {
             this.X = X;
@@ -67,6 +70,7 @@ namespace GameCore
 
         public void Update()
         {
+            Current.Update();
         }
     }
 }

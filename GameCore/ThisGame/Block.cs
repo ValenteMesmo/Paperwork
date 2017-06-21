@@ -27,6 +27,10 @@ namespace PaperWork
         public bool Disabled { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
+
+        //TODO: remove
+        public bool Ended => false;
+
         private IEnumerable<Texture> Texture = new Texture[]{
         new Texture(
             "block"
@@ -36,7 +40,6 @@ namespace PaperWork
             , SIZE + World.SPACE_BETWEEN_THINGS
             )
         };
-
 
         public IEnumerable<Texture> GetTextures()
         {

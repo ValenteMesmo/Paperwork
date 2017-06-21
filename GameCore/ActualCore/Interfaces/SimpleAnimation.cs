@@ -11,6 +11,7 @@ namespace GameCore
         private int CurrentFrameIndex;
         private int UpdatesUntilNextFrame;
         private Texture[] CurrentTextures;
+        public bool Ended { get; private set; }
 
         public SimpleAnimation(params AnimationFrame[] Frames)
         {
@@ -45,7 +46,10 @@ namespace GameCore
 
             CurrentFrameIndex++;
             if (CurrentFrameIndex >= Frames.Length)
+            {
+                Ended = true;
                 CurrentFrameIndex = 0;
+            }
 
             UpdatesUntilNextFrame = Frames[CurrentFrameIndex].DurationInUpdatesCount;            
         }
@@ -58,6 +62,7 @@ namespace GameCore
         public void Restart()
         {
             CurrentFrameIndex = 0;
+            Ended = false;
         }
     }
 }
