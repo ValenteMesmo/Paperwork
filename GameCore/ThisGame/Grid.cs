@@ -53,6 +53,8 @@ namespace PaperWork
 
         public void Update()
         {
+            if (comboTime > 0)
+                comboTime--;
             ComputeHorizontalCombos();
             ComputeVerticalCombos();
         }
@@ -84,10 +86,7 @@ namespace PaperWork
                         currentColor = current.Color;
                         if (combo.Count >= 3)
                         {
-                            foreach (var comboItem in combo)
-                            {
-                                DestroyPaper(comboItem);
-                            }
+                            ComputeCombo(combo);
                         }
                         combo.Clear();
                         combo.Add(current);
@@ -102,24 +101,36 @@ namespace PaperWork
 
                 if (combo.Count >= 3)
                 {
-                    foreach (var comboItem in combo)
-                    {
-                        DestroyPaper(comboItem);
-                    }
+                    ComputeCombo(combo);
                 }
             }
         }
 
-        private void DestroyPaper(Paper comboItem)
+        private int comboTime = 0;
+        private int comboMultiplyer = 1;
+        private void ComputeCombo(IEnumerable<Paper> comboItems)
         {
+            if (comboTime <= 0)
+                comboMultiplyer = 1;
+            else
+                comboMultiplyer *= 2;
+
+            World.Score += comboItems.Count() * comboMultiplyer;
+
             World.Sleep = 5;
-            World.Add(new PaperDestroyed(World, comboItem.Color)
-            {
-                X = comboItem.X,
-                Y = comboItem.Y
-            });
-            World.Remove(comboItem);
             World.Camera2d.shakeDuration = 3;
+
+            foreach (var comboItem in comboItems)
+            {
+                World.Add(new PaperDestroyed(World, comboItem.Color)
+                {
+                    X = comboItem.X,
+                    Y = comboItem.Y
+                });
+                World.Remove(comboItem);
+            }
+
+            comboTime = 500;
         }
 
         private void ComputeHorizontalCombos()
@@ -149,10 +160,7 @@ namespace PaperWork
                         currentColor = paper.Color;
                         if (combo.Count >= 3)
                         {
-                            foreach (var comboItem in combo)
-                            {
-                                DestroyPaper(comboItem);
-                            }
+                            ComputeCombo(combo);
                         }
                         combo.Clear();
                         combo.Add(paper);
@@ -167,10 +175,7 @@ namespace PaperWork
 
                 if (combo.Count >= 3)
                 {
-                    foreach (var comboItem in combo)
-                    {
-                        DestroyPaper(comboItem);
-                    }
+                    ComputeCombo(combo);
                 }
             }
         }

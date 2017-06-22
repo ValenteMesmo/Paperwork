@@ -99,8 +99,8 @@ namespace GameCore
 
             spriteBatch.DrawString(
                 font
-                , "1.000.000"
-                , new Vector2(4250, 7000)
+                , World.Score.ToString("0000000")//"1.000.000"
+                , new Vector2(4500, 7000)
                 , new Color(158, 165, 178)// new Color(253, 205, 1)
                 , 0
                 , Vector2.Zero

@@ -12,10 +12,11 @@ namespace GameCore
         public readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
         public int Sleep { get; set; }
+        public int Score { get; set; }
 
         public World(Camera2d Camera2d)
         {
-            this.Camera2d = Camera2d;            
+            this.Camera2d = Camera2d;
             PlayerInputs = new InputRepository(Camera2d);
         }
 
@@ -33,19 +34,19 @@ namespace GameCore
 
         public IEnumerable<Thing> GetColliders()
         {
-            return currentItems;
+            return MainThreadItems;
         }
 
         private List<Touchable> PreviouslyTouched = new List<Touchable>();
         private List<Touchable> CurrentlyTouched = new List<Touchable>();
-        private List<Thing> currentItems;
+        private List<Thing> MainThreadItems;
 
         public void Update()
         {
             lock (Items)
             {
                 //Destination array was not long enough. Check destIndex and length, and the array's lower bounds.'
-                currentItems = Items.ToList();
+                MainThreadItems = Items.ToList();
             }
 
             if (Stopped)
@@ -54,7 +55,7 @@ namespace GameCore
             PlayerInputs.Update();
             List<Vector2> touches = GetTouches();
 
-            foreach (var item in currentItems)
+            foreach (var item in MainThreadItems)
             {
                 if (item is DimensionalThing)
                 {
@@ -74,13 +75,13 @@ namespace GameCore
                 return;
             }
 
-            foreach (var item in currentItems)
+            foreach (var item in MainThreadItems)
             {
                 if (item is IUpdateHandler)
                     item.As<IUpdateHandler>().Update();
             }
 
-            foreach (var item in currentItems)
+            foreach (var item in MainThreadItems)
             {
                 if (item is IAfterUpdateHandler)
                     item.As<IAfterUpdateHandler>().AfterUpdate();
@@ -96,7 +97,10 @@ namespace GameCore
             //https://github.com/ChevyRay/QuadTree
             //https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
 
-            var colliders = currentItems.OfType<Collider>().ToList();
+            IList<Collider> colliders;
+            lock (Items)
+                colliders = Items.OfType<Collider>().ToList();
+
             colliders.ForEachCombination(
                 IColliderExtensions
                     .HandleHorizontalCollision);
@@ -158,6 +162,7 @@ namespace GameCore
         public void Clear()
         {
             Items.Clear();
+            Score = 0;
         }
     }
 }
