@@ -5,9 +5,10 @@ using System.Linq;
 namespace PaperWork
 {
     //TODO: 
-    //keep score
     //audio
-    // speed up trash spawn
+    //bug da morte injusta
+    // bug do combo horizontal top right. ignorando a primeira (+1)
+    // tela de game over... para ver a pontuação
     public class Player :
         Collider
         , ICollisionHandler

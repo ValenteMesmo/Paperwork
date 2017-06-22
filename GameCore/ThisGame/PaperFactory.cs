@@ -12,6 +12,19 @@ namespace PaperWork
         private Random Random;
         private Color PreviousColor;
         public bool Disabled { get; set; }
+        private int CurrentInterval = MAX_INTERVAL;
+        private const int MIN_INTERVAL = 30;
+        private const int MAX_INTERVAL = 200;
+        private readonly Action<Collider> AddToWorld;
+
+        private int Countdown = COUNTDOWN_START;
+        private const int COUNTDOWN_START = 400000;
+
+        public PaperFactory(Action<Collider> AddToWorld)
+        {
+            this.AddToWorld = AddToWorld;
+            this.Random = new Random();
+        }
 
         Color[] Colors = new Color[]
         {
@@ -20,21 +33,20 @@ namespace PaperWork
             new Color(100, 255, 100),
             new Color(100, 150, 255)
         };
-        private readonly Action<Collider> AddToWorld;
-
-        public PaperFactory(Action<Collider> AddToWorld)
-        {
-            this.AddToWorld = AddToWorld;
-            this.Random = new Random();
-        }
 
         public void Update()
         {
+            Countdown--;
+            CurrentInterval = (MAX_INTERVAL * Countdown) / COUNTDOWN_START;
+            if (CurrentInterval < MIN_INTERVAL)
+                CurrentInterval = MIN_INTERVAL;
+
             if (cooldownCount > 0)
             {
                 cooldownCount--;
                 return;
             }
+
 
             var x = (1000 * 13) + 12 * World.SPACE_BETWEEN_THINGS;
 
@@ -51,12 +63,9 @@ namespace PaperWork
             paper.Color = newcolor;
             PreviousColor = paper.Color;
             AddToWorld(paper);
+
             cooldownCount = CurrentInterval;
         }
-
-        private int CurrentInterval = MAX_INTERVAL;
-        private const int MIN_INTERVAL = 30;
-        private const int MAX_INTERVAL = 200;
 
         Color[] fakeColors = new Color[] { Color.Blue, Color.Red, Color.Red, Color.Green, Color.Blue };
         int fakeColorIndex = -1;
