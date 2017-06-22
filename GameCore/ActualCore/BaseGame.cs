@@ -18,6 +18,8 @@ namespace GameCore
 
         public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
 
+        private SpriteFont font;
+
         public BaseGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -31,6 +33,7 @@ namespace GameCore
             cam = new Camera2d();
             cam.Pos = new Vector2(7000f, 5300f);
             cam.Zoom = 0.1f;
+
 
 
             World = new World(cam);
@@ -52,7 +55,7 @@ namespace GameCore
         GeneratedContent GeneratedContent;
         protected override void LoadContent()
         {
-
+            font = Content.Load<SpriteFont>("Score");
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             GeneratedContent = new GeneratedContent();
@@ -93,6 +96,17 @@ namespace GameCore
                        null,
                        null,
                        cam.get_transformation(GraphicsDevice));
+
+            spriteBatch.DrawString(
+                font
+                , "1.000.000"
+                , new Vector2(4250, 7000)
+                , new Color(158, 165, 178)// new Color(253, 205, 1)
+                , 0
+                , Vector2.Zero
+                , 10
+                , SpriteEffects.None
+                , 0);
 
             var entiies = World.GetColliders();
 
