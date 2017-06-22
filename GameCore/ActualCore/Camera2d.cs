@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameCore.ActualCore;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -79,7 +80,7 @@ namespace GameCore
         {
             if (shakeDuration > 0)
             {
-                _pos.Y = OriginalPosition.Y + shakeDuration * 10;
+                _pos.Y = OriginalPosition.Y - shakeDuration * 40;
 
                 shakeDuration--;
             }
@@ -90,6 +91,11 @@ namespace GameCore
             }
         }
 
-        public int shakeDuration { get; set; }
+        private int shakeDuration;
+        public void Shake()
+        {
+            shakeDuration = 5;
+            AndroidStuff.Vibrate(50);
+        }
     }
 }

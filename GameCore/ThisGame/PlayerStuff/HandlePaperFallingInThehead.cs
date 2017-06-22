@@ -50,7 +50,7 @@ namespace PaperWork
                     Game.World.Remove(Player);
                     Game.World.Add(new PlayerDestroyed(Game, Player.AnimationFacingRight) { X = Player.X, Y = Player.Y });
                     Game.World.Sleep = 15;
-                    Game.World.Camera2d.shakeDuration = 5;
+                    Game.World.Camera2d.Shake();
                 }
             }
         }
