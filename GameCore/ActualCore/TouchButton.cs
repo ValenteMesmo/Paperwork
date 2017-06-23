@@ -5,31 +5,20 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class TouchButton : Touchable, Animation
+    public class ButtonAnimation : Animation, IUpdateHandler, DimensionalThing
     {
-        private readonly Action<bool> SetValue;
-
         private SimpleAnimation buttonUp;
         private SimpleAnimation Current;
         private SimpleAnimation buttonDown;
+        private readonly Func<bool> Pressed;
 
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int DrawableX { get; set; }
-        public int DrawableY { get; set; }
-
-        //TODO: remove
-        public bool Ended => false;
-
-        public TouchButton(int X, int Y, int Width, int Height, Action<bool> SetValue)
+        public ButtonAnimation(int X, int Y, int Width, int Height, Func<bool> Pressed)
         {
             this.X = X;
             this.Y = Y;
             this.Width = Width;
             this.Height = Height;
-            this.SetValue = SetValue;
+            this.Pressed = Pressed;
 
             var offsetX = (Width / 100) * 5;
             var offsetY = (Height / 100) * 5;
@@ -43,35 +32,66 @@ namespace GameCore
             Current = buttonUp;
         }
 
-        public void TouchBegin()
-        {
-            AndroidStuff.Vibrate(10);
-            SetValue(true);
-            Current = buttonDown;
-        }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
+        //TODO: remove
+        public bool Ended => false;
 
-        public void TouchContinue()
+        public void Update()
         {
-            SetValue(true);
-            Current = buttonDown;
-        }
+            if (Pressed())
+                Current = buttonDown;
+            else
+                Current = buttonUp;
 
-        public void TouchEnded()
-        {
-            //todo: prevent player and paper from reaching known limits( stage borders)
-            AndroidStuff.Vibrate(20);
-            SetValue(false);
-            Current = buttonUp;
+            Current.Update();
         }
 
         public IEnumerable<Texture> GetTextures()
         {
             return Current.GetTextures();
         }
+    }
 
-        public void Update()
+    public class TouchArea : Touchable
+    {
+        private readonly Action<bool> SetValue;
+
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
+
+        public TouchArea(int X, int Y, int Width, int Height, Action<bool> SetValue)
         {
-            Current.Update();
+            this.X = X;
+            this.Y = Y;
+            this.Width = Width;
+            this.Height = Height;
+            this.SetValue = SetValue;
+        }
+
+        public void TouchBegin()
+        {
+            AndroidStuff.Vibrate(10);
+            SetValue(true);
+        }
+
+        public void TouchContinue()
+        {
+            SetValue(true);
+        }
+
+        public void TouchEnded()
+        {
+            AndroidStuff.Vibrate(20);
+            SetValue(false);
         }
     }
 }
