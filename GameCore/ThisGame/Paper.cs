@@ -47,7 +47,7 @@ namespace PaperWork
             Animation = GeneratedContent.Create_trash_bag_Trash(
                 -(int)(SIZE * 0.1f)
                 , -(int)(SIZE * 0.2f)
-                , 0.808f
+                , 0.83f
                 , (int)(SIZE * 1.2f)
                 , (int)(SIZE * 1.2f));
         }

@@ -34,8 +34,6 @@ namespace GameCore
             cam.Pos = new Vector2(7000f, 5300f);
             cam.Zoom = 0.1f;
 
-
-
             World = new World(cam);
         }
 
@@ -99,9 +97,9 @@ namespace GameCore
 
             spriteBatch.DrawString(
                 font
-                , World.Score.ToString("0000000")//"1.000.000"
+                , World.Score.ToString("0000000")
                 , new Vector2(4500, 7000)
-                , new Color(158, 165, 178)// new Color(253, 205, 1)
+                , new Color(158, 165, 178)
                 , 0
                 , Vector2.Zero
                 , 10
@@ -125,13 +123,13 @@ namespace GameCore
                     if (RENDER_COLLIDERS)
                     {
                         DrawBorder(
-                                        new Rectangle(
-                                            dimensions.X,
-                                            dimensions.Y,
-                                            dimensions.Width,
-                                            dimensions.Height),
-                                        20,
-                                        Color.Red);
+                            new Rectangle(
+                                dimensions.X,
+                                dimensions.Y,
+                                dimensions.Width,
+                                dimensions.Height),
+                            20,
+                            Color.Red);
                     }
                 }
 
@@ -167,9 +165,6 @@ namespace GameCore
                                 , texture.ZIndex
                         );
                     }
-
-
-
                 }
             }
 
@@ -190,9 +185,7 @@ namespace GameCore
 
         public void Restart()
         {
-            //gameloop.Dispose();
             World.Clear();
-            //World = new World(cam);
             StartGame();
         }
 

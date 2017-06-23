@@ -31,8 +31,8 @@ namespace PaperWork
             var btnWidth = 1000;
             var btnHeight = 1000;
             var space = 1;
-            var yAnchor = 6200;
-            var xAnchor = 200;
+            var yAnchor = 6100;
+            var xAnchor = 1000;
 
             World.Add(new TouchButton(xAnchor, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.UpDown = World.PlayerInputs.LeftDown = f));
             World.Add(new TouchButton(xAnchor + btnWidth, yAnchor, btnWidth - space, btnHeight - space, f => World.PlayerInputs.UpDown = f));
@@ -45,19 +45,19 @@ namespace PaperWork
             World.Add(new TouchButton(xAnchor + btnWidth, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.DownDown = f));
             World.Add(new TouchButton(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, f => World.PlayerInputs.DownDown = World.PlayerInputs.RightDown = f));
 
-            xAnchor = 10500;
+            xAnchor = 9700;
             btnWidth = 1500;
             World.Add(new TouchButton(
                 xAnchor
                 , yAnchor + 100
                 , btnWidth - space
-                , (int)(btnHeight * 3f) - space
+                , (int)(btnHeight * 2.9f) - space
                 , f => World.PlayerInputs.Action1Down = f));
             World.Add(new TouchButton(
                 xAnchor + btnWidth
                 , yAnchor + 100
                 , (int)(btnWidth * 1.25f - space)
-                , (int)(btnHeight * 3f) - space
+                , (int)(btnHeight * 2.9f) - space
                 , f => World.PlayerInputs.JumpDown = f));
         }
 

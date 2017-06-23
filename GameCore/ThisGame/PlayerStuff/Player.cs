@@ -244,7 +244,7 @@ namespace PaperWork
                 else
                     GrabbedPaper.X = X - Width / 2;
 
-                GrabbedPaper.Y = Y - GrabbedPaper.Height + World.SPACE_BETWEEN_THINGS;
+                GrabbedPaper.Y = Y - (int)(GrabbedPaper.Height * 0.8f) + World.SPACE_BETWEEN_THINGS;
             }
 
 

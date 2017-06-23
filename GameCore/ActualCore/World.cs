@@ -99,7 +99,8 @@ namespace GameCore
 
             IList<Collider> colliders;
             lock (Items)
-                colliders = Items.OfType<Collider>().ToList();
+                colliders = Items.OfType<Collider>().Where(f=> f.Disabled == false)
+                    .ToList();
 
             colliders.ForEachCombination(
                 IColliderExtensions
