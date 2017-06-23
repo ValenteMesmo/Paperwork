@@ -17,15 +17,23 @@ namespace AndroidVersion
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
+        private Game1 game;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);            
+            Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
             AndroidStuff.Vibrate = f => vibrator.Vibrate(f);
-            
-            var g = new Game1() { FullScreen = true };
-            var view = (View)g.Services.GetService(typeof(View));
+
+            game = new Game1();
+            SetViewFullScreen();
+            game.Run();
+        }
+
+        private void SetViewFullScreen()
+        {
+            game.FullScreen = true;
+            var view = (View)game.Services.GetService(typeof(View));
             view.SystemUiVisibility = (StatusBarVisibility)
                 (SystemUiFlags.LayoutStable
                 | SystemUiFlags.LayoutHideNavigation
@@ -36,7 +44,18 @@ namespace AndroidVersion
                 );
 
             SetContentView(view);
-            g.Run();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            SetViewFullScreen();
+        }
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+            SetViewFullScreen();
         }
     }
 }
