@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
@@ -196,18 +197,15 @@ namespace PaperWork
                 });
             }
 
-            for (int i = 1; i <= 3; i++)
-            {
-                for (int j = 1; j < rowNumber; j++)
-                {
-                    World.Add(new Block(Direction.Center)
-                    {
-                        X = j * cellsize,
-                        Y = cellsize * (colNumber + i),
-                        Disabled = true
-                    });
-                }
-            }
+            var backgrond = GeneratedContent.Create_background_wall_center(
+                0
+                , cellsize*6
+                ,1
+                , cellsize * 14
+                , cellsize*4);
+            backgrond.ChangeColor(new Color(158, 165, 178));
+            World.Add(backgrond);
+
         }
     }
 }
