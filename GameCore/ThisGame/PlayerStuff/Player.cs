@@ -73,6 +73,19 @@ namespace PaperWork
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
 
+            //DEATH COLLIDERS! 
+
+            //Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(900, -200, 100, 100) { Parent = this };
+            //Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(900, 500, 100, 100) { Parent = this };
+            //world.Add(Right_ChestPaperDetetor);
+            //world.Add(Right_FeetPaperDetector);
+
+            //Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-300, -200, 100, 100) { Parent = this };
+            //Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-300, 500, 100, 100) { Parent = this };
+            //world.Add(Left_ChestPaperDetetor);
+            //world.Add(Left_FeetPaperDetector);
+
+
             GroundDetector = new Detector<IPlayerMovementBlocker>(100, 1250, 500, 250) { Parent = this };
             world.Add(GroundDetector);
 
