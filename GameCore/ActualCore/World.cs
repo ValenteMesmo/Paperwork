@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PaperWork;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,9 +12,21 @@ namespace GameCore
         public readonly InputRepository PlayerInputs;
         public readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
-        public int Sleep { get; set; }
         public int Score { get; set; }
+        private int sleep;
 
+        public int TrashCount { get; private set; } 
+
+        public bool Sleeping()
+        {
+            return sleep > 0;
+        }
+
+        public void Sleep()
+        {
+            sleep = 10;
+        }
+        
         public World(Camera2d Camera2d)
         {
             this.Camera2d = Camera2d;
@@ -24,12 +37,18 @@ namespace GameCore
         {
             lock (Items)
                 Items.Add(thing);
+
+            if (thing is Paper)
+                TrashCount++;
         }
 
         public void Remove(Thing thing)
         {
             lock (Items)
                 Items.Remove(thing);
+
+            if (thing is Paper)
+                TrashCount--;
         }
 
         public IEnumerable<Thing> GetColliders()
@@ -69,9 +88,9 @@ namespace GameCore
 
             }
 
-            if (Sleep > 0)
+            if (sleep > 0)
             {
-                Sleep--;
+                sleep--;
                 return;
             }
 
@@ -99,7 +118,7 @@ namespace GameCore
 
             IList<Collider> colliders;
             lock (Items)
-                colliders = Items.OfType<Collider>().Where(f=> f.Disabled == false)
+                colliders = Items.OfType<Collider>().Where(f => f.Disabled == false)
                     .ToList();
 
             colliders.ForEachCombination(
@@ -163,7 +182,7 @@ namespace GameCore
         public void Clear()
         {
             Items.Clear();
-            Score = 0;
+            TrashCount= Score = 0;
         }
     }
 }

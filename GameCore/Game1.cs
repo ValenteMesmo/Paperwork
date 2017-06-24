@@ -30,15 +30,13 @@ namespace PaperWork
         private void CreateTouchInputs()
         {
             var btnWidth = 1000;
-            var btnHeight = 1000;
+            var btnHeight = 800;
             var space = 1;
-            var yAnchor = 6100;
+            var yAnchor = 6000;
             var xAnchor = 1000;
 
             var extraWidth = 1000;
             var extraHeight = 500;
-
-            //TODO: increase height of toucharea too
 
             //top left
             World.Add(new TouchArea(

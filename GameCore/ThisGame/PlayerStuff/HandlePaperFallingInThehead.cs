@@ -37,21 +37,26 @@ namespace PaperWork
         {
             if (other is Paper)
             {
-                if (Player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
+                DestroyPlayer(Player, Game);
+            }
+        }
+
+        public static void DestroyPlayer(Player player, IGame Game)
+        {
+            if (player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
+            {
+                player.HorizontalSpeed = -80;
+            }
+            else
+            {
+                if (player.GrabbedPaper != null)
                 {
-                    Player.HorizontalSpeed = -80;
+                    player.GrabbedPaper.Disabled = false;
                 }
-                else
-                {
-                    if (Player.GrabbedPaper != null)
-                    {
-                        Player.GrabbedPaper.Disabled = false;
-                    }
-                    Game.World.Remove(Player);
-                    Game.World.Add(new PlayerDestroyed(Game, Player.AnimationFacingRight) { X = Player.X, Y = Player.Y });
-                    Game.World.Sleep = 15;
-                    Game.World.Camera2d.Shake();
-                }
+                Game.World.Remove(player);
+                Game.World.Add(new PlayerDestroyed(Game, player.AnimationFacingRight) { X = player.X, Y = player.Y });
+                Game.World.Sleep();
+                Game.World.Camera2d.Shake();
             }
         }
     }

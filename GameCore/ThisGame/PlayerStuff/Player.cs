@@ -48,7 +48,7 @@ namespace PaperWork
 
         //remove this
         public bool Ended => false;
-
+        IGame Game1;
         public Player(
             InputRepository Inputs,
             World world,
@@ -58,7 +58,7 @@ namespace PaperWork
             this.Inputs = Inputs;
             Width = 700;
             Height = 1100;
-
+            this.Game1 = Game1;
             BodyAnimation = CreateBodyAnimator();
             HeadAnimation = CreateHeadAnimator();
             HandsAnimation = CreateHandsAnimator();
@@ -145,7 +145,7 @@ namespace PaperWork
 
             var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
             var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
-            
+
             var Animator = new Animator(new AnimationTransitionOnCondition(
                     new Animation[] {
                          hand_right
@@ -260,10 +260,16 @@ namespace PaperWork
                 GrabbedPaper.Y = Y - (int)(GrabbedPaper.Height * 0.8f) + World.SPACE_BETWEEN_THINGS;
             }
 
+            if (Game1.World.TrashCount >= TRASH_LIMIT)
+            {
+                HandlePaperFallingInThehead.DestroyPlayer(this, Game1);
+            }
 
             if (TimeUntilDragDropEnable > 0)
                 TimeUntilDragDropEnable--;
         }
+
+        const int TRASH_LIMIT = (12 * 4)-1; 
 
         public void BotCollision(Collider collider)
         {

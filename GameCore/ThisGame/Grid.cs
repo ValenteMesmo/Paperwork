@@ -117,7 +117,7 @@ namespace PaperWork
 
             World.Score += comboItems.Count() * comboMultiplyer;
 
-            World.Sleep = 5;
+            World.Sleep();
             World.Camera2d.Shake();
 
             foreach (var comboItem in comboItems)
