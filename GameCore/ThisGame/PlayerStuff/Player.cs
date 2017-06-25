@@ -7,7 +7,6 @@ namespace PaperWork
     //TODO: 
     // tela de game over... para ver a pontuação
     //audio
-    //bug da morte injusta
     // bug do combo horizontal top right. ignorando a primeira (+1)
     public class Player :
         Collider
@@ -46,9 +45,16 @@ namespace PaperWork
         public bool FacingRight { get; set; }
         public bool AnimationFacingRight { get; set; }
 
+        private const int TEXTURE_ANCOR_Y_BONUS = 100;
+        const int leftOffsetX = -300;
+        const int TRASH_LIMIT = (12 * 4) - 1;
+
         //remove this
         public bool Ended => false;
+
         IGame Game1;
+        public readonly Detector<IPlayerMovementBlocker> DeathDetector;
+
         public Player(
             InputRepository Inputs,
             World world,
@@ -57,40 +63,27 @@ namespace PaperWork
         {
             this.Inputs = Inputs;
             Width = 700;
-            Height = 900;
+            Height = 1000;
             this.Game1 = Game1;
             BodyAnimation = CreateBodyAnimator();
             HeadAnimation = CreateHeadAnimator();
             HandsAnimation = CreateHandsAnimator();
 
-            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1150, -500, 100, 100) { Parent = this };
-            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1150, 500, 100, 100) { Parent = this };
+            Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(1150, -500, 200, 200) { Parent = this };
+            Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(1150, 500, 200, 200) { Parent = this };
             world.Add(Right_ChestPaperDetetor);
             world.Add(Right_FeetPaperDetector);
 
-            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-600, -500, 100, 100) { Parent = this };
-            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-600, 500, 100, 100) { Parent = this };
+            Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-600, -500, 200, 200) { Parent = this };
+            Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-600, 500, 200, 200) { Parent = this };
             world.Add(Left_ChestPaperDetetor);
             world.Add(Left_FeetPaperDetector);
 
-            //DEATH COLLIDERS! 
-
-            //Right_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(900, -200, 100, 100) { Parent = this };
-            //Right_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(900, 500, 100, 100) { Parent = this };
-            //world.Add(Right_ChestPaperDetetor);
-            //world.Add(Right_FeetPaperDetector);
-
-            //Left_ChestPaperDetetor = new Detector<IPlayerMovementBlocker>(-300, -200, 100, 100) { Parent = this };
-            //Left_FeetPaperDetector = new Detector<IPlayerMovementBlocker>(-300, 500, 100, 100) { Parent = this };
-            //world.Add(Left_ChestPaperDetetor);
-            //world.Add(Left_FeetPaperDetector);
-
+            DeathDetector = new Detector<IPlayerMovementBlocker>(-300, 500, 100, 100) { Parent = this };
+            world.Add(DeathDetector);
 
             GroundDetector = new Detector<IPlayerMovementBlocker>(100, 1250, 500, 250) { Parent = this };
             world.Add(GroundDetector);
-
-            //HeadDetector = new Detector<Paper>(200, -400, 250, 250) { Parent = this };
-            //world.Add(HeadDetector);
 
             UpdateHandler = new UpdateGroup(
                 new MoveHorizontallyOnInput(this, Inputs)
@@ -122,11 +115,11 @@ namespace PaperWork
 
         private Animator CreateHeadAnimator()
         {
-            var head_right = GeneratedContent.Create_recycle_mantis_Head(250, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
-            var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
+            var head_right = GeneratedContent.Create_recycle_mantis_Head(250, -300 + TEXTURE_ANCOR_Y_BONUS, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -300 + TEXTURE_ANCOR_Y_BONUS, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
-            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(250, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
-            var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
+            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(250, -300 + TEXTURE_ANCOR_Y_BONUS, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -300 + TEXTURE_ANCOR_Y_BONUS, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
             var Animator = new Animator(
                 new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.UpDown == false)
@@ -140,11 +133,11 @@ namespace PaperWork
 
         private Animator CreateHandsAnimator()
         {
-            var hand_right = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 50, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
-            var hand_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 50, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+            var hand_right = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 50 + TEXTURE_ANCOR_Y_BONUS, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            var hand_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 50 + TEXTURE_ANCOR_Y_BONUS, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
 
-            var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -300, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
-            var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -300, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+            var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -300 + TEXTURE_ANCOR_Y_BONUS, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -300 + TEXTURE_ANCOR_Y_BONUS, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
 
             var Animator = new Animator(new AnimationTransitionOnCondition(
                     new Animation[] {
@@ -183,16 +176,15 @@ namespace PaperWork
             return Animator;
         }
 
-        const int leftOffsetX = -300;
         private Animator CreateBodyAnimator()
         {
             var walkingWidth = (int)(700 * 1.4f);
 
-            var walkAnimation_right = GeneratedContent.Create_recycle_mantis_Walk(0, -100, 0.86f, walkingWidth, walkingWidth, true);
-            var walkAnimation_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, -100, 0.86f, walkingWidth, walkingWidth);
+            var walkAnimation_right = GeneratedContent.Create_recycle_mantis_Walk(0, -100 + TEXTURE_ANCOR_Y_BONUS, 0.86f, walkingWidth, walkingWidth, true);
+            var walkAnimation_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, -100 + TEXTURE_ANCOR_Y_BONUS, 0.86f, walkingWidth, walkingWidth);
 
-            var stand_right = GeneratedContent.Create_recycle_mantis_Stand(0, -100, 0.86f, walkingWidth, walkingWidth, true);
-            var stand_left = GeneratedContent.Create_recycle_mantis_Stand(leftOffsetX, -100, 0.86f, walkingWidth, walkingWidth);
+            var stand_right = GeneratedContent.Create_recycle_mantis_Stand(0, -100 + TEXTURE_ANCOR_Y_BONUS, 0.86f, walkingWidth, walkingWidth, true);
+            var stand_left = GeneratedContent.Create_recycle_mantis_Stand(leftOffsetX, -100 + TEXTURE_ANCOR_Y_BONUS, 0.86f, walkingWidth, walkingWidth);
 
             var Animator = new Animator(
                 new AnimationTransitionOnCondition(
@@ -268,8 +260,6 @@ namespace PaperWork
             if (TimeUntilDragDropEnable > 0)
                 TimeUntilDragDropEnable--;
         }
-
-        const int TRASH_LIMIT = (12 * 4)-1; 
 
         public void BotCollision(Collider collider)
         {

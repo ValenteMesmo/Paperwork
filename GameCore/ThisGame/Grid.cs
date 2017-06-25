@@ -108,6 +108,7 @@ namespace PaperWork
 
         private int comboTime = 0;
         private int comboMultiplyer = 1;
+
         private void ComputeCombo(IEnumerable<Paper> comboItems)
         {
             if (comboTime <= 0)
@@ -130,7 +131,7 @@ namespace PaperWork
                 World.Remove(comboItem);
             }
 
-            comboTime = 500;
+            comboTime = 300;
         }
 
         private void ComputeHorizontalCombos()

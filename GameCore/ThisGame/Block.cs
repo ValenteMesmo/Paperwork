@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameCore;
 using Microsoft.Xna.Framework;
 
@@ -14,10 +13,29 @@ namespace PaperWork
         Bot
     }
 
+    public class InvisibleBlock : IPlayerMovementBlocker
+    {
+        public bool Disabled { get; set; }
+        public int HorizontalSpeed { get; set; }
+        public int VerticalSpeed { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int DrawableX { get; set; }
+        public int DrawableY { get; set; }
+
+        public InvisibleBlock()
+        {
+            Width = Height = 1000;
+        }
+    }
+
     public class Block :
         Collider
         , Animation
         , IPlayerMovementBlocker
+        , IPaperMovementBlocker
     {
         const int SIZE = 1000;
         private Animation Animation;
@@ -41,7 +59,7 @@ namespace PaperWork
                 Animation = GeneratedContent.Create_background_wall_right(tx, ty, tz, tw, th);
             else if (Direction == Direction.Top)
                 Animation = GeneratedContent.Create_background_wall_top(tx, ty, tz, tw, th);
-            else 
+            else
                 Animation = GeneratedContent.Create_background_wall_bot(tx, ty, tz, tw, th);
 
             Animation.ChangeColor(new Color(158, 165, 178));

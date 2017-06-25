@@ -10,6 +10,7 @@ namespace PaperWork
         , ICollisionHandler
         , IUpdateHandler
         , IPlayerMovementBlocker
+        , IPaperMovementBlocker
         , Animation
     {
         private ICollisionHandler CollisionHandler;
@@ -40,8 +41,8 @@ namespace PaperWork
 
             CollisionHandler =
                 new CollisionHandlerGroup(
-                    new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
-                    , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
+                    new StopsWhenBotCollidingWith<IPaperMovementBlocker>(this)
+                    , new StopsWhenRightCollidingWith<IPaperMovementBlocker>(this)
             );
 
             Animation = GeneratedContent.Create_trash_bag_Trash(

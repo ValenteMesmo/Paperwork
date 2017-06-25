@@ -187,7 +187,15 @@ namespace PaperWork
             for (int i = 1; i <= colNumber; i++)
             {
                 if (i == 2)
+                {
+                    World.Add(new InvisibleBlock()
+                    {
+                        X = cellsize * rowNumber,
+                        Y = i * cellsize
+                    });
                     continue;
+                }
+
                 World.Add(new Block(i == 1 || i == colNumber ? Direction.Center : Direction.Right)
                 {
                     X = cellsize * rowNumber,

@@ -43,7 +43,7 @@ namespace PaperWork
 
         public static void DestroyPlayer(Player player, IGame Game)
         {
-            if (player.Left_FeetPaperDetector.GetDetectedItems().Any() == false)
+            if (player.DeathDetector.GetDetectedItems().Any() == false)
             {
                 player.HorizontalSpeed = -80;
             }
