@@ -8,6 +8,7 @@ namespace GameCore
         private bool running = false;
         private bool disposed = false;
         private readonly Action OnUpdate;
+        public string ErrorMessage = "";
 
         public GameRunner(Action OnUpdate)
         {
@@ -41,7 +42,18 @@ namespace GameCore
                 while (running)
                 {
                     DateTime current = DateTime.Now;
-                    gameloop.DoIt(previous, current);
+#if DEBUG
+                    try
+                    {
+#endif
+                        gameloop.DoIt(previous, current);
+#if DEBUG
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMessage = ex.ToString();
+                    }
+#endif
                     previous = current;
                 }
             }

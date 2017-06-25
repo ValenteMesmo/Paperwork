@@ -79,7 +79,7 @@ namespace GameCore
 
         public void TouchBegin()
         {
-            AndroidStuff.Vibrate(10);
+            AndroidStuff.Vibrate(14);
             SetValue(true);
         }
 
@@ -90,7 +90,7 @@ namespace GameCore
 
         public void TouchEnded()
         {
-            AndroidStuff.Vibrate(20);
+            //AndroidStuff.Vibrate(20);
             SetValue(false);
         }
     }

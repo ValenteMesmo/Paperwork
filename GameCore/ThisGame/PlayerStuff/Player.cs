@@ -57,7 +57,7 @@ namespace PaperWork
         {
             this.Inputs = Inputs;
             Width = 700;
-            Height = 1100;
+            Height = 900;
             this.Game1 = Game1;
             BodyAnimation = CreateBodyAnimator();
             HeadAnimation = CreateHeadAnimator();
@@ -122,11 +122,11 @@ namespace PaperWork
 
         private Animator CreateHeadAnimator()
         {
-            var head_right = GeneratedContent.Create_recycle_mantis_Head(250, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
-            var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
+            var head_right = GeneratedContent.Create_recycle_mantis_Head(250, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var head_left = GeneratedContent.Create_recycle_mantis_Head(leftOffsetX, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
-            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(250, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
-            var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -100, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
+            var headUp_right = GeneratedContent.Create_recycle_mantis_HeadUp(250, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f), true);
+            var headUp_left = GeneratedContent.Create_recycle_mantis_HeadUp(leftOffsetX, -300, 0.85f, (int)(540 * 1.4f), (int)(380 * 1.4f));
 
             var Animator = new Animator(
                 new AnimationTransitionOnCondition(new Animation[] { head_right, headUp_right, headUp_left }, head_left, () => AnimationFacingRight == false && Inputs.UpDown == false)
@@ -140,11 +140,11 @@ namespace PaperWork
 
         private Animator CreateHandsAnimator()
         {
-            var hand_right = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
-            var hand_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 250, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+            var hand_right = GeneratedContent.Create_recycle_mantis_HandsDown(-300, 50, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            var hand_left = GeneratedContent.Create_recycle_mantis_HandsDown(380, 50, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
 
-            var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
-            var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -100, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
+            var hand_air_right = GeneratedContent.Create_recycle_mantis_HandsUp(200, -300, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f), true);
+            var hand_air_left = GeneratedContent.Create_recycle_mantis_HandsUp(-100, -300, 0.80f, (int)(390 * 1.4f), (int)(320 * 1.4f));
 
             var Animator = new Animator(new AnimationTransitionOnCondition(
                     new Animation[] {
@@ -188,11 +188,11 @@ namespace PaperWork
         {
             var walkingWidth = (int)(700 * 1.4f);
 
-            var walkAnimation_right = GeneratedContent.Create_recycle_mantis_Walk(0, 100, 0.86f, walkingWidth, walkingWidth, true);
-            var walkAnimation_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
+            var walkAnimation_right = GeneratedContent.Create_recycle_mantis_Walk(0, -100, 0.86f, walkingWidth, walkingWidth, true);
+            var walkAnimation_left = GeneratedContent.Create_recycle_mantis_Walk(leftOffsetX, -100, 0.86f, walkingWidth, walkingWidth);
 
-            var stand_right = GeneratedContent.Create_recycle_mantis_Stand(0, 100, 0.86f, walkingWidth, walkingWidth, true);
-            var stand_left = GeneratedContent.Create_recycle_mantis_Stand(leftOffsetX, 100, 0.86f, walkingWidth, walkingWidth);
+            var stand_right = GeneratedContent.Create_recycle_mantis_Stand(0, -100, 0.86f, walkingWidth, walkingWidth, true);
+            var stand_left = GeneratedContent.Create_recycle_mantis_Stand(leftOffsetX, -100, 0.86f, walkingWidth, walkingWidth);
 
             var Animator = new Animator(
                 new AnimationTransitionOnCondition(
@@ -257,7 +257,7 @@ namespace PaperWork
                 else
                     GrabbedPaper.X = X - Width / 2;
 
-                GrabbedPaper.Y = Y - (int)(GrabbedPaper.Height * 0.8f) + World.SPACE_BETWEEN_THINGS;
+                GrabbedPaper.Y = Y - (int)(GrabbedPaper.Height * 1.0f) + World.SPACE_BETWEEN_THINGS;
             }
 
             if (Game1.World.TrashCount >= TRASH_LIMIT)

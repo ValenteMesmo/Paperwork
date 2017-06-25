@@ -30,10 +30,10 @@ namespace PaperWork
         private void CreateTouchInputs()
         {
             var btnWidth = 1000;
-            var btnHeight = 800;
+            var btnHeight = 1000;
             var space = 1;
             var yAnchor = 6000;
-            var xAnchor = 1000;
+            var xAnchor = 800;
 
             var extraWidth = 1000;
             var extraHeight = 500;
@@ -41,13 +41,13 @@ namespace PaperWork
             //top left
             World.Add(new TouchArea(
                 xAnchor - extraWidth
-                , yAnchor - extraHeight + (int)(btnHeight * 0.2f)
+                , yAnchor - extraHeight
                 , btnWidth + extraWidth - space
                 , btnHeight + extraHeight - space
                 , f => World.PlayerInputs.UpDown = World.PlayerInputs.LeftDown = f));
             World.Add(new ButtonAnimation(
                 xAnchor
-                , yAnchor + (int)(btnHeight * 0.2f)
+                , yAnchor
                 , btnWidth - space
                 , btnHeight - space
                 , () => World.PlayerInputs.UpDown && World.PlayerInputs.LeftDown));
@@ -55,13 +55,13 @@ namespace PaperWork
             //top
             World.Add(new TouchArea(
                 xAnchor + btnWidth
-                , yAnchor - extraHeight + (int)(btnHeight * 0.2f)
+                , yAnchor - extraHeight
                 , btnWidth - space
                 , btnHeight + extraHeight - space
                 , f => World.PlayerInputs.UpDown = f));
             World.Add(new ButtonAnimation(
                 xAnchor + btnWidth
-                , yAnchor + (int)(btnHeight * 0.2f)
+                , yAnchor
                 , btnWidth - space
                 , btnHeight - space
                 , () => World.PlayerInputs.UpDown && !World.PlayerInputs.LeftDown && !World.PlayerInputs.RightDown));
@@ -69,43 +69,43 @@ namespace PaperWork
             //top right
             World.Add(new TouchArea(
                 xAnchor + btnWidth * 2
-                , yAnchor - extraHeight + (int)(btnHeight * 0.2f)
+                , yAnchor - extraHeight
                 , btnWidth + extraWidth - space
                 , btnHeight + extraHeight - space
                 , f => World.PlayerInputs.UpDown = World.PlayerInputs.RightDown = f));
             World.Add(new ButtonAnimation(
                 xAnchor + btnWidth * 2
-                , yAnchor + (int)(btnHeight * 0.2f)
+                , yAnchor
                 , btnWidth - space
                 , btnHeight - space
                 , () => World.PlayerInputs.UpDown && World.PlayerInputs.RightDown));
 
             //left
             World.Add(new TouchArea(
-                xAnchor - extraWidth
-                , yAnchor + btnHeight + (int)(btnHeight * 0.2f)
-                , btnWidth + extraWidth + btnWidth / 2 - space
-                , btnHeight - space - (int)(btnHeight * 0.2f)
+                xAnchor //- extraWidth
+                , yAnchor + btnHeight
+                , (int)(btnWidth * 1.5f) - space
+                , btnHeight - space
                 , f => World.PlayerInputs.LeftDown = f));
             World.Add(new ButtonAnimation(
-                xAnchor
-                , yAnchor + btnHeight + (int)(btnHeight * 0.2f)
-                , btnWidth + btnWidth / 2 - space
-                , btnHeight - space - (int)(btnHeight * 0.2f)
+                xAnchor //-extraWidth
+                , yAnchor + btnHeight
+                , (int)(btnWidth * 1.5f)
+                , btnHeight - space
                 , () => World.PlayerInputs.LeftDown && !World.PlayerInputs.DownDown && !World.PlayerInputs.UpDown));
 
             //right
             World.Add(new TouchArea(
-                xAnchor + btnWidth + btnWidth / 2
-                , yAnchor + btnHeight + (int)(btnHeight * 0.2f)
-                , (btnWidth + btnWidth / 2 - space) + extraWidth
-                , btnHeight - space - (int)(btnHeight * 0.2f)
+                xAnchor + (int)(btnWidth * 1.5f) + space /// 3
+                , yAnchor + btnHeight
+                , (int)(btnWidth * 1.5f) - space + extraWidth
+                , btnHeight - space
                 , f => World.PlayerInputs.RightDown = f));
             World.Add(new ButtonAnimation(
-                xAnchor + btnWidth + btnWidth / 2
-                , yAnchor + btnHeight + (int)(btnHeight * 0.2f)
-                , btnWidth + btnWidth / 2 - space
-                , btnHeight - space - (int)(btnHeight * 0.2f)
+                xAnchor + (int)(btnWidth * 1.5f) + space /// 3
+                , yAnchor + btnHeight
+                , (int)(btnWidth * 1.5f)  
+                , btnHeight - space
                 , () => World.PlayerInputs.RightDown && !World.PlayerInputs.DownDown && !World.PlayerInputs.UpDown));
 
             //bot left
@@ -126,29 +126,29 @@ namespace PaperWork
             //grab
             World.Add(new TouchArea(
                 xAnchor - extraWidth
-                , yAnchor + 100 - extraHeight + (int)(btnHeight * 0.2f)
+                , yAnchor + 100 - extraHeight
                 , btnWidth - space + extraWidth
-                , (int)(btnHeight * 2.9f) - space + extraHeight * 2 - (int)(btnHeight * 0.2f)
+                , (int)(btnHeight * 2.9f) - space + extraHeight * 2
                 , f => World.PlayerInputs.Action1Down = f));
             World.Add(new ButtonAnimation(
                xAnchor
-               , yAnchor + 100 + (int)(btnHeight * 0.2f)
+               , yAnchor + 100
                , btnWidth - space
-               , (int)(btnHeight * 2.9f) - space - (int)(btnHeight * 0.2f)
+               , (int)(btnHeight * 2.9f) - space
                , () => World.PlayerInputs.Action1Down));
 
             //jump
             World.Add(new TouchArea(
                 xAnchor + btnWidth
-                , yAnchor + 100 - extraHeight + (int)(btnHeight * 0.2f)
+                , yAnchor + 100 - extraHeight
                 , (int)(btnWidth - space) + extraWidth
-                , (int)(btnHeight * 2.9f) - space + extraHeight - (int)(btnHeight * 0.2f)
+                , (int)(btnHeight * 2.9f) - space + extraHeight
                 , f => World.PlayerInputs.JumpDown = f));
             World.Add(new ButtonAnimation(
                xAnchor + btnWidth
-               , yAnchor + 100 + (int)(btnHeight * 0.2f)
+               , yAnchor + 100
                , (int)(btnWidth - space)
-               , (int)(btnHeight * 2.9f) - space - (int)(btnHeight * 0.2f)
+               , (int)(btnHeight * 2.9f) - space
                , () => World.PlayerInputs.JumpDown));
         }
 
@@ -197,10 +197,10 @@ namespace PaperWork
 
             var backgrond = GeneratedContent.Create_background_wall_center(
                 0
-                , cellsize*6
-                ,1
+                , cellsize * 6
+                , 1
                 , cellsize * 14
-                , cellsize*4);
+                , cellsize * 4);
             backgrond.ChangeColor(new Color(158, 165, 178));
             World.Add(backgrond);
 

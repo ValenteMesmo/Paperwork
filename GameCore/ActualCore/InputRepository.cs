@@ -55,12 +55,15 @@ namespace GameCore
 
         internal void SetState(KeyboardState state)
         {
-            LeftDown = state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left);
-            RightDown = state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right);
-            JumpDown = state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
-            DownDown = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
-            Action1Down = state.IsKeyDown(Keys.J) || state.IsKeyDown(Keys.LeftControl);
-            UpDown = state.IsKeyDown(Keys.K) || state.IsKeyDown(Keys.Space);
+            if (touches.Count == 0)
+            {
+                LeftDown = state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left);
+                RightDown = state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right);
+                JumpDown = state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
+                DownDown = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
+                Action1Down = state.IsKeyDown(Keys.J) || state.IsKeyDown(Keys.LeftControl);
+                UpDown = state.IsKeyDown(Keys.K) || state.IsKeyDown(Keys.Space);
+            }
         }
 
         List<Vector2> touches = new List<Vector2>();

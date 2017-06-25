@@ -7,12 +7,12 @@ namespace GameCore
 {
     public abstract class BaseGame : Game
     {
-        private const bool RENDER_COLLIDERS 
-            = 
+        private const bool RENDER_COLLIDERS
+            =
             true;
-            /*
-             false;
-             */
+        /*
+         false;
+         */
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
@@ -32,11 +32,10 @@ namespace GameCore
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             //TODO: fullscreen on alt+enter
-            //TODO: close when esc pressed
             //graphics.IsFullScreen = true;
 
             cam = new Camera2d();
-            cam.Pos = new Vector2(7000f, 5300f);
+            cam.Pos = new Vector2(7000f, 5500f);
             cam.Zoom = 0.1f;
 
             World = new World(cam);
@@ -99,6 +98,23 @@ namespace GameCore
                        null,
                        null,
                        cam.get_transformation(GraphicsDevice));
+
+            if (gameloop.ErrorMessage != string.Empty)
+            {
+                spriteBatch.DrawString(
+                    font
+                    , gameloop.ErrorMessage
+                    , new Vector2(450, 700)
+                    , new Color(158, 165, 178)
+                    , 0
+                    , Vector2.Zero
+                    , 10
+                    , SpriteEffects.None
+                    , 0
+                );
+
+                return;
+            }
 
             spriteBatch.DrawString(
                 font
