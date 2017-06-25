@@ -17,7 +17,7 @@ namespace PaperWork
                 && Player.Inputs.Action1Down
                 && Player.Inputs.DownDown
                 && Player.TimeUntilDragDropEnable == 0
-                && Player.Y > (Paper.SIZE + World.SPACE_BETWEEN_THINGS) *2)
+                && Player.Y > (Paper.SIZE + World.SPACE_BETWEEN_THINGS) *2.2f)
             {
                 Player.HorizontalSpeed = 0;
                 Player.VerticalSpeed = 0;
