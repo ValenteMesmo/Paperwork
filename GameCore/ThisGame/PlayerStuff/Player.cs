@@ -293,9 +293,12 @@ namespace PaperWork
 
         public IEnumerable<string> GetAudiosToPlay()
         {
-            var result = AudiosToPlay.ToList();
-            AudiosToPlay.Clear();
-            return result;
+            lock (AudiosToPlay)
+            {
+                var result = AudiosToPlay.ToList();
+                AudiosToPlay.Clear();
+                return result; 
+            }
         }
     }
 }
