@@ -5,7 +5,6 @@ using System.Linq;
 namespace PaperWork
 {
     //TODO: 
-    // tela de game over... para ver a pontuação
     //audio
     // bug do combo horizontal top right. ignorando a primeira (+1)
     public class Player :

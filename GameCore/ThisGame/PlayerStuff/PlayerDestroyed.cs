@@ -42,7 +42,10 @@ namespace PaperWork
             animation.Update();
             Duration--;
             if (Duration == 0)
-                Game.Restart();
+            {
+                Game.World.Remove(this);
+                Game.World.Add(new FadeOut(Game.Restart));
+            }
         }
     }
 }

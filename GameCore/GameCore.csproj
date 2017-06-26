@@ -51,6 +51,8 @@
     <Compile Include="ActualCore\Extensions\FloatExtensions.cs" />
     <Compile Include="ActualCore\Extensions\ICollectionExtensions.cs" />
     <Compile Include="ActualCore\Extensions\IListExtensions.cs" />
+    <Compile Include="ActualCore\FadeIn.cs" />
+    <Compile Include="ActualCore\FadeOut.cs" />
     <Compile Include="ActualCore\GameLoop.cs" />
     <Compile Include="ActualCore\GameRunner.cs" />
     <Compile Include="ActualCore\Interfaces\Animation.cs" />

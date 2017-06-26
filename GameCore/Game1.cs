@@ -25,6 +25,8 @@ namespace PaperWork
             CreateTouchInputs();
 
             World.Add(World.Camera2d);
+
+            World.Add(new FadeIn(World));
         }
 
         private void CreateTouchInputs()

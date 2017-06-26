@@ -24,7 +24,7 @@ namespace GameCore
 
         public void Sleep()
         {
-            sleep = 10;
+            sleep = 6;
         }
         
         public World(Camera2d Camera2d)

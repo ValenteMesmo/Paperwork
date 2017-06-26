@@ -18,7 +18,7 @@ namespace PaperWork
         private readonly Action<Collider> AddToWorld;
 
         private int Countdown = COUNTDOWN_START;
-        private const int COUNTDOWN_START = 400000;
+        private const int COUNTDOWN_START = 200000;
 
         public PaperFactory(Action<Collider> AddToWorld)
         {
@@ -46,7 +46,6 @@ namespace PaperWork
                 cooldownCount--;
                 return;
             }
-
 
             var x = (1000 * 13) + 12 * World.SPACE_BETWEEN_THINGS;
 

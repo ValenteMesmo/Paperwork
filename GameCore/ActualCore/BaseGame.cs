@@ -9,14 +9,14 @@ namespace GameCore
     {
         private const bool RENDER_COLLIDERS
             =
-            true;
-        /*
          false;
+        /*
+            truse;
          */
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private GeneratedContent GeneratedContent;
 
-        private Texture2D pixel;
         public World World { get; }
         private GameRunner gameloop;
         private readonly Camera2d cam;
@@ -54,7 +54,7 @@ namespace GameCore
             }
             base.Dispose(disposing);
         }
-        GeneratedContent GeneratedContent;
+
         protected override void LoadContent()
         {
             font = Content.Load<SpriteFont>("Score");
@@ -63,8 +63,9 @@ namespace GameCore
             GeneratedContent = new GeneratedContent();
             GeneratedContent.Load(Content);
 
-            pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            var pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             pixel.SetData(new[] { Color.White });
+            GeneratedContent.Textures.Add("pixel", pixel);
 
             gameloop = new GameRunner(World.Update);
             gameloop.Start();
@@ -87,6 +88,8 @@ namespace GameCore
             World.PlayerInputs.SetState(touchCollection);
             base.Update(gameTime);
         }
+
+
 
         protected override void Draw(GameTime gameTime)
         {
@@ -125,7 +128,7 @@ namespace GameCore
                 , Vector2.Zero
                 , 10
                 , SpriteEffects.None
-                , 0);
+                , 0.1f);
 
             var entiies = World.GetColliders();
 
@@ -174,10 +177,10 @@ namespace GameCore
                         spriteBatch.Draw(
                                 GeneratedContent.Textures[texture.Name]
                                 , new Rectangle(
-                                    bonusX + texture.X,
-                                    bonusY + texture.Y,
-                                    texture.Width,
-                                    texture.Height)
+                                   bonusX + texture.X,
+                                bonusY + texture.Y,
+                                texture.Width,
+                                texture.Height)
                                 , texture.PositionOnSpriteSheet
                                 , texture.Color
                                 , 0
@@ -196,6 +199,7 @@ namespace GameCore
 
         private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, Color borderColor)
         {
+            var pixel = GeneratedContent.Textures["pixel"];
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
             spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
             spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder), rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), null, borderColor, 0, Vector2.Zero, SpriteEffects.None, 0);
