@@ -14,7 +14,7 @@ namespace GameCore
             =
          false;
         /*
-            truse;
+            true;
          */
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;

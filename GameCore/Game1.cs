@@ -84,13 +84,13 @@ namespace PaperWork
 
             //left
             World.Add(new TouchArea(
-                xAnchor //- extraWidth
+                xAnchor - extraWidth
                 , yAnchor + btnHeight
-                , (int)(btnWidth * 1.5f) - space
+                , (int)(btnWidth * 1.5f) + extraWidth - space
                 , btnHeight - space
                 , f => World.PlayerInputs.LeftDown = f));
             World.Add(new ButtonAnimation(
-                xAnchor //-extraWidth
+                xAnchor
                 , yAnchor + btnHeight
                 , (int)(btnWidth * 1.5f)
                 , btnHeight - space
