@@ -24,6 +24,7 @@ namespace PaperWork
                 var papers = Player.Left_FeetPaperDetector.GetDetectedItems().OfType<Paper>();
                 if (papers.Any())
                 {
+                    Player.HorizontalSpeed = 0;
                     Player.GrabbedPaper = papers.First();
                     Player.GrabbedPaper.Disabled = true;
                     Player.TimeUntilDragDropEnable = Player.DRAG_AND_DROP_COOLDOWN;

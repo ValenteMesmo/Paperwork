@@ -67,7 +67,30 @@ namespace PaperWork
             cooldownCount = CurrentInterval;
         }
 
-        Color[] fakeColors = new Color[] { Color.Blue, Color.Red, Color.Red, Color.Green, Color.Blue };
+        Color[] fakeColors = new Color[] {
+
+
+Color.Red
+,Color.Red
+,Color.Green
+
+,Color.Red
+,Color.Red
+,Color.Green
+
+,Color.Blue
+,Color.Blue
+,Color.Yellow
+
+,Color.Red
+,Color.Red
+,Color.Green
+
+,Color.Yellow
+,Color.Yellow
+,Color.Green
+
+        };
         int fakeColorIndex = -1;
         private Color GetNewColor()
         {
