@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using System;
 using System.Collections.Generic;
 
 namespace GameCore
@@ -36,7 +35,7 @@ namespace GameCore
             graphics.SynchronizeWithVerticalRetrace = false;
             //TODO: fullscreen on alt+enter
             //graphics.IsFullScreen = true;
-
+            
             cam = new Camera2d();
             cam.Pos = new Vector2(7000f, 5500f);
             cam.Zoom = 0.1f;
@@ -224,6 +223,18 @@ namespace GameCore
         }
 
         protected abstract void OnStart();
+
+        public void UnPause()
+        {
+            if(gameloop!=null)
+            gameloop.Start();
+        }
+
+        public void Pause()
+        {
+            if (gameloop != null)
+                gameloop.Stop();
+        }
 
         public void Restart()
         {

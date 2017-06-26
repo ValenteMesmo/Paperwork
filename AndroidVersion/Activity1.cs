@@ -24,8 +24,8 @@ namespace AndroidVersion
 
             Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
             AndroidStuff.Vibrate = f => vibrator.Vibrate(f);
-
             game = new Game1();
+            
             SetViewFullScreen();
             game.Run();
         }
@@ -48,12 +48,20 @@ namespace AndroidVersion
 
         protected override void OnResume()
         {
+            game.UnPause();
             base.OnResume();
             SetViewFullScreen();
         }
 
+        protected override void OnPause()
+        {
+            game.Pause();
+            base.OnPause();
+        }
+
         protected override void OnRestart()
         {
+            game.UnPause();
             base.OnRestart();
             SetViewFullScreen();
         }
