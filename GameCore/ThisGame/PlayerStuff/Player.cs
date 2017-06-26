@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,7 @@ namespace PaperWork
         , ICollisionHandler
         , IUpdateHandler
         , Animation
+        , SomethingWithAudio
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -88,7 +90,7 @@ namespace PaperWork
                 new MoveHorizontallyOnInput(this, Inputs)
                 , new SetPlayerDirection(this)
                 , new AffectedByGravity(this)
-                , new PlayersJump(this, Inputs)
+                , new PlayersJump(this, Inputs, AudiosToPlay.Add)
                 , new GrabPaperNearPlayersFeetAsFirstOption_Right(this)
                 , new GrabPaperNearPlayersFeetAsFirstOption_Left(this)
                 , new GrabPaperThatThePlayerIsStandingOn(this)
@@ -105,7 +107,7 @@ namespace PaperWork
             CollisionHandler = new CollisionHandlerGroup(
                 new StopsWhenBotCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenTopCollidingWith<Block>(this)
-                , new HandlePaperFallingInThehead(this, Game1)
+                , new HandlePaperFallingInThehead(this, Game1, AudiosToPlay.Add)
                 , new StopsWhenLeftCollidingWith<IPlayerMovementBlocker>(this)
                 , new StopsWhenRightCollidingWith<IPlayerMovementBlocker>(this)
             );
@@ -253,7 +255,7 @@ namespace PaperWork
 
             if (Game1.World.TrashCount >= TRASH_LIMIT)
             {
-                HandlePaperFallingInThehead.DestroyPlayer(this, Game1);
+                HandlePaperFallingInThehead.DestroyPlayer(this, Game1, AudiosToPlay.Add);
             }
 
             if (TimeUntilDragDropEnable > 0)
@@ -285,6 +287,15 @@ namespace PaperWork
             return BodyAnimation.GetTextures()
                 .Concat(HeadAnimation.GetTextures())
                 .Concat(HandsAnimation.GetTextures());
+        }
+
+        private List<string> AudiosToPlay = new List<string>();        
+
+        public IEnumerable<string> GetAudiosToPlay()
+        {
+            var result = AudiosToPlay.ToList();
+            AudiosToPlay.Clear();
+            return result;
         }
     }
 }

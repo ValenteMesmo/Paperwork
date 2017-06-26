@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using System;
 
 namespace PaperWork
 {
@@ -6,11 +7,13 @@ namespace PaperWork
     {
         private readonly Player Player;
         private readonly InputRepository Input;
+        private readonly Action<string> PlayAudio;
 
-        public PlayersJump(Player Player, InputRepository Input)
+        public PlayersJump(Player Player, InputRepository Input , Action<string> PlayAudio)
         {
             this.Player = Player;
             this.Input = Input;
+            this.PlayAudio = PlayAudio;
         }
 
         public void Update()
@@ -18,6 +21,7 @@ namespace PaperWork
             if (Player.Grounded && Input.ClickedJump)
             {
                 Player.VerticalSpeed = -100;
+                PlayAudio("jump");
             }
         }
     }

@@ -1,14 +1,19 @@
 ﻿using GameCore;
+using System;
 
 namespace PaperWork
 {
     public class StopsWhenBotCollidingWith<T> : ICollisionHandler
     {
         private readonly Collider Parent;
+        private readonly Action<string> PlayAudio;
 
-        public StopsWhenBotCollidingWith(Collider Parent)
+        public StopsWhenBotCollidingWith(Collider Parent, Action<string> PlayAudio = null)
         {
             this.Parent = Parent;
+            if (PlayAudio == null)
+                PlayAudio = f => { };
+            this.PlayAudio = PlayAudio;
         }
 
         public void BotCollision(Collider other)
@@ -18,6 +23,8 @@ namespace PaperWork
                 Parent.Y = other.Top()
                     - Parent.Height
                     - World.SPACE_BETWEEN_THINGS;
+                if (Parent.VerticalSpeed > 50)
+                    PlayAudio("landing");
                 Parent.VerticalSpeed = 0;
             }
         }

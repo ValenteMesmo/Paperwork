@@ -2,10 +2,11 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace PaperWork
 {
-    public class Grid : IUpdateHandler
+    public class Grid : IUpdateHandler, SomethingWithAudio
     {
         private readonly List<Detector<Paper>> Rows;
         private readonly List<Detector<Paper>> Columns;
@@ -132,6 +133,7 @@ namespace PaperWork
             }
 
             comboTime = 300;
+            AudiosToPlay.Add("explosion");
         }
 
         private void ComputeHorizontalCombos()
@@ -179,6 +181,15 @@ namespace PaperWork
                     ComputeCombo(combo);
                 }
             }
+        }
+
+        private List<string> AudiosToPlay = new List<string>();
+
+        public IEnumerable<string> GetAudiosToPlay()
+        {
+            var result = AudiosToPlay.ToList();
+            AudiosToPlay.Clear();
+            return result;
         }
     }
 }

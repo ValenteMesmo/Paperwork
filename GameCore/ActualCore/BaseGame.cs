@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using System;
+using System.Collections.Generic;
 
 namespace GameCore
 {
@@ -55,12 +58,19 @@ namespace GameCore
             base.Dispose(disposing);
         }
 
+        //TODO: NOT HERE!
+        protected Dictionary<string, SoundEffect> Audios = new Dictionary<string, SoundEffect>();
         protected override void LoadContent()
         {
             font = Content.Load<SpriteFont>("Score");
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             GeneratedContent = new GeneratedContent();
+            Audios.Add("jump", Content.Load<SoundEffect>("jump"));
+            Audios.Add("landing", Content.Load<SoundEffect>("landing"));
+            Audios.Add("death", Content.Load<SoundEffect>("death"));
+            Audios.Add("explosion", Content.Load<SoundEffect>("explosion"));
+
             GeneratedContent.Load(Content);
 
             var pixel = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -86,10 +96,9 @@ namespace GameCore
             TouchCollection touchCollection = TouchPanel.GetState();
             World.PlayerInputs.SetState(state);
             World.PlayerInputs.SetState(touchCollection);
+
             base.Update(gameTime);
         }
-
-
 
         protected override void Draw(GameTime gameTime)
         {
@@ -154,6 +163,14 @@ namespace GameCore
                                 dimensions.Height),
                             20,
                             Color.Red);
+                    }
+                }
+
+                if (item is SomethingWithAudio)
+                {
+                    foreach (var audioName in item.As<SomethingWithAudio>().GetAudiosToPlay())
+                    {
+                        Audios[audioName].Play();
                     }
                 }
 

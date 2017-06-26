@@ -68,6 +68,7 @@
     <Compile Include="ActualCore\Interfaces\Texture.cs" />
     <Compile Include="ActualCore\Interfaces\IUpdateHandler.cs" />
     <Compile Include="ActualCore\Extensions\ObjectExtension.cs" />
+    <Compile Include="ActualCore\SomethingWithAudio.cs" />
     <Compile Include="ActualCore\Touchable.cs" />
     <Compile Include="ActualCore\TouchButton.cs" />
     <Compile Include="Game1.cs" />

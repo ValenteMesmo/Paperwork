@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GameCore;
 using Microsoft.Xna.Framework;
+using System.Linq;
 
 namespace PaperWork
 {
@@ -12,6 +13,7 @@ namespace PaperWork
         , IPlayerMovementBlocker
         , IPaperMovementBlocker
         , Animation
+        , SomethingWithAudio
     {
         private ICollisionHandler CollisionHandler;
         private IUpdateHandler UpdateHandler;
@@ -41,7 +43,7 @@ namespace PaperWork
 
             CollisionHandler =
                 new CollisionHandlerGroup(
-                    new StopsWhenBotCollidingWith<IPaperMovementBlocker>(this)
+                    new StopsWhenBotCollidingWith<IPaperMovementBlocker>(this, AudiosToPlay.Add)
                     , new StopsWhenRightCollidingWith<IPaperMovementBlocker>(this)
             );
 
@@ -106,6 +108,15 @@ namespace PaperWork
         public IEnumerable<Texture> GetTextures()
         {
             return Animation.GetTextures();
+        }
+
+        private List<string> AudiosToPlay = new List<string>();
+
+        public IEnumerable<string> GetAudiosToPlay()
+        {
+            var result = AudiosToPlay.ToList();
+            AudiosToPlay.Clear();
+            return result;
         }
     }
 }

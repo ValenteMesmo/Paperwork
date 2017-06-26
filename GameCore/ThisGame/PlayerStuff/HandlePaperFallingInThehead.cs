@@ -14,11 +14,13 @@ namespace PaperWork
     {
         private readonly Player Player;
         private readonly IGame Game;
+        private readonly Action<string> PlayAudio;
 
-        public HandlePaperFallingInThehead(Player Player, IGame World)
+        public HandlePaperFallingInThehead(Player Player, IGame World, Action<string> PlayAudio)
         {
             this.Player = Player;
             this.Game = World;
+            this.PlayAudio = PlayAudio;
         }
 
         public void BotCollision(Collider other)
@@ -37,11 +39,11 @@ namespace PaperWork
         {
             if (other is Paper)
             {
-                DestroyPlayer(Player, Game);
+                DestroyPlayer(Player, Game, PlayAudio);
             }
         }
 
-        public static void DestroyPlayer(Player player, IGame Game)
+        public static void DestroyPlayer(Player player, IGame Game, Action<string> PlayAudio)
         {
             if (player.DeathDetector.GetDetectedItems().Any() == false)
             {
@@ -55,6 +57,7 @@ namespace PaperWork
                 }
                 Game.World.Remove(player);
                 Game.World.Add(new PlayerDestroyed(Game, player.AnimationFacingRight) { X = player.X, Y = player.Y });
+                PlayAudio("death");
                 Game.World.Sleep();
                 Game.World.Camera2d.Shake();
             }
