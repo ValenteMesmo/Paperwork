@@ -35,7 +35,7 @@ namespace GameCore
             graphics.SynchronizeWithVerticalRetrace = false;
             //TODO: fullscreen on alt+enter
             //graphics.IsFullScreen = true;
-            
+
             cam = new Camera2d();
             cam.Pos = new Vector2(7000f, 5500f);
             cam.Zoom = 0.1f;
@@ -226,8 +226,8 @@ namespace GameCore
 
         public void UnPause()
         {
-            if(gameloop!=null)
-            gameloop.Start();
+            if (gameloop != null)
+                gameloop.Start();
         }
 
         public void Pause()

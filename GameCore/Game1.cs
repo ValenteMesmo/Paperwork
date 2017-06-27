@@ -34,7 +34,7 @@ namespace PaperWork
             var btnWidth = 1000;
             var btnHeight = 1000;
             var space = 1;
-            var yAnchor = 6000;
+            var yAnchor = 6200;
             var xAnchor = 800;
 
             var extraWidth = 1000;
@@ -122,7 +122,7 @@ namespace PaperWork
             World.Add(new TouchArea(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth + extraWidth - space, btnHeight + extraHeight - space, f => World.PlayerInputs.DownDown = World.PlayerInputs.RightDown = f));
             World.Add(new ButtonAnimation(xAnchor + btnWidth * 2, yAnchor + btnHeight * 2, btnWidth - space, btnHeight - space, () => World.PlayerInputs.DownDown && World.PlayerInputs.RightDown));
 
-            xAnchor = 9700;
+            xAnchor = 9800;
             btnWidth = 1800;
 
             //grab
