@@ -105,9 +105,14 @@ namespace GameCore
             if (state.IsKeyDown(Keys.Escape))
                 Exit();
 
-            TouchCollection touchCollection = TouchPanel.GetState();
-            World.PlayerInputs.SetState(state);
-            World.PlayerInputs.SetState(touchCollection);
+            var controller = GamePad.GetState(0);
+            World.PlayerInputs.SetState(state, controller);
+
+            if (AndroidStuff.RunningOnAndroid)
+            {
+                TouchCollection touchCollection = TouchPanel.GetState();
+                World.PlayerInputs.SetState(touchCollection); 
+            }
 
             base.Update(gameTime);
         }

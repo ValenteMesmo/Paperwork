@@ -53,16 +53,39 @@ namespace GameCore
             WasPressedJump = JumpDown;
         }
 
-        internal void SetState(KeyboardState state)
+        internal void SetState(KeyboardState keyboard, GamePadState controller)
         {
             if (touches.Count == 0)
             {
-                LeftDown = state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left);
-                RightDown = state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right);
-                JumpDown = state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
-                DownDown = state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
-                Action1Down = state.IsKeyDown(Keys.J) || state.IsKeyDown(Keys.LeftControl);
-                UpDown = state.IsKeyDown(Keys.K) || state.IsKeyDown(Keys.Space);
+                LeftDown =
+                    (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
+                    ||
+                    (controller.DPad.Left == ButtonState.Pressed || controller.ThumbSticks.Left.X < -0.5f)
+                    ;
+                RightDown =
+                    (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
+                    ||
+                    (controller.DPad.Right == ButtonState.Pressed || controller.ThumbSticks.Left.X > 0.5f)
+                    ;
+                JumpDown =
+                    (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
+                    ||
+                    (controller.Buttons.A == ButtonState.Pressed || controller.ThumbSticks.Left.Y > 0.5f);
+                DownDown =
+                    (keyboard.IsKeyDown(Keys.S) || keyboard.IsKeyDown(Keys.Down))
+                    ||
+                    (controller.DPad.Down == ButtonState.Pressed || controller.ThumbSticks.Left.Y < -0.5f);
+                Action1Down =
+                    (keyboard.IsKeyDown(Keys.J) || keyboard.IsKeyDown(Keys.LeftControl))
+                    ||
+                    (controller.Buttons.X == ButtonState.Pressed || controller.Buttons.B == ButtonState.Pressed);
+                UpDown = (keyboard.IsKeyDown(Keys.K) || keyboard.IsKeyDown(Keys.Space))
+                    ||
+                    (
+                        controller.DPad.Up == ButtonState.Pressed 
+                        || controller.ThumbSticks.Right.Y < -0.5f
+                        || controller.ThumbSticks.Right.Y > 0.5f
+                    );
             }
         }
 
