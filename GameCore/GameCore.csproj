@@ -101,7 +101,7 @@
     <Compile Include="ThisGame\PlayerStuff\PlayerDestroyed.cs" />
     <Compile Include="ThisGame\PlayerStuff\PlayersJump.cs" />
     <Compile Include="ThisGame\PlayerStuff\SetPlayerDirection.cs" />
-    <Compile Include="ThisGame\PlayerStuff\SpecialDownDropPaper.cs" />
+    <Compile Include="ThisGame\PlayerStuff\DragAndDrop\SpecialDownDropPaper.cs" />
     <Compile Include="ThisGame\StopsWhenCollidingWith.cs" />
     <Compile Include="ThisGame\UpdateGroup.cs" />
   </ItemGroup>

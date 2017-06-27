@@ -8,6 +8,9 @@ namespace PaperWork
     //TODO: 
     //audio
     // bug do combo horizontal top right. ignorando a primeira (+1)
+    // app name
+    // app description
+    // app icon
     public class Player :
         Collider
         , ICollisionHandler
@@ -289,7 +292,7 @@ namespace PaperWork
                 .Concat(HandsAnimation.GetTextures());
         }
 
-        private List<string> AudiosToPlay = new List<string>();        
+        public List<string> AudiosToPlay = new List<string>();
 
         public IEnumerable<string> GetAudiosToPlay()
         {
@@ -297,7 +300,7 @@ namespace PaperWork
             {
                 var result = AudiosToPlay.ToList();
                 AudiosToPlay.Clear();
-                return result; 
+                return result;
             }
         }
     }

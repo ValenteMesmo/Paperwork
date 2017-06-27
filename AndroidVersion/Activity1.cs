@@ -7,8 +7,8 @@ using PaperWork;
 
 namespace AndroidVersion
 {
-    [Activity(Label = "AndroidVersion"
-        , MainLauncher = true
+    [Activity(        
+        MainLauncher = true
         , Icon = "@drawable/icon"
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
@@ -25,7 +25,7 @@ namespace AndroidVersion
             Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
             AndroidStuff.Vibrate = f => vibrator.Vibrate(f);
             game = new Game1();
-            
+
             SetViewFullScreen();
             game.Run();
         }

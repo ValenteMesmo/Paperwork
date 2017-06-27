@@ -69,6 +69,7 @@ namespace GameCore
             Audios.Add("landing", Content.Load<SoundEffect>("landing"));
             Audios.Add("death", Content.Load<SoundEffect>("death"));
             Audios.Add("explosion", Content.Load<SoundEffect>("explosion"));
+            Audios.Add("grab", Content.Load<SoundEffect>("grab"));
 
             GeneratedContent.Load(Content);
 

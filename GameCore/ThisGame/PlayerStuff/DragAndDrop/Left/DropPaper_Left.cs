@@ -29,6 +29,7 @@ namespace PaperWork
                 Player.X = Player.GrabbedPaper.Right() + World.SPACE_BETWEEN_THINGS;
                 Player.GrabbedPaper = null;
                 Player.TimeUntilDragDropEnable = Player.DRAG_AND_DROP_COOLDOWN;
+                Player.AudiosToPlay.Add("grab");
             }
         }
     }
