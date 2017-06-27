@@ -89,6 +89,26 @@ Color.Red
 ,Color.Yellow
 ,Color.Green
 
+,Color.Red
+,Color.Red
+,Color.Blue
+
+,Color.Green
+,Color.Green
+,Color.Red
+
+,Color.Yellow
+,Color.Yellow
+,Color.Green
+
+,Color.Yellow
+,Color.Yellow
+,Color.Green
+
+,Color.Blue
+,Color.Blue
+,Color.Green
+
         };
         int fakeColorIndex = -1;
         private Color GetNewColor()

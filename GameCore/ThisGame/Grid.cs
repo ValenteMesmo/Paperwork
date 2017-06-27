@@ -157,7 +157,7 @@ namespace PaperWork
 
                     var paper = other.As<Paper>();
                     if (currentColor != paper.Color
-                        || previousX - paper.X > paper.Width + World.SPACE_BETWEEN_THINGS
+                        || previousX - paper.X > paper.Width + World.SPACE_BETWEEN_THINGS * 5
                         || paper.Y != previousY)
                     {
                         currentColor = paper.Color;

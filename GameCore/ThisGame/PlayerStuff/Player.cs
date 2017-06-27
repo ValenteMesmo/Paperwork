@@ -6,11 +6,8 @@ using System.Linq;
 namespace PaperWork
 {
     //TODO: 
-    //audio
     // bug do combo horizontal top right. ignorando a primeira (+1)
-    // app name
     // app description
-    // app icon
     public class Player :
         Collider
         , ICollisionHandler
