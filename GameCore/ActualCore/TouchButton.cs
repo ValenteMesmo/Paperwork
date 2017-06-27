@@ -79,7 +79,7 @@ namespace GameCore
 
         public void TouchBegin()
         {
-            AndroidStuff.Vibrate(14);
+            AndroidStuff.Vibrate(16);
             SetValue(true);
         }
 
