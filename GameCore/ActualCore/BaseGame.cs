@@ -170,6 +170,10 @@ namespace GameCore
                 {
                     foreach (var audioName in item.As<SomethingWithAudio>().GetAudiosToPlay())
                     {
+                        //TODO:
+                        if (audioName == null)
+                            return;
+
                         Audios[audioName].Play();
                     }
                 }

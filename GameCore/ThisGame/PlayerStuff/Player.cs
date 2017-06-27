@@ -6,7 +6,6 @@ using System.Linq;
 namespace PaperWork
 {
     //TODO: 
-    // bug do combo horizontal top right. ignorando a primeira (+1)
     // app description
     public class Player :
         Collider
