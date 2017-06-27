@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using GameCore.ActualCore;
 using Microsoft.Xna.Framework;
 
 namespace PaperWork
@@ -22,7 +23,8 @@ namespace PaperWork
 
             new Grid(World);
 
-            CreateTouchInputs();
+            if (AndroidStuff.RunningOnAndroid)
+                CreateTouchInputs();
 
             World.Add(World.Camera2d);
 
@@ -151,10 +153,10 @@ namespace PaperWork
                 , btnHeight - space + extraHeight * 2
                 , f => World.PlayerInputs.JumpDown = f));
             World.Add(new ButtonAnimation(
-               xAnchor 
+               xAnchor
                , yAnchor
                , btnWidth - space
-               , btnHeight - space 
+               , btnHeight - space
                , () => World.PlayerInputs.JumpDown));
         }
 

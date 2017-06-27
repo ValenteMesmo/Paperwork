@@ -24,6 +24,7 @@ namespace AndroidVersion
 
             Vibrator vibrator = (Vibrator)GetSystemService(VibratorService);
             AndroidStuff.Vibrate = f => vibrator.Vibrate(f);
+            AndroidStuff.RunningOnAndroid = true;
             game = new Game1();
 
             SetViewFullScreen();

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameCore.ActualCore;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -26,6 +27,7 @@ namespace GameCore
         public bool FullScreen { get { return graphics.IsFullScreen; } set { graphics.IsFullScreen = value; } }
 
         private SpriteFont font;
+        private Vector2 ScorePosition;
 
         public BaseGame()
         {
@@ -37,8 +39,18 @@ namespace GameCore
             //graphics.IsFullScreen = true;
 
             cam = new Camera2d();
-            cam.Pos = new Vector2(7000f, 5500f);
-            cam.Zoom = 0.1f;
+            if (AndroidStuff.RunningOnAndroid)
+            {
+                cam.Pos = new Vector2(7000f, 5500f);
+                cam.Zoom = 0.1f;
+                ScorePosition = new Vector2(4500, 7000);
+            }
+            else
+            {
+                cam.Pos = new Vector2(7000f, 4500f);
+                cam.Zoom = 0.11f;
+                ScorePosition = new Vector2(4500, 6250);
+            }
 
             World = new World(cam);
         }
@@ -131,7 +143,7 @@ namespace GameCore
             spriteBatch.DrawString(
                 font
                 , World.Score.ToString("0000000")
-                , new Vector2(4500, 7000)
+                , ScorePosition
                 , new Color(158, 165, 178)
                 , 0
                 , Vector2.Zero
