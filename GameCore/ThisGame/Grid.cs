@@ -6,7 +6,7 @@ using System;
 
 namespace PaperWork
 {
-    public class Grid : IUpdateHandler, SomethingWithAudio
+    public class Grid : SomethingThatHandleUpdates, SomethingWithAudio
     {
         private readonly List<Detector<Paper>> Rows;
         private readonly List<Detector<Paper>> Columns;

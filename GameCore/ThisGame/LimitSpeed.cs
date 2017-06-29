@@ -2,7 +2,7 @@
 
 namespace PaperWork
 {
-    public class LimitSpeed : IUpdateHandler
+    public class LimitSpeed : SomethingThatHandleUpdates
     {
         private readonly Collider Parent;
         private readonly int MaxHorizontal;

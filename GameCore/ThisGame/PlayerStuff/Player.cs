@@ -5,12 +5,10 @@ using System.Linq;
 
 namespace PaperWork
 {
-    //TODO: 
-    // app description
     public class Player :
         Collider
         , ICollisionHandler
-        , IUpdateHandler
+        , SomethingThatHandleUpdates
         , Animation
         , SomethingWithAudio
     {
@@ -36,7 +34,7 @@ namespace PaperWork
         public const int DRAG_AND_DROP_COOLDOWN = 30;
 
         private readonly ICollisionHandler CollisionHandler;
-        private readonly IUpdateHandler UpdateHandler;
+        private readonly SomethingThatHandleUpdates UpdateHandler;
         public readonly InputRepository Inputs;
         private readonly Animator BodyAnimation;
         private readonly Animator HeadAnimation;
@@ -50,7 +48,7 @@ namespace PaperWork
         const int TRASH_LIMIT = (12 * 4) - 1;
 
         //remove this
-        public bool Ended => false;
+        
 
         IGame Game1;
         public readonly Detector<IPlayerMovementBlocker> DeathDetector;

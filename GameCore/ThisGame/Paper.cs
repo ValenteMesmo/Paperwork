@@ -9,14 +9,14 @@ namespace PaperWork
     public class Paper :
         Collider
         , ICollisionHandler
-        , IUpdateHandler
+        , SomethingThatHandleUpdates
         , IPlayerMovementBlocker
         , IPaperMovementBlocker
         , Animation
         , SomethingWithAudio
     {
         private ICollisionHandler CollisionHandler;
-        private IUpdateHandler UpdateHandler;
+        private SomethingThatHandleUpdates UpdateHandler;
 
         public int X { get; set; }
         public int Y { get; set; }
@@ -101,10 +101,7 @@ namespace PaperWork
         }
 
         public Color Color { get { return Animation.GetColor(); } set { Animation.ChangeColor(value); } }
-
-        //TODO: remove
-        public bool Ended => false;
-
+        
         public IEnumerable<Texture> GetTextures()
         {
             return Animation.GetTextures();

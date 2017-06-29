@@ -5,7 +5,10 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class ButtonAnimation : Animation, IUpdateHandler, DimensionalThing
+    public class ButtonAnimation : 
+        Animation
+        , SomethingThatHandleUpdates
+        , DimensionalThing
     {
         private SimpleAnimation buttonUp;
         private SimpleAnimation Current;
@@ -38,8 +41,6 @@ namespace GameCore
         public int Height { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
-        //TODO: remove
-        public bool Ended => false;
 
         public void Update()
         {

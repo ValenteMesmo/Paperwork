@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PaperWork
 {
-    public class DropPaper_Right : IUpdateHandler
+    public class DropPaper_Right : SomethingThatHandleUpdates
     {
         private readonly Player Player;
 

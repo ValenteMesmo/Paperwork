@@ -6,7 +6,7 @@ using System.Linq;
 namespace PaperWork
 {
     class PaperFactory :
-         IUpdateHandler
+         SomethingThatHandleUpdates
     {
         private int cooldownCount = 0;
         private Random Random;

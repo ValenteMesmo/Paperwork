@@ -5,7 +5,7 @@ using System;
 
 namespace GameCore
 {
-    public class Camera2d : IUpdateHandler
+    public class Camera2d : SomethingThatHandleUpdates
     {
         protected float _zoom;
         public Matrix _transform;

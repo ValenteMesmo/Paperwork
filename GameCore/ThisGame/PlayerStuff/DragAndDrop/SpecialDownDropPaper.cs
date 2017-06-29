@@ -2,7 +2,7 @@
 
 namespace PaperWork
 {
-    public class SpecialDownDropPaper : IUpdateHandler
+    public class SpecialDownDropPaper : SomethingThatHandleUpdates
     {
         private readonly Player Player;
 

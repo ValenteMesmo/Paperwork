@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class FadeIn : Animation
+    public class FadeIn : Animation, SomethingThatHandleUpdates
     {
         Texture Texture;
         World World;

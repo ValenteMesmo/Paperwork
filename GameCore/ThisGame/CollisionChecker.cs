@@ -5,7 +5,7 @@ namespace PaperWork
 {
     public class Detector<T> :
         ICollisionHandler
-        , IUpdateHandler
+        , SomethingThatHandleUpdates
         , Collider
         , IAfterUpdateHandler where T : Collider
     {

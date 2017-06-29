@@ -3,7 +3,7 @@ using System;
 
 namespace PaperWork
 {
-    public class PlayersJump : IUpdateHandler
+    public class PlayersJump : SomethingThatHandleUpdates
     {
         private readonly Player Player;
         private readonly InputRepository Input;

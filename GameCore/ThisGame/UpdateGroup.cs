@@ -2,11 +2,11 @@
 
 namespace PaperWork
 {
-    public class UpdateGroup : IUpdateHandler
+    public class UpdateGroup : SomethingThatHandleUpdates
     {
-        private readonly IUpdateHandler[] Updates;
+        private readonly SomethingThatHandleUpdates[] Updates;
 
-        public UpdateGroup(params IUpdateHandler[] Updates)
+        public UpdateGroup(params SomethingThatHandleUpdates[] Updates)
         {
             this.Updates = Updates;
         }

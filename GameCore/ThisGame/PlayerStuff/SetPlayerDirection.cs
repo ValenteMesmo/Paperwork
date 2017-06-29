@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PaperWork
 {
-    public class SetPlayerDirection : IUpdateHandler
+    public class SetPlayerDirection : SomethingThatHandleUpdates
     {
         private readonly Player Player;
 

@@ -31,7 +31,9 @@ namespace GameCore
                     }
                 }
             }
-            CurrentAnimation.Update();
+
+            if (CurrentAnimation is SimpleAnimation)
+                CurrentAnimation.As<SimpleAnimation>().Update();
         }
 
         public IEnumerable<Texture> GetTextures()

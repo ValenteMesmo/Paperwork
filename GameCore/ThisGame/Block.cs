@@ -85,17 +85,9 @@ namespace PaperWork
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
 
-        //TODO: remove
-        public bool Ended => false;
-
         public IEnumerable<Texture> GetTextures()
         {
             return Animation.GetTextures();
-        }
-
-        //todo:  remove update from animation?
-        public void Update()
-        {
         }
     }
 }

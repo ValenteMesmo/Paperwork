@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PaperWork
 {
-    public class PlayerDestroyed : Animation, DimensionalThing
+    public class PlayerDestroyed : Animation, DimensionalThing, SomethingThatHandleUpdates
     {
         private readonly SimpleAnimation animation;
 
@@ -13,8 +13,6 @@ namespace PaperWork
         public int Height { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
-        //TODO: remove
-        public bool Ended => false;
 
         private int Duration = 100;
         private readonly IGame Game;

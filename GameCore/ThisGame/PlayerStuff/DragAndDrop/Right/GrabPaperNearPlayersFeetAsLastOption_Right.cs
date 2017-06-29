@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PaperWork
 {
-    public class GrabPaperNearPlayersFeetAsLastOption_Right : IUpdateHandler
+    public class GrabPaperNearPlayersFeetAsLastOption_Right : SomethingThatHandleUpdates
     {
         private readonly Player Player;
 

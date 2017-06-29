@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace PaperWork
 {
-    public class PaperDestroyed : Animation, DimensionalThing
+    public class PaperDestroyed : Animation, DimensionalThing, SomethingThatHandleUpdates
     {
         private World World;
         private int duration;
@@ -30,9 +30,6 @@ namespace PaperWork
         public int Height { get; set; }
         public int DrawableX { get; set; }
         public int DrawableY { get; set; }
-
-        //TODO: remove
-        public bool Ended => false;
 
         public IEnumerable<Texture> GetTextures()
         {

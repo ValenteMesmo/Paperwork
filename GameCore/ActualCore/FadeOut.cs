@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GameCore
 {
-    public class FadeOut : Animation
+    public class FadeOut : Animation, SomethingThatHandleUpdates
     {
         Texture Texture;
         Action OnFadeComplete;
@@ -13,8 +13,6 @@ namespace GameCore
             this.OnFadeComplete = OnFadeComplete;
             Texture = new Texture("pixel", 0, 0, 14000, 14000) { ZIndex = 0, Color = Color.Black };
         }
-
-        public bool Ended => false;
 
         public IEnumerable<Texture> GetTextures()
         {

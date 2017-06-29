@@ -1,6 +1,6 @@
 ﻿namespace GameCore
 {
-    public interface IUpdateHandler : Thing
+    public interface SomethingThatHandleUpdates : Something
     {
         void Update();
     }

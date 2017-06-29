@@ -8,7 +8,7 @@ namespace GameCore
     public class World
     {
         public const int SPACE_BETWEEN_THINGS = 4;
-        private List<Thing> Items = new List<Thing>();
+        private List<Something> Items = new List<Something>();
         public readonly InputRepository PlayerInputs;
         public readonly Camera2d Camera2d;
         public bool Stopped { get; set; }
@@ -33,7 +33,7 @@ namespace GameCore
             PlayerInputs = new InputRepository(Camera2d);
         }
 
-        public void Add(Thing thing)
+        public void Add(Something thing)
         {
             lock (Items)
                 Items.Add(thing);
@@ -42,7 +42,7 @@ namespace GameCore
                 TrashCount++;
         }
 
-        public void Remove(Thing thing)
+        public void Remove(Something thing)
         {
             lock (Items)
                 Items.Remove(thing);
@@ -51,14 +51,14 @@ namespace GameCore
                 TrashCount--;
         }
 
-        public IEnumerable<Thing> GetColliders()
+        public IEnumerable<Something> GetColliders()
         {
             return MainThreadItems;
         }
 
         private List<Touchable> PreviouslyTouched = new List<Touchable>();
         private List<Touchable> CurrentlyTouched = new List<Touchable>();
-        private List<Thing> MainThreadItems;
+        private List<Something> MainThreadItems;
 
         public void Update()
         {
@@ -96,8 +96,8 @@ namespace GameCore
 
             foreach (var item in MainThreadItems)
             {
-                if (item is IUpdateHandler)
-                    item.As<IUpdateHandler>().Update();
+                if (item is SomethingThatHandleUpdates)
+                    item.As<SomethingThatHandleUpdates>().Update();
             }
 
             foreach (var item in MainThreadItems)

@@ -1,10 +1,10 @@
 ﻿namespace GameCore
 {
-    public interface Thing
+    public interface Something
     {        
     }
 
-    public interface DimensionalThing : Thing
+    public interface DimensionalThing : Something
     {
         int X { get; set; }
         int Y { get; set; }

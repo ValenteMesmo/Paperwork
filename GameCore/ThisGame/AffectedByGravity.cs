@@ -2,7 +2,7 @@
 
 namespace PaperWork
 {
-    public class AffectedByGravity : IUpdateHandler
+    public class AffectedByGravity : SomethingThatHandleUpdates
     {
         private readonly Collider Parent;
         private const int GRAVITY = 5;

@@ -2,7 +2,7 @@
 
 namespace PaperWork
 {
-    public class MoveHorizontallyOnInput : IUpdateHandler
+    public class MoveHorizontallyOnInput : SomethingThatHandleUpdates
     {
         private const int VELOCITY = 2;
         private const int FRICTION = 1;
